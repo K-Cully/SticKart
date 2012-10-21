@@ -12,7 +12,7 @@ namespace SticKart_Windows
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class Game1 : Microsoft.Xna.Framework.Game
+    public class SticKart : Microsoft.Xna.Framework.Game
     {
         #region graphics
 
@@ -38,7 +38,7 @@ namespace SticKart_Windows
 
         #endregion
 
-        public Game1()
+        public SticKart()
         {
             this.screenDimensions = new Vector2(1280.0f, 720.0f);
             this.graphics = new GraphicsDeviceManager(this);
@@ -46,8 +46,7 @@ namespace SticKart_Windows
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
             this.Content.RootDirectory = "Content";
-
-            this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Keyboard);
+            this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
         }
 
         /// <summary>
@@ -72,7 +71,6 @@ namespace SticKart_Windows
             bounds.Add(new Vector2(width, 0.0f));
             bounds.Add(new Vector2(width, height));
             bounds.Add(new Vector2(0.0f, height));
-
             return bounds;
         }
         
@@ -110,6 +108,7 @@ namespace SticKart_Windows
         /// </summary>
         protected override void UnloadContent()
         {
+            this.inputManager.Dispose();
         }
 
         /// <summary>
@@ -144,6 +143,8 @@ namespace SticKart_Windows
                         case InputManager.Command.Run:
                             break;
                         case InputManager.Command.Select:
+                            break;
+                        case InputManager.Command.SelectAt:
                             break;
                         case InputManager.Command.Pause:
                             break;

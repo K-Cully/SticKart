@@ -10,7 +10,7 @@ namespace SticKart_Windows
         /// </summary>
         static void Main(string[] args)
         {
-            using (Game1 game = new Game1())
+            using (SticKart game = new SticKart())
             {
                 game.Run();
             }
