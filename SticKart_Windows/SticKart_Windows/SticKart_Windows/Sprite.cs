@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SticKart_Windows
 {
-    class Sprite
+    public class Sprite
     {
         private Vector2 origin;
         private Texture2D texture;

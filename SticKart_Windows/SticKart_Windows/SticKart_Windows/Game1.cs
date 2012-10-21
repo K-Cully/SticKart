@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using FarseerPhysics.Collision.Shapes;
@@ -17,6 +16,7 @@ namespace SticKart_Windows
     {
         #region graphics
 
+        Vector2 screenDimensions;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -34,18 +34,20 @@ namespace SticKart_Windows
 
         #region input
 
-        // TODO: Put Kinect interface here
-        KeyboardState keyboardState;
+        InputManager inputManager;
 
         #endregion
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
-            graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 720;
-            Content.RootDirectory = "Content";
+            this.screenDimensions = new Vector2(1280.0f, 720.0f);
+            this.graphics = new GraphicsDeviceManager(this);
+            this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
+            this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
+            this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
+            this.Content.RootDirectory = "Content";
+
+            this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Keyboard);
         }
 
         /// <summary>
@@ -81,26 +83,25 @@ namespace SticKart_Windows
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            Viewport viewport = GraphicsDevice.Viewport;
             Texture2D playerTexture = Content.Load<Texture2D>("Sprites/StickMan__base");
-            playerSprite = new Sprite(playerTexture);
+            this.playerSprite = new Sprite(playerTexture);
 
-            physicsWorld = new World(Vector2.Zero);
-            playerBody = BodyFactory.CreateBody(physicsWorld);
+            this.physicsWorld = new World(Vector2.Zero);
+            this.playerBody = BodyFactory.CreateBody(this.physicsWorld);
 
             Vertices playerBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(playerTexture.Width / 2.0f), ConvertUnits.ToSimUnits(playerTexture.Height / 2.0f));
-            PolygonShape playerShape = new PolygonShape( playerBox, 5.0f);
+            PolygonShape playerShape = new PolygonShape(playerBox, 5.0f);
             Fixture playerFixture = playerBody.CreateFixture(playerShape);
 
-            playerBody.BodyType = BodyType.Dynamic;
-            playerBody.Position = ConvertUnits.ToSimUnits(new Vector2(viewport.Width / 2.0f, viewport.Height / 2.0f));
-            playerBody.Restitution = 0.6f;
+            this.playerBody.BodyType = BodyType.Dynamic;
+            this.playerBody.Position = ConvertUnits.ToSimUnits(this.screenDimensions / 2.0f);
+            this.playerBody.Restitution = 0.6f;
 
-            boundry = BodyFactory.CreateLoopShape(physicsWorld, GetBounds());
-            boundry.CollisionCategories = Category.All;
-            boundry.CollidesWith = Category.All;
+            this.boundry = BodyFactory.CreateLoopShape(this.physicsWorld, this.GetBounds());
+            this.boundry.CollisionCategories = Category.All;
+            this.boundry.CollidesWith = Category.All;
         }
 
         /// <summary>
@@ -118,30 +119,44 @@ namespace SticKart_Windows
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
+            if (this.inputManager.Update()) // Commands are available.
+            {
+                foreach (InputManager.Command command in this.inputManager.Commands)
+                {
+                    switch (command)
+                    {
+                        case InputManager.Command.Up:
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -50.0f)));
+                            break;
+                        case InputManager.Command.Down:
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 50.0f)));
+                            break;
+                        case InputManager.Command.Left:
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-50.0f, 0.0f)));
+                            break;
+                        case InputManager.Command.Right:
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(50.0f, 0.0f)));
+                            break;
+                        case InputManager.Command.Jump:
+                            break;
+                        case InputManager.Command.Crouch:
+                            break;
+                        case InputManager.Command.Run:
+                            break;
+                        case InputManager.Command.Select:
+                            break;
+                        case InputManager.Command.Pause:
+                            break;
+                        case InputManager.Command.Exit:
+                            this.Exit();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }            
 
-            // TODO: put in interface class.
-            keyboardState = Keyboard.GetState();
-            if (keyboardState.IsKeyDown(Keys.W))
-            {
-                playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -50.0f)));
-            }
-            if (keyboardState.IsKeyDown(Keys.S))
-            {
-                playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 50.0f)));
-            }
-            if (keyboardState.IsKeyDown(Keys.A))
-            {
-                playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-50.0f, 0.0f)));
-            }
-            if (keyboardState.IsKeyDown(Keys.D))
-            {
-                playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(50.0f, 0.0f)));
-            }
-
-            physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, 1.0f / 30.0f)); //TODO: Set and store framerate.
+            this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, 1.0f / 30.0f)); //TODO: Set and store framerate.
 
             base.Update(gameTime);
         }
@@ -152,11 +167,11 @@ namespace SticKart_Windows
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            this.GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            spriteBatch.Begin();
-            Sprite.Draw(spriteBatch, playerSprite, ConvertUnits.ToDisplayUnits(playerBody.Position), playerBody.Rotation);
-            spriteBatch.End();
+            this.spriteBatch.Begin();
+            Sprite.Draw(this.spriteBatch, this.playerSprite, ConvertUnits.ToDisplayUnits(this.playerBody.Position), this.playerBody.Rotation);
+            this.spriteBatch.End();
 
             base.Draw(gameTime);
         }
