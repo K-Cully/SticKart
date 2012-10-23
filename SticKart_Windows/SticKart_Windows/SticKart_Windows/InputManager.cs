@@ -11,6 +11,8 @@ namespace SticKart_Windows
     /// </summary>
     public class InputManager
     {
+        #region enums
+
         /// <summary>
         /// An enumeration of commands which can be received from this input manager.
         /// </summary>
@@ -21,12 +23,28 @@ namespace SticKart_Windows
         /// </summary>
         public enum ControlDevice { Kinect, Keyboard, GamePad, Touch }
 
-        #region privateVariables
+        #endregion
+
+        #region kinect
 
         /// <summary>
         /// The Kinect sensor, if any, used by the input manager.
         /// </summary>
         KinectSensor kinectSensor;
+
+        /// <summary>
+        /// The last frame's skeleton data.
+        /// </summary>
+        private Skeleton[] skeletonData;
+
+        /// <summary>
+        /// The current skeleton frame coming from the Kinect.
+        /// </summary>
+        private SkeletonFrame skeletonFrame;
+
+        #endregion
+
+        #region privateVariables
 
         /// <summary>
         /// A structure to hold the current keyboard state.
@@ -59,9 +77,7 @@ namespace SticKart_Windows
         private Vector2 selectionPosition;
 
         #endregion
-
-        // TODO: Put Kinect interface here
-
+        
         #region accessors
 
         /// <summary>
@@ -117,7 +133,7 @@ namespace SticKart_Windows
                 
         #endregion
 
-        #region privateMethods
+        #region inputMethods
 
         /// <summary>
         /// Adds commands to the command list based on game pad input. 
@@ -133,7 +149,32 @@ namespace SticKart_Windows
         /// </summary>
         private void GetKinectInput()
         {
-            // TODO
+            // TODO: wrap and add gesture tracking to skeleton data
+            if (this.ReadSkelletonFrame())
+            {
+                // TODO: check if primary skelleton is always [0]
+                foreach (Skeleton skeleton in skeletonData)
+                {
+                    switch (skeleton.TrackingState)
+                    {
+                        case SkeletonTrackingState.NotTracked:
+                            break;
+                        case SkeletonTrackingState.PositionOnly:
+                            break;
+                        case SkeletonTrackingState.Tracked:
+                            // TODO: log position of crucial joints and monitor over time. 
+                            // TODO: check joint.Trackingstate
+                            SkeletonPoint leftHandPos = skeleton.Joints[JointType.HandLeft].Position;
+                            SkeletonPoint rightHandPos = skeleton.Joints[JointType.HandRight].Position;
+                            SkeletonPoint headPos = skeleton.Joints[JointType.Head].Position;
+                            SkeletonPoint leftFootPos = skeleton.Joints[JointType.FootLeft].Position;
+                            SkeletonPoint rightFootPos = skeleton.Joints[JointType.FootRight].Position;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }            
         }
 
         /// <summary>
@@ -187,6 +228,10 @@ namespace SticKart_Windows
             // TODO
         }
 
+        #endregion
+
+        #region kinectMethods
+
         /// <summary>
         /// Tries to start the Kinect sensor.
         /// </summary>
@@ -195,14 +240,12 @@ namespace SticKart_Windows
         {
             bool successful = true;
             if (KinectSensor.KinectSensors.Count > 0) // At least one sensor is connected.
-            {
+            {                
                 this.kinectSensor = KinectSensor.KinectSensors[0];
                 if (this.kinectSensor.Status == KinectStatus.Connected)
                 {
-                    this.kinectSensor.DepthStream.Enable();
+                    //this.kinectSensor.DepthStream.Enable(); // TODO: may need this. Probably won't
                     this.kinectSensor.SkeletonStream.Enable();
-                    // TODO: Replace events with polling.
-                    this.kinectSensor.AllFramesReady += new System.EventHandler<AllFramesReadyEventArgs>(kinectSensor_AllFramesReady);
                     try
                     {
                         this.kinectSensor.Start();
@@ -234,19 +277,33 @@ namespace SticKart_Windows
         }
         
         /// <summary>
-        /// An event handler which is activated once all active data streams on the Kinect sensor are ready for querying.
+        /// Reads the current skelleton frame from the skelleton stream of the kinect sensor.
         /// </summary>
-        /// <param name="sender">The event sender.</param>
-        /// <param name="e">The event arguments.</param>
-        private void kinectSensor_AllFramesReady(object sender, AllFramesReadyEventArgs e)
+        /// <returns>Whether a frame was read or not.</returns>
+        private bool ReadSkelletonFrame()
         {
-            // TODO: Implement this or replace with polling.
-            // throw new System.NotImplementedException();
+            using (this.skeletonFrame = this.kinectSensor.SkeletonStream.OpenNextFrame(0))
+            {
+                // Sometimes we get a null frame back if no data is ready
+                if (null == skeletonFrame)
+                {
+                    return false;
+                }
+
+                // Reallocate if necessary
+                if (null == skeletonData || skeletonData.Length != skeletonFrame.SkeletonArrayLength)
+                {
+                    skeletonData = new Skeleton[skeletonFrame.SkeletonArrayLength];
+                }
+
+                skeletonFrame.CopySkeletonDataTo(skeletonData);
+                return true;
+            }
         }
 
         #endregion
 
-        #region publicMethods
+        #region interface
 
         /// <summary>
         /// Disposes of any resources used by the input manager.

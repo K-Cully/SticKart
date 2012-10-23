@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using FarseerPhysics.Dynamics;
@@ -32,14 +33,16 @@ namespace SticKart_Windows
         
         #endregion
 
-        #region input
+        #region other
 
         InputManager inputManager;
+        const float FrameTime = 1.0f / 30.0f;
 
         #endregion
 
         public SticKart()
         {
+            this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1280.0f, 720.0f);
             this.graphics = new GraphicsDeviceManager(this);
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
@@ -155,9 +158,9 @@ namespace SticKart_Windows
                             break;
                     }
                 }
-            }            
+            }
 
-            this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, 1.0f / 30.0f)); //TODO: Set and store framerate.
+            this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, SticKart.FrameTime));
 
             base.Update(gameTime);
         }
