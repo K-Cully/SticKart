@@ -15,13 +15,23 @@ namespace SticKart_Windows
     /// </summary>
     public class SticKart : Microsoft.Xna.Framework.Game
     {
+        #region enums
+
+        /// <summary>
+        /// An enumeration of the possible game states.
+        /// </summary>
+        enum GameState { InMenu, InGame };
+
+        #endregion
+
         #region graphics
 
         Vector2 screenDimensions;
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        const float FrameTime = 1.0f / 60.0f;
 
-        Sprite playerSprite;
+        Sprite playerSprite; // 64px == 1.8m => 35.56px == 1m
 
         #endregion
 
@@ -33,21 +43,26 @@ namespace SticKart_Windows
         
         #endregion
 
-        #region other
+        #region misc
 
         InputManager inputManager;
-        const float FrameTime = 1.0f / 30.0f;
+        GameState gameState;
 
         #endregion
 
+        /// <summary>
+        /// Initalizes an instance of the <see cref="SticKart"/> class.
+        /// </summary>
         public SticKart()
         {
+            this.gameState = GameState.InGame;
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1280.0f, 720.0f);
             this.graphics = new GraphicsDeviceManager(this);
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
+            this.graphics.IsFullScreen = true;
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
         }
@@ -63,7 +78,7 @@ namespace SticKart_Windows
             base.Initialize();
         }
 
-        // TODO: Remove this boundry.
+        // TODO: Remove this boundry or scroll.
         private Vertices GetBounds()
         {
             float height = ConvertUnits.ToSimUnits(this.GraphicsDevice.Viewport.Height);
@@ -86,19 +101,19 @@ namespace SticKart_Windows
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            Texture2D playerTexture = Content.Load<Texture2D>("Sprites/StickMan__base");
+            Texture2D playerTexture = this.Content.Load<Texture2D>("Sprites/StickMan__base");
             this.playerSprite = new Sprite(playerTexture);
 
-            this.physicsWorld = new World(Vector2.Zero);
+            this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.playerBody = BodyFactory.CreateBody(this.physicsWorld);
 
             Vertices playerBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(playerTexture.Width / 2.0f), ConvertUnits.ToSimUnits(playerTexture.Height / 2.0f));
-            PolygonShape playerShape = new PolygonShape(playerBox, 5.0f);
+            PolygonShape playerShape = new PolygonShape(playerBox, 1.25f);
             Fixture playerFixture = playerBody.CreateFixture(playerShape);
 
             this.playerBody.BodyType = BodyType.Dynamic;
             this.playerBody.Position = ConvertUnits.ToSimUnits(this.screenDimensions / 2.0f);
-            this.playerBody.Restitution = 0.6f;
+            this.playerBody.Restitution = 0.125f;
 
             this.boundry = BodyFactory.CreateLoopShape(this.physicsWorld, this.GetBounds());
             this.boundry.CollisionCategories = Category.All;
@@ -121,6 +136,65 @@ namespace SticKart_Windows
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            switch (this.gameState)
+            {
+                case GameState.InMenu:
+                    this.UpdateMenu(gameTime);
+                    break;
+                case GameState.InGame:
+                    this.UpdateGame(gameTime);
+                    break;
+                default:
+                    break;
+            }            
+
+            this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, SticKart.FrameTime));
+            base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Updates the game world while in play.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        private void UpdateGame(GameTime gameTime)
+        {
+            if (this.inputManager.Update()) // Commands are available.
+            {
+                foreach (InputManager.Command command in this.inputManager.Commands)
+                {
+                    switch (command)
+                    {
+                        case InputManager.Command.Left: // TODO: remove
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-50.0f, 0.0f)));
+                            break;
+                        case InputManager.Command.Jump:
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -400.0f)));
+                            break;
+                        case InputManager.Command.Crouch:
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 400.0f)));
+                            break;
+                        case InputManager.Command.Run:
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(50.0f, 0.0f)));
+                            break;
+                        case InputManager.Command.Pause:
+                            this.gameState = GameState.InMenu;
+                            break;
+                        case InputManager.Command.Exit:
+                            this.Exit();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the menu system while the game is not in play.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        private void UpdateMenu(GameTime gameTime)
+        {
             if (this.inputManager.Update()) // Commands are available.
             {
                 foreach (InputManager.Command command in this.inputManager.Commands)
@@ -128,23 +202,13 @@ namespace SticKart_Windows
                     switch (command)
                     {
                         case InputManager.Command.Up:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -50.0f)));
                             break;
                         case InputManager.Command.Down:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 50.0f)));
                             break;
                         case InputManager.Command.Left:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-50.0f, 0.0f)));
                             break;
                         case InputManager.Command.Right:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(50.0f, 0.0f)));
-                            break;
-                        case InputManager.Command.Jump:
-                            break;
-                        case InputManager.Command.Crouch:
-                            break;
-                        case InputManager.Command.Run:
-                            break;
+                            break;                        
                         case InputManager.Command.Select:
                             break;
                         case InputManager.Command.SelectAt:
@@ -159,10 +223,6 @@ namespace SticKart_Windows
                     }
                 }
             }
-
-            this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, SticKart.FrameTime));
-
-            base.Update(gameTime);
         }
 
         /// <summary>

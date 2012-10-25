@@ -188,36 +188,37 @@ namespace SticKart_Windows
             {
                 commands.Add(Command.Exit);
             }
+            else if (keyboardState.IsKeyDown(Keys.P))
+            {
+                commands.Add(Command.Pause);
+            }
             else
             {
-                if (keyboardState.IsKeyDown(Keys.P))
+                if (keyboardState.IsKeyDown(Keys.Enter))
                 {
-                    commands.Add(Command.Pause);
+                    commands.Add(Command.Select);
                 }
-                else
+                if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
                 {
-                    if (keyboardState.IsKeyDown(Keys.Enter))
-                    {
-                        commands.Add(Command.Select);
-                    }
-                    if (keyboardState.IsKeyDown(Keys.W))
-                    {
-                        commands.Add(Command.Up);
-                    }
-                    if (keyboardState.IsKeyDown(Keys.S))
-                    {
-                        commands.Add(Command.Down);
-                    }
-                    if (keyboardState.IsKeyDown(Keys.A))
-                    {
-                        commands.Add(Command.Left);
-                    }
-                    if (keyboardState.IsKeyDown(Keys.D))
-                    {
-                        commands.Add(Command.Right);
-                    }
+                    commands.Add(Command.Up);
+                    commands.Add(Command.Jump);
+                }
+                else if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
+                {
+                    commands.Add(Command.Down);
+                    commands.Add(Command.Crouch);
+                }
+                else if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+                {
+                    commands.Add(Command.Left);
+                }
+                else if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+                {
+                    commands.Add(Command.Right);
+                    commands.Add(Command.Run);
                 }
             }
+            
         }
 
         /// <summary>
