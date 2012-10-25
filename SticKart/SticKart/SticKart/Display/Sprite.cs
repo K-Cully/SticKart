@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace SticKart_Windows
+namespace SticKart.Display
 {
     public class Sprite
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace SticKart_Windows
+namespace SticKart
 {
 #if WINDOWS || XBOX
     static class Program

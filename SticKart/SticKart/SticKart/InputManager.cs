@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Kinect;
 
-namespace SticKart_Windows
+namespace SticKart
 {
     /// <summary>
     /// A wrapper to manage input commands for the game SticKart.
@@ -30,7 +30,12 @@ namespace SticKart_Windows
         /// <summary>
         /// The Kinect sensor, if any, used by the input manager.
         /// </summary>
-        KinectSensor kinectSensor;
+        private KinectSensor kinectSensor;
+
+        /// <summary>
+        /// The coordinate mapper for the Kinect sensor.
+        /// </summary>
+        private CoordinateMapper coordinateMapper;
 
         /// <summary>
         /// The last frame's skeleton data.
@@ -120,6 +125,7 @@ namespace SticKart_Windows
             this.controlDevice = controlDevice;
             this.commands = new List<Command>();
             this.kinectSensor = null;
+            this.coordinateMapper = null;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -127,6 +133,10 @@ namespace SticKart_Windows
                 {
                     this.kinectSensor = null;
                     this.controlDevice = ControlDevice.Keyboard;
+                }
+                else
+                {
+                    this.coordinateMapper = new CoordinateMapper(this.kinectSensor);
                 }
             }
         }
@@ -245,7 +255,7 @@ namespace SticKart_Windows
                 this.kinectSensor = KinectSensor.KinectSensors[0];
                 if (this.kinectSensor.Status == KinectStatus.Connected)
                 {
-                    //this.kinectSensor.DepthStream.Enable(); // TODO: may need this. Probably won't
+                    this.kinectSensor.DepthStream.Enable(); // Need this enabled for coordinate mapping.
                     this.kinectSensor.SkeletonStream.Enable();
                     try
                     {

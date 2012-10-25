@@ -7,8 +7,9 @@ using FarseerPhysics.Collision.Shapes;
 using FarseerPhysics.Common;
 using System.Collections.Generic;
 using FarseerPhysics.SamplesFramework;
+using SticKart.Display;
 
-namespace SticKart_Windows
+namespace SticKart
 {
     /// <summary>
     /// This is the main type for your game
@@ -62,7 +63,7 @@ namespace SticKart_Windows
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = true;
+            this.graphics.IsFullScreen = false;
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
         }

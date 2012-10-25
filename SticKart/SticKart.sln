@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SticKart_Windows", "SticKart_Windows\SticKart_Windows\SticKart_Windows.csproj", "{BB5648CB-EFE9-4069-B976-DE7537C693B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SticKart", "SticKart\SticKart\SticKart.csproj", "{BB5648CB-EFE9-4069-B976-DE7537C693B4}"
 EndProject
-Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "SticKart_WindowsContent", "SticKart_Windows\SticKart_WindowsContent\SticKart_WindowsContent.contentproj", "{50E281F0-C446-4EEB-9731-FF866EB0F1C7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SticKart_Content", "SticKart\SticKartContent\SticKart_Content.contentproj", "{50E281F0-C446-4EEB-9731-FF866EB0F1C7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
