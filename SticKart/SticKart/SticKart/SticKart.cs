@@ -166,7 +166,7 @@ namespace SticKart
                     switch (command)
                     {
                         case InputManager.Command.Left: // TODO: remove
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-50.0f, 0.0f)));
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
                             break;
                         case InputManager.Command.Jump:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -400.0f)));
@@ -175,7 +175,7 @@ namespace SticKart
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 400.0f)));
                             break;
                         case InputManager.Command.Run:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(50.0f, 0.0f)));
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(5000.0f, 0.0f)));
                             break;
                         case InputManager.Command.Pause:
                             this.gameState = GameState.InMenu;

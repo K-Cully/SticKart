@@ -3,6 +3,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Kinect;
+using SticKart.Gestures;
 
 namespace SticKart
 {
@@ -25,7 +26,7 @@ namespace SticKart
 
         #endregion
 
-        #region kinect
+        #region kinect_variables
 
         /// <summary>
         /// The Kinect sensor, if any, used by the input manager.
@@ -47,9 +48,14 @@ namespace SticKart
         /// </summary>
         private SkeletonFrame skeletonFrame;
 
+        /// <summary>
+        /// The gesture manager to use for monitoring gestures.
+        /// </summary>
+        private GestureManager gestureManager;
+
         #endregion
 
-        #region privateVariables
+        #region private_variables
 
         /// <summary>
         /// A structure to hold the current keyboard state.
@@ -126,6 +132,7 @@ namespace SticKart
             this.commands = new List<Command>();
             this.kinectSensor = null;
             this.coordinateMapper = null;
+            this.gestureManager = null;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -137,13 +144,14 @@ namespace SticKart
                 else
                 {
                     this.coordinateMapper = new CoordinateMapper(this.kinectSensor);
+                    this.gestureManager = new GestureManager();
                 }
             }
         }
                 
         #endregion
 
-        #region inputMethods
+        #region input_methods
 
         /// <summary>
         /// Adds commands to the command list based on game pad input. 
@@ -162,7 +170,8 @@ namespace SticKart
             // TODO: wrap and add gesture tracking to skeleton data
             if (this.ReadSkelletonFrame())
             {
-                // TODO: check if primary skelleton is always [0]
+                bool skeletonLogged = false;
+                // TODO: Assuming first tracked skeleton is the one being tracked.
                 foreach (Skeleton skeleton in skeletonData)
                 {
                     switch (skeleton.TrackingState)
@@ -172,19 +181,37 @@ namespace SticKart
                         case SkeletonTrackingState.PositionOnly:
                             break;
                         case SkeletonTrackingState.Tracked:
-                            // TODO: log position of crucial joints and monitor over time. 
-                            // TODO: check joint.Trackingstate
-                            SkeletonPoint leftHandPos = skeleton.Joints[JointType.HandLeft].Position;
-                            SkeletonPoint rightHandPos = skeleton.Joints[JointType.HandRight].Position;
-                            SkeletonPoint headPos = skeleton.Joints[JointType.Head].Position;
-                            SkeletonPoint leftFootPos = skeleton.Joints[JointType.FootLeft].Position;
-                            SkeletonPoint rightFootPos = skeleton.Joints[JointType.FootRight].Position;
+                            this.gestureManager.Update(skeleton);
+                            skeletonLogged = true;
                             break;
                         default:
                             break;
                     }
+
+                    if (skeletonLogged)
+                    {
+                        break;
+                    }
                 }
-            }            
+            }
+
+            GestureType gestureToApply;
+            do
+            {
+                gestureToApply = this.gestureManager.GetNextDetectedGesture();
+                switch (gestureToApply)
+                {
+                    case GestureType.SwipeToLeft:
+                        this.commands.Add(Command.Left);
+                        break;
+                    case GestureType.SwipeToRight:
+                        this.commands.Add(Command.Run);
+                        break;
+                    default:
+                        break;
+                }
+
+            } while (gestureToApply != GestureType.None);
         }
 
         /// <summary>
@@ -241,7 +268,7 @@ namespace SticKart
 
         #endregion
 
-        #region kinectMethods
+        #region kinect_methods
 
         /// <summary>
         /// Tries to start the Kinect sensor.
@@ -255,7 +282,7 @@ namespace SticKart
                 this.kinectSensor = KinectSensor.KinectSensors[0];
                 if (this.kinectSensor.Status == KinectStatus.Connected)
                 {
-                    this.kinectSensor.DepthStream.Enable(); // Need this enabled for coordinate mapping.
+                    this.kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution320x240Fps30); // Need this enabled for coordinate mapping.
                     this.kinectSensor.SkeletonStream.Enable();
                     try
                     {
@@ -314,7 +341,7 @@ namespace SticKart
 
         #endregion
 
-        #region interface
+        #region public_methods
 
         /// <summary>
         /// Disposes of any resources used by the input manager.
