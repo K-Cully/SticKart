@@ -93,7 +93,7 @@ namespace SticKart.Gestures
                 (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength, // Length
                 this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
             {
-                this.RaiseGestureDetected(GestureType.SwipeToRight);
+                this.GestureFound(GestureType.SwipeToRight);
                 return;
             }
 
@@ -103,7 +103,7 @@ namespace SticKart.Gestures
                 (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength, // Length
                 this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
             {
-                RaiseGestureDetected(GestureType.SwipeToLeft);
+                this.GestureFound(GestureType.SwipeToLeft);
                 return;
             }
         }

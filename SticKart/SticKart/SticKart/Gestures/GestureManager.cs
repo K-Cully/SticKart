@@ -49,18 +49,8 @@ namespace SticKart.Gestures
             this.skeletonJoints = null;
 
             SwipeGestureDetector swipeGestureDetector = new SwipeGestureDetector();
-            swipeGestureDetector.OnGestureDetected += this.OnGestureDetected;
             this.gestureDetectors.Add(swipeGestureDetector);
             // TODO: add gesture detectors.
-        }
-
-        /// <summary>
-        /// Used to add gestures to the detected gestures queue when they are detected.
-        /// </summary>
-        /// <param name="gestureType">The type of gesture detected.</param>
-        private void OnGestureDetected(GestureType gestureType)
-        {
-            this.detectedGestures.Enqueue(gestureType);
         }
 
         /// <summary>
@@ -90,6 +80,11 @@ namespace SticKart.Gestures
             {
                 // TODO: check joint.Trackingstate
                 gestureDetector.Add(this.skeletonJoints[gestureDetector.JointToTrack].Position);
+                if (gestureDetector.GestureDetected != GestureType.None)
+                {
+                    this.detectedGestures.Enqueue(gestureDetector.GestureDetected);
+                    gestureDetector.Reset();
+                }
             }
         }
     }

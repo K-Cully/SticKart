@@ -167,6 +167,8 @@ namespace SticKart
         /// </summary>
         private void GetKinectInput()
         {
+            //Vector2 unscaledPosition = Tools.Convert(sensor, position, coordinateMapper); // TODO: draw hand positions
+
             // TODO: wrap and add gesture tracking to skeleton data
             if (this.ReadSkelletonFrame())
             {

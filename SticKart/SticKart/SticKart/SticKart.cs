@@ -66,6 +66,7 @@ namespace SticKart
             this.graphics.IsFullScreen = false;
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
+            this.playerSprite = new Sprite();
         }
 
         /// <summary>
@@ -102,13 +103,12 @@ namespace SticKart
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            Texture2D playerTexture = this.Content.Load<Texture2D>("Sprites/StickMan__base");
-            this.playerSprite = new Sprite(playerTexture);
+            this.playerSprite.InitalizeAndLoad(this.spriteBatch, this.Content, "Sprites/StickMan__base");
 
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.playerBody = BodyFactory.CreateBody(this.physicsWorld);
 
-            Vertices playerBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(playerTexture.Width / 2.0f), ConvertUnits.ToSimUnits(playerTexture.Height / 2.0f));
+            Vertices playerBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.playerSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.playerSprite.Height / 2.0f));
             PolygonShape playerShape = new PolygonShape(playerBox, 1.25f);
             Fixture playerFixture = playerBody.CreateFixture(playerShape);
 
@@ -235,7 +235,7 @@ namespace SticKart
             this.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             this.spriteBatch.Begin();
-            Sprite.Draw(this.spriteBatch, this.playerSprite, ConvertUnits.ToDisplayUnits(this.playerBody.Position), this.playerBody.Rotation);
+            Sprite.Draw(this.playerSprite, ConvertUnits.ToDisplayUnits(this.playerBody.Position), this.playerBody.Rotation);
             this.spriteBatch.End();
 
             base.Draw(gameTime);

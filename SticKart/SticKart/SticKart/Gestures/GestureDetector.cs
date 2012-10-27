@@ -10,12 +10,7 @@ namespace SticKart.Gestures
     /// An abstract base class to derive all gesture detectors from.
     /// </summary>
     public abstract class GestureDetector
-    {
-        /// <summary>
-        /// The event to fire when a gesture is detected.
-        /// </summary>
-        public event Action<GestureType> OnGestureDetected;
-        
+    {        
         /// <summary>
         /// The last time a gesture was detected.
         /// </summary>
@@ -44,6 +39,7 @@ namespace SticKart.Gestures
         /// <param name="millisecondsBetweenGestures">The delay to apply between gestures, in milliseconds.</param>
         public GestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 0)
         {
+            this.GestureDetected = GestureType.None;
             this.GestureEntries = new List<GestureEntry>();
             this.JointToTrack = jointToTrack;
             this.MaxRecordedPositions = maxRecordedPositions;
@@ -54,6 +50,11 @@ namespace SticKart.Gestures
         /// Gets the type of joint which the gesture detector is tracking.
         /// </summary>
         public JointType JointToTrack { get; private set; }
+
+        /// <summary>
+        /// Gets the the type of gesture detected. Will be none if no gesture has been detected.
+        /// </summary>
+        public GestureType GestureDetected { get; private set; }
         
         /// <summary>
         /// Adds the skeleton point to the positions being tracked by the gesture detector.
@@ -62,19 +63,23 @@ namespace SticKart.Gestures
         /// <param name="position">The position of the joint being tracked.</param>
         public virtual void Add(SkeletonPoint position)
         {
-            GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.Now);
-            this.GestureEntries.Add(newEntry);
-
-            //Vector2 unscaledPosition = Tools.Convert(sensor, position, coordinateMapper); // TODO: remove
-            
-            // Remove an entry if the number of recorded positions has been exceeded.
-            if (this.GestureEntries.Count > this.MaxRecordedPositions)
+            if (this.GestureDetected == GestureType.None)
             {
-                this.GestureEntries.RemoveAt(0);
+                return;
             }
+            else
+            {
+                GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.Now);
+                this.GestureEntries.Add(newEntry);
+                // Remove an entry if the number of recorded positions has been exceeded.
+                if (this.GestureEntries.Count > this.MaxRecordedPositions)
+                {
+                    this.GestureEntries.RemoveAt(0);
+                }
 
-            // Look for gestures
-            this.LookForGesture();
+                // Look for gestures
+                this.LookForGesture();
+            }
         }
 
         /// <summary>
@@ -83,22 +88,26 @@ namespace SticKart.Gestures
         protected abstract void LookForGesture();
 
         /// <summary>
-        /// Raises the gesture detected event and resets the gesture detector.
+        /// Checks that the correct amount of time has passed since the last gesture and sets the gesture input as found.
         /// </summary>
-        /// <param name="gestureType">The type of gesture detected.</param>
-        protected void RaiseGestureDetected(GestureType gestureType)
+        /// <param name="gestureType">The </param>
+        protected virtual void GestureFound(GestureType gestureType)
         {
             // Check if the time is too close to the last recorded time.
             if (DateTime.Now.Subtract(this.lastGestureDate).TotalMilliseconds > this.MillisecondsBetweenGestures)
             {
-                if (OnGestureDetected != null)
-                {
-                    this.OnGestureDetected(gestureType);
-                }
-
+                this.GestureDetected = gestureType;
                 lastGestureDate = DateTime.Now;
             }
+        }
 
+        /// <summary>
+        /// Resets the gesture detector.
+        /// This must be called after a detected gesture is read to reactivate the detector.
+        /// </summary>
+        public virtual void Reset()
+        {
+            this.GestureDetected = GestureType.None;
             this.GestureEntries.Clear();
         }
     }
