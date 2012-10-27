@@ -16,6 +16,8 @@ namespace SticKart
     /// </summary>
     public class SticKart : Microsoft.Xna.Framework.Game
     {
+        //TODO: Note scaling factor: 64px == 1.8m => 35.56px == 1m
+
         #region enums
 
         /// <summary>
@@ -32,7 +34,8 @@ namespace SticKart
         SpriteBatch spriteBatch;
         const float FrameTime = 1.0f / 60.0f;
 
-        Sprite playerSprite; // 64px == 1.8m => 35.56px == 1m
+        Sprite playerSprite;
+        Sprite handSprite;
 
         #endregion
 
@@ -66,7 +69,9 @@ namespace SticKart
             this.graphics.IsFullScreen = false;
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
+
             this.playerSprite = new Sprite();
+            this.handSprite = new Sprite();
         }
 
         /// <summary>
@@ -103,7 +108,8 @@ namespace SticKart
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this.playerSprite.InitalizeAndLoad(this.spriteBatch, this.Content, "Sprites/StickMan__base");
+            this.handSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ImageLocations.HandIcon);
+            this.playerSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ImageLocations.StickManStanding);
 
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.playerBody = BodyFactory.CreateBody(this.physicsWorld);
@@ -166,7 +172,7 @@ namespace SticKart
                     switch (command)
                     {
                         case InputManager.Command.Left: // TODO: remove
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
+                            this.gameState = GameState.InMenu; // this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
                             break;
                         case InputManager.Command.Jump:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -400.0f)));
@@ -235,7 +241,17 @@ namespace SticKart
             this.GraphicsDevice.Clear(Color.CornflowerBlue);
 
             this.spriteBatch.Begin();
-            Sprite.Draw(this.playerSprite, ConvertUnits.ToDisplayUnits(this.playerBody.Position), this.playerBody.Rotation);
+            switch (this.gameState)
+            {
+                case GameState.InMenu:
+                    Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f);
+                    break;
+                case GameState.InGame:
+                    Sprite.Draw(this.playerSprite, ConvertUnits.ToDisplayUnits(this.playerBody.Position), this.playerBody.Rotation);
+                    break;
+                default:
+                    break;
+            }
             this.spriteBatch.End();
 
             base.Draw(gameTime);

@@ -76,6 +76,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Display\ImageLocations.cs" />
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
     <Compile Include="Gestures\GestureDetector.cs" />

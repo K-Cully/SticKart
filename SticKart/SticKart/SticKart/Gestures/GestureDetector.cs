@@ -65,10 +65,6 @@ namespace SticKart.Gestures
         {
             if (this.GestureDetected == GestureType.None)
             {
-                return;
-            }
-            else
-            {
                 GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.Now);
                 this.GestureEntries.Add(newEntry);
                 // Remove an entry if the number of recorded positions has been exceeded.

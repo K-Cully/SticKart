@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Kinect;
 using SticKart.Gestures;
+using Kinect.Toolbox;
+using System;
 
 namespace SticKart
 {
@@ -110,8 +112,44 @@ namespace SticKart
         {
             get
             {
-                // TODO: Will possibly have to convert from input space to screen space.
+                switch (this.controlDevice)
+                {
+                    case ControlDevice.Kinect:
+                        this.selectionPosition = this.HandPosition;
+                        break;
+                    case ControlDevice.Touch:
+                        this.selectionPosition = Vector2.Zero; // TODO: implement
+                        break;
+                    default:
+                        this.selectionPosition = Vector2.Zero;
+                        break;
+                }
+
                 return this.selectionPosition;
+            }
+        }
+
+        /// <summary>
+        /// Gets the screen coordinates of the active hand.
+        /// </summary>
+        public Vector2 HandPosition
+        {
+            get
+            {
+                if (this.kinectSensor == null)
+                {
+                    return Vector2.Zero;
+                }
+                else
+                {
+                    Vector2 position = Tools.Convert(this.kinectSensor, this.gestureManager.HandPosition, this.coordinateMapper);
+                    position.X *= this.screenDimensions.X;
+                    float centerOffsetX = position.X - (screenDimensions.X / 2.0f);
+                    float xScaling = Math.Min(Math.Max(1.0f, (centerOffsetX * 0.00390625f) * (centerOffsetX * 0.00390625f)), 1.6f);
+                    position.X = (screenDimensions.X / 2.0f) + centerOffsetX * xScaling;
+                    position.Y *= this.screenDimensions.Y * 2.0f;
+                    return position;
+                }
             }
         }
 
@@ -167,8 +205,6 @@ namespace SticKart
         /// </summary>
         private void GetKinectInput()
         {
-            //Vector2 unscaledPosition = Tools.Convert(sensor, position, coordinateMapper); // TODO: draw hand positions
-
             // TODO: wrap and add gesture tracking to skeleton data
             if (this.ReadSkelletonFrame())
             {

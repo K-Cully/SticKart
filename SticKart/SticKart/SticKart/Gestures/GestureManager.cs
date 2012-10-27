@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Microsoft.Kinect;
+using Microsoft.Xna.Framework;
 
 namespace SticKart.Gestures
 {
@@ -40,17 +41,70 @@ namespace SticKart.Gestures
         private JointCollection skeletonJoints;
 
         /// <summary>
+        /// The primary hand to track.
+        /// </summary>
+        private JointType activeHand;
+
+        /// <summary>
+        /// The shoulder connected to the primary hand.
+        /// </summary>
+        private JointType activeShoulder;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GestureManager"/> class.
         /// </summary>
-        public GestureManager()
+        /// <param name="primaryHand">The hand to primarly track.</param>
+        public GestureManager(JointType primaryHand = JointType.HandRight)
         {
+            this.activeHand = primaryHand;
+            if (this.activeHand == JointType.HandRight)
+            {
+                this.activeShoulder = JointType.ShoulderRight;
+            }
+            else
+            {
+                this.activeHand = JointType.ShoulderLeft;
+            }
+
             this.detectedGestures = new Queue<GestureType>();
             this.gestureDetectors = new Collection<GestureDetector>();
             this.skeletonJoints = null;
 
-            SwipeGestureDetector swipeGestureDetector = new SwipeGestureDetector();
+            SwipeGestureDetector swipeGestureDetector = new SwipeGestureDetector(this.activeHand);
             this.gestureDetectors.Add(swipeGestureDetector);
             // TODO: add gesture detectors.
+        }
+
+        /// <summary>
+        /// Gets position of the active hand relative to the shoulder.
+        /// </summary>
+        public SkeletonPoint HandPosition
+        {
+            get
+            {
+                if (this.skeletonJoints == null)
+                {
+                    SkeletonPoint point = new SkeletonPoint();
+                    point.X = 0;
+                    point.Y = 0;
+                    point.Z = 0;
+                    return point;
+                }
+                else
+                {
+                    SkeletonPoint handPosition = this.skeletonJoints[this.activeHand].Position;
+                    SkeletonPoint shoulderPosition = this.skeletonJoints[this.activeShoulder].Position;
+                    if (this.activeHand == JointType.HandRight)
+                    {
+                        handPosition.X -= shoulderPosition.X;
+                    }
+                    else
+                    {
+                        handPosition.X += shoulderPosition.X;
+                    }
+                    return handPosition;
+                }
+            }
         }
 
         /// <summary>
