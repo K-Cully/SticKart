@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using Microsoft.Kinect;
+using Microsoft.Speech.AudioFormat;
+using Microsoft.Speech.Recognition;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Microsoft.Kinect;
 using SticKart.Gestures;
 using Kinect.Toolbox;
-using System;
 
 namespace SticKart
 {
@@ -19,7 +21,7 @@ namespace SticKart
         /// <summary>
         /// An enumeration of commands which can be received from this input manager.
         /// </summary>
-        public enum Command { Up, Down, Left, Right, Jump, Crouch, Run, Select, SelectAt, Pause, Exit }
+        public enum Command { None, Up, Down, Left, Right, Jump, Crouch, Run, Select, SelectAt, Pause, Exit }
 
         /// <summary>
         /// An enumeration of control devices which can be used with this input manager.
@@ -28,13 +30,13 @@ namespace SticKart
 
         #endregion
 
-        #region kinect_variables
+        #region kinect_motion_variables
 
         /// <summary>
         /// The Kinect sensor, if any, used by the input manager.
         /// </summary>
         private KinectSensor kinectSensor;
-
+        
         /// <summary>
         /// The coordinate mapper for the Kinect sensor.
         /// </summary>
@@ -54,6 +56,25 @@ namespace SticKart
         /// The gesture manager to use for monitoring gestures.
         /// </summary>
         private GestureManager gestureManager;
+
+        #endregion
+
+        #region kinect_speech_variables
+        
+        /// <summary>
+        /// Speech recognition engine using audio data from Kinect.
+        /// </summary>
+        private SpeechRecognitionEngine speechEngine;
+
+        /// <summary>
+        /// Speech utterance confidence threshold, below which speech is treated as if it hadn't been heard.
+        /// </summary> 
+        private const double SpeechConfidenceThreshold = 0.3;
+
+        /// <summary>
+        /// The queue of voice commands received if any.
+        /// </summary>
+        private Queue<Command> voiceCommands;
 
         #endregion
 
@@ -101,6 +122,24 @@ namespace SticKart
             get
             {
                 return this.commands;
+            }
+        }
+
+        /// <summary>
+        /// Gets the next voice command received in order of arrival. 
+        /// </summary>
+        public Command NextVoiceCommand
+        {
+            get
+            {
+                if (this.voiceCommands.Count > 0)
+                {
+                    return this.voiceCommands.Dequeue();
+                }
+                else
+                {
+                    return Command.None;
+                }
             }
         }
 
@@ -168,24 +207,16 @@ namespace SticKart
             this.screenDimensions = screenDimensions;
             this.controlDevice = controlDevice;
             this.commands = new List<Command>();
+            this.voiceCommands = new Queue<Command>();
             this.kinectSensor = null;
             this.coordinateMapper = null;
             this.gestureManager = null;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
-                if (!this.TryStartKinect())
-                {
-                    this.kinectSensor = null;
-                    this.controlDevice = ControlDevice.Keyboard;
-                }
-                else
-                {
-                    this.coordinateMapper = new CoordinateMapper(this.kinectSensor);
-                    this.gestureManager = new GestureManager();
-                }
+                this.InitalizeKinect();
             }
-        }
+        }        
                 
         #endregion
 
@@ -309,6 +340,64 @@ namespace SticKart
         #region kinect_methods
 
         /// <summary>
+        /// Initalizes all Kinect based control systems.
+        /// Defaults to keyboard input if the Kinect is not available.
+        /// </summary>
+        private void InitalizeKinect()
+        {
+            if (!this.TryStartKinect())
+            {
+                this.kinectSensor = null;
+                this.controlDevice = ControlDevice.Keyboard;
+            }
+            else
+            {
+                this.coordinateMapper = new CoordinateMapper(this.kinectSensor);
+                this.gestureManager = new GestureManager();
+                if (!this.TryStartSpeechEngine())
+                {
+                    this.speechEngine = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tries to start the speech engine.
+        /// </summary>
+        /// <returns>Whether the speech engine was successfully started or not.</returns>
+        private bool TryStartSpeechEngine()
+        {
+            RecognizerInfo recognizerInfo = GetKinectRecognizer();
+
+            if (recognizerInfo == null)
+            {
+                return false;
+            }
+            else
+            {
+                this.speechEngine = new SpeechRecognitionEngine(recognizerInfo.Id);                
+                Choices grammarChoices = new Choices();
+                grammarChoices.Add(new SemanticResultValue("jump", "JUMP"));                
+                GrammarBuilder grammarBuilder = new GrammarBuilder();
+                grammarBuilder.Culture = recognizerInfo.Culture;
+                grammarBuilder.Append(grammarChoices);
+                Grammar grammar = new Grammar(grammarBuilder);
+
+                //// TODO: Create a grammar from grammar definition XML file.
+                //using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.SpeechGrammar)))
+                //{
+                //    var g = new Grammar(memoryStream);
+                //    speechEngine.LoadGrammar(g);
+                //}
+                this.speechEngine.LoadGrammar(grammar);
+                this.speechEngine.SpeechRecognized += SpeechRecognized;
+                this.speechEngine.SetInputToAudioStream(this.kinectSensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
+                this.speechEngine.RecognizeAsync(RecognizeMode.Multiple);
+                return true;
+            }
+        }
+
+        /// <summary>
         /// Tries to start the Kinect sensor.
         /// </summary>
         /// <returns>Whether the Kinect was successfully started or not.</returns>
@@ -341,14 +430,20 @@ namespace SticKart
         }
 
         /// <summary>
-        /// Stops the Kinect sensor if it is active.
+        /// Stops the Kinect sensor and the speech engine if they are active.
         /// </summary>
         private void StopKinect()
         {
             if (this.kinectSensor != null)
             {
-                this.kinectSensor.Stop();
                 this.kinectSensor.AudioSource.Stop();
+                this.kinectSensor.Stop();
+            }
+
+            if (null != this.speechEngine)
+            {
+                this.speechEngine.SpeechRecognized -= SpeechRecognized;
+                this.speechEngine.RecognizeAsyncStop();
             }
         }
         
@@ -374,6 +469,48 @@ namespace SticKart
 
                 skeletonFrame.CopySkeletonDataTo(skeletonData);
                 return true;
+            }
+        }
+        
+        /// <summary>
+        /// Gets the metadata for the speech recognizer (acoustic model) most suitable to process audio from Kinect device.
+        /// </summary>
+        /// <returns>RecognizerInfo if found, null otherwise.</returns>
+        private static RecognizerInfo GetKinectRecognizer()
+        {            
+            foreach (RecognizerInfo recognizer in SpeechRecognitionEngine.InstalledRecognizers())
+            {
+                string value;
+                recognizer.AdditionalInfo.TryGetValue("Kinect", out value);
+                if ("True".Equals(value, StringComparison.OrdinalIgnoreCase) && "en-IE".Equals(recognizer.Culture.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    // TODO: Add check with system culture then use en-US as default if none are found.
+                    // System.Globalization.CultureInfo.CurrentCulture;
+                    return recognizer;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Event handler for recognized speech events.
+        /// </summary>
+        /// <param name="sender">Object sending the event.</param>
+        /// <param name="e">Event arguments.</param>
+        private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
+        {                        
+            if (e.Result.Confidence >= InputManager.SpeechConfidenceThreshold)
+            {
+                //TODO: implement own logic here. Probably check against the active command list.
+                switch (e.Result.Semantics.Value.ToString())
+                {
+                    case "JUMP":
+                        this.voiceCommands.Enqueue(Command.Jump);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
