@@ -27,7 +27,6 @@ namespace SticKart.Display
         /// <summary>
         /// Initalizes a new instance of the <see cref="Sprite"/> class.
         /// </summary>
-        /// <param name="texture">The texture to use for the sprite.</param>
         public Sprite()
         {
             this.Colour = Color.White;
@@ -111,7 +110,7 @@ namespace SticKart.Display
         /// <param name="rotation">The rotation of the sprite.</param>
         public static void Draw(Sprite sprite, Vector2 position, float rotation)
         {
-            sprite.spriteBatch.Draw(sprite.texture, position, null, Color.White, rotation, sprite.origin, 1.0f, SpriteEffects.None, 1.0f);
+            sprite.spriteBatch.Draw(sprite.texture, position, null, sprite.Colour, rotation, sprite.origin, 1.0f, SpriteEffects.None, 1.0f);
         }
     }
 }
