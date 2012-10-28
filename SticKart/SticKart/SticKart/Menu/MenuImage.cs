@@ -7,7 +7,7 @@ namespace SticKart.Menu
     /// <summary>
     /// A basic menu item which contains a sprite.
     /// </summary>
-    class ImageMenuItem : MenuItem
+    class MenuImage : MenuItem
     {
         /// <summary>
         /// The sprite object to draw to the screen.
@@ -15,11 +15,11 @@ namespace SticKart.Menu
         protected Sprite sprite;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="TextMenuItem"/> base class.
+        /// Initalizes a new instance of the <see cref="MenuText"/> base class.
         /// </summary>
         /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
         /// <param name="sprite">The sprite to associate with the menu item.</param>
-        public ImageMenuItem(Vector2 relativePosition, Sprite sprite)
+        public MenuImage(Vector2 relativePosition, Sprite sprite)
             : base(relativePosition)
         {
             this.sprite = sprite;
@@ -32,7 +32,7 @@ namespace SticKart.Menu
         {
             get
             {
-                return typeof(ImageMenuItem);
+                return typeof(MenuImage);
             }
         }
         

@@ -86,7 +86,7 @@ namespace SticKart.Gestures
         /// <summary>
         /// Checks that the correct amount of time has passed since the last gesture and sets the gesture input as found.
         /// </summary>
-        /// <param name="gestureType">The </param>
+        /// <param name="gestureType">The type of gesture detected.</param>
         protected virtual void GestureFound(GestureType gestureType)
         {
             // Check if the time is too close to the last recorded time.

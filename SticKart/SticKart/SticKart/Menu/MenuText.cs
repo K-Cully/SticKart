@@ -7,7 +7,7 @@ namespace SticKart.Menu
     /// <summary>
     /// A basic menu item which contains text.
     /// </summary>
-    class TextMenuItem : MenuItem
+    class MenuText : MenuItem
     {
         /// <summary>
         /// The renderable text object to draw to the screen.
@@ -15,11 +15,11 @@ namespace SticKart.Menu
         protected RenderableText text;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="TextMenuItem"/> base class.
+        /// Initalizes a new instance of the <see cref="MenuText"/> base class.
         /// </summary>
         /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
         /// <param name="text">The renderable text object to associate with the menu item.</param>
-        public TextMenuItem(Vector2 relativePosition, RenderableText text)
+        public MenuText(Vector2 relativePosition, RenderableText text)
             : base(relativePosition)
         {
             this.text = text;
@@ -32,7 +32,7 @@ namespace SticKart.Menu
         {
             get
             {
-                return typeof(TextMenuItem);
+                return typeof(MenuText);
             }
         }
 
