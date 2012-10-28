@@ -7,7 +7,7 @@ namespace SticKart.Menu
     /// <summary>
     /// A button menu item.
     /// </summary>
-    class MenuButton : MenuItem
+    class MenuButton : MenuSelectableItem
     {
         /// <summary>
         /// The button's background.
@@ -23,12 +23,7 @@ namespace SticKart.Menu
         /// The text to display on the button.
         /// </summary>
         protected MenuText text;
-
-        /// <summary>
-        /// The button's bounding box.
-        /// </summary>
-        protected Rectangle boundingBox;
-        
+                
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuButton"/> class.
         /// </summary>
@@ -38,10 +33,8 @@ namespace SticKart.Menu
         /// <param name="text">The text to display on the button.</param>
         /// <param name="name">The name of the button.</param>
         public MenuButton(Vector2 relativePosition, Sprite tile, Sprite icon, RenderableText text, string name)
-            : base(relativePosition)
+            : base(relativePosition, name, new Vector2 (tile.Width, tile.Height))
         {
-            this.Name = name;
-            this.boundingBox = new Rectangle((int)(relativePosition.X - tile.Width / 2), (int)(relativePosition.Y - tile.Height / 2), (int)tile.Width, (int)tile.Height);
             this.tile = new MenuImage(Vector2.Zero, tile);
             this.icon = new MenuImage(Vector2.Zero, icon);            
             Vector2 relativeTextPosition = new Vector2(0.0f, tile.Height * 0.5f - text.Height * 1.5f);
@@ -58,23 +51,7 @@ namespace SticKart.Menu
                 return typeof(MenuButton);
             }
         }
-
-        /// <summary>
-        /// The name of the button.
-        /// </summary>
-        public string Name { get; private set; }
-
-        /// <summary>
-        /// Checks if the click position passed in intersects the button.
-        /// </summary>
-        /// <param name="clickPosition">The position of the click.</param>
-        /// <param name="parentPosition">The position of the button's parent/owner.</param>
-        /// <returns></returns>
-        public bool CheckForClick(Vector2 clickPosition, Vector2 parentPosition)
-        {
-            return this.boundingBox.Contains((int)(clickPosition.X - parentPosition.X), (int)(clickPosition.Y - parentPosition.Y));
-        }
-
+        
         /// <summary>
         /// Draws the button to the screen.
         /// </summary>
