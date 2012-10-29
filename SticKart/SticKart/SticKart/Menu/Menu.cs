@@ -6,7 +6,7 @@ namespace SticKart.Menu
     /// <summary>
     /// A menu class used to hold and display menu items.
     /// </summary>
-    class Menu
+    public class Menu
     {
         /// <summary>
         /// The menu items held in the menu.
@@ -63,23 +63,23 @@ namespace SticKart.Menu
         /// Checks if the selection made is in the menu.
         /// </summary>
         /// <param name="selectionPosition">The position selected.</param>
-        /// <returns>Whether the selection is a selectable object in the menu or not.</returns>
-        public bool CheckForSelection(Vector2 selectionPosition, string name)
+        /// <returns>The name of the selected item or null if not found.</returns>
+        public string CheckForSelection(Vector2 selectionPosition)
         {            
             if (selectionPosition == Vector2.Zero)
             {
-                return false;
+                return null;
             }
             else
             {
-                bool itemFound = false;
+                string itemFound = null;
                 foreach (MenuItem menuItem in this.menuItems)
                 {
                     if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
                     {
-                        itemFound = (menuItem as MenuSelectableItem).CheckForClick(selectionPosition, this.Position);
-                        if (itemFound)
+                        if ((menuItem as MenuSelectableItem).CheckForClick(selectionPosition, this.Position))
                         {
+                            itemFound = (menuItem as MenuSelectableItem).Name;
                             break;
                         }
                     }
@@ -92,23 +92,23 @@ namespace SticKart.Menu
         /// Checks if the selection made is in the menu.
         /// </summary>
         /// <param name="name">The name of the object to try to select.</param>
-        /// <returns>Whether the selection is a selectable object in the menu or not.</returns>
-        public bool CheckForSelection(string name)
+        /// <returns>The name of the selected item or null if not found.</returns>
+        public string CheckForSelection(string name)
         {
             if (name == null)
             {
-                return false;
+                return null;
             }
             else
             {
-                bool itemFound = false;
+                string itemFound = null;
                 foreach (MenuItem menuItem in this.menuItems)
                 {
                     if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
                     {
-                        itemFound = name.ToUpperInvariant() == (menuItem as MenuSelectableItem).Name.ToUpperInvariant();
-                        if (itemFound)
+                        if (name.ToUpperInvariant() == (menuItem as MenuSelectableItem).Name.ToUpperInvariant())
                         {
+                            itemFound = (menuItem as MenuSelectableItem).Name;
                             break;
                         }
                     }

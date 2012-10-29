@@ -1,2 +1,8 @@
 Content\Sprites\StickMan__base.xnb
-Content\Sprites\Hand.xnb
+Content\Sprites\Menu\Hand.xnb
+Content\Sprites\Menu\Button_large.xnb
+Content\Sprites\Menu\Play_icon_large.xnb
+Content\Sprites\Menu\Options_icon_large.xnb
+Content\Sprites\Menu\Exit_icon_large.xnb
+Content\Sprites\Menu\Leaderboard_icon_large.xnb
+Content\Fonts\SegoeUIMono.xnb

@@ -8,6 +8,7 @@ using FarseerPhysics.Common;
 using System.Collections.Generic;
 using FarseerPhysics.SamplesFramework;
 using SticKart.Display;
+using SticKart.Menu;
 
 namespace SticKart
 {
@@ -51,6 +52,7 @@ namespace SticKart
 
         InputManager inputManager;
         GameState gameState;
+        MenuManager menuManager;
 
         #endregion
 
@@ -69,6 +71,9 @@ namespace SticKart
             this.graphics.IsFullScreen = false;
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
+
+            this.menuManager = new MenuManager(this.screenDimensions);
+            // TODO: add menu event handlers.
 
             this.playerSprite = new Sprite();
             this.handSprite = new Sprite();
@@ -108,8 +113,10 @@ namespace SticKart
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this.handSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ImageLocations.HandIcon);
-            this.playerSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ImageLocations.StickManStanding);
+            this.menuManager.InitalizeAndLoad(this.spriteBatch, this.Content);
+
+            this.handSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
+            this.playerSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ContentLocations.StickManStanding);
 
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.playerBody = BodyFactory.CreateBody(this.physicsWorld);
@@ -244,6 +251,7 @@ namespace SticKart
             switch (this.gameState)
             {
                 case GameState.InMenu:
+                    this.menuManager.Draw();
                     Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f);
                     break;
                 case GameState.InGame:

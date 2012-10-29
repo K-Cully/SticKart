@@ -1,0 +1,132 @@
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+
+namespace SticKart.Menu
+{
+    /// <summary>
+    /// An enumeration of diferent menu types.
+    /// </summary>
+    public enum MenuType { None, Main, Options, Leaderboard, LevelSelect, NameInput, LevelComplete }
+
+    /// <summary>
+    /// The main controller of the menu system.
+    /// </summary>
+    public class MenuManager
+    {
+        /// <summary>
+        /// An event triggered on the user selecting exit.
+        /// </summary>
+        public event Action<bool> OnQuitGameDetected;
+        
+        /// <summary>
+        /// An event triggered on the user selecting to continue gameplay.
+        /// </summary>
+        public event Action<bool> OnResumeGameDetected;
+        
+        /// <summary>
+        /// An event triggered on the user selecting to start a new level.
+        /// </summary>
+        public event Action<bool> OnBeginLevelDetected;
+
+        /// <summary>
+        /// The current display size in pixels.
+        /// </summary>
+        private Vector2 screenDimensions;
+
+        /// <summary>
+        /// The currently active menu.
+        /// </summary>
+        private MenuType activeMenu;
+
+        /// <summary>
+        /// A lookup table of available menus.
+        /// </summary>
+        private Dictionary<MenuType, Menu> menus;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MenuManager"/> class.
+        /// </summary>
+        /// <param name="screenDimensions">The current display size in pixels.</param>
+        public MenuManager(Vector2 screenDimensions)
+        {
+            this.menus = new Dictionary<MenuType, Menu>();
+            this.menus.Add(MenuType.None, null);
+            this.screenDimensions = screenDimensions;
+            this.activeMenu = MenuType.None;
+        }
+
+        /// <summary>
+        /// Initalizes all menus and loads all menu content.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to use in drawing menu items.</param>
+        /// <param name="contentManager">The content manager to load content with.</param>
+        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
+        {
+            this.activeMenu = MenuType.Main;
+            this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.Options, null); // TODO: add these menus.
+            this.menus.Add(MenuType.Leaderboard, null);
+            this.menus.Add(MenuType.LevelSelect, null);
+            this.menus.Add(MenuType.NameInput, null);
+            this.menus.Add(MenuType.LevelComplete, null);
+        }
+
+        /// <summary>
+        /// Updates the active menu and checks for user selections.
+        /// </summary>
+        /// <param name="selectionPosition">The selection position.</param>
+        /// <param name="selectionName">The selection name.</param>
+        public void Update(Vector2 selectionPosition, string selectionName)
+        {
+            if (this.menus[this.activeMenu] != null)
+            {
+                string selectedItemName = null;
+                if (selectionPosition != Vector2.Zero)
+                {
+                    selectedItemName = this.menus[this.activeMenu].CheckForSelection(selectionPosition);
+                }
+                else if (selectionName != null)
+                {
+                    selectedItemName = this.menus[this.activeMenu].CheckForSelection(selectionName);
+                }
+
+                if (selectedItemName != null)
+                {
+                    switch (selectedItemName)
+                    {
+                        case SelectableNames.PlayButtonName:
+                            this.activeMenu = MenuType.None;
+                            this.OnBeginLevelDetected(true);
+                            break;
+                        case SelectableNames.OptionsButtonName:
+                            this.activeMenu = MenuType.Options;
+                            break;
+                        case SelectableNames.LeaderboardButtonName:
+                            this.activeMenu = MenuType.Leaderboard;
+                            break;
+                        case SelectableNames.ExitButtonName:
+                            this.activeMenu = MenuType.None;
+                            this.OnQuitGameDetected(true);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draws the active menu.
+        /// </summary>
+        public void Draw()
+        {
+            if (this.menus[this.activeMenu] != null)
+            {
+                this.menus[this.activeMenu].Draw();
+            }
+        }
+    }
+}
