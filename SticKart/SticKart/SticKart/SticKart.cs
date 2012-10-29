@@ -73,7 +73,9 @@ namespace SticKart
             this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
 
             this.menuManager = new MenuManager(this.screenDimensions);
-            // TODO: add menu event handlers.
+            this.menuManager.OnBeginLevelDetected += this.BeginLevel;
+            this.menuManager.OnQuitGameDetected += this.QuitGame;
+            // TODO: add other menu event handlers.
 
             this.playerSprite = new Sprite();
             this.handSprite = new Sprite();
@@ -170,7 +172,7 @@ namespace SticKart
         /// Updates the game world while in play.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        private void UpdateGame(GameTime gameTime)
+        protected void UpdateGame(GameTime gameTime)
         {
             if (this.inputManager.Update()) // Commands are available.
             {
@@ -179,7 +181,7 @@ namespace SticKart
                     switch (command)
                     {
                         case InputManager.Command.Left: // TODO: remove
-                            this.gameState = GameState.InMenu; // this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
+                            this.PauseGame(); // this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
                             break;
                         case InputManager.Command.Jump:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -400.0f)));
@@ -191,7 +193,7 @@ namespace SticKart
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(5000.0f, 0.0f)));
                             break;
                         case InputManager.Command.Pause:
-                            this.gameState = GameState.InMenu;
+                            this.PauseGame();
                             break;
                         case InputManager.Command.Exit:
                             this.Exit();
@@ -201,42 +203,72 @@ namespace SticKart
                     }
                 }
             }
+
+            if (this.inputManager.VoiceCommandAvailable)
+            {
+                if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == SelectableNames.PauseCommandName)
+                {
+                    this.PauseGame();
+                }
+            } 
+        }
+
+        /// <summary>
+        /// Pauses the game.
+        /// </summary>
+        private void PauseGame()
+        {
+            this.gameState = GameState.InMenu;
+            this.menuManager.ActiveMenu = MenuType.Main; // TODO add a resume button.
         }
 
         /// <summary>
         /// Updates the menu system while the game is not in play.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        private void UpdateMenu(GameTime gameTime)
+        protected void UpdateMenu(GameTime gameTime)
         {
             if (this.inputManager.Update()) // Commands are available.
             {
                 foreach (InputManager.Command command in this.inputManager.Commands)
                 {
                     switch (command)
-                    {
-                        case InputManager.Command.Up:
-                            break;
-                        case InputManager.Command.Down:
-                            break;
-                        case InputManager.Command.Left:
-                            break;
-                        case InputManager.Command.Right:
-                            break;                        
+                    {                 
                         case InputManager.Command.Select:
                             break;
                         case InputManager.Command.SelectAt:
-                            break;
-                        case InputManager.Command.Pause:
-                            break;
-                        case InputManager.Command.Exit:
-                            this.Exit();
+                            this.menuManager.Update(this.inputManager.SelectedPosition, null);
                             break;
                         default:
                             break;
                     }
                 }
             }
+
+            if (this.inputManager.VoiceCommandAvailable)
+            {
+                this.menuManager.Update(Vector2.Zero, this.inputManager.LastVoiceCommand);
+            }                
+        }
+
+        /// <summary>
+        /// Event handler for a begin level event.
+        /// </summary>
+        /// <param name="value">The value passed from the sender.</param>
+        protected void BeginLevel(bool value)
+        {
+            // TODO: refine.
+            this.gameState = GameState.InGame;
+        }
+
+        /// <summary>
+        /// Event handler for a quit game event.
+        /// </summary>
+        /// <param name="value">The value passed from the sender.</param>
+        protected void QuitGame(bool value)
+        {
+            // TODO: refine.
+            this.Exit();
         }
 
         /// <summary>

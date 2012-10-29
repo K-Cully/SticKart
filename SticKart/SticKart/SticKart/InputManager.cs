@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SticKart.Gestures;
 using Kinect.Toolbox;
+using SticKart.Menu;
 
 namespace SticKart
 {
@@ -60,11 +61,6 @@ namespace SticKart
         #endregion
 
         #region kinect_speech_variables
-        
-        /// <summary>
-        /// Speech recognition engine using audio data from Kinect.
-        /// </summary>
-        private SpeechRecognitionEngine speechEngine;
 
         /// <summary>
         /// Speech utterance confidence threshold, below which speech is treated as if it hadn't been heard.
@@ -72,10 +68,15 @@ namespace SticKart
         private const double SpeechConfidenceThreshold = 0.3;
 
         /// <summary>
-        /// The queue of voice commands received if any.
+        /// Speech recognition engine using audio data from Kinect.
         /// </summary>
-        private Queue<Command> voiceCommands;
-
+        private SpeechRecognitionEngine speechEngine;
+        
+        /// <summary>
+        /// The selected word.
+        /// </summary>
+        private string selectedWord;
+        
         #endregion
 
         #region private_variables
@@ -126,20 +127,33 @@ namespace SticKart
         }
 
         /// <summary>
-        /// Gets the next voice command received in order of arrival. 
+        /// Gets whether there is a word available or not.
         /// </summary>
-        public Command NextVoiceCommand
+        public bool VoiceCommandAvailable
         {
             get
             {
-                if (this.voiceCommands.Count > 0)
+                if (this.selectedWord == null)
                 {
-                    return this.voiceCommands.Dequeue();
+                    return false;
                 }
                 else
                 {
-                    return Command.None;
+                    return true;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets the available voice command if any.
+        /// </summary>
+        public string LastVoiceCommand 
+        {
+            get
+            {
+                string word = this.selectedWord;
+                this.selectedWord = null;
+                return word;
             }
         }
 
@@ -147,7 +161,7 @@ namespace SticKart
         /// Gets the screen position selected by the user.
         /// If this is equal to Vector2.Zero then no position was selected.
         /// </summary>
-        public Vector2 SelectionPosition
+        public Vector2 SelectedPosition
         {
             get
             {
@@ -207,10 +221,10 @@ namespace SticKart
             this.screenDimensions = screenDimensions;
             this.controlDevice = controlDevice;
             this.commands = new List<Command>();
-            this.voiceCommands = new Queue<Command>();
             this.kinectSensor = null;
             this.coordinateMapper = null;
             this.gestureManager = null;
+            this.selectedWord = null;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -275,6 +289,9 @@ namespace SticKart
                         break;
                     case GestureType.SwipeToRight:
                         this.commands.Add(Command.Run);
+                        break;
+                    case GestureType.Push:
+                        this.commands.Add(Command.SelectAt);
                         break;
                     default:
                         break;
@@ -377,7 +394,9 @@ namespace SticKart
             {
                 this.speechEngine = new SpeechRecognitionEngine(recognizerInfo.Id);                
                 Choices grammarChoices = new Choices();
-                grammarChoices.Add(new SemanticResultValue("jump", "JUMP"));                
+                grammarChoices.Add(new SemanticResultValue(SelectableNames.PlayButtonName.ToLower(), SelectableNames.PlayButtonName));
+                grammarChoices.Add(new SemanticResultValue(SelectableNames.PauseCommandName.ToLower(), SelectableNames.PauseCommandName));
+                grammarChoices.Add(new SemanticResultValue(SelectableNames.ExitButtonName.ToLower(), SelectableNames.ExitButtonName));
                 GrammarBuilder grammarBuilder = new GrammarBuilder();
                 grammarBuilder.Culture = recognizerInfo.Culture;
                 grammarBuilder.Append(grammarChoices);
@@ -502,15 +521,16 @@ namespace SticKart
         {                        
             if (e.Result.Confidence >= InputManager.SpeechConfidenceThreshold)
             {
+                this.selectedWord = e.Result.Semantics.Value.ToString();
                 //TODO: implement own logic here. Probably check against the active command list.
-                switch (e.Result.Semantics.Value.ToString())
-                {
-                    case "JUMP":
-                        this.voiceCommands.Enqueue(Command.Jump);
-                        break;
-                    default:
-                        break;
-                }
+                //switch (e.Result.Semantics.Value.ToString())
+                //{
+                //    case "JUMP":
+                //        this.voiceCommands.Enqueue(Command.Jump);
+                //        break;
+                //    default:
+                //        break;
+                //}
             }
         }
 

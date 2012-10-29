@@ -87,6 +87,7 @@
     <Compile Include="Gestures\GestureDetector.cs" />
     <Compile Include="Gestures\GestureEntry.cs" />
     <Compile Include="Gestures\GestureManager.cs" />
+    <Compile Include="Gestures\PushGestureDetector.cs" />
     <Compile Include="Gestures\SwipeGestureDetector.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Menu\Menu.cs" />

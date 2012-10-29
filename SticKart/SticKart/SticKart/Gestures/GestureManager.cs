@@ -72,6 +72,8 @@ namespace SticKart.Gestures
 
             SwipeGestureDetector swipeGestureDetector = new SwipeGestureDetector(this.activeHand);
             this.gestureDetectors.Add(swipeGestureDetector);
+            PushGestureDetector pushGesturedetector = new PushGestureDetector(this.activeHand);
+            this.gestureDetectors.Add(pushGesturedetector);
             // TODO: add gesture detectors.
         }
 

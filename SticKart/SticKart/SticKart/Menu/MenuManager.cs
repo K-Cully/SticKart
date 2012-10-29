@@ -35,12 +35,7 @@ namespace SticKart.Menu
         /// The current display size in pixels.
         /// </summary>
         private Vector2 screenDimensions;
-
-        /// <summary>
-        /// The currently active menu.
-        /// </summary>
-        private MenuType activeMenu;
-
+        
         /// <summary>
         /// A lookup table of available menus.
         /// </summary>
@@ -55,8 +50,13 @@ namespace SticKart.Menu
             this.menus = new Dictionary<MenuType, Menu>();
             this.menus.Add(MenuType.None, null);
             this.screenDimensions = screenDimensions;
-            this.activeMenu = MenuType.None;
+            this.ActiveMenu = MenuType.None;
         }
+
+        /// <summary>
+        /// Gets or sets the currently active menu.
+        /// </summary>
+        public MenuType ActiveMenu { get; set; } 
 
         /// <summary>
         /// Initalizes all menus and loads all menu content.
@@ -65,7 +65,7 @@ namespace SticKart.Menu
         /// <param name="contentManager">The content manager to load content with.</param>
         public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
         {
-            this.activeMenu = MenuType.Main;
+            this.ActiveMenu = MenuType.Main;
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Options, null); // TODO: add these menus.
             this.menus.Add(MenuType.Leaderboard, null);
@@ -81,16 +81,16 @@ namespace SticKart.Menu
         /// <param name="selectionName">The selection name.</param>
         public void Update(Vector2 selectionPosition, string selectionName)
         {
-            if (this.menus[this.activeMenu] != null)
+            if (this.menus[this.ActiveMenu] != null)
             {
                 string selectedItemName = null;
                 if (selectionPosition != Vector2.Zero)
                 {
-                    selectedItemName = this.menus[this.activeMenu].CheckForSelection(selectionPosition);
+                    selectedItemName = this.menus[this.ActiveMenu].CheckForSelection(selectionPosition);
                 }
                 else if (selectionName != null)
                 {
-                    selectedItemName = this.menus[this.activeMenu].CheckForSelection(selectionName);
+                    selectedItemName = this.menus[this.ActiveMenu].CheckForSelection(selectionName);
                 }
 
                 if (selectedItemName != null)
@@ -98,18 +98,24 @@ namespace SticKart.Menu
                     switch (selectedItemName)
                     {
                         case SelectableNames.PlayButtonName:
-                            this.activeMenu = MenuType.None;
-                            this.OnBeginLevelDetected(true);
+                            this.ActiveMenu = MenuType.None;
+                            if (this.OnBeginLevelDetected != null)
+                            {
+                                this.OnBeginLevelDetected(true);
+                            }
                             break;
                         case SelectableNames.OptionsButtonName:
-                            this.activeMenu = MenuType.Options;
+                            this.ActiveMenu = MenuType.Options;
                             break;
                         case SelectableNames.LeaderboardButtonName:
-                            this.activeMenu = MenuType.Leaderboard;
+                            this.ActiveMenu = MenuType.Leaderboard;
                             break;
                         case SelectableNames.ExitButtonName:
-                            this.activeMenu = MenuType.None;
-                            this.OnQuitGameDetected(true);
+                            this.ActiveMenu = MenuType.None;
+                            if (this.OnQuitGameDetected != null)
+                            {
+                                this.OnQuitGameDetected(true);
+                            }
                             break;
                         default:
                             break;
@@ -123,9 +129,9 @@ namespace SticKart.Menu
         /// </summary>
         public void Draw()
         {
-            if (this.menus[this.activeMenu] != null)
+            if (this.menus[this.ActiveMenu] != null)
             {
-                this.menus[this.activeMenu].Draw();
+                this.menus[this.ActiveMenu].Draw();
             }
         }
     }
