@@ -61,5 +61,30 @@ namespace SticKart.Menu
 
             return mainMenu;
         }
+
+        /// <summary>
+        /// Creates a place holder for menu's which are yet to be implemented.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to drawable menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreatePlaceholderMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu placeHolderMenu = new Menu(position);
+            MenuButton button = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitalizeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            Vector2 relativePos = Vector2.Zero;
+
+            Sprite largeBackIcon = new Sprite();
+            largeBackIcon.InitalizeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
+            RenderableText backText = new RenderableText();
+            backText.InitalizeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, SelectableNames.BackButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, SelectableNames.BackButtonName);
+            placeHolderMenu.AddItem(button);
+
+            return placeHolderMenu;
+        }
     }
 }

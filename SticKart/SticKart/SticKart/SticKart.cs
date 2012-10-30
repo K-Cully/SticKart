@@ -61,7 +61,7 @@ namespace SticKart
         /// </summary>
         public SticKart()
         {
-            this.gameState = GameState.InGame;
+            this.gameState = GameState.InMenu;
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1280.0f, 720.0f);
             this.graphics = new GraphicsDeviceManager(this);
@@ -159,12 +159,12 @@ namespace SticKart
                     break;
                 case GameState.InGame:
                     this.UpdateGame(gameTime);
+                    this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, SticKart.FrameTime));
                     break;
                 default:
                     break;
             }            
 
-            this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, SticKart.FrameTime));
             base.Update(gameTime);
         }
 
@@ -181,7 +181,7 @@ namespace SticKart
                     switch (command)
                     {
                         case InputManager.Command.Left: // TODO: remove
-                            this.PauseGame(); // this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
                             break;
                         case InputManager.Command.Jump:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -400.0f)));

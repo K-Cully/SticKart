@@ -65,10 +65,10 @@ namespace SticKart.Menu
         /// <param name="contentManager">The content manager to load content with.</param>
         public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
         {
-            this.ActiveMenu = MenuType.Main;
+            this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
-            this.menus.Add(MenuType.Options, null); // TODO: add these menus.
-            this.menus.Add(MenuType.Leaderboard, null);
+            this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.Leaderboard, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, null);
             this.menus.Add(MenuType.NameInput, null);
             this.menus.Add(MenuType.LevelComplete, null);
@@ -115,6 +115,12 @@ namespace SticKart.Menu
                             if (this.OnQuitGameDetected != null)
                             {
                                 this.OnQuitGameDetected(true);
+                            }
+                            break;
+                        case SelectableNames.BackButtonName:
+                            if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.Leaderboard || this.ActiveMenu == MenuType.LevelSelect)
+                            {
+                                this.ActiveMenu = MenuType.Main;
                             }
                             break;
                         default:

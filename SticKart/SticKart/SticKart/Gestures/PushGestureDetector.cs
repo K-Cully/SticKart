@@ -40,14 +40,14 @@ namespace SticKart.Gestures
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
         /// <param name="maxRecordedPositions">THe maximum number of positions to check for a gesture against.</param>
         /// <param name="millisecondsBetweenGestures">The delay to apply between gestures, in milliseconds.</param>
-        public PushGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 500)
+        public PushGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1000)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)
         {
-            this.pushMinimumLength = 0.4f;
-            this.pushMaximumHeight = 0.3f;
-            this.pushMaximumWidth = 0.3f;
-            this.pushMinimumDuration = 250;
-            this.pushMaximumDuration = 1800;
+            this.pushMinimumLength = 0.42f;
+            this.pushMaximumHeight = 0.21f;
+            this.pushMaximumWidth = 0.21f;
+            this.pushMinimumDuration = 350;
+            this.pushMaximumDuration = 3000;
         }
 
         /// <summary>

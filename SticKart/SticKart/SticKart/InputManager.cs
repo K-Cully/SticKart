@@ -6,6 +6,7 @@ using Microsoft.Speech.AudioFormat;
 using Microsoft.Speech.Recognition;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
 using SticKart.Gestures;
 using Kinect.Toolbox;
 using SticKart.Menu;
@@ -90,6 +91,11 @@ namespace SticKart
         /// A structure to hold the current game pad state.
         /// </summary>
         private GamePadState gamePadstate;
+        
+        /// <summary>
+        /// A structure to hold the currently available touch gesture.
+        /// </summary>
+        private GestureSample touchGesture;        
 
         /// <summary>
         /// The dimensions of the graphics viewport.
@@ -171,7 +177,6 @@ namespace SticKart
                         this.selectionPosition = this.HandPosition;
                         break;
                     case ControlDevice.Touch:
-                        this.selectionPosition = Vector2.Zero; // TODO: implement
                         break;
                     default:
                         this.selectionPosition = Vector2.Zero;
@@ -225,6 +230,9 @@ namespace SticKart
             this.coordinateMapper = null;
             this.gestureManager = null;
             this.selectedWord = null;
+            this.touchGesture = new GestureSample();
+            this.keyboardState = new KeyboardState();
+            this.gamePadstate = new GamePadState();
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -319,26 +327,26 @@ namespace SticKart
                 }
             }
 
-            GestureType gestureToApply;
+            Gestures.GestureType gestureToApply;
             do
             {
                 gestureToApply = this.gestureManager.GetNextDetectedGesture();
                 switch (gestureToApply)
                 {
-                    case GestureType.SwipeToLeft:
+                    case Gestures.GestureType.SwipeToLeft:
                         this.commands.Add(Command.Left);
                         break;
-                    case GestureType.SwipeToRight:
+                    case Gestures.GestureType.SwipeToRight:
                         this.commands.Add(Command.Run);
                         break;
-                    case GestureType.Push:
+                    case Gestures.GestureType.Push:
                         this.commands.Add(Command.SelectAt);
                         break;
                     default:
                         break;
                 }
 
-            } while (gestureToApply != GestureType.None);
+            } while (gestureToApply != Gestures.GestureType.None);
         }
 
         /// <summary>
@@ -391,7 +399,49 @@ namespace SticKart
         /// </summary>
         private void GetTouchInput()
         {
-            // TODO
+            if (TouchPanel.IsGestureAvailable)
+            {
+                this.touchGesture = TouchPanel.ReadGesture();
+                switch (this.touchGesture.GestureType)
+                {
+                    case Microsoft.Xna.Framework.Input.Touch.GestureType.DoubleTap:
+                        this.commands.Add(Command.Run);
+                        break;
+                    case Microsoft.Xna.Framework.Input.Touch.GestureType.Flick:
+                        Vector2 velocity = this.touchGesture.Delta;
+                        if (velocity.X * velocity.X > velocity.Y * velocity.Y) // Movement greater along x than y.
+                        {
+                            if (velocity.X > 0.0f)
+                            {
+                                this.commands.Add(Command.Right);
+                            }
+                            else
+                            {
+                                this.commands.Add(Command.Left);
+                            }
+                        }
+                        else
+                        {
+                            if (velocity.Y > 0.0f)
+                            {
+                                this.commands.Add(Command.Down);
+                                this.commands.Add(Command.Crouch);
+                            }
+                            else
+                            {
+                                this.commands.Add(Command.Up);
+                                this.commands.Add(Command.Jump);
+                            }
+                        }
+                        break;
+                    case Microsoft.Xna.Framework.Input.Touch.GestureType.Tap:
+                        this.selectionPosition = this.touchGesture.Position; // TODO: scale to viewport resolution.
+                        this.commands.Add(Command.SelectAt);
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         #endregion
@@ -437,8 +487,11 @@ namespace SticKart
                 this.speechEngine = new SpeechRecognitionEngine(recognizerInfo.Id);                
                 Choices grammarChoices = new Choices();
                 grammarChoices.Add(new SemanticResultValue(SelectableNames.PlayButtonName.ToLower(), SelectableNames.PlayButtonName));
-                grammarChoices.Add(new SemanticResultValue(SelectableNames.PauseCommandName.ToLower(), SelectableNames.PauseCommandName));
+                grammarChoices.Add(new SemanticResultValue(SelectableNames.BackButtonName.ToLower(), SelectableNames.BackButtonName));
+                grammarChoices.Add(new SemanticResultValue(SelectableNames.LeaderboardButtonName.ToLower(), SelectableNames.LeaderboardButtonName));
+                grammarChoices.Add(new SemanticResultValue(SelectableNames.OptionsButtonName.ToLower(), SelectableNames.OptionsButtonName));
                 grammarChoices.Add(new SemanticResultValue(SelectableNames.ExitButtonName.ToLower(), SelectableNames.ExitButtonName));
+                grammarChoices.Add(new SemanticResultValue(SelectableNames.PauseCommandName.ToLower(), SelectableNames.PauseCommandName));
                 GrammarBuilder grammarBuilder = new GrammarBuilder();
                 grammarBuilder.Culture = recognizerInfo.Culture;
                 grammarBuilder.Append(grammarChoices);

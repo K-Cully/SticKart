@@ -26,8 +26,13 @@
         public const string ExitButtonName = "EXIT";
 
         /// <summary>
-        /// The name of the pause command.
+        /// The name of the back button.
         /// </summary>
         public const string PauseCommandName = "PAUSE";
+
+        /// <summary>
+        /// The name of the pause command.
+        /// </summary>
+        public const string BackButtonName = "BACK";
     }
 }

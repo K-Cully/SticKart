@@ -41,6 +41,11 @@
         public const string LargeExitIcon = "Sprites/Menu/Exit_icon_large";
 
         /// <summary>
+        /// The location of the large back icon texture asset.
+        /// </summary>
+        public const string LargeBackIcon = "Sprites/Menu/Back_icon_large";
+
+        /// <summary>
         /// The location of the large leaderboard icon texture asset.
         /// </summary>
         public const string LargeLeaderboardIcon = "Sprites/Menu/Leaderboard_icon_large";
