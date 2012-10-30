@@ -242,7 +242,48 @@ namespace SticKart
         private void GetGamePadInput()
         {
             this.gamePadstate = GamePad.GetState(PlayerIndex.One);
-            // TODO
+            if (this.gamePadstate != null)
+            {
+                if (this.gamePadstate.Buttons.Back == ButtonState.Released)
+                {
+                    commands.Add(Command.Exit);
+                }
+                else if (this.gamePadstate.Buttons.Start == ButtonState.Released)
+                {
+                    commands.Add(Command.Pause);
+                }
+                else
+                {
+                    if (this.gamePadstate.Buttons.A == ButtonState.Released)
+                    {
+                        commands.Add(Command.Select);
+                    }
+
+                    if (this.gamePadstate.ThumbSticks.Left.Y > 0.1f || this.gamePadstate.DPad.Up == ButtonState.Released)
+                    {
+                        commands.Add(Command.Up);
+                        commands.Add(Command.Jump);
+                    }
+                    else if (this.gamePadstate.ThumbSticks.Left.Y < -0.1f || this.gamePadstate.DPad.Down == ButtonState.Released)
+                    {
+                        commands.Add(Command.Down);
+                        commands.Add(Command.Crouch);
+                    }
+                    else if (this.gamePadstate.IsButtonDown(Buttons.RightTrigger))
+                    {
+                        commands.Add(Command.Run);
+                    }
+
+                    if (this.gamePadstate.ThumbSticks.Left.X > 0.1f || this.gamePadstate.DPad.Right == ButtonState.Released)
+                    {
+                        commands.Add(Command.Right);
+                    }
+                    else if (this.gamePadstate.ThumbSticks.Left.X < -0.1f || this.gamePadstate.DPad.Left == ButtonState.Released)
+                    {
+                        commands.Add(Command.Left);
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -306,42 +347,43 @@ namespace SticKart
         private void GetKeyboardInput()
         {
             keyboardState = Keyboard.GetState();
-
-            if (keyboardState.IsKeyDown(Keys.Escape))
+            if (keyboardState != null)
             {
-                commands.Add(Command.Exit);
-            }
-            else if (keyboardState.IsKeyDown(Keys.P))
-            {
-                commands.Add(Command.Pause);
-            }
-            else
-            {
-                if (keyboardState.IsKeyDown(Keys.Enter))
+                if (keyboardState.IsKeyDown(Keys.Escape))
                 {
-                    commands.Add(Command.Select);
+                    commands.Add(Command.Exit);
                 }
-                if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
+                else if (keyboardState.IsKeyDown(Keys.P))
                 {
-                    commands.Add(Command.Up);
-                    commands.Add(Command.Jump);
+                    commands.Add(Command.Pause);
                 }
-                else if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
+                else
                 {
-                    commands.Add(Command.Down);
-                    commands.Add(Command.Crouch);
+                    if (keyboardState.IsKeyDown(Keys.Enter))
+                    {
+                        commands.Add(Command.Select);
+                    }
+                    if (keyboardState.IsKeyDown(Keys.W) || keyboardState.IsKeyDown(Keys.Up))
+                    {
+                        commands.Add(Command.Up);
+                        commands.Add(Command.Jump);
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.S) || keyboardState.IsKeyDown(Keys.Down))
+                    {
+                        commands.Add(Command.Down);
+                        commands.Add(Command.Crouch);
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
+                    {
+                        commands.Add(Command.Left);
+                    }
+                    else if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
+                    {
+                        commands.Add(Command.Right);
+                        commands.Add(Command.Run);
+                    }
                 }
-                else if (keyboardState.IsKeyDown(Keys.A) || keyboardState.IsKeyDown(Keys.Left))
-                {
-                    commands.Add(Command.Left);
-                }
-                else if (keyboardState.IsKeyDown(Keys.D) || keyboardState.IsKeyDown(Keys.Right))
-                {
-                    commands.Add(Command.Right);
-                    commands.Add(Command.Run);
-                }
-            }
-            
+            }            
         }
 
         /// <summary>
