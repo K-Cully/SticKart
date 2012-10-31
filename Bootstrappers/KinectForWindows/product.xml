@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Product
+  xmlns="http://schemas.microsoft.com/developer/2004/01/bootstrapper"
+  ProductCode="Custom.Bootstrapper.Kinect">
+
+  <RelatedProducts>
+    <DependsOnProduct Code="Microsoft.Windows.Installer.3.1" />
+  </RelatedProducts>
+
+  <PackageFiles>
+    <PackageFile Name="KinectRuntime-v1.6-Setup.exe"/>
+	<PackageFile Name="KinectSpeechLanguagePack_en-GB.exe"/>
+	<PackageFile Name="KinectSpeechLanguagePack_en-IE.exe"/>
+  </PackageFiles>
+
+  <InstallChecks>
+    <MsiProductCheck Property="KinectInstalled" 
+      Product="{940466C3-6E5F-4871-BB0E-5024078F2EAF}"/>
+	<MsiProductCheck Property="LangGBInstalled" 
+      Product="{A0186231-0A8B-455A-8A25-B64AABCC11A6}"/>
+	<MsiProductCheck Property="LangIEInstalled" 
+      Product="{998D5259-3BED-4710-98FF-D63387B5429E}"/>
+  </InstallChecks>
+
+  <Commands>
+    <Command PackageFile="KinectRuntime-v1.6-Setup.exe" Arguments="">
+
+      <InstallConditions>
+        <BypassIf Property="KinectInstalled"
+          Compare="ValueGreaterThan" Value="0"/>
+        <FailIf Property="AdminUser" 
+          Compare="ValueNotEqualTo" Value="True"
+         String="NotAnAdmin"/>
+      </InstallConditions>
+
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success"/>
+        <ExitCode Value="1641" Result="SuccessReboot"/>
+        <ExitCode Value="3010" Result="SuccessReboot"/>
+        <DefaultExitCode Result="Fail" String="GeneralFailure"/>
+      </ExitCodes>
+    </Command>
+	
+	<Command PackageFile="KinectSpeechLanguagePack_en-GB.exe" Arguments="">
+
+      <InstallConditions>
+        <BypassIf Property="LangGBInstalled"
+          Compare="ValueGreaterThan" Value="0"/>
+        <FailIf Property="AdminUser" 
+          Compare="ValueNotEqualTo" Value="True"
+         String="NotAnAdmin"/>
+      </InstallConditions>
+
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success"/>
+        <ExitCode Value="1641" Result="SuccessReboot"/>
+        <ExitCode Value="3010" Result="SuccessReboot"/>
+        <DefaultExitCode Result="Fail" String="GeneralFailure"/>
+      </ExitCodes>
+    </Command>
+	
+	<Command PackageFile="KinectSpeechLanguagePack_en-IE.exe" Arguments="">
+
+      <InstallConditions>
+        <BypassIf Property="LangIEInstalled"
+          Compare="ValueGreaterThan" Value="0"/>
+        <FailIf Property="AdminUser" 
+          Compare="ValueNotEqualTo" Value="True"
+         String="NotAnAdmin"/>
+      </InstallConditions>
+
+      <ExitCodes>
+        <ExitCode Value="0" Result="Success"/>
+        <ExitCode Value="1641" Result="SuccessReboot"/>
+        <ExitCode Value="3010" Result="SuccessReboot"/>
+        <DefaultExitCode Result="Fail" String="GeneralFailure"/>
+      </ExitCodes>
+    </Command>
+  </Commands>
+</Product>

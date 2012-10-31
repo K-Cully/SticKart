@@ -1,0 +1,1 @@
+Place "KinectRuntime-v1.6-Setup.exe", "KinectSpeechLanguagePack_en-GB.exe" and "KinectSpeechLanguagePack_en-IE.exe" here.
