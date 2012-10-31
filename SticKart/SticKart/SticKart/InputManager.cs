@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using Microsoft.Kinect;
 using Microsoft.Speech.AudioFormat;
@@ -7,8 +8,8 @@ using Microsoft.Speech.Recognition;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
-using SticKart.Gestures;
 using Kinect.Toolbox;
+using SticKart.Gestures;
 using SticKart.Menu;
 
 namespace SticKart
@@ -497,7 +498,7 @@ namespace SticKart
                 grammarBuilder.Append(grammarChoices);
                 Grammar grammar = new Grammar(grammarBuilder);
 
-                //// TODO: Create a grammar from grammar definition XML file.
+                //// TODO: Possibly create a grammar from grammar definition XML file.
                 //using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.SpeechGrammar)))
                 //{
                 //    var g = new Grammar(memoryStream);
@@ -533,6 +534,10 @@ namespace SticKart
                     {
                         successful = false;
                     }
+                }
+                else // Xbox Kinect not supported
+                {
+                    successful = false;
                 }
             }
             else
@@ -591,20 +596,24 @@ namespace SticKart
         /// </summary>
         /// <returns>RecognizerInfo if found, null otherwise.</returns>
         private static RecognizerInfo GetKinectRecognizer()
-        {            
+        {
+            RecognizerInfo kinectRecognizer = null;
             foreach (RecognizerInfo recognizer in SpeechRecognitionEngine.InstalledRecognizers())
             {
                 string value;
                 recognizer.AdditionalInfo.TryGetValue("Kinect", out value);
-                if ("True".Equals(value, StringComparison.OrdinalIgnoreCase) && "en-IE".Equals(recognizer.Culture.Name, StringComparison.OrdinalIgnoreCase))
+                if ("True".Equals(value, StringComparison.OrdinalIgnoreCase) && "en-US".Equals(recognizer.Culture.Name, StringComparison.OrdinalIgnoreCase))
                 {
-                    // TODO: Add check with system culture then use en-US as default if none are found.
-                    // System.Globalization.CultureInfo.CurrentCulture;
-                    return recognizer;
+                    kinectRecognizer = recognizer;
+                }
+                if ("True".Equals(value, StringComparison.OrdinalIgnoreCase) && CultureInfo.CurrentCulture.Name.Equals(recognizer.Culture.Name, StringComparison.OrdinalIgnoreCase))
+                {
+                    kinectRecognizer = recognizer;
+                    break;
                 }
             }
 
-            return null;
+            return kinectRecognizer;
         }
 
         /// <summary>
