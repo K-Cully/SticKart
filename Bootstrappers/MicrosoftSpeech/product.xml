@@ -7,8 +7,8 @@
     <DependsOnProduct Code="Microsoft.Windows.Installer.3.1" />
   </RelatedProducts>
 
-  <PackageFiles>
-    <PackageFile Name="SpeechPlatformRuntime.msi"/>
+  <PackageFiles CopyAllPackageFiles="IfNotHomeSite">
+    <PackageFile Name="SpeechPlatformRuntime.msi" HomeSite="SpeechPlatformHomeSite" />
   </PackageFiles>
 
   <InstallChecks>

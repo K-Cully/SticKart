@@ -7,19 +7,19 @@
     <DependsOnProduct Code="Microsoft.Windows.Installer.3.1" />
   </RelatedProducts>
 
-  <PackageFiles>
-    <PackageFile Name="KinectRuntime-v1.6-Setup.exe"/>
-	<PackageFile Name="KinectSpeechLanguagePack_en-GB.exe"/>
-	<PackageFile Name="KinectSpeechLanguagePack_en-IE.exe"/>
+  <PackageFiles CopyAllPackageFiles="IfNotHomeSite">
+    <PackageFile Name="KinectRuntime-v1.6-Setup.exe" HomeSite="KinectRedistHomeSite" />
+	<PackageFile Name="KinectSpeechLanguagePack_en-IE.exe" HomeSite="KinectLanguageEnIeHomeSite"/>
+	<PackageFile Name="KinectSpeechLanguagePack_en-GB.exe" HomeSite="KinectLanguageEnGbHomeSite"/>
   </PackageFiles>
 
   <InstallChecks>
     <MsiProductCheck Property="KinectInstalled" 
       Product="{940466C3-6E5F-4871-BB0E-5024078F2EAF}"/>
-	<MsiProductCheck Property="LangGBInstalled" 
-      Product="{A0186231-0A8B-455A-8A25-B64AABCC11A6}"/>
 	<MsiProductCheck Property="LangIEInstalled" 
       Product="{998D5259-3BED-4710-98FF-D63387B5429E}"/>
+	<MsiProductCheck Property="LangGBInstalled" 
+      Product="{A0186231-0A8B-455A-8A25-B64AABCC11A6}"/>
   </InstallChecks>
 
   <Commands>

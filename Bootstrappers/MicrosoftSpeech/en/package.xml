@@ -10,6 +10,7 @@
   </PackageFiles>
 
   <Strings>
+	<String Name="SpeechPlatformHomeSite">http://download.microsoft.com/download/A/6/4/A64012D6-D56F-4E58-85E3-531E56ABC0E6/x86_SpeechPlatformRuntime/SpeechPlatformRuntime.msi</String>
     <String Name="DisplayName">Microsoft Speech Platform Redistributable</String>
     <String Name="Culture">en</String>
     <String Name="NotAnAdmin">You must be an administrator to install this package.</String>

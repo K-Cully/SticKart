@@ -9,6 +9,9 @@
   </PackageFiles>
 
   <Strings>
+	<String Name="KinectRedistHomeSite">http://download.microsoft.com/download/7/0/B/70BA6143-D149-4E76-B9D3-AD0F61748745/KinectRuntime-v1.6-Setup.exe</String>
+	<String Name="KinectLanguageEnIeHomeSite">http://download.microsoft.com/download/1/A/1/1A10A86F-1575-4881-927A-30B72C31F1D6/KinectSpeechLanguagePack_en-IE.exe</String>
+	<String Name="KinectLanguageEnGbHomeSite">http://download.microsoft.com/download/1/A/1/1A10A86F-1575-4881-927A-30B72C31F1D6/KinectSpeechLanguagePack_en-GB.exe</String>
     <String Name="DisplayName">Kinect for Windows Runtime v1.6</String>
     <String Name="Culture">en</String>
     <String Name="NotAnAdmin">You must be an administrator to install this package.</String>
