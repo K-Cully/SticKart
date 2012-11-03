@@ -32,6 +32,16 @@ namespace SticKart.Gestures
         private int swipeMaximumDuration;
 
         /// <summary>
+        /// Whether swipe down detection is enabled or not. 
+        /// </summary>
+        private bool swipeDownEnabled;
+
+        /// <summary>
+        /// Whether swipe up detection is enabled or not. 
+        /// </summary>
+        private bool swipeUpEnabled;
+
+        /// <summary>
         /// Initalizes a new instance of the <see cref="VerticalSwipeGestureDetector"/> class.
         /// </summary>
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
@@ -42,15 +52,17 @@ namespace SticKart.Gestures
         /// <param name="minimumDuration">The minimum duration of a movement to interpret as a gesture, in milliseconds.</param>
         /// <param name="maximumDuration">The maximum duration of a movement to interpret as a gesture, in milliseconds.</param>
         public VerticalSwipeGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1200, 
-            float minimumHeight = 0.5f, float maximumWidth = 0.175f, int minimumDuration = 400, int maximumDuration = 1800)
+            float minimumHeight = 0.5f, float maximumWidth = 0.175f, int minimumDuration = 400, int maximumDuration = 1800, bool swipeUpEnabled = true, bool swipeDownEnabled = true)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)
         {
             this.swipeMinimumHeight = minimumHeight;
             this.swipeMaximumWidth = maximumWidth;
             this.swipeMinimumDuration = minimumDuration;
             this.swipeMaximumDuration = maximumDuration;
+            this.swipeUpEnabled = swipeUpEnabled;
+            this.swipeDownEnabled = swipeDownEnabled;
         }
-
+        
         /// <summary>
         /// Checks for a vertical swipe gesture which fits the criteria defined by the functions passed in.
         /// </summary>
@@ -91,7 +103,7 @@ namespace SticKart.Gestures
         protected override void LookForGesture()
         {
             // Swipe up
-            if (ScanPositions((p1, p2) => Math.Abs(p2.X - p1.X) < this.swipeMaximumWidth, // Limit width deviation
+            if (this.swipeUpEnabled && ScanPositions((p1, p2) => Math.Abs(p2.X - p1.X) < this.swipeMaximumWidth, // Limit width deviation
                 (p1, p2) => p2.Y - p1.Y > -0.01f, // Progression upwards
                 (p1, p2) => Math.Abs(p2.Y - p1.Y) > this.swipeMinimumHeight, // Minimum height criteria
                 this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
@@ -101,7 +113,7 @@ namespace SticKart.Gestures
             }
 
             // Swipe down
-            if (ScanPositions((p1, p2) => Math.Abs(p2.X - p1.X) < this.swipeMaximumWidth,  // Limit width deviation
+            if (this.swipeDownEnabled && ScanPositions((p1, p2) => Math.Abs(p2.X - p1.X) < this.swipeMaximumWidth,  // Limit width deviation
                 (p1, p2) => p2.Y - p1.Y < 0.01f, // Progression downwards
                 (p1, p2) => Math.Abs(p2.Y - p1.Y) > this.swipeMinimumHeight, // Minimum height criteria
                 this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
