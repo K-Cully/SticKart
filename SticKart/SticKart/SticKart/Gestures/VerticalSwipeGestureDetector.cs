@@ -51,6 +51,8 @@ namespace SticKart.Gestures
         /// <param name="maximumWidth">The maximum width deviation to allow.</Pparam>
         /// <param name="minimumDuration">The minimum duration of a movement to interpret as a gesture, in milliseconds.</param>
         /// <param name="maximumDuration">The maximum duration of a movement to interpret as a gesture, in milliseconds.</param>
+        /// <param name="swipeUpEnabled">Whether swipe up gestures should be detected or not.</param>
+        /// <param name="swipeDownEnabled">Whether swipe down gestures should be detected or not.</param>
         public VerticalSwipeGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1200, 
             float minimumHeight = 0.5f, float maximumWidth = 0.175f, int minimumDuration = 400, int maximumDuration = 1800, bool swipeUpEnabled = true, bool swipeDownEnabled = true)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)

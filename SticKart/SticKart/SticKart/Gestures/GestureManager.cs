@@ -144,29 +144,25 @@ namespace SticKart.Gestures
         /// <summary>
         /// Processes basic leg gestures into jump and run gestures.
         /// </summary>
-        /// <param name="legGestureDetected">The leg gesture detected.</param>
         /// <param name="jointTracked">The joint used for the gesture.</param>
-        private void ProcessLegGesture(GestureType legGestureDetected, JointType jointTracked)
+        private void ProcessLegGesture(JointType jointTracked)
         {
-            if (legGestureDetected == GestureType.SwipeUp) // Only want to detect leg lifts
+            double timeSinceLastGesture = (int)(DateTime.Now.Subtract(this.lastLegLiftTime).TotalMilliseconds);
+            if ((this.lastLegLifted == JointType.AnkleLeft && jointTracked == JointType.AnkleRight) ||
+                (this.lastLegLifted == JointType.AnkleRight && jointTracked == JointType.AnkleLeft))
             {
-                double timeSinceLastGesture = (int)(DateTime.Now.Subtract(this.lastLegLiftTime).TotalMilliseconds);
-                if ((this.lastLegLifted == JointType.AnkleLeft && jointTracked == JointType.AnkleRight) ||
-                    (this.lastLegLifted == JointType.AnkleRight && jointTracked == JointType.AnkleLeft))
+                if (timeSinceLastGesture < this.jumpTimeLimit)
                 {
-                    if (timeSinceLastGesture < this.jumpTimeLimit)
-                    {
-                        this.detectedGestures.Enqueue(GestureType.Jump);
-                    }
-                    else if (timeSinceLastGesture < this.runTimeLimit)
-                    {
-                        this.detectedGestures.Enqueue(GestureType.Run);
-                    }
+                    this.detectedGestures.Enqueue(GestureType.Jump);
                 }
-
-                this.lastLegLifted = jointTracked;
-                this.lastLegLiftTime = DateTime.Now;
+                else if (timeSinceLastGesture < this.runTimeLimit)
+                {
+                    this.detectedGestures.Enqueue(GestureType.Run);
+                }
             }
+
+            this.lastLegLifted = jointTracked;
+            this.lastLegLiftTime = DateTime.Now;
         }
 
         /// <summary>
@@ -201,7 +197,7 @@ namespace SticKart.Gestures
                     {
                         if (gestureDetector.JointToTrack == JointType.AnkleLeft || gestureDetector.JointToTrack == JointType.AnkleRight)
                         {
-                            this.ProcessLegGesture(gestureDetector.GestureDetected, gestureDetector.JointToTrack);
+                            this.ProcessLegGesture(gestureDetector.JointToTrack);
                         }
                         else if (gestureDetector.JointToTrack == JointType.Head)
                         {
