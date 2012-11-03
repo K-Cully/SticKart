@@ -300,11 +300,9 @@ namespace SticKart
         /// </summary>
         private void GetKinectInput()
         {
-            // TODO: wrap and add gesture tracking to skeleton data
             if (this.ReadSkelletonFrame())
             {
                 bool skeletonLogged = false;
-                // TODO: Assuming first tracked skeleton is the one being tracked.
                 foreach (Skeleton skeleton in skeletonData)
                 {
                     switch (skeleton.TrackingState)
@@ -314,7 +312,7 @@ namespace SticKart
                         case SkeletonTrackingState.PositionOnly:
                             break;
                         case SkeletonTrackingState.Tracked:
-                            this.gestureManager.Update(skeleton);
+                            this.gestureManager.Update(skeleton);                          
                             skeletonLogged = true;
                             break;
                         default:
@@ -332,13 +330,22 @@ namespace SticKart
             do
             {
                 gestureToApply = this.gestureManager.GetNextDetectedGesture();
-                switch (gestureToApply)
+                switch (gestureToApply) // TODO: Change this logic.
                 {
-                    case Gestures.GestureType.SwipeToLeft:
+                    case Gestures.GestureType.SwipeLeft:
                         this.commands.Add(Command.Left);
                         break;
-                    case Gestures.GestureType.SwipeToRight:
+                    case Gestures.GestureType.SwipeRight:
                         this.commands.Add(Command.Run);
+                        break;
+                    case Gestures.GestureType.Crouch:
+                        this.commands.Add(Command.Crouch);
+                        break;
+                    case Gestures.GestureType.Run:
+                        this.commands.Add(Command.Run);
+                        break;
+                    case Gestures.GestureType.Jump:
+                        this.commands.Add(Command.Jump);
                         break;
                     case Gestures.GestureType.Push:
                         this.commands.Add(Command.SelectAt);
@@ -349,7 +356,7 @@ namespace SticKart
 
             } while (gestureToApply != Gestures.GestureType.None);
         }
-
+        
         /// <summary>
         /// Adds commands to the command list based on keyboard input. 
         /// </summary>
@@ -626,18 +633,9 @@ namespace SticKart
             if (e.Result.Confidence >= InputManager.SpeechConfidenceThreshold)
             {
                 this.selectedWord = e.Result.Semantics.Value.ToString();
-                //TODO: implement own logic here. Probably check against the active command list.
-                //switch (e.Result.Semantics.Value.ToString())
-                //{
-                //    case "JUMP":
-                //        this.voiceCommands.Enqueue(Command.Jump);
-                //        break;
-                //    default:
-                //        break;
-                //}
             }
         }
-
+        
         #endregion
 
         #region public_methods

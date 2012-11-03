@@ -102,7 +102,8 @@
     <Compile Include="Gestures\GestureEntry.cs" />
     <Compile Include="Gestures\GestureManager.cs" />
     <Compile Include="Gestures\PushGestureDetector.cs" />
-    <Compile Include="Gestures\SwipeGestureDetector.cs" />
+    <Compile Include="Gestures\HorizontalSwipeGestureDetector.cs" />
+    <Compile Include="Gestures\VerticalSwipeGestureDetector.cs" />
     <Compile Include="InputManager.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\MenuFactory.cs" />
@@ -174,12 +175,12 @@
   <ItemGroup>
     <PublishFile Include="Microsoft.Speech">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

@@ -7,11 +7,11 @@ using Kinect.Toolbox;
 namespace SticKart.Gestures
 {
     /// <summary>
-    /// A swipe gesture detector class.
+    /// A horizontal swipe gesture detector class.
     /// The code here is mostly taken from the Kinect toolbox (http://kinecttoolbox.codeplex.com/).
     /// I had to make some modifications as I had to port the entire base class to work with XNA.
     /// </summary>
-    public class SwipeGestureDetector : GestureDetector
+    public class HorizontalSwipeGestureDetector : GestureDetector
     {
         /// <summary>
         /// The minimum swipe length.
@@ -34,12 +34,12 @@ namespace SticKart.Gestures
         private int swipeMaximumDuration;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="SwipeGestureDetector"/> class.
+        /// Initalizes a new instance of the <see cref="HorizontalSwipeGestureDetector"/> class.
         /// </summary>
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
         /// <param name="maxRecordedPositions">THe maximum number of positions to check for a gesture against.</param>
         /// <param name="millisecondsBetweenGestures">The delay to apply between gestures, in milliseconds.</param>
-        public SwipeGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1200)
+        public HorizontalSwipeGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1200)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)
         {
             this.swipeMinimumLength = 0.5f;
@@ -93,7 +93,7 @@ namespace SticKart.Gestures
                 (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength, // Length
                 this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
             {
-                this.GestureFound(GestureType.SwipeToRight);
+                this.GestureFound(GestureType.SwipeRight);
                 return;
             }
 
@@ -103,7 +103,7 @@ namespace SticKart.Gestures
                 (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength, // Length
                 this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
             {
-                this.GestureFound(GestureType.SwipeToLeft);
+                this.GestureFound(GestureType.SwipeLeft);
                 return;
             }
         }

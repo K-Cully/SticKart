@@ -53,7 +53,7 @@ namespace SticKart.Menu
         {
             if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
             {
-                selectableItemNames.Add((menuItem as MenuSelectableItem).Name.ToUpperInvariant()); // TODO: test.               
+                selectableItemNames.Add((menuItem as MenuSelectableItem).Name.ToUpperInvariant());             
             }
 
             menuItems.Add(menuItem);

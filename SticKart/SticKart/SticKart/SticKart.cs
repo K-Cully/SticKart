@@ -184,10 +184,10 @@ namespace SticKart
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
                             break;
                         case InputManager.Command.Jump:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -400.0f)));
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -5000.0f)));
                             break;
                         case InputManager.Command.Crouch:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 400.0f)));
+                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 5000.0f)));
                             break;
                         case InputManager.Command.Run:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(5000.0f, 0.0f)));
