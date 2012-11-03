@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using SticKart.Display;
-
-namespace SticKart.Menu
+﻿namespace SticKart.Menu
 {
+    using System;
+    using Display;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// A button menu item.
     /// </summary>
-    class MenuButton : MenuSelectableItem
+    public class MenuButton : MenuSelectableItem
     {
         /// <summary>
         /// The button's background.
@@ -33,11 +33,11 @@ namespace SticKart.Menu
         /// <param name="text">The text to display on the button.</param>
         /// <param name="name">The name of the button.</param>
         public MenuButton(Vector2 relativePosition, Sprite tile, Sprite icon, RenderableText text, string name)
-            : base(relativePosition, name, new Vector2 (tile.Width, tile.Height))
+            : base(relativePosition, name, new Vector2(tile.Width, tile.Height))
         {
             this.tile = new MenuImage(Vector2.Zero, tile);
-            this.icon = new MenuImage(Vector2.Zero, icon);            
-            Vector2 relativeTextPosition = new Vector2(0.0f, tile.Height * 0.5f - text.Height * 1.5f);
+            this.icon = new MenuImage(Vector2.Zero, icon);
+            Vector2 relativeTextPosition = new Vector2(0.0f, (tile.Height * 0.5f) - (text.Height * 1.5f));
             this.text = new MenuText(relativeTextPosition, text);
         }
         
@@ -60,17 +60,17 @@ namespace SticKart.Menu
         {
             if (this.tile != null)
             {
-                this.tile.Draw(parentPosition + base.relativePosition);
+                this.tile.Draw(parentPosition + this.relativePosition);
             }
 
             if (this.icon != null)
             {
-                this.icon.Draw(parentPosition + base.relativePosition);
+                this.icon.Draw(parentPosition + this.relativePosition);
             }
 
             if (this.text != null)
             {
-                this.text.Draw(parentPosition + base.relativePosition);
+                this.text.Draw(parentPosition + this.relativePosition);
             }
         }
     }

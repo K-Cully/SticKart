@@ -1,63 +1,99 @@
-using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using FarseerPhysics.Dynamics;
-using FarseerPhysics.Factories;
-using FarseerPhysics.Collision.Shapes;
-using FarseerPhysics.Common;
-using System.Collections.Generic;
-using FarseerPhysics.SamplesFramework;
-using SticKart.Display;
-using SticKart.Menu;
-
 namespace SticKart
 {
+    using System;
+    using System.Collections.Generic;
+    using Display;
+    using FarseerPhysics.Collision.Shapes;
+    using FarseerPhysics.Common;
+    using FarseerPhysics.Dynamics;
+    using FarseerPhysics.Factories;
+    using FarseerPhysics.SamplesFramework;
+    using Menu;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
+    /// <summary>
+    /// An enumeration of the possible game states.
+    /// </summary>
+    public enum GameState
+    {
+        InMenu,
+        InGame
+    }
+
     /// <summary>
     /// This is the main type for your game
     /// </summary>
     public class SticKart : Microsoft.Xna.Framework.Game
     {
-        //TODO: Note scaling factor: 64px == 1.8m => 35.56px == 1m
-
-        #region enums
-
-        /// <summary>
-        /// An enumeration of the possible game states.
-        /// </summary>
-        enum GameState { InMenu, InGame };
-
-        #endregion
-
+        // TODO: Note scaling factor: 64px == 1.8m => 35.56px == 1m
+        
         #region graphics
 
-        private Vector2 screenDimensions;
-        private GraphicsDeviceManager graphics;
-        private SpriteBatch spriteBatch;
+        /// <summary>
+        /// The time between frames.
+        /// </summary>
         private const float FrameTime = 1.0f / 60.0f;
 
+        /// <summary>
+        /// The dimensions of the viewport.
+        /// </summary>
+        private Vector2 screenDimensions;
+
+        /// <summary>
+        /// The graphics device manager used by the game.
+        /// </summary>
+        private GraphicsDeviceManager graphics;
+
+        /// <summary>
+        /// The sprite batch used by the game.
+        /// </summary>
+        private SpriteBatch spriteBatch;
+        
+        // TODO: Remove once stickman class is implemented in full.
         private Sprite playerSprite;
+
+        // TODO: Place in menu?
         private Sprite handSprite;
 
         #endregion
 
         #region physics
 
+        /// <summary>
+        /// The physics game world.
+        /// </summary>
         private World physicsWorld;
+
+        // TODO: remove once level implemented.
         private Body boundry;
+
+        // TODO: remove once stickman is implemented in full.
         private Body playerBody;
         
         #endregion
 
         #region misc
 
+        /// <summary>
+        /// The game's input manager.
+        /// </summary>
         private InputManager inputManager;
+
+        /// <summary>
+        /// The current game state.
+        /// </summary>
         private GameState gameState;
+
+        /// <summary>
+        /// The game's menu system manager.
+        /// </summary>
         private MenuManager menuManager;
 
         #endregion
 
         /// <summary>
-        /// Initalizes an instance of the <see cref="SticKart"/> class.
+        /// Initializes a new instance of the <see cref="SticKart"/> class.
         /// </summary>
         public SticKart()
         {
@@ -70,7 +106,7 @@ namespace SticKart
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
             this.graphics.IsFullScreen = false;
             this.Content.RootDirectory = "Content";
-            this.inputManager = new InputManager(this.screenDimensions, InputManager.ControlDevice.Kinect);
+            this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect);
 
             this.menuManager = new MenuManager(this.screenDimensions);
             this.menuManager.OnBeginLevelDetected += this.BeginLevel;
@@ -125,7 +161,7 @@ namespace SticKart
 
             Vertices playerBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.playerSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.playerSprite.Height / 2.0f));
             PolygonShape playerShape = new PolygonShape(playerBox, 1.25f);
-            Fixture playerFixture = playerBody.CreateFixture(playerShape);
+            Fixture playerFixture = this.playerBody.CreateFixture(playerShape);
 
             this.playerBody.BodyType = BodyType.Dynamic;
             this.playerBody.Position = ConvertUnits.ToSimUnits(this.screenDimensions / 2.0f);
@@ -176,26 +212,26 @@ namespace SticKart
         {
             if (this.inputManager.Update()) // Commands are available.
             {
-                foreach (InputManager.Command command in this.inputManager.Commands)
+                foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)
                     {
-                        case InputManager.Command.Left: // TODO: remove
+                        case InputCommand.Left: // TODO: remove
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
                             break;
-                        case InputManager.Command.Jump:
+                        case InputCommand.Jump:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -5000.0f)));
                             break;
-                        case InputManager.Command.Crouch:
+                        case InputCommand.Crouch:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 5000.0f)));
                             break;
-                        case InputManager.Command.Run:
+                        case InputCommand.Run:
                             this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(5000.0f, 0.0f)));
                             break;
-                        case InputManager.Command.Pause:
+                        case InputCommand.Pause:
                             this.PauseGame();
                             break;
-                        case InputManager.Command.Exit:
+                        case InputCommand.Exit:
                             this.Exit();
                             break;
                         default:
@@ -230,13 +266,13 @@ namespace SticKart
         {
             if (this.inputManager.Update()) // Commands are available.
             {
-                foreach (InputManager.Command command in this.inputManager.Commands)
+                foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)
                     {                 
-                        case InputManager.Command.Select:
+                        case InputCommand.Select:
                             break;
-                        case InputManager.Command.SelectAt:
+                        case InputCommand.SelectAt:
                             this.menuManager.Update(this.inputManager.SelectedPosition, null);
                             break;
                         default:
@@ -292,8 +328,8 @@ namespace SticKart
                 default:
                     break;
             }
-            this.spriteBatch.End();
 
+            this.spriteBatch.End();
             base.Draw(gameTime);
         }
     }

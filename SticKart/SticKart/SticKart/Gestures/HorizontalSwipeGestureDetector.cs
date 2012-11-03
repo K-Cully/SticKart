@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Kinect;
-using Microsoft.Xna.Framework;
-using Kinect.Toolbox;
-
-namespace SticKart.Gestures
+﻿namespace SticKart.Gestures
 {
+    using System;
+    using System.Collections.Generic;
+    using Kinect.Toolbox;
+    using Microsoft.Kinect;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// A horizontal swipe gesture detector class.
     /// The code here is mostly taken from the Kinect toolbox (http://kinecttoolbox.codeplex.com/).
@@ -34,7 +34,7 @@ namespace SticKart.Gestures
         private int swipeMaximumDuration;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="HorizontalSwipeGestureDetector"/> class.
+        /// Initializes a new instance of the <see cref="HorizontalSwipeGestureDetector"/> class.
         /// </summary>
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
         /// <param name="maxRecordedPositions">THe maximum number of positions to check for a gesture against.</param>
@@ -57,8 +57,7 @@ namespace SticKart.Gestures
         /// <param name="minTime">The minimum time to complete the swipe.</param>
         /// <param name="maxTime">The maximum time to complete the swipe.</param>
         /// <returns>Whether the swipe criteria are met or not.</returns>
-        protected bool ScanPositions(Func<Vector3, Vector3, bool> heightFunction, Func<Vector3, Vector3, bool> directionFunction,
-            Func<Vector3, Vector3, bool> lengthFunction, int minTime, int maxTime)
+        protected bool ScanPositions(Func<Vector3, Vector3, bool> heightFunction, Func<Vector3, Vector3, bool> directionFunction, Func<Vector3, Vector3, bool> lengthFunction, int minTime, int maxTime)
         {
             int start = 0;
             for (int index = 1; index < this.GestureEntries.Count - 1; index++)
@@ -88,20 +87,24 @@ namespace SticKart.Gestures
         protected override void LookForGesture()
         {
             // Swipe to right
-            if (ScanPositions((p1, p2) => Math.Abs(p2.Y - p1.Y) < this.swipeMaximumHeight, // Height
-                (p1, p2) => p2.X - p1.X > -0.01f, // Progression to right
-                (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength, // Length
-                this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
+            if (this.ScanPositions(
+                (p1, p2) => Math.Abs(p2.Y - p1.Y) < this.swipeMaximumHeight,
+                (p1, p2) => p2.X - p1.X > -0.01f,
+                (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength,
+                this.swipeMinimumDuration, 
+                this.swipeMaximumDuration))
             {
                 this.GestureFound(GestureType.SwipeRight);
                 return;
             }
 
             // Swipe to left
-            if (ScanPositions((p1, p2) => Math.Abs(p2.Y - p1.Y) < this.swipeMaximumHeight,  // Height
-                (p1, p2) => p2.X - p1.X < 0.01f, // Progression to left
-                (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength, // Length
-                this.swipeMinimumDuration, this.swipeMaximumDuration)) // Duration
+            if (this.ScanPositions(
+                (p1, p2) => Math.Abs(p2.Y - p1.Y) < this.swipeMaximumHeight,
+                (p1, p2) => p2.X - p1.X < 0.01f,
+                (p1, p2) => Math.Abs(p2.X - p1.X) > this.swipeMinimumLength,
+                this.swipeMinimumDuration, 
+                this.swipeMaximumDuration))
             {
                 this.GestureFound(GestureType.SwipeLeft);
                 return;

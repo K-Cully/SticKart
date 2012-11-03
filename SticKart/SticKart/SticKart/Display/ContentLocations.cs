@@ -6,7 +6,7 @@
     public class ContentLocations
     {
         /// <summary>
-        /// The location of the Segoe UI spritefont asset.
+        /// The location of the Segoe UI sprite font asset.
         /// </summary>
         public const string SegoeUIFont = "Fonts/SegoeUIMono";
 

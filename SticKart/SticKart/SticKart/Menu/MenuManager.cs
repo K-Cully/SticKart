@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace SticKart.Menu
+﻿namespace SticKart.Menu
 {
+    using System;
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
-    /// An enumeration of diferent menu types.
+    /// An enumeration of different menu types.
     /// </summary>
-    public enum MenuType { None, Main, Options, Leaderboard, LevelSelect, NameInput, LevelComplete }
+    public enum MenuType 
+    { 
+        None, 
+        Main, 
+        Options, 
+        Leaderboard, 
+        LevelSelect, 
+        NameInput, 
+        LevelComplete 
+    }
 
     /// <summary>
     /// The main controller of the menu system.
     /// </summary>
     public class MenuManager
     {
-        /// <summary>
-        /// An event triggered on the user selecting exit.
-        /// </summary>
-        public event Action<bool> OnQuitGameDetected;
-        
-        /// <summary>
-        /// An event triggered on the user selecting to continue gameplay.
-        /// </summary>
-        public event Action<bool> OnResumeGameDetected;
-        
-        /// <summary>
-        /// An event triggered on the user selecting to start a new level.
-        /// </summary>
-        public event Action<bool> OnBeginLevelDetected;
-
         /// <summary>
         /// The current display size in pixels.
         /// </summary>
@@ -40,6 +34,21 @@ namespace SticKart.Menu
         /// A lookup table of available menus.
         /// </summary>
         private Dictionary<MenuType, Menu> menus;
+
+        /// <summary>
+        /// An event triggered on the user selecting exit.
+        /// </summary>
+        public event Action<bool> OnQuitGameDetected;
+
+        /// <summary>
+        /// An event triggered on the user selecting to continue gameplay.
+        /// </summary>
+        public event Action<bool> OnResumeGameDetected;
+
+        /// <summary>
+        /// An event triggered on the user selecting to start a new level.
+        /// </summary>
+        public event Action<bool> OnBeginLevelDetected;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuManager"/> class.

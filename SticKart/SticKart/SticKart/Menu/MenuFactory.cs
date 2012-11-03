@@ -1,11 +1,10 @@
-﻿
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using SticKart.Display;
-
-namespace SticKart.Menu
+﻿namespace SticKart.Menu
 {
+    using Display;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
     /// A simple factory for creating different menu types.
     /// </summary>
@@ -15,7 +14,7 @@ namespace SticKart.Menu
         /// Creates a main menu object.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>
-        /// <param name="spriteBatch">The sprite batch to attach to drawable menu items.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
         /// <param name="position">The position of the menu.</param>
         /// <returns>The new menu created.</returns>
         public static Menu CreateMainMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
@@ -66,7 +65,7 @@ namespace SticKart.Menu
         /// Creates a place holder for menu's which are yet to be implemented.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>
-        /// <param name="spriteBatch">The sprite batch to attach to drawable menu items.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
         /// <param name="position">The position of the menu.</param>
         /// <returns>The new menu created.</returns>
         public static Menu CreatePlaceholderMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)

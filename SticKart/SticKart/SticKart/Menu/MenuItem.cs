@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace SticKart.Menu
+﻿namespace SticKart.Menu
 {
+    using System;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
     /// The base class from which all menu items derive.
     /// </summary>
@@ -15,7 +15,7 @@ namespace SticKart.Menu
         protected Vector2 relativePosition;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="MenuItem"/> base class.
+        /// Initializes a new instance of the <see cref="MenuItem"/> class.
         /// </summary>
         /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
         public MenuItem(Vector2 relativePosition)

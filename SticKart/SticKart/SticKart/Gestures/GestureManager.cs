@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using Microsoft.Kinect;
-using Microsoft.Xna.Framework;
-
-namespace SticKart.Gestures
+﻿namespace SticKart.Gestures
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using Microsoft.Kinect;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// An enumeration of the different gesture types available.
     /// </summary>
@@ -24,7 +24,7 @@ namespace SticKart.Gestures
     }
 
     /// <summary>
-    /// Manages the initalization and updating of all gesture detectors.
+    /// Manages the initialization and updating of all gesture detectors.
     /// </summary>
     public class GestureManager
     {
@@ -54,7 +54,7 @@ namespace SticKart.Gestures
         private JointType activeShoulder;
 
         /// <summary>
-        /// The time limit between leg lifts to count as running in millisceonds.
+        /// The time limit between leg lifts to count as running in milliseconds.
         /// </summary>
         private int runTimeLimit;
 
@@ -76,7 +76,7 @@ namespace SticKart.Gestures
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureManager"/> class.
         /// </summary>
-        /// <param name="primaryHand">The hand to primarly track.</param>
+        /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
             this.runTimeLimit = 800;
@@ -136,39 +136,16 @@ namespace SticKart.Gestures
                     {
                         handPosition.X += shoulderPosition.X;
                     }
+
                     return handPosition;
                 }
             }
         }
 
         /// <summary>
-        /// Processes basic leg gestures into jump and run gestures.
-        /// </summary>
-        /// <param name="jointTracked">The joint used for the gesture.</param>
-        private void ProcessLegGesture(JointType jointTracked)
-        {
-            double timeSinceLastGesture = (int)(DateTime.Now.Subtract(this.lastLegLiftTime).TotalMilliseconds);
-            if ((this.lastLegLifted == JointType.AnkleLeft && jointTracked == JointType.AnkleRight) ||
-                (this.lastLegLifted == JointType.AnkleRight && jointTracked == JointType.AnkleLeft))
-            {
-                if (timeSinceLastGesture < this.jumpTimeLimit)
-                {
-                    this.detectedGestures.Enqueue(GestureType.Jump);
-                }
-                else if (timeSinceLastGesture < this.runTimeLimit)
-                {
-                    this.detectedGestures.Enqueue(GestureType.Run);
-                }
-            }
-
-            this.lastLegLifted = jointTracked;
-            this.lastLegLiftTime = DateTime.Now;
-        }
-
-        /// <summary>
         /// Gets the next detected gesture in order of detection.
         /// </summary>
-        /// <returns>The gesture type or None if nop more gestures are available.</returns>
+        /// <returns>The gesture type or None if no more gestures are available.</returns>
         public GestureType GetNextDetectedGesture()
         {
             if (this.detectedGestures.Count > 0)
@@ -219,6 +196,30 @@ namespace SticKart.Gestures
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Processes basic leg gestures into jump and run gestures.
+        /// </summary>
+        /// <param name="jointTracked">The joint used for the gesture.</param>
+        private void ProcessLegGesture(JointType jointTracked)
+        {
+            double timeSinceLastGesture = (int)DateTime.Now.Subtract(this.lastLegLiftTime).TotalMilliseconds;
+            if ((this.lastLegLifted == JointType.AnkleLeft && jointTracked == JointType.AnkleRight) ||
+                (this.lastLegLifted == JointType.AnkleRight && jointTracked == JointType.AnkleLeft))
+            {
+                if (timeSinceLastGesture < this.jumpTimeLimit)
+                {
+                    this.detectedGestures.Enqueue(GestureType.Jump);
+                }
+                else if (timeSinceLastGesture < this.runTimeLimit)
+                {
+                    this.detectedGestures.Enqueue(GestureType.Run);
+                }
+            }
+
+            this.lastLegLifted = jointTracked;
+            this.lastLegLiftTime = DateTime.Now;
         }
     }
 }

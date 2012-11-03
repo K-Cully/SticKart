@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Kinect;
-using Microsoft.Xna.Framework;
-
-namespace SticKart.Gestures
+﻿namespace SticKart.Gestures
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Microsoft.Kinect;
+    using Microsoft.Xna.Framework;
+
+    /// <summary>
+    /// A push gesture detector class.
+    /// </summary>
     public class PushGestureDetector : GestureDetector
     {
         /// <summary>
@@ -35,7 +38,7 @@ namespace SticKart.Gestures
         private int pushMaximumDuration;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="PushGestureDetector"/> class.
+        /// Initializes a new instance of the <see cref="PushGestureDetector"/> class.
         /// </summary>
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
         /// <param name="maxRecordedPositions">THe maximum number of positions to check for a gesture against.</param>
@@ -60,8 +63,7 @@ namespace SticKart.Gestures
         /// <param name="minTime">The minimum time to complete the push.</param>
         /// <param name="maxTime">The maximum time to complete the push.</param>
         /// <returns>Whether the push criteria are met or not.</returns>
-        protected bool ScanPositions(Func<Vector3, Vector3, bool> heightFunction, Func<Vector3, Vector3, bool> widthFunction,
-            Func<Vector3, Vector3, bool> directionFunction, Func<Vector3, Vector3, bool> lengthFunction, int minTime, int maxTime)
+        protected bool ScanPositions(Func<Vector3, Vector3, bool> heightFunction, Func<Vector3, Vector3, bool> widthFunction, Func<Vector3, Vector3, bool> directionFunction, Func<Vector3, Vector3, bool> lengthFunction, int minTime, int maxTime)
         {
             int start = 0;
             for (int index = 1; index < this.GestureEntries.Count - 1; index++)
@@ -91,11 +93,13 @@ namespace SticKart.Gestures
         /// </summary>
         protected override void LookForGesture()
         {
-            if (ScanPositions((p1, p2) => Math.Abs(p2.Y - p1.Y) < this.pushMaximumHeight, // Height
+            if (this.ScanPositions(
+                (p1, p2) => Math.Abs(p2.Y - p1.Y) < this.pushMaximumHeight,
                 (p1, p2) => Math.Abs(p2.X - p1.X) < this.pushMaximumWidth,
-                (p1, p2) => p2.Z - p1.Z < 0.01f, // Progression towards the sensor
-                (p1, p2) => Math.Abs(p2.Z - p1.Z) > this.pushMinimumLength, // Length
-                this.pushMinimumDuration, this.pushMaximumDuration)) // Duration
+                (p1, p2) => p2.Z - p1.Z < 0.01f,
+                (p1, p2) => Math.Abs(p2.Z - p1.Z) > this.pushMinimumLength,
+                this.pushMinimumDuration, 
+                this.pushMaximumDuration))
             {
                 this.GestureFound(GestureType.Push);
                 return;

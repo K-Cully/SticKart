@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-
-namespace SticKart.Menu
+﻿namespace SticKart.Menu
 {
+    using System.Collections.Generic;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// A menu class used to hold and display menu items.
     /// </summary>
@@ -19,9 +19,9 @@ namespace SticKart.Menu
         private List<string> selectableItemNames;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="Menu"/> class.
+        /// Initializes a new instance of the <see cref="Menu"/> class.
         /// </summary>
-        /// <param name="position"></param>
+        /// <param name="position">The centre position of the menu.</param>
         public Menu(Vector2 position)
         {
             this.Position = position;
@@ -53,10 +53,10 @@ namespace SticKart.Menu
         {
             if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
             {
-                selectableItemNames.Add((menuItem as MenuSelectableItem).Name.ToUpperInvariant());             
+                this.selectableItemNames.Add((menuItem as MenuSelectableItem).Name.ToUpperInvariant());             
             }
 
-            menuItems.Add(menuItem);
+            this.menuItems.Add(menuItem);
         }
 
         /// <summary>
@@ -84,6 +84,7 @@ namespace SticKart.Menu
                         }
                     }
                 }
+
                 return itemFound;
             }
         }
@@ -113,6 +114,7 @@ namespace SticKart.Menu
                         }
                     }
                 }
+
                 return itemFound;
             }            
         }
@@ -122,7 +124,7 @@ namespace SticKart.Menu
         /// </summary>
         public void Draw()
         {
-            foreach (MenuItem menuItem in menuItems)
+            foreach (MenuItem menuItem in this.menuItems)
             {
                 menuItem.Draw(this.Position);
             }

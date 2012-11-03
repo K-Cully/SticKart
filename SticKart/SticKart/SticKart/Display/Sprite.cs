@@ -1,11 +1,11 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-
-namespace SticKart.Display
+﻿namespace SticKart.Display
 {
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
-    /// A wrapper for drawing sprites cenetered on a specific position.
+    /// A wrapper for drawing sprites centred on a specific position.
     /// </summary>
     public class Sprite
     {
@@ -25,7 +25,7 @@ namespace SticKart.Display
         private SpriteBatch spriteBatch;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="Sprite"/> class.
+        /// Initializes a new instance of the <see cref="Sprite"/> class.
         /// </summary>
         public Sprite()
         {
@@ -37,9 +37,8 @@ namespace SticKart.Display
         /// </summary>
         public Color Colour { get; set; }
 
-
         /// <summary>
-        /// Gets the unscaled width of the sprite.
+        /// Gets the width of the sprite without scaling.
         /// </summary>
         public float Width
         {
@@ -50,7 +49,7 @@ namespace SticKart.Display
         }
 
         /// <summary>
-        /// Gets the unscaled height of the sprite.
+        /// Gets the height of the sprite without scaling.
         /// </summary>
         public float Height
         {
@@ -58,33 +57,6 @@ namespace SticKart.Display
             {
                 return this.texture.Height;
             }
-        }
-
-        /// <summary>
-        /// Initalizes the sprite and loads the associated texture.
-        /// </summary>
-        /// <param name="spriteBatch">The sprite batch to use when drawing.</param>
-        /// <param name="contentManager">The content manager to load the content with.</param>
-        /// <param name="pathToImage">The relative path to the texture asset.</param>
-        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage)
-        {
-            this.spriteBatch = spriteBatch;
-            this.texture = contentManager.Load<Texture2D>(pathToImage);
-            this.origin = new Vector2(texture.Width / 2.0f, texture.Height / 2.0f);
-        }
-        
-        /// <summary>
-        /// Initalizes the sprite and loads the associated texture.
-        /// </summary>
-        /// <param name="spriteBatch">The sprite batch to use when drawing.</param>
-        /// <param name="contentManager">The content manager to load the content with.</param>
-        /// <param name="pathToImage">The relative path to the texture asset.</param>
-        /// <param name="origin">The origin to use for the sprite.</param>
-        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage, Vector2 origin)
-        {
-            this.spriteBatch = spriteBatch;
-            this.texture = contentManager.Load<Texture2D>(pathToImage);
-            this.origin = origin;
         }
 
         /// <summary>
@@ -111,6 +83,33 @@ namespace SticKart.Display
         public static void Draw(Sprite sprite, Vector2 position, float rotation)
         {
             sprite.spriteBatch.Draw(sprite.texture, position, null, sprite.Colour, rotation, sprite.origin, 1.0f, SpriteEffects.None, 1.0f);
+        }
+
+        /// <summary>
+        /// Initializes the sprite and loads the associated texture.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to use when drawing.</param>
+        /// <param name="contentManager">The content manager to load the content with.</param>
+        /// <param name="pathToImage">The relative path to the texture asset.</param>
+        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage)
+        {
+            this.spriteBatch = spriteBatch;
+            this.texture = contentManager.Load<Texture2D>(pathToImage);
+            this.origin = new Vector2(this.texture.Width / 2.0f, this.texture.Height / 2.0f);
+        }
+        
+        /// <summary>
+        /// Initializes the sprite and loads the associated texture.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to use when drawing.</param>
+        /// <param name="contentManager">The content manager to load the content with.</param>
+        /// <param name="pathToImage">The relative path to the texture asset.</param>
+        /// <param name="origin">The origin to use for the sprite.</param>
+        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage, Vector2 origin)
+        {
+            this.spriteBatch = spriteBatch;
+            this.texture = contentManager.Load<Texture2D>(pathToImage);
+            this.origin = origin;
         }
     }
 }

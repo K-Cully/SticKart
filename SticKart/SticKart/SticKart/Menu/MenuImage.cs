@@ -1,13 +1,13 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using SticKart.Display;
-
-namespace SticKart.Menu
+﻿namespace SticKart.Menu
 {
+    using System;
+    using Display;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// A basic menu item which contains a sprite.
     /// </summary>
-    class MenuImage : MenuItem
+    public class MenuImage : MenuItem
     {
         /// <summary>
         /// The sprite object to draw to the screen.
@@ -15,7 +15,7 @@ namespace SticKart.Menu
         protected Sprite sprite;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="MenuText"/> base class.
+        /// Initializes a new instance of the <see cref="MenuImage"/> class.
         /// </summary>
         /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
         /// <param name="sprite">The sprite to associate with the menu item.</param>
@@ -42,7 +42,7 @@ namespace SticKart.Menu
         /// <param name="parentPosition">The position of the menu item's parent/owner.</param>
         public override void Draw(Vector2 parentPosition)
         {
-            Sprite.Draw(this.sprite, parentPosition + base.relativePosition, 0.0f);
+            Sprite.Draw(this.sprite, parentPosition + this.relativePosition, 0.0f);
         }
     }
 }

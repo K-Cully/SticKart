@@ -1,16 +1,16 @@
-﻿using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using SticKart.Display;
-using FarseerPhysics.Dynamics;
-using FarseerPhysics.Common;
-using FarseerPhysics.Collision.Shapes;
-using FarseerPhysics.SamplesFramework;
-using Microsoft.Xna.Framework;
-using FarseerPhysics.Factories;
-using FarseerPhysics.Dynamics.Joints;
-
-namespace SticKart.Game.Entities
+﻿namespace SticKart.Game.Entities
 {
+    using Display;
+    using FarseerPhysics.Collision.Shapes;
+    using FarseerPhysics.Common;
+    using FarseerPhysics.Dynamics;
+    using FarseerPhysics.Dynamics.Joints;
+    using FarseerPhysics.Factories;
+    using FarseerPhysics.SamplesFramework;
+    using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
+
     /// <summary>
     /// An enumeration of states which the stickman can be in.
     /// </summary>
@@ -128,8 +128,7 @@ namespace SticKart.Game.Entities
         /// <param name="jumpImpulse">The impulse to apply to the stickman when jumping.</param>
         /// <param name="spriteBatch">The sprite batch to use for rendering the stickman.</param>
         /// <param name="contentManager">The content manager to use in loading sprites.</param>
-        public StickMan(ref World physicsWorld, float maximumHorizontalSpeed, int maximumHealth, float jumpImpulse,
-            SpriteBatch spriteBatch, ContentManager contentManager)
+        public StickMan(ref World physicsWorld, float maximumHorizontalSpeed, int maximumHealth, float jumpImpulse, SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.minimumHorizontalVelocity = 0.0f;
             this.horizontalVelocity = 0.0f;
@@ -159,7 +158,7 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
-        /// Sets up all the phyical properties of the StickMan object.
+        /// Sets up all the physical properties of the StickMan object.
         /// </summary>
         /// <param name="physicsWorld">The physics world to set the objects up in.</param>
         private void SetUpPhysicsObjects(ref World physicsWorld)

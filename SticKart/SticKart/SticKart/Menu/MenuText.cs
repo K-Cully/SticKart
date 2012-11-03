@@ -1,24 +1,24 @@
-﻿using System;
-using Microsoft.Xna.Framework;
-using SticKart.Display;
-
-namespace SticKart.Menu
+﻿namespace SticKart.Menu
 {
+    using System;
+    using Display;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// A basic menu item which contains text.
     /// </summary>
-    class MenuText : MenuItem
+    public class MenuText : MenuItem
     {
         /// <summary>
-        /// The renderable text object to draw to the screen.
+        /// The text object to draw to the screen.
         /// </summary>
-        protected RenderableText text;
+        private RenderableText text;
 
         /// <summary>
-        /// Initalizes a new instance of the <see cref="MenuText"/> base class.
+        /// Initializes a new instance of the <see cref="MenuText"/> class.
         /// </summary>
         /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
-        /// <param name="text">The renderable text object to associate with the menu item.</param>
+        /// <param name="text">The text object to associate with the menu item.</param>
         public MenuText(Vector2 relativePosition, RenderableText text)
             : base(relativePosition)
         {
@@ -51,7 +51,7 @@ namespace SticKart.Menu
         /// <param name="parentPosition">The position of the menu item's parent/owner.</param>
         public override void Draw(Vector2 parentPosition)
         {
-            RenderableText.Draw(this.text, parentPosition + base.relativePosition, 0.0f);
+            RenderableText.Draw(this.text, parentPosition + this.relativePosition, 0.0f);
         }
     }
 }

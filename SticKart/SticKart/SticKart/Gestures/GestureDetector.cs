@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Kinect;
-using Microsoft.Xna.Framework;
-using Kinect.Toolbox;
-
-namespace SticKart.Gestures
+﻿namespace SticKart.Gestures
 {
+    using System;
+    using System.Collections.Generic;
+    using Kinect.Toolbox;
+    using Microsoft.Kinect;
+    using Microsoft.Xna.Framework;
+
     /// <summary>
     /// An abstract base class to derive all gesture detectors from.
     /// </summary>
     public abstract class GestureDetector
     {        
-        /// <summary>
-        /// The last time a gesture was detected.
-        /// </summary>
-        private DateTime lastGestureDate = DateTime.Now;
-
         /// <summary>
         /// The list of gesture entries to check for a gesture.
         /// </summary>
@@ -30,9 +25,14 @@ namespace SticKart.Gestures
         /// The maximum number of positions to track for this gesture detector.
         /// </summary>
         protected int MaxRecordedPositions;
-        
+
         /// <summary>
-        /// Initalizes an instance of the <see cref="GestureDetector"/> base class.
+        /// The last time a gesture was detected.
+        /// </summary>
+        private DateTime lastGestureDate = DateTime.Now;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GestureDetector"/> base class.
         /// </summary>
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
         /// <param name="maxRecordedPositions">THe maximum number of positions to check for a gesture against.</param>
@@ -67,15 +67,23 @@ namespace SticKart.Gestures
             {
                 GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.Now);
                 this.GestureEntries.Add(newEntry);
-                // Remove an entry if the number of recorded positions has been exceeded.
                 if (this.GestureEntries.Count > this.MaxRecordedPositions)
                 {
                     this.GestureEntries.RemoveAt(0);
                 }
 
-                // Look for gestures
                 this.LookForGesture();
             }
+        }
+
+        /// <summary>
+        /// Resets the gesture detector.
+        /// This must be called after a detected gesture is read to reactivate the detector.
+        /// </summary>
+        public virtual void Reset()
+        {
+            this.GestureDetected = GestureType.None;
+            this.GestureEntries.Clear();
         }
 
         /// <summary>
@@ -93,18 +101,8 @@ namespace SticKart.Gestures
             if (DateTime.Now.Subtract(this.lastGestureDate).TotalMilliseconds > this.MillisecondsBetweenGestures)
             {
                 this.GestureDetected = gestureType;
-                lastGestureDate = DateTime.Now;
+                this.lastGestureDate = DateTime.Now;
             }
-        }
-
-        /// <summary>
-        /// Resets the gesture detector.
-        /// This must be called after a detected gesture is read to reactivate the detector.
-        /// </summary>
-        public virtual void Reset()
-        {
-            this.GestureDetected = GestureType.None;
-            this.GestureEntries.Clear();
         }
     }
 }
