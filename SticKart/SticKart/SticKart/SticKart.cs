@@ -30,29 +30,29 @@ namespace SticKart
 
         #region graphics
 
-        Vector2 screenDimensions;
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        const float FrameTime = 1.0f / 60.0f;
+        private Vector2 screenDimensions;
+        private GraphicsDeviceManager graphics;
+        private SpriteBatch spriteBatch;
+        private const float FrameTime = 1.0f / 60.0f;
 
-        Sprite playerSprite;
-        Sprite handSprite;
+        private Sprite playerSprite;
+        private Sprite handSprite;
 
         #endregion
 
         #region physics
 
-        World physicsWorld;
-        Body boundry;
-        Body playerBody;
+        private World physicsWorld;
+        private Body boundry;
+        private Body playerBody;
         
         #endregion
 
         #region misc
 
-        InputManager inputManager;
-        GameState gameState;
-        MenuManager menuManager;
+        private InputManager inputManager;
+        private GameState gameState;
+        private MenuManager menuManager;
 
         #endregion
 
