@@ -7,6 +7,7 @@
     using FarseerPhysics.Dynamics.Joints;
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
+    using Input;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -16,11 +17,19 @@
     /// </summary>
     public class StickMan
     {
+
+        #region members
+
         /// <summary>
         /// The physics body at the top of the stickman.
         /// This is used for detecting collisions when standing.
         /// </summary>
         private Body topBody;
+
+        /// <summary>
+        /// The offset from the center of the stickman to the top body, in display space.
+        /// </summary>
+        private Vector2 topBodyOffset;
 
         /// <summary>
         /// The physics body in the middle of the stickman.
@@ -29,10 +38,20 @@
         private Body middleBody;
 
         /// <summary>
+        /// The offset from the center of the stickman to the middle body, in display space.
+        /// </summary>
+        private Vector2 middleBodyOffset;
+
+        /// <summary>
         /// The physics body at the bottom of the stickman.
         /// This is used to control the movement of the stickman and to allow the stickman to traverse bumpy terrain easily.
         /// </summary>
         private Body wheelBody;
+
+        /// <summary>
+        /// The offset from the center of the stickman to the wheel body, in display space.
+        /// </summary>
+        private Vector2 wheelBodyOffset;
 
         /// <summary>
         /// A joint connecting the <see cref="topBody"/> to the <see cref="middleBody"/>.
@@ -106,6 +125,8 @@
 
         // private PowerUp activePowerUp; // TODO: implement once power-ups are implemented
 
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="StickMan"/> class.
         /// </summary>
@@ -127,12 +148,43 @@
             this.inCart = false;
             this.state = PlayerState.standing;
             this.onFloor = false;
-
             this.standingSprite = new Sprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
-            
+            this.topBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 4.0f);
+            this.middleBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
+            this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
         }
+
+        #region accessors
+
+        /// <summary>
+        /// Gest or sets the stick man's display coordinates.
+        /// </summary>
+        public Vector2 Position
+        {
+            get
+            {
+                if (this.state == PlayerState.crouching)
+                {
+                    return ConvertUnits.ToDisplayUnits(this.wheelBody.Position);
+                }
+                else
+                {
+                    return 0.5f * (ConvertUnits.ToDisplayUnits(this.wheelBody.Position) + ConvertUnits.ToDisplayUnits(this.topBody.Position));
+                }
+            }
+            set
+            {
+                this.topBody.Position = ConvertUnits.ToSimUnits(value + this.topBodyOffset);
+                this.middleBody.Position = ConvertUnits.ToSimUnits(value + this.middleBodyOffset);
+                this.wheelBody.Position = ConvertUnits.ToSimUnits(value + this.wheelBodyOffset);
+            }
+        }
+
+        #endregion
+
+        #region initialization
 
         /// <summary>
         /// Initializes and loads the textures for all of the sprites in a StickMan object.
@@ -156,7 +208,7 @@
             // Upper body for standing
             this.topBody = BodyFactory.CreateBody(physicsWorld);
             this.topBody.BodyType = BodyType.Dynamic;
-            this.topBody.Position = ConvertUnits.ToSimUnits(new Vector2(0.0f, -this.standingSprite.Height / 4.0f));
+            this.topBody.Position = ConvertUnits.ToSimUnits(this.topBodyOffset);
             this.topBody.Restitution = restitution;
             Vertices playerTopBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f)); // Top box is half of the standing height.
             PolygonShape playerTopShape = new PolygonShape(playerTopBox, density);
@@ -166,7 +218,7 @@
             this.middleBody = BodyFactory.CreateBody(physicsWorld);
             this.middleBody.BodyType = BodyType.Dynamic;
             this.middleBody.IgnoreCollisionWith(this.topBody);
-            this.middleBody.Position = ConvertUnits.ToSimUnits(new Vector2(0.0f, this.standingSprite.Height / 8.0f));
+            this.middleBody.Position = ConvertUnits.ToSimUnits(this.middleBodyOffset);
             this.middleBody.Restitution = restitution;
             Vertices playerMiddleBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 8.0f)); // Lower box is a quater of the standing height.
             PolygonShape playerMiddleShape = new PolygonShape(playerMiddleBox, density);
@@ -177,12 +229,11 @@
             this.wheelBody.BodyType = BodyType.Dynamic;
             this.wheelBody.IgnoreCollisionWith(this.middleBody);
             this.wheelBody.IgnoreCollisionWith(this.topBody);
-            this.wheelBody.Position = ConvertUnits.ToSimUnits(new Vector2(0.0f, this.standingSprite.Height / 4.0f));
+            this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             this.wheelBody.Restitution = restitution;
             this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
             CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
             Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
-
 
             // Joints to connect the bodies.
             //this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
@@ -200,5 +251,47 @@
             this.lowerBodyJoint.MotorEnabled = true;
             physicsWorld.AddJoint(this.lowerBodyJoint);
         }
+
+        #endregion
+        
+        /// <summary>
+        /// Updates the state of the 
+        /// </summary>
+        /// <param name="gameTime"></param>
+        public void Update(GameTime gameTime)
+        {
+
+        }
+
+        /// <summary>
+        /// Draws the stick man to the screen.
+        /// </summary>
+        public void Draw()
+        {
+            switch (this.state)
+            {
+                case PlayerState.standing:
+                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    break;
+                case PlayerState.crouching:
+                    // TODO
+                    break;
+                case PlayerState.jumping:
+                    // TODO
+                    break;
+                case PlayerState.running:
+                    // TODO
+                    break;
+                case PlayerState.falling:
+                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    break;
+                case PlayerState.dead:
+                    //TODO
+                    break;
+                default:
+                    break;
+            }
+        }
+
     }
 }

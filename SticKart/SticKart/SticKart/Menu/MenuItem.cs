@@ -19,7 +19,7 @@
         }
 
         /// <summary>
-        /// The centre position of the menu item, relative to it's owner/parent.
+        /// Gets or sets the centre position of the menu item, relative to it's owner/parent.
         /// </summary>
         public Vector2 RelativePosition { get; protected set; }
 

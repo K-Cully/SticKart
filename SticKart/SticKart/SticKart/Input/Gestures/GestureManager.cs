@@ -64,7 +64,7 @@
         {
             this.runTimeLimit = 800;
             this.jumpTimeLimit = 120;
-            this.lastLegLiftTime = DateTime.Now;
+            this.lastLegLiftTime = DateTime.UtcNow;
             this.lastLegLifted = JointType.Spine;
             this.activeHand = primaryHand;
             if (this.activeHand == JointType.HandRight)
@@ -187,7 +187,7 @@
         /// <param name="jointTracked">The joint used for the gesture.</param>
         private void ProcessLegGesture(JointType jointTracked)
         {
-            double timeSinceLastGesture = (int)DateTime.Now.Subtract(this.lastLegLiftTime).TotalMilliseconds;
+            double timeSinceLastGesture = (int)DateTime.UtcNow.Subtract(this.lastLegLiftTime).TotalMilliseconds;
             if ((this.lastLegLifted == JointType.AnkleLeft && jointTracked == JointType.AnkleRight) ||
                 (this.lastLegLifted == JointType.AnkleRight && jointTracked == JointType.AnkleLeft))
             {
@@ -202,7 +202,7 @@
             }
 
             this.lastLegLifted = jointTracked;
-            this.lastLegLiftTime = DateTime.Now;
+            this.lastLegLiftTime = DateTime.UtcNow;
         }
     }
 }

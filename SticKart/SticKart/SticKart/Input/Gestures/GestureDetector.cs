@@ -29,7 +29,7 @@
         /// <summary>
         /// The last time a gesture was detected.
         /// </summary>
-        private DateTime lastGestureDate = DateTime.Now;
+        private DateTime lastGestureDate = DateTime.UtcNow;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GestureDetector"/> class.
@@ -65,7 +65,7 @@
         {
             if (this.GestureDetected == GestureType.None)
             {
-                GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.Now);
+                GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.UtcNow);
                 this.gestureEntries.Add(newEntry);
                 if (this.gestureEntries.Count > this.maxRecordedPositions)
                 {
@@ -98,10 +98,10 @@
         protected virtual void GestureFound(GestureType gestureType)
         {
             // Check if the time is too close to the last recorded time.
-            if (DateTime.Now.Subtract(this.lastGestureDate).TotalMilliseconds > this.millisecondsBetweenGestures)
+            if (DateTime.UtcNow.Subtract(this.lastGestureDate).TotalMilliseconds > this.millisecondsBetweenGestures)
             {
                 this.GestureDetected = gestureType;
-                this.lastGestureDate = DateTime.Now;
+                this.lastGestureDate = DateTime.UtcNow;
             }
         }
     }

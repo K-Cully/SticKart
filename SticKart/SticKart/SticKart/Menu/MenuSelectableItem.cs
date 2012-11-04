@@ -23,7 +23,7 @@
             : base(relativePosition)
         {
             this.Name = name;
-            this.boundingBox = new Rectangle((int)(relativePosition.X - dimensions.X * 0.5f), (int)(relativePosition.Y - (dimensions.Y * 0.5f)), (int)dimensions.X, (int)dimensions.Y);
+            this.boundingBox = new Rectangle((int)(relativePosition.X - (dimensions.X * 0.5f)), (int)(relativePosition.Y - (dimensions.Y * 0.5f)), (int)dimensions.X, (int)dimensions.Y);
         }
 
         /// <summary>

@@ -1,7 +1,7 @@
 ﻿namespace SticKart.Menu
 {
-    using Microsoft.Xna.Framework;
     using System.Collections.ObjectModel;
+    using Microsoft.Xna.Framework;
 
     /// <summary>
     /// A menu class used to hold and display menu items.

@@ -140,7 +140,7 @@
             this.touchGesture = new GestureSample();
             this.keyboardState = new KeyboardState();
             this.gamePadstate = new GamePadState();
-            this.lastKeyPressTime = DateTime.Now;
+            this.lastKeyPressTime = DateTime.UtcNow;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -293,9 +293,9 @@
         private void GetGamePadInput()
         {
             this.gamePadstate = GamePad.GetState(PlayerIndex.One);
-            if (this.gamePadstate != null && DateTime.Now.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
+            if (this.gamePadstate != null && DateTime.UtcNow.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
             {
-                this.lastKeyPressTime = DateTime.Now;
+                this.lastKeyPressTime = DateTime.UtcNow;
                 if (this.gamePadstate.Buttons.Back == ButtonState.Released)
                 {
                     this.commands.Add(InputCommand.Exit);
@@ -406,9 +406,9 @@
         private void GetKeyboardInput()
         {
             this.keyboardState = Keyboard.GetState();
-            if (this.keyboardState != null && DateTime.Now.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
+            if (this.keyboardState != null && DateTime.UtcNow.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
             {
-                this.lastKeyPressTime = DateTime.Now;
+                this.lastKeyPressTime = DateTime.UtcNow;
                 if (this.keyboardState.IsKeyDown(Keys.Escape))
                 {
                     this.commands.Add(InputCommand.Exit);
