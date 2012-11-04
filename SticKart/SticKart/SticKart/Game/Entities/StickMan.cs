@@ -17,7 +17,6 @@
     /// </summary>
     public class StickMan
     {
-
         #region members
 
         /// <summary>
@@ -72,6 +71,8 @@
         /// The sprite which represents the stickman's standing pose.
         /// </summary>
         private Sprite standingSprite; // TODO: add animated sprite class and other sprites
+
+        private Sprite Wheelsprite;
 
         /// <summary>
         /// The minimum velocity at which the stickman can move horizontally.
@@ -149,6 +150,7 @@
             this.state = PlayerState.standing;
             this.onFloor = false;
             this.standingSprite = new Sprite();
+            this.Wheelsprite = new Sprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.topBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 4.0f);
             this.middleBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
@@ -193,7 +195,9 @@
         /// <param name="contentManager">The content manager to use for loading the sprites.</param>
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
+            // TODO: rest of sprites
             this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.StickManStanding);
+            this.Wheelsprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.HandIcon);
         }
 
         /// <summary>
@@ -231,7 +235,7 @@
             this.wheelBody.IgnoreCollisionWith(this.topBody);
             this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             this.wheelBody.Restitution = restitution;
-            this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
+            this.wheelBody.Friction = 1.0f; // TODO: set appropriatly
             CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
             Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
 
@@ -255,12 +259,81 @@
         #endregion
         
         /// <summary>
-        /// Updates the state of the 
+        /// Updates the state of the player and any time based elements of the player. 
         /// </summary>
-        /// <param name="gameTime"></param>
+        /// <param name="gameTime">The game time.</param>
         public void Update(GameTime gameTime)
         {
+            // TODO: implement
+            if (this.state == PlayerState.jumping && this.middleBody.LinearVelocity.Y >= 0.0f)
+            {
+                this.state = PlayerState.falling;
+                // TODO: switch on collisions with platforms
+            }
+            else if (this.state == PlayerState.running && this.middleBody.LinearVelocity.X == 0.0f)
+            {
+                this.state = PlayerState.standing;
+            }
+        }
 
+        /// <summary>
+        /// Makes the the stick man run if it is not jumping.
+        /// </summary>
+        public void Run()
+        {
+            if (this.state != PlayerState.jumping)
+            {
+                this.lowerBodyJoint.MotorSpeed = 1.0f; // TODO: test
+                this.state = PlayerState.running;
+            }
+        }
+
+        /// <summary>
+        /// Makes the stick man stand if it is crouching.
+        /// </summary>
+        public void Stand()
+        {
+            if (this.state == PlayerState.crouching)
+            {
+                this.state = PlayerState.standing;
+                this.topBody.IsSensor = false;
+                // TODO: test collisions with top box
+            }
+        }
+
+        /// <summary>
+        /// Makes the stick man crouch if it is standing.
+        /// </summary>
+        public void Crouch()
+        {
+            if (this.state == PlayerState.standing)
+            {
+                this.state = PlayerState.crouching;
+                this.topBody.IsSensor = true;
+                // TODO: test collisions with top box
+            }
+        }
+
+        /// <summary>
+        /// Makes the stick man jump if it is not already jumping.
+        /// </summary>
+        public void Jump()
+        {
+            if (this.state != PlayerState.jumping)
+            {
+                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
+                this.state = PlayerState.jumping;
+                // TODO: switch off collisions with platforms
+            }
+        }
+
+        /// <summary>
+        /// Sets the stick man's state to standing.
+        /// This should be called on collision with anything.
+        /// </summary>
+        public void Land() // TODO: land on collision
+        {
+            this.state = PlayerState.standing; 
         }
 
         /// <summary>
@@ -272,18 +345,26 @@
             {
                 case PlayerState.standing:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.crouching:
                     // TODO
                     break;
                 case PlayerState.jumping:
+                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
+                    
                     // TODO
                     break;
                 case PlayerState.running:
+                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
+                    
                     // TODO
                     break;
                 case PlayerState.falling:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.dead:
                     //TODO

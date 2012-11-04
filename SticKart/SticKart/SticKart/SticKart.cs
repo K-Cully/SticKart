@@ -8,6 +8,7 @@ namespace SticKart
     using FarseerPhysics.Dynamics;
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
+    using Game.Entities;
     using Input;
     using Menu;
     using Microsoft.Xna.Framework;
@@ -58,9 +59,6 @@ namespace SticKart
         /// </summary>
         private SpriteBatch spriteBatch;
         
-        // TODO: Remove once stickman class is implemented in full.
-        private Sprite playerSprite;
-
         // TODO: Place in menu?
         private Sprite handSprite;
 
@@ -75,10 +73,13 @@ namespace SticKart
 
         // TODO: remove once level implemented.
         private Body boundry;
+                
+        #endregion
 
-        // TODO: remove once stickman is implemented in full.
-        private Body playerBody;
-        
+        #region entities
+
+        private StickMan stickman;
+
         #endregion
 
         #region misc
@@ -121,7 +122,7 @@ namespace SticKart
             this.menuManager.OnQuitGameDetected += this.QuitGame;
             // TODO: add other menu event handlers.
 
-            this.playerSprite = new Sprite();
+            this.stickman = null;
             this.handSprite = new Sprite();
         }
 
@@ -162,18 +163,11 @@ namespace SticKart
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content);
 
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
-            this.playerSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.StickManStanding);
-
+            
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
-            this.playerBody = BodyFactory.CreateBody(this.physicsWorld);
 
-            Vertices playerBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.playerSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.playerSprite.Height / 2.0f));
-            PolygonShape playerShape = new PolygonShape(playerBox, 1.25f);
-            Fixture playerFixture = this.playerBody.CreateFixture(playerShape);
-
-            this.playerBody.BodyType = BodyType.Dynamic;
-            this.playerBody.Position = ConvertUnits.ToSimUnits(this.screenDimensions / 2.0f);
-            this.playerBody.Restitution = 0.125f;
+            this.stickman = new StickMan(ref this.physicsWorld, 100.0f, 100, -1000.0f, this.spriteBatch, this.Content);
+            this.stickman.Position = this.screenDimensions / 2.0f;
 
             this.boundry = BodyFactory.CreateLoopShape(this.physicsWorld, this.GetBounds());
             this.boundry.CollisionCategories = Category.All;
@@ -218,29 +212,27 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateGame(GameTime gameTime)
         {
+            this.stickman.Update(gameTime);
             if (this.inputManager.Update()) // Commands are available.
             {
                 foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)
                     {
-                        case InputCommand.Left: // TODO: remove
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(-5000.0f, 0.0f)));
-                            break;
                         case InputCommand.Jump:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, -5000.0f)));
+                            this.stickman.Jump();
                             break;
                         case InputCommand.Crouch:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(0.0f, 5000.0f)));
+                            this.stickman.Crouch();
                             break;
                         case InputCommand.Run:
-                            this.playerBody.ApplyForce(ConvertUnits.ToSimUnits(new Vector2(5000.0f, 0.0f)));
+                            this.stickman.Run();
                             break;
                         case InputCommand.Pause:
                             this.PauseGame();
                             break;
                         case InputCommand.Exit:
-                            this.Exit();
+                            this.PauseGame();
                             break;
                         default:
                             break;
@@ -352,7 +344,7 @@ namespace SticKart
 
                     break;
                 case GameState.InGame:
-                    Sprite.Draw(this.playerSprite, ConvertUnits.ToDisplayUnits(this.playerBody.Position), this.playerBody.Rotation);
+                    this.stickman.Draw();
                     break;
                 default:
                     break;
