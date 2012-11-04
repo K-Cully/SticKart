@@ -211,49 +211,41 @@
 
             // Upper body for standing
             this.topBody = BodyFactory.CreateBody(physicsWorld);
-            this.topBody.BodyType = BodyType.Dynamic;
-            this.topBody.Position = ConvertUnits.ToSimUnits(this.topBodyOffset);
-            this.topBody.Restitution = restitution;
             Vertices playerTopBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f)); // Top box is half of the standing height.
             PolygonShape playerTopShape = new PolygonShape(playerTopBox, density);
             Fixture playerTopFixture = this.topBody.CreateFixture(playerTopShape);
+            this.topBody.BodyType = BodyType.Dynamic;
+            this.topBody.Position = ConvertUnits.ToSimUnits(this.topBodyOffset);
+            this.topBody.Restitution = restitution;
 
             // Middle body for crouching
             this.middleBody = BodyFactory.CreateBody(physicsWorld);
+            Vertices playerMiddleBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 8.0f)); // Lower box is a quater of the standing height.
+            PolygonShape playerMiddleShape = new PolygonShape(playerMiddleBox, density);
+            Fixture playerMiddleFixture = this.middleBody.CreateFixture(playerMiddleShape);
             this.middleBody.BodyType = BodyType.Dynamic;
             this.middleBody.IgnoreCollisionWith(this.topBody);
             this.middleBody.Position = ConvertUnits.ToSimUnits(this.middleBodyOffset);
             this.middleBody.Restitution = restitution;
-            Vertices playerMiddleBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 8.0f)); // Lower box is a quater of the standing height.
-            PolygonShape playerMiddleShape = new PolygonShape(playerMiddleBox, density);
-            Fixture playerMiddleFixture = this.middleBody.CreateFixture(playerMiddleShape);
 
             // Wheel for movement
             this.wheelBody = BodyFactory.CreateBody(physicsWorld);
+            CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
+            Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
             this.wheelBody.BodyType = BodyType.Dynamic;
             this.wheelBody.IgnoreCollisionWith(this.middleBody);
             this.wheelBody.IgnoreCollisionWith(this.topBody);
             this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             this.wheelBody.Restitution = restitution;
             this.wheelBody.Friction = 1.0f; // TODO: set appropriatly
-            CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
-            Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
 
             // Joints to connect the bodies.
-            //this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
-            this.upperBodyJoint = new WeldJoint(this.topBody, this.middleBody, ConvertUnits.ToSimUnits(Vector2.Zero), ConvertUnits.ToSimUnits(Vector2.Zero));
-            physicsWorld.AddJoint(this.upperBodyJoint);
-
-            //this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.middleBody);
-            this.angleUprightJoint = new FixedAngleJoint(this.middleBody);
-            physicsWorld.AddJoint(this.angleUprightJoint);
-
-            //this.lowerBodyJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, this.wheelBody.Position);
-            this.lowerBodyJoint = new RevoluteJoint(this.middleBody, this.wheelBody, ConvertUnits.ToSimUnits(new Vector2(0.0f, this.standingSprite.Height / 8.0f)), ConvertUnits.ToSimUnits(Vector2.Zero));
+            this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
+            this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.middleBody);
+            this.lowerBodyJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, Vector2.Zero);
             this.lowerBodyJoint.MotorSpeed = 0.0f;
             this.lowerBodyJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
             this.lowerBodyJoint.MotorEnabled = true;
-            physicsWorld.AddJoint(this.lowerBodyJoint);
         }
 
         #endregion
@@ -283,7 +275,7 @@
         {
             if (this.state != PlayerState.jumping)
             {
-                this.lowerBodyJoint.MotorSpeed = 1.0f; // TODO: test
+                this.lowerBodyJoint.MotorSpeed = 10.0f; // TODO: test
                 this.state = PlayerState.running;
             }
         }
@@ -319,7 +311,7 @@
         /// </summary>
         public void Jump()
         {
-            if (this.state != PlayerState.jumping)
+            if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
                 this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
                 this.state = PlayerState.jumping;
@@ -348,18 +340,17 @@
                     Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.crouching:
+                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.jumping:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
-                    
                     // TODO
                     break;
                 case PlayerState.running:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
-                    
                     // TODO
                     break;
                 case PlayerState.falling:
