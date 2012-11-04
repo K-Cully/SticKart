@@ -12,17 +12,17 @@
         /// <summary>
         /// The button's background.
         /// </summary>
-        protected MenuImage tile;
+        private MenuImage tile;
 
         /// <summary>
         /// The icon to display on the button.
         /// </summary>
-        protected MenuImage icon;
+        private MenuImage icon;
 
         /// <summary>
         /// The text to display on the button.
         /// </summary>
-        protected MenuText text;
+        private MenuText text;
                 
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuButton"/> class.

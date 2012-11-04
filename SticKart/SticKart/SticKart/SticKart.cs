@@ -8,6 +8,7 @@ namespace SticKart
     using FarseerPhysics.Dynamics;
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
+    using Input;
     using Menu;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
@@ -17,7 +18,14 @@ namespace SticKart
     /// </summary>
     public enum GameState
     {
+        /// <summary>
+        /// The menu is active.
+        /// </summary>
         InMenu,
+
+        /// <summary>
+        /// The game is in play.
+        /// </summary>
         InGame
     }
 
@@ -129,7 +137,7 @@ namespace SticKart
         }
 
         // TODO: Remove this boundry or scroll.
-        private Vertices GetBounds()
+        protected Vertices GetBounds()
         {
             float height = ConvertUnits.ToSimUnits(this.GraphicsDevice.Viewport.Height);
             float width = ConvertUnits.ToSimUnits(this.GraphicsDevice.Viewport.Width);
@@ -151,10 +159,10 @@ namespace SticKart
             // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this.menuManager.InitalizeAndLoad(this.spriteBatch, this.Content);
+            this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content);
 
-            this.handSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
-            this.playerSprite.InitalizeAndLoad(this.spriteBatch, this.Content, ContentLocations.StickManStanding);
+            this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
+            this.playerSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.StickManStanding);
 
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.playerBody = BodyFactory.CreateBody(this.physicsWorld);
@@ -252,7 +260,7 @@ namespace SticKart
         /// <summary>
         /// Pauses the game.
         /// </summary>
-        private void PauseGame()
+        protected void PauseGame()
         {
             this.gameState = GameState.InMenu;
             this.menuManager.ActiveMenu = MenuType.Main; // TODO add a resume button.

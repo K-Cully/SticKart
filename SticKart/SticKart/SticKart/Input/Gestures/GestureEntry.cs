@@ -1,4 +1,4 @@
-﻿namespace SticKart.Gestures
+﻿namespace SticKart.Input.Gestures
 {
     using System;
     using Microsoft.Xna.Framework;

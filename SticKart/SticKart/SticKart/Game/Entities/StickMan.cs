@@ -10,20 +10,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-
-    /// <summary>
-    /// An enumeration of states which the stickman can be in.
-    /// </summary>
-    public enum PlayerState
-    {
-        standing,
-        crouching,
-        jumping,
-        running,
-        falling,
-        dead
-    }
-
+    
     /// <summary>
     /// Defines an in game player representation.
     /// </summary>
@@ -142,7 +129,7 @@
             this.onFloor = false;
 
             this.standingSprite = new Sprite();
-            this.InitalizeAndLoadSprites(spriteBatch, contentManager);
+            this.InitializeAndLoadSprites(spriteBatch, contentManager);
             
             this.SetUpPhysicsObjects(ref physicsWorld);
         }
@@ -152,9 +139,9 @@
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
         /// <param name="contentManager">The content manager to use for loading the sprites.</param>
-        private void InitalizeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
+        private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
-            this.standingSprite.InitalizeAndLoad(spriteBatch, contentManager, ContentLocations.StickManStanding);
+            this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.StickManStanding);
         }
 
         /// <summary>

@@ -1,4 +1,4 @@
-﻿namespace SticKart.Gestures
+﻿namespace SticKart.Input.Gestures
 {
     using System;
     using System.Collections.Generic;
@@ -14,17 +14,17 @@
         /// <summary>
         /// The list of gesture entries to check for a gesture.
         /// </summary>
-        protected List<GestureEntry> GestureEntries;
+        protected List<GestureEntry> gestureEntries;
 
         /// <summary>
         /// The number of milliseconds delay between gestures.
         /// </summary>
-        protected int MillisecondsBetweenGestures;
+        protected int millisecondsBetweenGestures;
 
         /// <summary>
         /// The maximum number of positions to track for this gesture detector.
         /// </summary>
-        protected int MaxRecordedPositions;
+        protected int maxRecordedPositions;
 
         /// <summary>
         /// The last time a gesture was detected.
@@ -32,7 +32,7 @@
         private DateTime lastGestureDate = DateTime.Now;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="GestureDetector"/> base class.
+        /// Initializes a new instance of the <see cref="GestureDetector"/> class.
         /// </summary>
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
         /// <param name="maxRecordedPositions">THe maximum number of positions to check for a gesture against.</param>
@@ -40,10 +40,10 @@
         public GestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 0)
         {
             this.GestureDetected = GestureType.None;
-            this.GestureEntries = new List<GestureEntry>();
+            this.gestureEntries = new List<GestureEntry>();
             this.JointToTrack = jointToTrack;
-            this.MaxRecordedPositions = maxRecordedPositions;
-            this.MillisecondsBetweenGestures = millisecondsBetweenGestures;
+            this.maxRecordedPositions = maxRecordedPositions;
+            this.millisecondsBetweenGestures = millisecondsBetweenGestures;
         }
 
         /// <summary>
@@ -66,10 +66,10 @@
             if (this.GestureDetected == GestureType.None)
             {
                 GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.Now);
-                this.GestureEntries.Add(newEntry);
-                if (this.GestureEntries.Count > this.MaxRecordedPositions)
+                this.gestureEntries.Add(newEntry);
+                if (this.gestureEntries.Count > this.maxRecordedPositions)
                 {
-                    this.GestureEntries.RemoveAt(0);
+                    this.gestureEntries.RemoveAt(0);
                 }
 
                 this.LookForGesture();
@@ -83,7 +83,7 @@
         public virtual void Reset()
         {
             this.GestureDetected = GestureType.None;
-            this.GestureEntries.Clear();
+            this.gestureEntries.Clear();
         }
 
         /// <summary>
@@ -98,7 +98,7 @@
         protected virtual void GestureFound(GestureType gestureType)
         {
             // Check if the time is too close to the last recorded time.
-            if (DateTime.Now.Subtract(this.lastGestureDate).TotalMilliseconds > this.MillisecondsBetweenGestures)
+            if (DateTime.Now.Subtract(this.lastGestureDate).TotalMilliseconds > this.millisecondsBetweenGestures)
             {
                 this.GestureDetected = gestureType;
                 this.lastGestureDate = DateTime.Now;

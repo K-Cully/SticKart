@@ -1,4 +1,4 @@
-﻿namespace SticKart
+﻿namespace SticKart.Input
 {
     using System;
     using System.Collections.Generic;
@@ -13,42 +13,17 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Input;
     using Microsoft.Xna.Framework.Input.Touch;
-
-    /// <summary>
-    /// An enumeration of commands which can be received from this input manager.
-    /// </summary>
-    public enum InputCommand
-    {
-        None,
-        Up,
-        Down,
-        Left,
-        Right,
-        Jump,
-        Crouch,
-        Run,
-        Select,
-        SelectAt,
-        Pause,
-        Exit
-    }
-
-    /// <summary>
-    /// An enumeration of control devices which can be used with this input manager.
-    /// </summary>
-    public enum ControlDevice
-    {
-        Kinect,
-        Keyboard,
-        GamePad,
-        Touch
-    }
-
+    
     /// <summary>
     /// A wrapper to manage input commands for the game.
     /// </summary>
     public class InputManager
     {
+        /// <summary>
+        /// Speech utterance confidence threshold, below which speech is treated as if it hadn't been heard.
+        /// </summary> 
+        private const double SpeechConfidenceThreshold = 0.3;
+
         #region kinect_motion_variables
 
         /// <summary>
@@ -79,12 +54,7 @@
         #endregion
 
         #region kinect_speech_variables
-
-        /// <summary>
-        /// Speech utterance confidence threshold, below which speech is treated as if it hadn't been heard.
-        /// </summary> 
-        private const double SpeechConfidenceThreshold = 0.3;
-
+        
         /// <summary>
         /// Speech recognition engine using audio data from Kinect.
         /// </summary>
@@ -259,6 +229,47 @@
 
         #endregion
 
+        #region public_methods
+
+        /// <summary>
+        /// Disposes of any resources used by the input manager.
+        /// </summary>
+        public void Dispose()
+        {
+            this.StopKinect();
+        }
+
+        /// <summary>
+        /// Checks for user input this frame.
+        /// </summary>
+        /// <returns>Whether any new commands have been picked up or not.</returns>
+        public bool Update()
+        {
+            this.selectionPosition = Vector2.Zero;
+            this.commands.Clear();
+            switch (this.controlDevice)
+            {
+                case ControlDevice.Kinect:
+                    this.GetKinectInput();
+                    break;
+                case ControlDevice.Keyboard:
+                    this.GetKeyboardInput();
+                    break;
+                case ControlDevice.GamePad:
+                    this.GetGamePadInput();
+                    break;
+                case ControlDevice.Touch:
+                    this.GetTouchInput();
+                    break;
+                default:
+                    break;
+            }
+
+            return this.commands.Count > 0;
+        }
+
+        #endregion
+
         #region input_methods
 
         /// <summary>
@@ -328,7 +339,7 @@
                         case SkeletonTrackingState.PositionOnly:
                             break;
                         case SkeletonTrackingState.Tracked:
-                            this.gestureManager.Update(skeleton);                          
+                            this.gestureManager.Update(skeleton);
                             skeletonLogged = true;
                             break;
                         default:
@@ -346,7 +357,7 @@
             do
             {
                 gestureToApply = this.gestureManager.GetNextDetectedGesture();
-                switch (gestureToApply) // TODO: Change this logic.
+                switch (gestureToApply)
                 {
                     case Gestures.GestureType.SwipeLeft:
                         this.commands.Add(InputCommand.Left);
@@ -369,10 +380,10 @@
                     default:
                         break;
                 }
-            } 
+            }
             while (gestureToApply != Gestures.GestureType.None);
         }
-        
+
         /// <summary>
         /// Adds commands to the command list based on keyboard input. 
         /// </summary>
@@ -416,7 +427,7 @@
                         this.commands.Add(InputCommand.Run);
                     }
                 }
-            }            
+            }
         }
 
         /// <summary>
@@ -434,7 +445,7 @@
                         break;
                     case Microsoft.Xna.Framework.Input.Touch.GestureType.Flick:
                         Vector2 velocity = this.touchGesture.Delta;
-                        if (velocity.X * velocity.X > velocity.Y * velocity.Y) // Movement greater along x than y.
+                        if (velocity.X * velocity.X > velocity.Y * velocity.Y)
                         {
                             if (velocity.X > 0.0f)
                             {
@@ -502,7 +513,7 @@
         /// <returns>Whether the speech engine was successfully started or not.</returns>
         private bool TryStartSpeechEngine()
         {
-            RecognizerInfo recognizerInfo = GetKinectRecognizer();
+            RecognizerInfo recognizerInfo = this.GetKinectRecognizer();
 
             if (recognizerInfo == null)
             {
@@ -510,7 +521,7 @@
             }
             else
             {
-                this.speechEngine = new SpeechRecognitionEngine(recognizerInfo.Id);                
+                this.speechEngine = new SpeechRecognitionEngine(recognizerInfo.Id);
                 Choices grammarChoices = new Choices();
                 grammarChoices.Add(new SemanticResultValue(SelectableNames.PlayButtonName.ToLower(), SelectableNames.PlayButtonName));
                 grammarChoices.Add(new SemanticResultValue(SelectableNames.BackButtonName.ToLower(), SelectableNames.BackButtonName));
@@ -524,11 +535,11 @@
                 Grammar grammar = new Grammar(grammarBuilder);
 
                 //// TODO: Possibly create a grammar from grammar definition XML file.
-                //using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.SpeechGrammar)))
-                //{
-                //    var g = new Grammar(memoryStream);
-                //    speechEngine.LoadGrammar(g);
-                //}
+                // using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.SpeechGrammar)))
+                // {
+                //     var g = new Grammar(memoryStream);
+                //     speechEngine.LoadGrammar(g);
+                // }
                 this.speechEngine.LoadGrammar(grammar);
                 this.speechEngine.SpeechRecognized += this.SpeechRecognized;
                 this.speechEngine.SetInputToAudioStream(this.kinectSensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));
@@ -543,24 +554,25 @@
         /// <returns>Whether the Kinect was successfully started or not.</returns>
         private bool TryStartKinect()
         {
+            // Check that at least one Kinect for Windows sensor is connected and is not in use by another process.
             bool successful = true;
-            if (KinectSensor.KinectSensors.Count > 0) // At least one sensor is connected.
-            {                
+            if (KinectSensor.KinectSensors.Count > 0)
+            {
                 this.kinectSensor = KinectSensor.KinectSensors[0];
                 if (this.kinectSensor.Status == KinectStatus.Connected)
                 {
-                    this.kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution320x240Fps30); // Need this enabled for coordinate mapping.
+                    this.kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution320x240Fps30);
                     this.kinectSensor.SkeletonStream.Enable();
                     try
                     {
                         this.kinectSensor.Start();
                     }
-                    catch (IOException) // Kinect sensor is in use by another process.
+                    catch (IOException)
                     {
                         successful = false;
                     }
                 }
-                else // Xbox Kinect not supported
+                else
                 {
                     successful = false;
                 }
@@ -590,7 +602,7 @@
                 this.speechEngine.RecognizeAsyncStop();
             }
         }
-        
+
         /// <summary>
         /// Reads the current skeleton frame from the skeleton stream of the kinect sensor.
         /// </summary>
@@ -615,12 +627,12 @@
                 return true;
             }
         }
-        
+
         /// <summary>
         /// Gets the metadata for the speech recognizer (acoustic model) most suitable to process audio from Kinect device.
         /// </summary>
         /// <returns>RecognizerInfo if found, null otherwise.</returns>
-        private static RecognizerInfo GetKinectRecognizer()
+        private RecognizerInfo GetKinectRecognizer()
         {
             RecognizerInfo kinectRecognizer = null;
             foreach (RecognizerInfo recognizer in SpeechRecognitionEngine.InstalledRecognizers())
@@ -648,52 +660,11 @@
         /// <param name="sender">Object sending the event.</param>
         /// <param name="e">Event arguments.</param>
         private void SpeechRecognized(object sender, SpeechRecognizedEventArgs e)
-        {                        
+        {
             if (e.Result.Confidence >= InputManager.SpeechConfidenceThreshold)
             {
                 this.selectedWord = e.Result.Semantics.Value.ToString();
             }
-        }
-        
-        #endregion
-
-        #region public_methods
-
-        /// <summary>
-        /// Disposes of any resources used by the input manager.
-        /// </summary>
-        public void Dispose()
-        {
-            this.StopKinect();
-        }
-
-        /// <summary>
-        /// Checks for user input this frame.
-        /// </summary>
-        /// <returns>Whether any new commands have been picked up or not.</returns>
-        public bool Update()
-        {
-            this.selectionPosition = Vector2.Zero;
-            this.commands.Clear();
-            switch (this.controlDevice)
-            {
-                case ControlDevice.Kinect:
-                    this.GetKinectInput();
-                    break;
-                case ControlDevice.Keyboard:
-                    this.GetKeyboardInput();
-                    break;
-                case ControlDevice.GamePad:
-                    this.GetGamePadInput();
-                    break;
-                case ControlDevice.Touch:
-                    this.GetTouchInput();
-                    break;
-                default:
-                    break;
-            }
-
-            return this.commands.Count > 0;
         }
 
         #endregion

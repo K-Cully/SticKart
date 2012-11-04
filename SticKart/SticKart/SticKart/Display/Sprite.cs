@@ -91,7 +91,7 @@
         /// <param name="spriteBatch">The sprite batch to use when drawing.</param>
         /// <param name="contentManager">The content manager to load the content with.</param>
         /// <param name="pathToImage">The relative path to the texture asset.</param>
-        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage)
+        public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage)
         {
             this.spriteBatch = spriteBatch;
             this.texture = contentManager.Load<Texture2D>(pathToImage);
@@ -105,7 +105,7 @@
         /// <param name="contentManager">The content manager to load the content with.</param>
         /// <param name="pathToImage">The relative path to the texture asset.</param>
         /// <param name="origin">The origin to use for the sprite.</param>
-        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage, Vector2 origin)
+        public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage, Vector2 origin)
         {
             this.spriteBatch = spriteBatch;
             this.texture = contentManager.Load<Texture2D>(pathToImage);

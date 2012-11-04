@@ -5,21 +5,7 @@
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-
-    /// <summary>
-    /// An enumeration of different menu types.
-    /// </summary>
-    public enum MenuType 
-    { 
-        None, 
-        Main, 
-        Options, 
-        Leaderboard, 
-        LevelSelect, 
-        NameInput, 
-        LevelComplete 
-    }
-
+    
     /// <summary>
     /// The main controller of the menu system.
     /// </summary>
@@ -34,6 +20,18 @@
         /// A lookup table of available menus.
         /// </summary>
         private Dictionary<MenuType, Menu> menus;
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MenuManager"/> class.
+        /// </summary>
+        /// <param name="screenDimensions">The current display size in pixels.</param>
+        public MenuManager(Vector2 screenDimensions)
+        {
+            this.menus = new Dictionary<MenuType, Menu>();
+            this.menus.Add(MenuType.None, null);
+            this.screenDimensions = screenDimensions;
+            this.ActiveMenu = MenuType.None;
+        }
 
         /// <summary>
         /// An event triggered on the user selecting exit.
@@ -51,28 +49,16 @@
         public event Action<bool> OnBeginLevelDetected;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="MenuManager"/> class.
-        /// </summary>
-        /// <param name="screenDimensions">The current display size in pixels.</param>
-        public MenuManager(Vector2 screenDimensions)
-        {
-            this.menus = new Dictionary<MenuType, Menu>();
-            this.menus.Add(MenuType.None, null);
-            this.screenDimensions = screenDimensions;
-            this.ActiveMenu = MenuType.None;
-        }
-
-        /// <summary>
         /// Gets or sets the currently active menu.
         /// </summary>
         public MenuType ActiveMenu { get; set; } 
 
         /// <summary>
-        /// Initalizes all menus and loads all menu content.
+        /// Initializes all menus and loads all menu content.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use in drawing menu items.</param>
         /// <param name="contentManager">The content manager to load content with.</param>
-        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
+        public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -112,6 +98,7 @@
                             {
                                 this.OnBeginLevelDetected(true);
                             }
+
                             break;
                         case SelectableNames.OptionsButtonName:
                             this.ActiveMenu = MenuType.Options;
@@ -125,12 +112,14 @@
                             {
                                 this.OnQuitGameDetected(true);
                             }
+
                             break;
                         case SelectableNames.BackButtonName:
                             if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.Leaderboard || this.ActiveMenu == MenuType.LevelSelect)
                             {
                                 this.ActiveMenu = MenuType.Main;
                             }
+
                             break;
                         default:
                             break;

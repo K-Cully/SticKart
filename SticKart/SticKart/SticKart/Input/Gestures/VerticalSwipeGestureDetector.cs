@@ -1,4 +1,4 @@
-﻿namespace SticKart.Gestures
+﻿namespace SticKart.Input.Gestures
 {
     using System;
     using System.Collections.Generic;
@@ -76,17 +76,17 @@
         protected bool ScanPositions(Func<Vector3, Vector3, bool> widthFunction, Func<Vector3, Vector3, bool> directionFunction, Func<Vector3, Vector3, bool> heightFunction, int minTime, int maxTime)
         {
             int start = 0;
-            for (int index = 1; index < this.GestureEntries.Count - 1; index++)
+            for (int index = 1; index < this.gestureEntries.Count - 1; index++)
             {
-                if (!widthFunction(this.GestureEntries[0].Position, this.GestureEntries[index].Position) ||
-                    !directionFunction(this.GestureEntries[index].Position, this.GestureEntries[index + 1].Position))
+                if (!widthFunction(this.gestureEntries[0].Position, this.gestureEntries[index].Position) ||
+                    !directionFunction(this.gestureEntries[index].Position, this.gestureEntries[index + 1].Position))
                 {
                     start = index;
                 }
 
-                if (heightFunction(this.GestureEntries[index].Position, this.GestureEntries[start].Position))
+                if (heightFunction(this.gestureEntries[index].Position, this.gestureEntries[start].Position))
                 {
-                    double totalMilliseconds = (this.GestureEntries[index].Time - this.GestureEntries[start].Time).TotalMilliseconds;
+                    double totalMilliseconds = (this.gestureEntries[index].Time - this.gestureEntries[start].Time).TotalMilliseconds;
                     if (totalMilliseconds >= minTime && totalMilliseconds <= maxTime)
                     {
                         return true;

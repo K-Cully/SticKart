@@ -1,27 +1,10 @@
-﻿namespace SticKart.Gestures
+﻿namespace SticKart.Input.Gestures
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Microsoft.Kinect;
     using Microsoft.Xna.Framework;
-
-    /// <summary>
-    /// An enumeration of the different gesture types available.
-    /// </summary>
-    public enum GestureType 
-    { 
-        None, 
-        SwipeLeft, 
-        SwipeRight, 
-        SwipeUp, 
-        SwipeDown, 
-        Push, 
-        Jump, 
-        Run,
-        Crouch,
-        Stand
-    }
 
     /// <summary>
     /// Manages the initialization and updating of all gesture detectors.

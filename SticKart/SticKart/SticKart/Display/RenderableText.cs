@@ -102,7 +102,7 @@
         /// <param name="contentManager">The content manager to load the content with.</param>
         /// <param name="pathToFont">The relative path to the font asset.</param>
         /// <param name="text">The text to render.</param>
-        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToFont, string text)
+        public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToFont, string text)
         {
             this.spriteBatch = spriteBatch;
             this.font = contentManager.Load<SpriteFont>(pathToFont);
@@ -119,7 +119,7 @@
         /// <param name="pathToFont">The relative path to the font asset.</param>
         /// <param name="text">The text to render.</param>
         /// <param name="origin">The origin to use for the text.</param>
-        public void InitalizeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToFont, string text, Vector2 origin)
+        public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToFont, string text, Vector2 origin)
         {
             this.spriteBatch = spriteBatch;
             this.font = contentManager.Load<SpriteFont>(pathToFont);

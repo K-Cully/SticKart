@@ -12,7 +12,7 @@
         /// <summary>
         /// The sprite object to draw to the screen.
         /// </summary>
-        protected Sprite sprite;
+        private Sprite sprite;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuImage"/> class.
