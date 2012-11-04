@@ -51,7 +51,7 @@
         /// <param name="parentPosition">The position of the menu item's parent/owner.</param>
         public override void Draw(Vector2 parentPosition)
         {
-            RenderableText.Draw(this.text, parentPosition + this.relativePosition, 0.0f);
+            RenderableText.Draw(this.text, parentPosition + this.RelativePosition, 0.0f);
         }
     }
 }

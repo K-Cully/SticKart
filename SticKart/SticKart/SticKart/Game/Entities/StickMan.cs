@@ -165,6 +165,7 @@
             // Middle body for crouching
             this.middleBody = BodyFactory.CreateBody(physicsWorld);
             this.middleBody.BodyType = BodyType.Dynamic;
+            this.middleBody.IgnoreCollisionWith(this.topBody);
             this.middleBody.Position = ConvertUnits.ToSimUnits(new Vector2(0.0f, this.standingSprite.Height / 8.0f));
             this.middleBody.Restitution = restitution;
             Vertices playerMiddleBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 8.0f)); // Lower box is a quater of the standing height.
@@ -174,21 +175,28 @@
             // Wheel for movement
             this.wheelBody = BodyFactory.CreateBody(physicsWorld);
             this.wheelBody.BodyType = BodyType.Dynamic;
+            this.wheelBody.IgnoreCollisionWith(this.middleBody);
+            this.wheelBody.IgnoreCollisionWith(this.topBody);
             this.wheelBody.Position = ConvertUnits.ToSimUnits(new Vector2(0.0f, this.standingSprite.Height / 4.0f));
             this.wheelBody.Restitution = restitution;
+            this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
             CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
             Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
 
+
             // Joints to connect the bodies.
+            //this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
             this.upperBodyJoint = new WeldJoint(this.topBody, this.middleBody, ConvertUnits.ToSimUnits(Vector2.Zero), ConvertUnits.ToSimUnits(Vector2.Zero));
             physicsWorld.AddJoint(this.upperBodyJoint);
 
-            this.angleUprightJoint = new FixedAngleJoint(this.middleBody); // TODO: Set target angle.
+            //this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.middleBody);
+            this.angleUprightJoint = new FixedAngleJoint(this.middleBody);
             physicsWorld.AddJoint(this.angleUprightJoint);
 
+            //this.lowerBodyJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, this.wheelBody.Position);
             this.lowerBodyJoint = new RevoluteJoint(this.middleBody, this.wheelBody, ConvertUnits.ToSimUnits(new Vector2(0.0f, this.standingSprite.Height / 8.0f)), ConvertUnits.ToSimUnits(Vector2.Zero));
             this.lowerBodyJoint.MotorSpeed = 0.0f;
-            this.lowerBodyJoint.MaxMotorTorque = 20.0f; // TODO: set correctly.
+            this.lowerBodyJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
             this.lowerBodyJoint.MotorEnabled = true;
             physicsWorld.AddJoint(this.lowerBodyJoint);
         }

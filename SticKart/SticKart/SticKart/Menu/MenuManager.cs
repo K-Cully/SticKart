@@ -51,7 +51,25 @@
         /// <summary>
         /// Gets or sets the currently active menu.
         /// </summary>
-        public MenuType ActiveMenu { get; set; } 
+        public MenuType ActiveMenu { get; set; }
+
+        /// <summary>
+        /// Gets the position of the currently highlighted menu item.
+        /// </summary>
+        public Vector2 HighlightedPosition
+        {
+            get
+            {
+                if (this.menus[this.ActiveMenu] != null)
+                {
+                    return this.menus[this.ActiveMenu].HighlightedItemPosition;
+                }
+                else
+                {
+                    return Vector2.Zero;
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes all menus and loads all menu content.
@@ -136,6 +154,50 @@
             if (this.menus[this.ActiveMenu] != null)
             {
                 this.menus[this.ActiveMenu].Draw();
+            }
+        }
+
+        /// <summary>
+        /// Moves the selection right.
+        /// </summary>
+        public void MoveSelectionRight()
+        {
+            if (this.menus[this.ActiveMenu] != null)
+            {
+                this.menus[this.ActiveMenu].MoveSelectionRight();
+            }
+        }
+
+        /// <summary>
+        /// Moves the selection left.
+        /// </summary>
+        public void MoveSelectionLeft()
+        {
+            if (this.menus[this.ActiveMenu] != null)
+            {
+                this.menus[this.ActiveMenu].MoveSelectionLeft();
+            }
+        }
+
+        /// <summary>
+        /// Moves the selection up.
+        /// </summary>
+        public void MoveSelectionUp()
+        {
+            if (this.menus[this.ActiveMenu] != null)
+            {
+                this.menus[this.ActiveMenu].MoveSelectionUp();
+            }
+        }
+
+        /// <summary>
+        /// Moves the selection down.
+        /// </summary>
+        public void MoveSelectionDown()
+        {
+            if (this.menus[this.ActiveMenu] != null)
+            {
+                this.menus[this.ActiveMenu].MoveSelectionDown();
             }
         }
     }

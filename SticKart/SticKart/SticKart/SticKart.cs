@@ -279,9 +279,22 @@ namespace SticKart
                     switch (command)
                     {                 
                         case InputCommand.Select:
+                            this.menuManager.Update(this.menuManager.HighlightedPosition, null);
                             break;
                         case InputCommand.SelectAt:
                             this.menuManager.Update(this.inputManager.SelectedPosition, null);
+                            break;
+                        case InputCommand.Up:
+                            this.menuManager.MoveSelectionUp();
+                            break;
+                        case InputCommand.Down:
+                            this.menuManager.MoveSelectionDown();
+                            break;
+                        case InputCommand.Left:
+                            this.menuManager.MoveSelectionLeft();
+                            break;
+                        case InputCommand.Right:
+                            this.menuManager.MoveSelectionRight();
                             break;
                         default:
                             break;
@@ -328,7 +341,15 @@ namespace SticKart
             {
                 case GameState.InMenu:
                     this.menuManager.Draw();
-                    Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f);
+                    if (this.inputManager.HandPosition == Vector2.Zero)
+                    {
+                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedPosition, 0.0f);
+                    }
+                    else
+                    {
+                        Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f);
+                    }
+
                     break;
                 case GameState.InGame:
                     Sprite.Draw(this.playerSprite, ConvertUnits.ToDisplayUnits(this.playerBody.Position), this.playerBody.Rotation);

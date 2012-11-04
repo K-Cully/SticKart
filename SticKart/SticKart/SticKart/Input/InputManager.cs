@@ -19,10 +19,19 @@
     /// </summary>
     public class InputManager
     {
+        #region constants
+
         /// <summary>
         /// Speech utterance confidence threshold, below which speech is treated as if it hadn't been heard.
         /// </summary> 
         private const double SpeechConfidenceThreshold = 0.3;
+
+        /// <summary>
+        /// The delay to apply between key presses.
+        /// </summary>
+        private const int KeyDelayMillisceonds = 150;
+
+        #endregion
 
         #region kinect_motion_variables
 
@@ -104,6 +113,11 @@
         /// </summary>
         private Vector2 selectionPosition;
 
+        /// <summary>
+        /// The time of the last key press.
+        /// </summary>
+        private DateTime lastKeyPressTime;
+
         #endregion
         
         #region constructors
@@ -126,6 +140,7 @@
             this.touchGesture = new GestureSample();
             this.keyboardState = new KeyboardState();
             this.gamePadstate = new GamePadState();
+            this.lastKeyPressTime = DateTime.Now;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -278,8 +293,9 @@
         private void GetGamePadInput()
         {
             this.gamePadstate = GamePad.GetState(PlayerIndex.One);
-            if (this.gamePadstate != null)
+            if (this.gamePadstate != null && DateTime.Now.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
             {
+                this.lastKeyPressTime = DateTime.Now;
                 if (this.gamePadstate.Buttons.Back == ButtonState.Released)
                 {
                     this.commands.Add(InputCommand.Exit);
@@ -390,8 +406,9 @@
         private void GetKeyboardInput()
         {
             this.keyboardState = Keyboard.GetState();
-            if (this.keyboardState != null)
+            if (this.keyboardState != null && DateTime.Now.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
             {
+                this.lastKeyPressTime = DateTime.Now;
                 if (this.keyboardState.IsKeyDown(Keys.Escape))
                 {
                     this.commands.Add(InputCommand.Exit);

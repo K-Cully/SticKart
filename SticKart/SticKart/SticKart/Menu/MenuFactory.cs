@@ -19,7 +19,7 @@
         /// <returns>The new menu created.</returns>
         public static Menu CreateMainMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
         {
-            Menu mainMenu = new Menu(position);
+            Menu mainMenu = new Menu(position, 2, 2);
             MenuButton button = null;
             Sprite largeButtonTile = new Sprite();
             largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);            
@@ -70,7 +70,7 @@
         /// <returns>The new menu created.</returns>
         public static Menu CreatePlaceholderMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
         {
-            Menu placeHolderMenu = new Menu(position);
+            Menu placeHolderMenu = new Menu(position, 1, 1);
             MenuButton button = null;
             Sprite largeButtonTile = new Sprite();
             largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);

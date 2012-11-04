@@ -60,17 +60,17 @@
         {
             if (this.tile != null)
             {
-                this.tile.Draw(parentPosition + this.relativePosition);
+                this.tile.Draw(parentPosition + this.RelativePosition);
             }
 
             if (this.icon != null)
             {
-                this.icon.Draw(parentPosition + this.relativePosition);
+                this.icon.Draw(parentPosition + this.RelativePosition);
             }
 
             if (this.text != null)
             {
-                this.text.Draw(parentPosition + this.relativePosition);
+                this.text.Draw(parentPosition + this.RelativePosition);
             }
         }
     }

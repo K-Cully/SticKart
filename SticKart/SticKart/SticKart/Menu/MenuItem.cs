@@ -10,18 +10,18 @@
     public abstract class MenuItem
     {
         /// <summary>
-        /// The centre position of the menu item, relative to it's owner/parent.
-        /// </summary>
-        protected Vector2 relativePosition;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="MenuItem"/> class.
         /// </summary>
         /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
         public MenuItem(Vector2 relativePosition)
         {
-            this.relativePosition = relativePosition;
+            this.RelativePosition = relativePosition;
         }
+
+        /// <summary>
+        /// The centre position of the menu item, relative to it's owner/parent.
+        /// </summary>
+        public Vector2 RelativePosition { get; protected set; }
 
         /// <summary>
         /// Gets the Type of the menu item.

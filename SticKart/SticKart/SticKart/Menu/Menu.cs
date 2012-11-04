@@ -1,7 +1,7 @@
 ﻿namespace SticKart.Menu
 {
-    using System.Collections.Generic;
     using Microsoft.Xna.Framework;
+    using System.Collections.ObjectModel;
 
     /// <summary>
     /// A menu class used to hold and display menu items.
@@ -11,33 +11,96 @@
         /// <summary>
         /// The menu items held in the menu.
         /// </summary>
-        private List<MenuItem> menuItems;
+        private Collection<MenuItem> menuItems;
 
         /// <summary>
-        /// A list of names of selectable menu items.
+        /// A collection of names of selectable menu items.
         /// </summary>
-        private List<string> selectableItemNames;
+        private Collection<string> selectableItemNames;
+
+        /// <summary>
+        /// The index of the highlighted menu item, if any.
+        /// </summary>
+        private int highlightedIndex;
+
+        /// <summary>
+        /// The currently selected row.
+        /// </summary>
+        private int selectedRow;
+
+        /// <summary>
+        /// The currently selected column.
+        /// </summary>
+        private int selectedColumn;
+
+        /// <summary>
+        /// The number of selectable rows in the menu.
+        /// </summary>
+        private int selectableRows;
+
+        /// <summary>
+        /// The number of delectable columns in the menu.
+        /// </summary>
+        private int selectableColumns;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
         /// </summary>
         /// <param name="position">The centre position of the menu.</param>
-        public Menu(Vector2 position)
+        /// <param name="selectableRows">The number of selectable rows in the menu.</param>
+        /// <param name="selectableColumns">The number of delectable columns in the menu.</param>
+        public Menu(Vector2 position, int selectableRows, int selectableColumns)
         {
             this.Position = position;
-            this.menuItems = new List<MenuItem>();
-            this.selectableItemNames = new List<string>();
+            this.menuItems = new Collection<MenuItem>();
+            this.selectableItemNames = new Collection<string>();
+            this.selectableRows = selectableRows;
+            this.selectableColumns = selectableColumns;
+            this.selectedRow = 0;
+            this.selectedColumn = 0;
+            this.highlightedIndex = this.selectedRow + this.selectedColumn;
         }
-        
+
+        /// <summary>
+        /// Gets the position of the currently highlighted item.
+        /// </summary>
+        public Vector2 HighlightedItemPosition
+        {
+            get
+            {
+                if (this.highlightedIndex > -1 && this.highlightedIndex < this.selectableItemNames.Count)
+                {
+                    Vector2 position = this.Position;
+                    string name = this.selectableItemNames[this.highlightedIndex];
+                    foreach (MenuItem menuItem in this.menuItems)
+                    {
+                        if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
+                        {
+                            if ((menuItem as MenuSelectableItem).Name == name)
+                            {
+                                position += (menuItem as MenuSelectableItem).RelativePosition;
+                                break;
+                            }
+                        }
+                    }
+                    return position;
+                }
+                else
+                {
+                    return Vector2.Zero;
+                }
+            }
+        }
+
         /// <summary>
         /// Gets the position of the menu.
         /// </summary>
         public Vector2 Position { get; private set; }
 
         /// <summary>
-        /// Gets the list of selectable item names.
+        /// Gets the collection of selectable item names.
         /// </summary>
-        public List<string> SelectableItemNames
+        public Collection<string> SelectableItemNames
         {
             get
             {
@@ -128,6 +191,70 @@
             {
                 menuItem.Draw(this.Position);
             }
+        }
+
+        /// <summary>
+        /// Moves the highlighted item down.
+        /// </summary>
+        public void MoveSelectionDown()
+        {
+            this.selectedRow++;
+            if (this.selectedRow >= this.selectableRows)
+            {
+                this.selectedRow = 0;
+            }
+
+            this.highlightedIndex = (this.selectedRow * this.selectableColumns) + this.selectedColumn;
+            if (this.highlightedIndex >= this.selectableItemNames.Count)
+            {
+                this.selectedRow = 0;
+            }
+        }
+
+        /// <summary>
+        /// Moves the highlighted item up.
+        /// </summary>
+        public void MoveSelectionUp()
+        {
+            this.selectedRow--;
+            if (this.selectedRow < 0)
+            {
+                this.selectedRow = this.selectableRows - 1;
+            }
+
+            this.highlightedIndex = (this.selectedRow * this.selectableColumns) + this.selectedColumn;
+        }
+
+        /// <summary>
+        /// Moves the highlighted item right.
+        /// </summary>
+        public void MoveSelectionRight()
+        {
+            this.selectedColumn++;
+            if (this.selectedColumn >= this.selectableColumns)
+            {
+                this.selectedColumn = 0;
+            }
+
+            this.highlightedIndex = (this.selectedRow * this.selectableColumns) + this.selectedColumn;
+            if (this.highlightedIndex >= this.selectableItemNames.Count)
+            {
+                this.selectedColumn = 0;
+            }
+        }
+
+        /// <summary>
+        /// Moves the highlighted item to the left.
+        /// </summary>
+        public void MoveSelectionLeft()
+        {
+            this.selectedColumn--;
+            if (this.selectedColumn < 0)
+            {
+                this.selectedColumn = this.selectableColumns - 1;
+            }
+
+            this.highlightedIndex = (this.selectedRow * this.selectableColumns) + this.selectedColumn;
         }
     }
 }

@@ -42,7 +42,7 @@
         /// <param name="parentPosition">The position of the menu item's parent/owner.</param>
         public override void Draw(Vector2 parentPosition)
         {
-            Sprite.Draw(this.sprite, parentPosition + this.relativePosition, 0.0f);
+            Sprite.Draw(this.sprite, parentPosition + this.RelativePosition, 0.0f);
         }
     }
 }
