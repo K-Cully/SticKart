@@ -296,27 +296,27 @@
             if (this.gamePadstate != null && DateTime.UtcNow.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
             {
                 this.lastKeyPressTime = DateTime.UtcNow;
-                if (this.gamePadstate.Buttons.Back == ButtonState.Released)
+                if (this.gamePadstate.Buttons.Back == ButtonState.Pressed)
                 {
                     this.commands.Add(InputCommand.Exit);
                 }
-                else if (this.gamePadstate.Buttons.Start == ButtonState.Released)
+                else if (this.gamePadstate.Buttons.Start == ButtonState.Pressed)
                 {
                     this.commands.Add(InputCommand.Pause);
                 }
                 else
                 {
-                    if (this.gamePadstate.Buttons.A == ButtonState.Released)
+                    if (this.gamePadstate.Buttons.A == ButtonState.Pressed)
                     {
                         this.commands.Add(InputCommand.Select);
                     }
 
-                    if (this.gamePadstate.ThumbSticks.Left.Y > 0.1f || this.gamePadstate.DPad.Up == ButtonState.Released)
+                    if (this.gamePadstate.ThumbSticks.Left.Y > 0.1f || this.gamePadstate.DPad.Up == ButtonState.Pressed)
                     {
                         this.commands.Add(InputCommand.Up);
                         this.commands.Add(InputCommand.Jump);
                     }
-                    else if (this.gamePadstate.ThumbSticks.Left.Y < -0.1f || this.gamePadstate.DPad.Down == ButtonState.Released)
+                    else if (this.gamePadstate.ThumbSticks.Left.Y < -0.1f || this.gamePadstate.DPad.Down == ButtonState.Pressed)
                     {
                         this.commands.Add(InputCommand.Down);
                         this.commands.Add(InputCommand.Crouch);
@@ -326,11 +326,11 @@
                         this.commands.Add(InputCommand.Run);
                     }
 
-                    if (this.gamePadstate.ThumbSticks.Left.X > 0.1f || this.gamePadstate.DPad.Right == ButtonState.Released)
+                    if (this.gamePadstate.ThumbSticks.Left.X > 0.1f || this.gamePadstate.DPad.Right == ButtonState.Pressed)
                     {
                         this.commands.Add(InputCommand.Right);
                     }
-                    else if (this.gamePadstate.ThumbSticks.Left.X < -0.1f || this.gamePadstate.DPad.Left == ButtonState.Released)
+                    else if (this.gamePadstate.ThumbSticks.Left.X < -0.1f || this.gamePadstate.DPad.Left == ButtonState.Pressed)
                     {
                         this.commands.Add(InputCommand.Left);
                     }

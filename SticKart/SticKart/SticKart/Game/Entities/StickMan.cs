@@ -296,13 +296,18 @@
         /// <summary>
         /// Makes the stick man crouch if it is standing.
         /// </summary>
-        public void Crouch()
+        public void CrouchOrJumpDown()
         {
-            if (this.state == PlayerState.standing)
+            if (this.state == PlayerState.standing && this.inCart)
             {
                 this.state = PlayerState.crouching;
                 this.topBody.IsSensor = true;
                 // TODO: test collisions with top box
+            }
+            else if (this.state == PlayerState.running || this.state == PlayerState.standing)
+            {
+                this.state = PlayerState.falling;
+                // TODO: turn off collisions with platforms for a short period, to allow movement through platforms.
             }
         }
 

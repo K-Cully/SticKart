@@ -223,7 +223,7 @@ namespace SticKart
                             this.stickman.Jump();
                             break;
                         case InputCommand.Crouch:
-                            this.stickman.Crouch();
+                            this.stickman.CrouchOrJumpDown();
                             break;
                         case InputCommand.Run:
                             this.stickman.Run();
