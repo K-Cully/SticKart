@@ -170,7 +170,7 @@
         #region accessors
 
         /// <summary>
-        /// Gest or sets the stick man's display coordinates.
+        /// Gest or the stick man's display coordinates.
         /// </summary>
         public Vector2 Position
         {
@@ -184,12 +184,6 @@
                 {
                     return 0.5f * (ConvertUnits.ToDisplayUnits(this.wheelBody.Position) + ConvertUnits.ToDisplayUnits(this.topBody.Position));
                 }
-            }
-            set
-            {
-                this.topBody.Position = ConvertUnits.ToSimUnits(value + this.topBodyOffset);
-                this.middleBody.Position = ConvertUnits.ToSimUnits(value + this.middleBodyOffset);
-                this.wheelBody.Position = ConvertUnits.ToSimUnits(value + this.wheelBodyOffset);
             }
         }
 
@@ -246,7 +240,7 @@
             this.wheelBody.IgnoreCollisionWith(this.topBody);
             this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             this.wheelBody.Restitution = restitution;
-            this.wheelBody.Friction = 1.0f; // TODO: set appropriatly
+            this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
             this.wheelBody.CollisionCategories = Category.Cat31;
 
             // Joints to connect the bodies.
@@ -300,7 +294,7 @@
         {
             if (this.state != PlayerState.jumping)
             {
-                this.idealHorizontalVelocity += 2.0f; // TODO: set
+                this.idealHorizontalVelocity += 5.0f; // TODO: set
                 if (this.idealHorizontalVelocity > this.maximumHorizontalVelocity)
                 {
                     this.idealHorizontalVelocity = this.maximumHorizontalVelocity;
@@ -350,6 +344,7 @@
             {
                 this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
                 this.state = PlayerState.jumping;
+                this.motorJoint.MotorSpeed = 0.0f;
                 // TODO: switch off collisions with platforms
             }
         }
@@ -372,7 +367,7 @@
             {
                 case PlayerState.standing:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
+                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.crouching:
                     Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
@@ -380,17 +375,17 @@
                     break;
                 case PlayerState.jumping:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
+                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.running:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
+                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.falling:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
+                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.dead:
                     //TODO
@@ -400,6 +395,29 @@
             }
         }
 
+        /// <summary>
+        /// Resets the stick man. 
+        /// </summary>
+        /// <param name="position">The display coordinate to place the player at.</param>
+        public void Reset(Vector2 position)
+        {
+            this.topBody.Position = ConvertUnits.ToSimUnits(position + this.topBodyOffset);
+            this.middleBody.Position = ConvertUnits.ToSimUnits(position + this.middleBodyOffset);
+            this.wheelBody.Position = ConvertUnits.ToSimUnits(position + this.wheelBodyOffset);
+            this.state = PlayerState.standing;
+            this.idealHorizontalVelocity = 0.0f;
+            this.inCart = false;
+            this.onFloor = false;
+            this.motorJoint.MotorSpeed = 0.0f;
+            this.middleBody.Rotation = 0.0f;
+            this.topBody.Rotation = 0.0f;
+            this.wheelBody.Rotation = 0.0f;
+            this.middleBody.LinearVelocity = Vector2.Zero;
+            this.topBody.LinearVelocity = Vector2.Zero;
+            this.wheelBody.LinearVelocity = Vector2.Zero;
+        }
+
+        // TODO: implement fully
         private bool CollisionHandler(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             if (fixtureOne.CollisionCategories == Category.Cat31)

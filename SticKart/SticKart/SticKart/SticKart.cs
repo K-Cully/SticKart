@@ -147,6 +147,18 @@ namespace SticKart
             bounds.Add(new Vector2(0.0f, 0.0f));
             bounds.Add(new Vector2(width, 0.0f));
             bounds.Add(new Vector2(width, height));
+
+            // TODO: remove 
+            bounds.Add(new Vector2(width * 0.9f, height * 0.97f));
+            bounds.Add(new Vector2(width * 0.8f, height * 0.92f));
+            bounds.Add(new Vector2(width * 0.7f, height * 0.87f));
+            bounds.Add(new Vector2(width * 0.6f, height * 0.82f));
+            bounds.Add(new Vector2(width * 0.5f, height * 0.82f));
+            bounds.Add(new Vector2(width * 0.4f, height * 0.87f));
+            bounds.Add(new Vector2(width * 0.3f, height * 0.92f));
+            bounds.Add(new Vector2(width * 0.2f, height * 0.97f));
+            bounds.Add(new Vector2(width * 0.1f, height));
+            
             bounds.Add(new Vector2(0.0f, height));
             return bounds;
         }
@@ -167,9 +179,10 @@ namespace SticKart
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
 
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.Content);
-            this.stickman.Position = new Vector2( 50.0f, this.screenDimensions.Y / 2.0f);
+            this.stickman.Reset(new Vector2( 50.0f, this.screenDimensions.Y * 0.95f));
 
             this.boundry = BodyFactory.CreateLoopShape(this.physicsWorld, this.GetBounds());
+            this.boundry.Friction = float.MaxValue;
             this.boundry.CollisionCategories = Category.All;
             this.boundry.CollidesWith = Category.All;
         }
@@ -308,6 +321,8 @@ namespace SticKart
         {
             // TODO: refine.
             this.gameState = GameState.InGame;
+            this.physicsWorld.ClearForces();
+            this.stickman.Reset(new Vector2(50.0f, this.screenDimensions.Y * 0.95f));
         }
 
         /// <summary>
