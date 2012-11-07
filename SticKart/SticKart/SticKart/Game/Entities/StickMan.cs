@@ -4,6 +4,7 @@
     using FarseerPhysics.Collision.Shapes;
     using FarseerPhysics.Common;
     using FarseerPhysics.Dynamics;
+    using FarseerPhysics.Dynamics.Contacts;
     using FarseerPhysics.Dynamics.Joints;
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
@@ -162,6 +163,8 @@
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
             this.acceleration = 9.0f;
+
+            this.wheelBody.OnCollision += this.CollisionHandler;
         }
 
         #region accessors
@@ -244,6 +247,7 @@
             this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             this.wheelBody.Restitution = restitution;
             this.wheelBody.Friction = 1.0f; // TODO: set appropriatly
+            this.wheelBody.CollisionCategories = Category.Cat31;
 
             // Joints to connect the bodies.
             this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
@@ -396,5 +400,21 @@
             }
         }
 
+        private bool CollisionHandler(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        {
+            if (fixtureOne.CollisionCategories == Category.Cat31)
+            {
+                if (this.motorJoint.MotorSpeed > 0.0f)
+                {
+                    this.state = PlayerState.running;
+                }
+                else
+                {
+                    this.state = PlayerState.standing;
+                }
+            }
+
+            return true; // TODO: return false if collisions disabled
+        }
     }
 }
