@@ -292,9 +292,9 @@
         /// </summary>
         private void GetGamePadInput()
         {
-            this.gamePadstate = GamePad.GetState(PlayerIndex.One);
             if (this.gamePadstate != null && DateTime.UtcNow.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
             {
+                this.gamePadstate = GamePad.GetState(PlayerIndex.One);
                 this.lastKeyPressTime = DateTime.UtcNow;
                 if (this.gamePadstate.Buttons.Back == ButtonState.Pressed)
                 {
@@ -405,9 +405,9 @@
         /// </summary>
         private void GetKeyboardInput()
         {
-            this.keyboardState = Keyboard.GetState();
             if (this.keyboardState != null && DateTime.UtcNow.Subtract(this.lastKeyPressTime).TotalMilliseconds > InputManager.KeyDelayMillisceonds)
             {
+                this.keyboardState = Keyboard.GetState();
                 this.lastKeyPressTime = DateTime.UtcNow;
                 if (this.keyboardState.IsKeyDown(Keys.Escape))
                 {

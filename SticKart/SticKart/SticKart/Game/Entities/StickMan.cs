@@ -60,7 +60,7 @@
         /// <summary>
         /// A motor joint connecting the <see cref="middleBody"/> to the <see cref="wheelBody"/>.
         /// </summary>
-        private RevoluteJoint lowerBodyJoint;
+        private RevoluteJoint motorJoint;
 
         /// <summary>
         /// A joint which locks the angle of the stickman to prevent it falling over.
@@ -72,7 +72,7 @@
         /// </summary>
         private Sprite standingSprite; // TODO: add animated sprite class and other sprites
 
-        private Sprite Wheelsprite;
+        private Sprite Wheelsprite; // TODO: remove
 
         /// <summary>
         /// The minimum velocity at which the stickman can move horizontally.
@@ -85,9 +85,14 @@
         private float maximumHorizontalVelocity;
 
         /// <summary>
-        /// The current velocity at which the stickman is moving horizontally.
+        /// The ideal velocity at which the stickman is moving horizontally.
         /// </summary>
-        private float horizontalVelocity;
+        private float idealHorizontalVelocity;
+
+        /// <summary>
+        /// The acceleration which should be applied to the stickman upon recieiving a run command.
+        /// </summary>
+        private float acceleration;
 
         /// <summary>
         /// The minimum health the stickman can have.
@@ -140,7 +145,7 @@
         public StickMan(ref World physicsWorld, float maximumHorizontalSpeed, int maximumHealth, float jumpImpulse, SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.minimumHorizontalVelocity = 0.0f;
-            this.horizontalVelocity = 0.0f;
+            this.idealHorizontalVelocity = 0.0f;
             this.maximumHorizontalVelocity = maximumHorizontalSpeed;
             this.minimumHealth = 0;
             this.health = maximumHealth;
@@ -156,6 +161,7 @@
             this.middleBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
+            this.acceleration = 9.0f;
         }
 
         #region accessors
@@ -242,10 +248,10 @@
             // Joints to connect the bodies.
             this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
             this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.middleBody);
-            this.lowerBodyJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, Vector2.Zero);
-            this.lowerBodyJoint.MotorSpeed = 0.0f;
-            this.lowerBodyJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
-            this.lowerBodyJoint.MotorEnabled = true;
+            this.motorJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, Vector2.Zero);
+            this.motorJoint.MotorSpeed = 0.0f;
+            this.motorJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
+            this.motorJoint.MotorEnabled = true;
         }
 
         #endregion
@@ -257,14 +263,29 @@
         public void Update(GameTime gameTime)
         {
             // TODO: implement
-            if (this.state == PlayerState.jumping && this.middleBody.LinearVelocity.Y >= 0.0f)
+            if (this.state == PlayerState.running)
+            {
+                this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.95f;
+
+                if (this.middleBody.LinearVelocity.X > this.idealHorizontalVelocity)
+                {
+                    this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                else if (this.middleBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
+                {
+                    this.motorJoint.MotorSpeed += this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+
+                if (this.idealHorizontalVelocity == 0.0f && this.middleBody.LinearVelocity.X < 1.0f)
+                {
+                    this.motorJoint.MotorSpeed = 0.0f;
+                    this.state = PlayerState.standing;
+                }
+            }
+            else if (this.state == PlayerState.jumping && this.middleBody.LinearVelocity.Y >= 0.0f)
             {
                 this.state = PlayerState.falling;
                 // TODO: switch on collisions with platforms
-            }
-            else if (this.state == PlayerState.running && this.middleBody.LinearVelocity.X == 0.0f)
-            {
-                this.state = PlayerState.standing;
             }
         }
 
@@ -275,7 +296,12 @@
         {
             if (this.state != PlayerState.jumping)
             {
-                this.lowerBodyJoint.MotorSpeed = 10.0f; // TODO: test
+                this.idealHorizontalVelocity += 2.0f; // TODO: set
+                if (this.idealHorizontalVelocity > this.maximumHorizontalVelocity)
+                {
+                    this.idealHorizontalVelocity = this.maximumHorizontalVelocity;
+                }
+
                 this.state = PlayerState.running;
             }
         }
@@ -298,7 +324,7 @@
         /// </summary>
         public void CrouchOrJumpDown()
         {
-            if (this.state == PlayerState.standing && this.inCart)
+            if (this.state != PlayerState.crouching && this.inCart)
             {
                 this.state = PlayerState.crouching;
                 this.topBody.IsSensor = true;
@@ -307,7 +333,7 @@
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
             {
                 this.state = PlayerState.falling;
-                // TODO: turn off collisions with platforms for a short period, to allow movement through platforms.
+                // TODO: turn off collisions with the platform below, to allow movement through it (possibly indefinitly?).
             }
         }
 

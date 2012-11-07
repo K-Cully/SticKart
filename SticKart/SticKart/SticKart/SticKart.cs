@@ -166,8 +166,8 @@ namespace SticKart
             
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
 
-            this.stickman = new StickMan(ref this.physicsWorld, 100.0f, 100, -1.0f, this.spriteBatch, this.Content);
-            this.stickman.Position = this.screenDimensions / 2.0f;
+            this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.Content);
+            this.stickman.Position = new Vector2( 10.0f, this.screenDimensions.Y / 2.0f);
 
             this.boundry = BodyFactory.CreateLoopShape(this.physicsWorld, this.GetBounds());
             this.boundry.CollisionCategories = Category.All;
