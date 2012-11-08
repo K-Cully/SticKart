@@ -292,7 +292,7 @@
         /// </summary>
         public void Run()
         {
-            if (this.state != PlayerState.jumping)
+            if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
                 this.idealHorizontalVelocity += 5.0f; // TODO: set
                 if (this.idealHorizontalVelocity > this.maximumHorizontalVelocity)
