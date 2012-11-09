@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <Asset Type="SticKart.ObstacleOrBonusDescription">
+    <Name>coin</Name>
+    <IsBonus>true</IsBonus>
+    <Value>50</Value>
+  </Asset>
+</XnaContent>

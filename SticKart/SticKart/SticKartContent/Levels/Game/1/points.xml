@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <!--Note: The first two positions are the start and end positions.-->
+  <Asset Type="Microsoft.Xna.Framework.Vector2[]">
+    0 0
+    1 1
+    3 4
+    5 0
+    -15 120
+  </Asset>
+</XnaContent>

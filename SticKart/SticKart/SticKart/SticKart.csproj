@@ -99,6 +99,9 @@
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
     <Compile Include="Game\Entities\PlayerState.cs" />
+    <Compile Include="Game\Entities\EntityConstants.cs" />
+    <Compile Include="Game\Entities\EntitySettingsLoader.cs" />
+    <Compile Include="Game\Level\LevelLoader.cs" />
     <Compile Include="Input\ControlDevice.cs" />
     <Compile Include="Game\Entities\StickMan.cs" />
     <Compile Include="Input\Gestures\GestureType.cs" />
@@ -169,6 +172,10 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SticKart_CustomContent\SticKart_CustomContent.csproj">
+      <Project>{264DD867-FD3C-4AC6-9935-3736B0BAC654}</Project>
+      <Name>SticKart_CustomContent</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SticKartContent\SticKart_Content.contentproj">
       <Project>{50E281F0-C446-4EEB-9731-FF866EB0F1C7}</Project>
       <Name>SticKart_Content %28Content%29</Name>
@@ -181,21 +188,19 @@
   <ItemGroup>
     <PublishFile Include="Microsoft.Speech">
       <Visible>False</Visible>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
     <None Include="SticKart_TemporaryKey.pfx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Game\Level\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

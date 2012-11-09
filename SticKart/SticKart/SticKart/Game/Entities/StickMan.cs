@@ -91,7 +91,7 @@
         private float idealHorizontalVelocity;
 
         /// <summary>
-        /// The acceleration which should be applied to the stickman upon recieiving a run command.
+        /// The acceleration which should be applied to the stickman upon receiving a run command.
         /// </summary>
         private float acceleration;
 
@@ -170,7 +170,7 @@
         #region accessors
 
         /// <summary>
-        /// Gest or the stick man's display coordinates.
+        /// Gets the stick man's display coordinates.
         /// </summary>
         public Vector2 Position
         {
@@ -417,9 +417,16 @@
             this.wheelBody.LinearVelocity = Vector2.Zero;
         }
 
-        // TODO: implement fully
+        /// <summary>
+        /// Collision event handler for a stick man object.
+        /// </summary>
+        /// <param name="fixtureOne">The first colliding fixture.</param>
+        /// <param name="fixtureTwo">The second colliding fixture.</param>
+        /// <param name="contact">The contact object.</param>
+        /// <returns>Whether the collision was accepted or not.</returns>
         private bool CollisionHandler(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
+            // TODO: implement fully
             if (fixtureOne.CollisionCategories == Category.Cat31)
             {
                 if (this.motorJoint.MotorSpeed > 0.0f)

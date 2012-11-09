@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <Asset Type="SticKart.PlatformDescription[]">
+    <Item>
+      <Position>240 100</Position>
+      <Length>160</Length>
+    </Item>
+    <Item>
+      <Position>500 50</Position>
+      <Length>100</Length>
+    </Item>
+  </Asset>
+</XnaContent>

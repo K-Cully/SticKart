@@ -185,6 +185,8 @@ namespace SticKart
             this.boundry.Friction = float.MaxValue;
             this.boundry.CollisionCategories = Category.All;
             this.boundry.CollidesWith = Category.All;
+
+            EntitySettingsLoader.LoadEntitySettings(this.Content);
         }
 
         /// <summary>
