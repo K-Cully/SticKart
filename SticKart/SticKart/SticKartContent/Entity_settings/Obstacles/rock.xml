@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <XnaContent>
-  <Asset Type="SticKart.ObstacleOrBonusDescription">
+  <Asset Type="SticKart.ObstacleOrBonusSetting">
     <Name>rock</Name>
     <IsBonus>false</IsBonus>
     <Value>10</Value>

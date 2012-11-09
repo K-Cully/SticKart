@@ -8,9 +8,9 @@ Content\Sprites\Menu\Leaderboard_icon_large.xnb
 Content\Sprites\Menu\Back_icon_large.xnb
 Content\Sprites\Menu\Restart_icon_large.xnb
 Content\Fonts\SegoeUIMono.xnb
-Content\Levels\Game\1\points.xnb
-Content\Levels\Game\1\platforms.xnb
-Content\Levels\Game\1\LevelCollidables.xnb
-Content\Levels\Game\Entity_descriptions\Obstacles\Rock.xnb
-Content\Levels\Game\Entity_descriptions\Bonuses\Coin.xnb
-Content\Levels\Game\Entity_descriptions\Power_ups\Invincible.xnb
+Content\Entity_settings\Obstacles\rock.xnb
+Content\Entity_settings\Bonuses\coin.xnb
+Content\Entity_settings\Power_ups\invincible.xnb
+Content\Levels\1\points.xnb
+Content\Levels\1\platforms.xnb
+Content\Levels\1\collidables.xnb

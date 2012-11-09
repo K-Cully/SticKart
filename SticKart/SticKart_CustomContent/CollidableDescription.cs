@@ -5,7 +5,7 @@ namespace SticKart
     /// <summary>
     /// Describes a the basic aspects of a game entity which the player can collide with.
     /// </summary>
-    public class LevelCollidableDescription
+    public class CollidableDescription
     {
         /// <summary>
         /// The name of the entity.

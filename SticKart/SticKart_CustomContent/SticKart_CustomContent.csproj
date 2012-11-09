@@ -59,10 +59,10 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LevelCollidableDescription.cs" />
-    <Compile Include="ObstacleOrBonusDescription.cs" />
+    <Compile Include="CollidableDescription.cs" />
+    <Compile Include="ObstacleOrBonusSetting.cs" />
     <Compile Include="PlatformDescription.cs" />
-    <Compile Include="PowerUpDescription.cs" />
+    <Compile Include="PowerUpSetting.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

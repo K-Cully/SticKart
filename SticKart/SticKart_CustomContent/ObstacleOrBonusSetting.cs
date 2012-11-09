@@ -3,9 +3,9 @@
     using Microsoft.Xna.Framework;
 
     /// <summary>
-    /// Describes the characteristics of a bonus or an obstacle.
+    /// The settings for a bonus or an obstacle.
     /// </summary>
-    public class ObstacleOrBonusDescription
+    public class ObstacleOrBonusSetting
     {
         /// <summary>
         /// The name of the object.

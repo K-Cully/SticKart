@@ -98,29 +98,27 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\Game\1\points.xml">
+    <Compile Include="Levels\1\points.xml">
       <Name>points</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\Game\1\platforms.xml">
+    <Compile Include="Levels\1\platforms.xml">
       <Name>platforms</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\Game\1\LevelCollidables.xml">
-      <Name>LevelCollidables</Name>
+    <Compile Include="Levels\1\collidables.xml">
+      <Name>collidables</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Levels\Custom\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\SticKart_CustomContent\SticKart_CustomContent.csproj">
       <Project>{264DD867-FD3C-4AC6-9935-3736B0BAC654}</Project>
@@ -128,21 +126,21 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\Game\Entity_descriptions\Obstacles\rock.xml">
+    <Compile Include="Entity_settings\Obstacles\rock.xml">
       <Name>rock</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\Game\Entity_descriptions\Bonuses\coin.xml">
+    <Compile Include="Entity_settings\Bonuses\coin.xml">
       <Name>coin</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\Game\Entity_descriptions\Power_ups\invincible.xml">
+    <Compile Include="Entity_settings\Power_ups\invincible.xml">
       <Name>invincible</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>

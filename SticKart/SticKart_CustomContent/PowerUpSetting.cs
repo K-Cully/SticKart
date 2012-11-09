@@ -3,9 +3,9 @@
     using Microsoft.Xna.Framework;
 
     /// <summary>
-    /// Describes a power up entity.
+    /// The settings for a power up entity.
     /// </summary>
-    public class PowerUpDescription
+    public class PowerUpSetting
     {
         /// <summary>
         /// The name of the power up.

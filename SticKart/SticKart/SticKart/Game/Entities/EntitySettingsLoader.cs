@@ -12,7 +12,7 @@
         /// <summary>
         /// Gets the settings for a coin bonus.
         /// </summary>
-        public static ObstacleOrBonusDescription CoinSettings { get; private set; }
+        public static ObstacleOrBonusSetting CoinSettings { get; private set; }
 
         #endregion
 
@@ -21,7 +21,7 @@
         /// <summary>
         /// Gets the settings for a rock obstacle.
         /// </summary>
-        public static ObstacleOrBonusDescription RockSettings { get; private set; }
+        public static ObstacleOrBonusSetting RockSettings { get; private set; }
 
         #endregion
 
@@ -30,7 +30,7 @@
         /// <summary>
         /// Gets the settings for an invincible power up.
         /// </summary>
-        public static PowerUpDescription InvincibleSettings { get; private set; }
+        public static PowerUpSetting InvincibleSettings { get; private set; }
 
         #endregion
 
@@ -40,9 +40,9 @@
         /// <param name="content">The game's content manager.</param>
         public static void LoadEntitySettings(ContentManager content)
         {
-            EntitySettingsLoader.CoinSettings = content.Load<ObstacleOrBonusDescription>(EntityConstants.DescriptionFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.CoinName);
-            EntitySettingsLoader.RockSettings = content.Load<ObstacleOrBonusDescription>(EntityConstants.DescriptionFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.RockName);
-            EntitySettingsLoader.InvincibleSettings = content.Load<PowerUpDescription>(EntityConstants.DescriptionFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.InvincibleName);
+            EntitySettingsLoader.CoinSettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.CoinName);
+            EntitySettingsLoader.RockSettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.RockName);
+            EntitySettingsLoader.InvincibleSettings = content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.InvincibleName);
         }
     }
 }

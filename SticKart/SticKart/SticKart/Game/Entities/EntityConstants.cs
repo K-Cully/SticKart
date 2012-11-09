@@ -8,22 +8,22 @@
         #region paths
 
         /// <summary>
-        /// The path to the entity descriptions folder.
+        /// The path to the entity settings folder.
         /// </summary>
-        public const string DescriptionFolderPath = "Levels/Game/Entity_descriptions/";
+        public const string SettingsFolderPath = "Entity_settings/";
 
         /// <summary>
-        /// The sub-folder path to the bonus descriptions folder.
+        /// The sub-folder path to the bonus settings folder.
         /// </summary>
         public const string BonusFolderSubPath = "Bonuses/";
 
         /// <summary>
-        /// The sub-folder path to the obstacle descriptions folder.
+        /// The sub-folder path to the obstacle settings folder.
         /// </summary>
         public const string ObstacleFolderSubPath = "Obstacles/";
 
         /// <summary>
-        /// The sub-folder path to the power up descriptions folder.
+        /// The sub-folder path to the power up settings folder.
         /// </summary>
         public const string PowerUpFolderSubPath = "Power_ups/";
 

@@ -9,6 +9,7 @@ namespace SticKart
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
     using Game.Entities;
+    using Game.Level;
     using Input;
     using Menu;
     using Microsoft.Xna.Framework;
@@ -187,6 +188,7 @@ namespace SticKart
             this.boundry.CollidesWith = Category.All;
 
             EntitySettingsLoader.LoadEntitySettings(this.Content);
+            LevelLoader.LoadLevel(this.Content, 1, false);
         }
 
         /// <summary>
