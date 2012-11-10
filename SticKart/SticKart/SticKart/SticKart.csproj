@@ -101,6 +101,7 @@
     <Compile Include="Game\Entities\PlayerState.cs" />
     <Compile Include="Game\Entities\EntityConstants.cs" />
     <Compile Include="Game\Entities\EntitySettingsLoader.cs" />
+    <Compile Include="Game\Level\LevelManager.cs" />
     <Compile Include="Game\Level\LevelLoader.cs" />
     <Compile Include="Input\ControlDevice.cs" />
     <Compile Include="Game\Entities\StickMan.cs" />

@@ -64,26 +64,8 @@ namespace SticKart
         private Sprite handSprite;
 
         #endregion
-
-        #region physics
-
-        /// <summary>
-        /// The physics game world.
-        /// </summary>
-        private World physicsWorld;
-
-        // TODO: remove once level implemented.
-        private Body boundry;
-                
-        #endregion
-
-        #region entities
-
-        private StickMan stickman;
-
-        #endregion
-
-        #region misc
+        
+        #region game
 
         /// <summary>
         /// The game's input manager.
@@ -100,6 +82,11 @@ namespace SticKart
         /// </summary>
         private MenuManager menuManager;
 
+        /// <summary>
+        /// The game's level manager.
+        /// </summary>
+        private LevelManager levelManager;
+
         #endregion
 
         /// <summary>
@@ -114,16 +101,16 @@ namespace SticKart
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = false;
+            this.graphics.IsFullScreen = false; // TODO: set to true for release 
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect);
+            this.levelManager = new LevelManager(this.screenDimensions, SticKart.FrameTime);
 
             this.menuManager = new MenuManager(this.screenDimensions);
             this.menuManager.OnBeginLevelDetected += this.BeginLevel;
             this.menuManager.OnQuitGameDetected += this.QuitGame;
             // TODO: add other menu event handlers.
 
-            this.stickman = null;
             this.handSprite = new Sprite();
         }
 
@@ -138,31 +125,6 @@ namespace SticKart
             base.Initialize();
         }
 
-        // TODO: Remove this boundry or scroll.
-        protected Vertices GetBounds()
-        {
-            float height = ConvertUnits.ToSimUnits(this.GraphicsDevice.Viewport.Height);
-            float width = ConvertUnits.ToSimUnits(this.GraphicsDevice.Viewport.Width);
-
-            Vertices bounds = new Vertices(4);
-            bounds.Add(new Vector2(0.0f, 0.0f));
-            bounds.Add(new Vector2(width, 0.0f));
-            bounds.Add(new Vector2(width, height));
-
-            // TODO: remove 
-            bounds.Add(new Vector2(width * 0.9f, height * 0.97f));
-            bounds.Add(new Vector2(width * 0.8f, height * 0.92f));
-            bounds.Add(new Vector2(width * 0.7f, height * 0.87f));
-            bounds.Add(new Vector2(width * 0.6f, height * 0.82f));
-            bounds.Add(new Vector2(width * 0.5f, height * 0.82f));
-            bounds.Add(new Vector2(width * 0.4f, height * 0.87f));
-            bounds.Add(new Vector2(width * 0.3f, height * 0.92f));
-            bounds.Add(new Vector2(width * 0.2f, height * 0.97f));
-            bounds.Add(new Vector2(width * 0.1f, height));
-            
-            bounds.Add(new Vector2(0.0f, height));
-            return bounds;
-        }
         
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
@@ -176,19 +138,9 @@ namespace SticKart
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content);
 
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
-            
-            this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
-
-            this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.Content);
-            this.stickman.Reset(new Vector2( 50.0f, this.screenDimensions.Y * 0.95f));
-
-            this.boundry = BodyFactory.CreateLoopShape(this.physicsWorld, this.GetBounds());
-            this.boundry.Friction = float.MaxValue;
-            this.boundry.CollisionCategories = Category.All;
-            this.boundry.CollidesWith = Category.All;
 
             EntitySettingsLoader.LoadEntitySettings(this.Content);
-            LevelLoader.LoadLevel(this.Content, 1, false);
+            this.levelManager.LoadContent(this.Content, this.spriteBatch);
         }
 
         /// <summary>
@@ -214,7 +166,6 @@ namespace SticKart
                     break;
                 case GameState.InGame:
                     this.UpdateGame(gameTime);
-                    this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, SticKart.FrameTime));
                     break;
                 default:
                     break;
@@ -229,22 +180,12 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateGame(GameTime gameTime)
         {
-            this.stickman.Update(gameTime);
             if (this.inputManager.Update()) // Commands are available.
             {
                 foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)
                     {
-                        case InputCommand.Jump:
-                            this.stickman.Jump();
-                            break;
-                        case InputCommand.Crouch:
-                            this.stickman.CrouchOrJumpDown();
-                            break;
-                        case InputCommand.Run:
-                            this.stickman.Run();
-                            break;
                         case InputCommand.Pause:
                             this.PauseGame();
                             break;
@@ -256,6 +197,8 @@ namespace SticKart
                     }
                 }
             }
+
+            this.levelManager.Update(gameTime, this.inputManager.Commands);
 
             if (this.inputManager.VoiceCommandAvailable)
             {
@@ -325,8 +268,7 @@ namespace SticKart
         {
             // TODO: refine.
             this.gameState = GameState.InGame;
-            this.physicsWorld.ClearForces();
-            this.stickman.Reset(new Vector2(50.0f, this.screenDimensions.Y * 0.95f));
+            this.levelManager.BeginLevel(1, false); // TODO: Set to level number selected.
         }
 
         /// <summary>
@@ -363,7 +305,7 @@ namespace SticKart
 
                     break;
                 case GameState.InGame:
-                    this.stickman.Draw();
+                    this.levelManager.Draw();
                     break;
                 default:
                     break;
