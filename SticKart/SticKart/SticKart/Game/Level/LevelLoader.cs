@@ -52,7 +52,7 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelLoader"/> class.
         /// </summary>
-        /// <param name="contentManager"></param>
+        /// <param name="contentManager">The content manager to use when loading.</param>
         public LevelLoader(ContentManager contentManager)
         {
             this.contentManager = contentManager;

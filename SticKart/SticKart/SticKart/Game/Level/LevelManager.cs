@@ -3,14 +3,14 @@
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using Entities;
+    using FarseerPhysics.Common;
     using FarseerPhysics.Dynamics;
+    using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
     using Input;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-    using FarseerPhysics.Factories;
-    using FarseerPhysics.Common;
 
     /// <summary>
     /// Defines a level and all elements contained within.
@@ -26,7 +26,7 @@
         private Vector2 gameDisplayResolution;
 
         /// <summary>
-        /// The set frametime of the game.
+        /// The set frame-time of the game.
         /// </summary>
         private float frameTime;
 
@@ -58,14 +58,12 @@
         /// <summary>
         /// Whether the current level is a custom level or not.
         /// </summary>
-        public bool currentLevelCustom;
+        private bool currentLevelCustom;
 
         /// <summary>
         /// The player's in game representation.
         /// </summary>
         private StickMan stickman;
-
-
 
         // TODO: Remove this boundry or scroll.
         protected Vertices GetBounds()
@@ -129,7 +127,6 @@
             this.levelLoader = new LevelLoader(this.contentManager);
         
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
-            // this.stickman.Reset(new Vector2(50.0f, this.screenDimensions.Y * 0.95f)); // TODO:
         }
 
         /// <summary>
@@ -150,6 +147,11 @@
             this.stickman.Reset(this.levelLoader.StartPosition);
         }
 
+        /// <summary>
+        /// Updates all the entities in the current level.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        /// <param name="commands">A list of input commands.</param>
         public void Update(GameTime gameTime, List<InputCommand> commands)
         {
             // TODO
@@ -176,11 +178,13 @@
             this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, this.frameTime));                    
         }
 
+        /// <summary>
+        /// Draws the level and any entities it contains.
+        /// </summary>
         public void Draw()
         {
             // TODO
             this.stickman.Draw();
         }
-
     }
 }

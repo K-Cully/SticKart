@@ -3,11 +3,6 @@ namespace SticKart
     using System;
     using System.Collections.Generic;
     using Display;
-    using FarseerPhysics.Collision.Shapes;
-    using FarseerPhysics.Common;
-    using FarseerPhysics.Dynamics;
-    using FarseerPhysics.Factories;
-    using FarseerPhysics.SamplesFramework;
     using Game.Entities;
     using Game.Level;
     using Input;
@@ -124,8 +119,7 @@ namespace SticKart
         {
             base.Initialize();
         }
-
-        
+                
         /// <summary>
         /// LoadContent will be called once per game and is the place to load
         /// all of your content.

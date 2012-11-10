@@ -188,71 +188,6 @@
         }
 
         #endregion
-
-        #region initialization
-
-        /// <summary>
-        /// Initializes and loads the textures for all of the sprites in a StickMan object.
-        /// </summary>
-        /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
-        /// <param name="contentManager">The content manager to use for loading the sprites.</param>
-        private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
-        {
-            // TODO: rest of sprites
-            this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.StickManStanding);
-            this.Wheelsprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.HandIcon);
-        }
-
-        /// <summary>
-        /// Sets up all the physical properties of the StickMan object.
-        /// </summary>
-        /// <param name="physicsWorld">The physics world to set the objects up in.</param>
-        private void SetUpPhysicsObjects(ref World physicsWorld)
-        {
-            float density = 1.25f;
-            float restitution = 0.125f;
-
-            // Upper body for standing
-            this.topBody = BodyFactory.CreateBody(physicsWorld);
-            Vertices playerTopBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f)); // Top box is half of the standing height.
-            PolygonShape playerTopShape = new PolygonShape(playerTopBox, density);
-            Fixture playerTopFixture = this.topBody.CreateFixture(playerTopShape);
-            this.topBody.BodyType = BodyType.Dynamic;
-            this.topBody.Position = ConvertUnits.ToSimUnits(this.topBodyOffset);
-            this.topBody.Restitution = restitution;
-
-            // Middle body for crouching
-            this.middleBody = BodyFactory.CreateBody(physicsWorld);
-            Vertices playerMiddleBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 8.0f)); // Lower box is a quater of the standing height.
-            PolygonShape playerMiddleShape = new PolygonShape(playerMiddleBox, density);
-            Fixture playerMiddleFixture = this.middleBody.CreateFixture(playerMiddleShape);
-            this.middleBody.BodyType = BodyType.Dynamic;
-            this.middleBody.IgnoreCollisionWith(this.topBody);
-            this.middleBody.Position = ConvertUnits.ToSimUnits(this.middleBodyOffset);
-            this.middleBody.Restitution = restitution;
-
-            // Wheel for movement
-            this.wheelBody = BodyFactory.CreateBody(physicsWorld);
-            CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
-            Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
-            this.wheelBody.BodyType = BodyType.Dynamic;
-            this.wheelBody.IgnoreCollisionWith(this.middleBody);
-            this.wheelBody.IgnoreCollisionWith(this.topBody);
-            this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
-            this.wheelBody.Restitution = restitution;
-            this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
-            this.wheelBody.CollisionCategories = Category.Cat31;
-
-            // Joints to connect the bodies.
-            this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
-            this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.middleBody);
-            this.motorJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, Vector2.Zero);
-            this.motorJoint.MotorSpeed = 0.0f;
-            this.motorJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
-            this.motorJoint.MotorEnabled = true;
-        }
-
-        #endregion
         
         /// <summary>
         /// Updates the state of the player and any time based elements of the player. 
@@ -416,6 +351,71 @@
             this.topBody.LinearVelocity = Vector2.Zero;
             this.wheelBody.LinearVelocity = Vector2.Zero;
         }
+
+        #region initialization
+
+        /// <summary>
+        /// Initializes and loads the textures for all of the sprites in a StickMan object.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
+        /// <param name="contentManager">The content manager to use for loading the sprites.</param>
+        private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
+        {
+            // TODO: rest of sprites
+            this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.StickManStanding);
+            this.Wheelsprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.HandIcon);
+        }
+
+        /// <summary>
+        /// Sets up all the physical properties of the StickMan object.
+        /// </summary>
+        /// <param name="physicsWorld">The physics world to set the objects up in.</param>
+        private void SetUpPhysicsObjects(ref World physicsWorld)
+        {
+            float density = 1.25f;
+            float restitution = 0.125f;
+
+            // Upper body for standing
+            this.topBody = BodyFactory.CreateBody(physicsWorld);
+            Vertices playerTopBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f)); // Top box is half of the standing height.
+            PolygonShape playerTopShape = new PolygonShape(playerTopBox, density);
+            Fixture playerTopFixture = this.topBody.CreateFixture(playerTopShape);
+            this.topBody.BodyType = BodyType.Dynamic;
+            this.topBody.Position = ConvertUnits.ToSimUnits(this.topBodyOffset);
+            this.topBody.Restitution = restitution;
+
+            // Middle body for crouching
+            this.middleBody = BodyFactory.CreateBody(physicsWorld);
+            Vertices playerMiddleBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 8.0f)); // Lower box is a quater of the standing height.
+            PolygonShape playerMiddleShape = new PolygonShape(playerMiddleBox, density);
+            Fixture playerMiddleFixture = this.middleBody.CreateFixture(playerMiddleShape);
+            this.middleBody.BodyType = BodyType.Dynamic;
+            this.middleBody.IgnoreCollisionWith(this.topBody);
+            this.middleBody.Position = ConvertUnits.ToSimUnits(this.middleBodyOffset);
+            this.middleBody.Restitution = restitution;
+
+            // Wheel for movement
+            this.wheelBody = BodyFactory.CreateBody(physicsWorld);
+            CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
+            Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
+            this.wheelBody.BodyType = BodyType.Dynamic;
+            this.wheelBody.IgnoreCollisionWith(this.middleBody);
+            this.wheelBody.IgnoreCollisionWith(this.topBody);
+            this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
+            this.wheelBody.Restitution = restitution;
+            this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
+            this.wheelBody.CollisionCategories = Category.Cat31;
+
+            // Joints to connect the bodies.
+            this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
+            this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.middleBody);
+            this.motorJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, Vector2.Zero);
+            this.motorJoint.MotorSpeed = 0.0f;
+            this.motorJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
+            this.motorJoint.MotorEnabled = true;
+        }
+
+        #endregion
 
         /// <summary>
         /// Collision event handler for a stick man object.
