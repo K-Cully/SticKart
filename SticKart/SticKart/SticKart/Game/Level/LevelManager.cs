@@ -36,6 +36,11 @@
         private World physicsWorld;
 
         /// <summary>
+        /// The list of floor edges.
+        /// </summary>
+        private List<Body> floorEdges;
+
+        /// <summary>
         /// The sprite batch to use when drawing.
         /// </summary>
         private SpriteBatch spriteBatch;
@@ -75,18 +80,6 @@
             bounds.Add(new Vector2(0.0f, 0.0f));
             bounds.Add(new Vector2(width, 0.0f));
             bounds.Add(new Vector2(width, height));
-
-            // TODO: remove 
-            bounds.Add(new Vector2(width * 0.9f, height * 0.97f));
-            bounds.Add(new Vector2(width * 0.8f, height * 0.92f));
-            bounds.Add(new Vector2(width * 0.7f, height * 0.87f));
-            bounds.Add(new Vector2(width * 0.6f, height * 0.82f));
-            bounds.Add(new Vector2(width * 0.5f, height * 0.82f));
-            bounds.Add(new Vector2(width * 0.4f, height * 0.87f));
-            bounds.Add(new Vector2(width * 0.3f, height * 0.92f));
-            bounds.Add(new Vector2(width * 0.2f, height * 0.97f));
-            bounds.Add(new Vector2(width * 0.1f, height));
-
             bounds.Add(new Vector2(0.0f, height));
             return bounds;
         }
@@ -98,6 +91,8 @@
         /// <param name="frameTime">The frame time set for the game.</param>
         public LevelManager(Vector2 gameDisplayResolution, float frameTime)
         {
+            this.physicsWorld = null;
+            this.floorEdges = new List<Body>();
             this.gameDisplayResolution = gameDisplayResolution;
             this.frameTime = frameTime;
             this.physicsWorld = null;
@@ -144,6 +139,7 @@
             this.physicsWorld.ClearForces();
             this.levelLoader.LoadLevel(this.currentLevel, this.currentLevelCustom);
 
+            this.CreateLevelFloor(this.levelLoader.FloorPoints);
             this.stickman.Reset(this.levelLoader.StartPosition);
         }
 
@@ -185,6 +181,32 @@
         {
             // TODO
             this.stickman.Draw();
+        }
+
+        /// <summary>
+        /// Creates the floor of a level.
+        /// </summary>
+        /// <param name="points">The points which define the floor.</param>
+        private void CreateLevelFloor(List<Vector2> points)
+        {
+            foreach (Body body in this.floorEdges)
+            {
+                this.physicsWorld.RemoveBody(body);
+            }
+
+            this.floorEdges.Clear();            
+            if (points.Count > 0)
+            {
+                Vector2 startPoint = points[0];
+                foreach (Vector2 point in points)
+                {
+                    if (point != startPoint)
+                    {
+                        this.floorEdges.Add(BodyFactory.CreateEdge(this.physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(point)));
+                        startPoint = point;
+                    }
+                }
+            }
         }
     }
 }
