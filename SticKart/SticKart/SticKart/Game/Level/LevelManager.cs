@@ -74,7 +74,7 @@
         protected Vertices GetBounds()
         {
             float height = ConvertUnits.ToSimUnits(this.gameDisplayResolution.Y);
-            float width = ConvertUnits.ToSimUnits(this.gameDisplayResolution.X);
+            float width = ConvertUnits.ToSimUnits(this.gameDisplayResolution.X * 2.0f);
 
             Vertices bounds = new Vertices(4);
             bounds.Add(new Vector2(0.0f, 0.0f));
@@ -206,6 +206,9 @@
                         startPoint = point;
                     }
                 }
+
+                // Add a wall at the end of the level.
+                this.floorEdges.Add(BodyFactory.CreateEdge(this.physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(new Vector2(startPoint.X, -this.gameDisplayResolution.Y)))); 
             }
         }
     }
