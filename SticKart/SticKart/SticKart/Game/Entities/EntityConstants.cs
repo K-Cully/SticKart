@@ -1,11 +1,18 @@
 ﻿namespace SticKart.Game.Entities
 {
+    using FarseerPhysics.Dynamics;
+
     /// <summary>
     /// Contains level entity names.
     /// </summary>
     public class EntityConstants
     {
         #region paths
+
+        /// <summary>
+        /// The path to the entity settings folder.
+        /// </summary>
+        public const string SpritesFolderPath = "Sprites/";
 
         /// <summary>
         /// The path to the entity settings folder.
@@ -88,6 +95,20 @@
         /// The name of a jump power up entity.
         /// </summary>
         public const string JumpName = "jump";
+
+        #endregion
+
+        #region collision_categories
+
+        /// <summary>
+        /// The collision category of the stick man.
+        /// </summary>
+        public const Category StickManCategory = Category.Cat31;
+
+        /// <summary>
+        /// The collision category of an interactive entity.
+        /// </summary>
+        public const Category InteractiveEntityCategory = Category.Cat20;
 
         #endregion
     }

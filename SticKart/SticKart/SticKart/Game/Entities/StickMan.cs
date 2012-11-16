@@ -383,6 +383,7 @@
             this.topBody.BodyType = BodyType.Dynamic;
             this.topBody.Position = ConvertUnits.ToSimUnits(this.topBodyOffset);
             this.topBody.Restitution = restitution;
+            this.topBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Middle body for crouching
             this.middleBody = BodyFactory.CreateBody(physicsWorld);
@@ -393,6 +394,7 @@
             this.middleBody.IgnoreCollisionWith(this.topBody);
             this.middleBody.Position = ConvertUnits.ToSimUnits(this.middleBodyOffset);
             this.middleBody.Restitution = restitution;
+            this.middleBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Wheel for movement
             this.wheelBody = BodyFactory.CreateBody(physicsWorld);
@@ -404,7 +406,7 @@
             this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             this.wheelBody.Restitution = restitution;
             this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
-            this.wheelBody.CollisionCategories = Category.Cat31;
+            this.wheelBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Joints to connect the bodies.
             this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
