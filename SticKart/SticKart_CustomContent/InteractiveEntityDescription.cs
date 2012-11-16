@@ -3,9 +3,9 @@ namespace SticKart
     using Microsoft.Xna.Framework;
 
     /// <summary>
-    /// Describes a the basic aspects of a game entity which the player can collide with.
+    /// Describes a the basic aspects of a game entity which interacts with the player.
     /// </summary>
-    public class CollidableDescription
+    public class InteractiveEntityDescription
     {
         /// <summary>
         /// The name of the entity.

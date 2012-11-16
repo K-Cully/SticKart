@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <XnaContent>
   <Asset Type="SticKart.PowerUpSetting">
-    <Name>invincible</Name>
-    <TimeOfEffect>10.0</TimeOfEffect>
+    <Name>speed</Name>
+    <TimeOfEffect>15.0</TimeOfEffect>
   </Asset>
 </XnaContent>

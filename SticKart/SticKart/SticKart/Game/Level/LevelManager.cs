@@ -21,6 +21,16 @@
         private Body boundry;
 
         /// <summary>
+        /// The current level number.
+        /// </summary>
+        private int currentLevel;
+
+        /// <summary>
+        /// Whether the current level is a custom level or not.
+        /// </summary>
+        private bool currentLevelCustom;
+
+        /// <summary>
         /// The resolution of the game display area.
         /// </summary>
         private Vector2 gameDisplayResolution;
@@ -29,16 +39,6 @@
         /// The set frame-time of the game.
         /// </summary>
         private float frameTime;
-
-        /// <summary>
-        /// The physics world used by the level.
-        /// </summary>
-        private World physicsWorld;
-
-        /// <summary>
-        /// The list of floor edges.
-        /// </summary>
-        private List<Body> floorEdges;
 
         /// <summary>
         /// The sprite batch to use when drawing.
@@ -54,24 +54,34 @@
         /// The level loader.
         /// </summary>
         private LevelLoader levelLoader;
+        
+        /// <summary>
+        /// The physics world used by the level.
+        /// </summary>
+        private World physicsWorld;
 
         /// <summary>
-        /// The current level number.
+        /// The list of floor edges.
         /// </summary>
-        private int currentLevel;
+        private List<Body> floorEdges;
 
         /// <summary>
-        /// Whether the current level is a custom level or not.
+        /// The list of platforms.
         /// </summary>
-        private bool currentLevelCustom;
+        private List<Platform> platforms;
 
+        /// <summary>
+        /// the list of interactive entities.
+        /// </summary>
+        private List<InteractiveEntity> interactiveEntities;
+        
         /// <summary>
         /// The player's in game representation.
         /// </summary>
         private StickMan stickman;
 
         // TODO: Remove this boundry or scroll.
-        protected Vertices GetBounds()
+        public Vertices GetBounds()
         {
             float height = ConvertUnits.ToSimUnits(this.gameDisplayResolution.Y);
             float width = ConvertUnits.ToSimUnits(this.gameDisplayResolution.X * 2.0f);
@@ -92,13 +102,15 @@
         public LevelManager(Vector2 gameDisplayResolution, float frameTime)
         {
             this.physicsWorld = null;
-            this.floorEdges = new List<Body>();
             this.gameDisplayResolution = gameDisplayResolution;
             this.frameTime = frameTime;
             this.physicsWorld = null;
             this.spriteBatch = null;
             this.contentManager = null;
             this.levelLoader = null;
+            this.floorEdges = new List<Body>();
+            this.platforms = new List<Platform>();
+            this.interactiveEntities = new List<InteractiveEntity>();
             this.stickman = null;
         }
 
@@ -139,10 +151,22 @@
             this.physicsWorld.ClearForces();
             this.levelLoader.LoadLevel(this.currentLevel, this.currentLevelCustom);
 
-            this.CreateLevelFloor(this.levelLoader.FloorPoints);
+            LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, this.gameDisplayResolution.Y);
+            LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms);
+            LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities);
             this.stickman.Reset(this.levelLoader.StartPosition);
         }
 
+        /// <summary>
+        /// Cleans up after a level.
+        /// </summary>
+        public void EndLevel() // TODO: Call once level end added.
+        {
+            LevelFactory.DisposeOfPlatforms(ref this.physicsWorld, ref this.platforms);
+            LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities);
+            LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges);
+        }
+   
         /// <summary>
         /// Updates all the entities in the current level.
         /// </summary>
@@ -181,35 +205,6 @@
         {
             // TODO
             this.stickman.Draw();
-        }
-
-        /// <summary>
-        /// Creates the floor of a level.
-        /// </summary>
-        /// <param name="points">The points which define the floor.</param>
-        private void CreateLevelFloor(List<Vector2> points)
-        {
-            foreach (Body body in this.floorEdges)
-            {
-                this.physicsWorld.RemoveBody(body);
-            }
-
-            this.floorEdges.Clear();            
-            if (points.Count > 0)
-            {
-                Vector2 startPoint = points[0];
-                foreach (Vector2 point in points)
-                {
-                    if (point != startPoint)
-                    {
-                        this.floorEdges.Add(BodyFactory.CreateEdge(this.physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(point)));
-                        startPoint = point;
-                    }
-                }
-
-                // Add a wall at the end of the level.
-                this.floorEdges.Add(BodyFactory.CreateEdge(this.physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(new Vector2(startPoint.X, -this.gameDisplayResolution.Y)))); 
-            }
         }
     }
 }

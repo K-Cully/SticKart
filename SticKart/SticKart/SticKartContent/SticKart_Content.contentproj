@@ -102,6 +102,7 @@
       <Name>points</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -112,13 +113,19 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\1\collidables.xml">
-      <Name>collidables</Name>
+    <Compile Include="Levels\1\interactiveEntities.xml">
+      <Name>interactiveEntities</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Entity_settings\Bonuses\diamond.xml">
+      <Name>diamond</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SticKart_CustomContent\SticKart_CustomContent.csproj">
       <Project>{264DD867-FD3C-4AC6-9935-3736B0BAC654}</Project>
@@ -142,6 +149,48 @@
   <ItemGroup>
     <Compile Include="Entity_settings\Power_ups\invincible.xml">
       <Name>invincible</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity_settings\Bonuses\ruby.xml">
+      <Name>ruby</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity_settings\Obstacles\spike.xml">
+      <Name>spike</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity_settings\Obstacles\fire.xml">
+      <Name>fire</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity_settings\Power_ups\jump.xml">
+      <Name>jump</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity_settings\Power_ups\health.xml">
+      <Name>health</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Entity_settings\Power_ups\speed.xml">
+      <Name>speed</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>

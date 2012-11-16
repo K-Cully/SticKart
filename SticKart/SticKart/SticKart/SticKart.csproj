@@ -98,11 +98,14 @@
     <Compile Include="Display\RenderableText.cs" />
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
+    <Compile Include="Game\Entities\InteractiveEntity.cs" />
+    <Compile Include="Game\Entities\Platform.cs" />
     <Compile Include="Game\Entities\PlayerState.cs" />
     <Compile Include="Game\Entities\EntityConstants.cs" />
     <Compile Include="Game\Entities\EntitySettingsLoader.cs" />
     <Compile Include="Game\Level\LevelManager.cs" />
     <Compile Include="Game\Level\LevelLoader.cs" />
+    <Compile Include="Game\Level\LevelFactory.cs" />
     <Compile Include="Input\ControlDevice.cs" />
     <Compile Include="Game\Entities\StickMan.cs" />
     <Compile Include="Input\Gestures\GestureType.cs" />

@@ -174,6 +174,8 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateGame(GameTime gameTime)
         {
+            this.levelManager.Update(gameTime, this.inputManager.Commands);
+
             if (this.inputManager.Update()) // Commands are available.
             {
                 foreach (InputCommand command in this.inputManager.Commands)
@@ -191,9 +193,7 @@ namespace SticKart
                     }
                 }
             }
-
-            this.levelManager.Update(gameTime, this.inputManager.Commands);
-
+            
             if (this.inputManager.VoiceCommandAvailable)
             {
                 if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == SelectableNames.PauseCommandName)
@@ -209,7 +209,7 @@ namespace SticKart
         protected void PauseGame()
         {
             this.gameState = GameState.InMenu;
-            this.menuManager.ActiveMenu = MenuType.Main; // TODO add a resume button.
+            this.menuManager.ActiveMenu = MenuType.Main; // TODO: Add a resume button or pause menu.
         }
 
         /// <summary>

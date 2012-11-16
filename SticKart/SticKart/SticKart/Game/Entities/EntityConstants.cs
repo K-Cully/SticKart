@@ -36,6 +36,16 @@
         /// </summary>
         public const string CoinName = "coin";
 
+        /// <summary>
+        /// The name of a ruby bonus entity.
+        /// </summary>
+        public const string RubyName = "ruby";
+
+        /// <summary>
+        /// The name of a diamond bonus entity.
+        /// </summary>
+        public const string DiamondName = "diamond";
+
         #endregion
 
         #region obstacle_names
@@ -45,6 +55,16 @@
         /// </summary>
         public const string RockName = "rock";
 
+        /// <summary>
+        /// The name of a spike obstacle entity.
+        /// </summary>
+        public const string SpikeName = "spike";
+
+        /// <summary>
+        /// The name of a fire obstacle entity.
+        /// </summary>
+        public const string FireName = "fire";
+
         #endregion
 
         #region power_up_names
@@ -53,6 +73,21 @@
         /// The name of an invincible power up entity.
         /// </summary>
         public const string InvincibleName = "invincible";
+
+        /// <summary>
+        /// The name of a health power up entity.
+        /// </summary>
+        public const string HealthName = "health";
+
+        /// <summary>
+        /// The name of a speed power up entity.
+        /// </summary>
+        public const string SpeedName = "speed";
+
+        /// <summary>
+        /// The name of a jump power up entity.
+        /// </summary>
+        public const string JumpName = "jump";
 
         #endregion
     }

@@ -25,9 +25,9 @@
         private const string PlatformSubPath = "platforms";
 
         /// <summary>
-        /// The sub path to the list of level entities which the player can collide with.
+        /// The sub path to the list of level entities which the player can interact with.
         /// </summary>
-        private const string CollidableSubPath = "collidables";
+        private const string InteractiveSubPath = "interactiveEntities";
 
         /// <summary>
         /// The content manager to use for loading data.
@@ -47,7 +47,7 @@
         /// <summary>
         /// The list of obstacle, power up and bonus descriptions. 
         /// </summary>
-        private List<CollidableDescription> collidableDescriptions;
+        private List<InteractiveEntityDescription> interactiveEntityDescriptions;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelLoader"/> class.
@@ -60,7 +60,7 @@
             this.EndPosition = Vector2.Zero;
             this.levelPoints = new List<Vector2>();
             this.platformDescriptions = new List<PlatformDescription>();
-            this.collidableDescriptions = new List<CollidableDescription>();
+            this.interactiveEntityDescriptions = new List<InteractiveEntityDescription>();
         }
 
         /// <summary>
@@ -85,10 +85,32 @@
         }
 
         /// <summary>
+        /// Gets the list of interactive object descriptions.
+        /// </summary>
+        public List<InteractiveEntityDescription> InteractiveDescriptions
+        {
+            get
+            {
+                return this.interactiveEntityDescriptions;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of platform object descriptions.
+        /// </summary>
+        public List<PlatformDescription> PlatformDescriptions
+        {
+            get
+            {
+                return this.platformDescriptions;
+            }
+        }
+
+        /// <summary>
         /// Loads the contents of a level.
         /// </summary>
         /// <param name="levelNumber">The level number.</param>
-        /// <param name="isCustom">If the level is a custom level or not</param>
+        /// <param name="isCustom">Whether the level is a custom level or not.</param>
         public void LoadLevel(int levelNumber, bool isCustom)
         {
             if (isCustom)
@@ -99,7 +121,7 @@
             {
                 this.levelPoints = new List<Vector2>(this.contentManager.Load<Vector2[]>(LevelLoader.StandardFilePath + levelNumber.ToString() + "/" + LevelLoader.PointSubPath));
                 this.platformDescriptions = new List<PlatformDescription>(this.contentManager.Load<PlatformDescription[]>(LevelLoader.StandardFilePath + levelNumber.ToString() + "/" + LevelLoader.PlatformSubPath));
-                this.collidableDescriptions = new List<CollidableDescription>(this.contentManager.Load<CollidableDescription[]>(LevelLoader.StandardFilePath + levelNumber.ToString() + "/" + LevelLoader.CollidableSubPath));
+                this.interactiveEntityDescriptions = new List<InteractiveEntityDescription>(this.contentManager.Load<InteractiveEntityDescription[]>(LevelLoader.StandardFilePath + levelNumber.ToString() + "/" + LevelLoader.InteractiveSubPath));
                 this.StartPosition = this.levelPoints[0];
                 this.levelPoints.RemoveAt(0);
                 this.EndPosition = this.levelPoints[0];

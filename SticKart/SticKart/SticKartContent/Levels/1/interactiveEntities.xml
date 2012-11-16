@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <XnaContent>
-  <Asset Type="SticKart.CollidableDescription[]">
+  <Asset Type="SticKart.InteractiveEntityDescription[]">
     <Item>
       <Name>coin</Name>
       <Position>100 10</Position>

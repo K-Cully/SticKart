@@ -59,7 +59,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CollidableDescription.cs" />
+    <Compile Include="InteractiveEntityDescription.cs" />
     <Compile Include="ObstacleOrBonusSetting.cs" />
     <Compile Include="PlatformDescription.cs" />
     <Compile Include="PowerUpSetting.cs" />
