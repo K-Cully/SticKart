@@ -21,6 +21,11 @@
         #region members
 
         /// <summary>
+        /// The max length of time which wheel collisions should be disabled for.
+        /// </summary>
+        private const float MaxWheelDisabledTime = 1.0f;
+
+        /// <summary>
         /// The physics body at the top of the stickman.
         /// This is used for detecting collisions when standing.
         /// </summary>
@@ -128,6 +133,21 @@
         /// </summary>
         private bool onFloor;
 
+        /// <summary>
+        /// Whether the player is jumping down or not.
+        /// </summary>
+        private bool jumpingDown;
+
+        /// <summary>
+        /// Whether the wheel should collide or not.
+        /// </summary>
+        private bool wheelCollisionDisabled;
+
+        /// <summary>
+        /// The time which the wheel collisions have been disabled.
+        /// </summary>
+        private float wheelDisabledTimer;
+        
         // private PowerUp activePowerUp; // TODO: implement once power-ups are implemented
 
         #endregion
@@ -153,6 +173,9 @@
             this.inCart = false;
             this.state = PlayerState.standing;
             this.onFloor = false;
+            this.jumpingDown = false;
+            this.wheelCollisionDisabled = false;
+            this.wheelDisabledTimer = 0.0f;
             this.standingSprite = new Sprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.topBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 4.0f);
@@ -161,7 +184,9 @@
             this.SetUpPhysicsObjects(ref physicsWorld);
             this.acceleration = 9.0f;
 
-            this.wheelBody.OnCollision += this.CollisionHandler;
+            this.wheelBody.OnCollision += this.CollisionHandlerWheel;
+            this.middleBody.OnCollision += this.CollisionHandlerMiddleBody;
+            this.topBody.OnCollision += this.CollisionHandlerUpperBody;
         }
 
         #region accessors
@@ -179,7 +204,9 @@
                 }
                 else
                 {
-                    return 0.5f * (ConvertUnits.ToDisplayUnits(this.wheelBody.Position) + ConvertUnits.ToDisplayUnits(this.topBody.Position));
+                    Vector2 pos = ConvertUnits.ToDisplayUnits(this.wheelBody.Position);
+                    pos.Y -= this.standingSprite.Height / 4.0f;
+                    return pos;
                 }
             }
         }
@@ -192,7 +219,16 @@
         /// <param name="gameTime">The game time.</param>
         public void Update(GameTime gameTime)
         {
-            // TODO: implement
+            // TODO: implement fully
+            if (this.wheelCollisionDisabled)
+            {
+                this.wheelDisabledTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (this.wheelDisabledTimer > StickMan.MaxWheelDisabledTime)
+                {
+                    this.wheelCollisionDisabled = false;
+                }
+            }
+
             if (this.state == PlayerState.running)
             {
                 this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.95f;
@@ -257,13 +293,15 @@
             if (this.state != PlayerState.crouching && this.inCart)
             {
                 this.state = PlayerState.crouching;
-                this.topBody.IsSensor = true;
                 // TODO: test collisions with top box
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
             {
+                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse/8.0f));
                 this.state = PlayerState.falling;
-                // TODO: turn off collisions with the platform below, to allow movement through it (possibly indefinitly?).
+                this.wheelCollisionDisabled = true;
+                this.wheelDisabledTimer = 0.0f;
+                this.jumpingDown = true;
             }
         }
 
@@ -276,7 +314,15 @@
             {
                 this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
                 this.state = PlayerState.jumping;
-                this.motorJoint.MotorSpeed = 0.0f;
+
+                if (this.motorJoint.MotorSpeed > 1.0f)
+                {
+                    this.motorJoint.MotorSpeed = this.motorJoint.MotorSpeed / 2.0f;
+                }
+                else
+                {
+                    this.motorJoint.MotorSpeed = 0.0f;
+                }
                 // TODO: switch off collisions with platforms
             }
         }
@@ -285,9 +331,17 @@
         /// Sets the stick man's state to standing.
         /// This should be called on collision with anything.
         /// </summary>
-        public void Land() // TODO: land on collision
+        public void Land()
         {
-            this.state = PlayerState.standing; 
+            this.jumpingDown = false;
+            if (this.motorJoint.MotorSpeed > 0.0f)
+            {
+                this.state = PlayerState.running;
+            }
+            else
+            {
+                this.state = PlayerState.standing;
+            }
         }
 
         /// <summary>
@@ -299,24 +353,20 @@
             {
                 case PlayerState.standing:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.crouching:
                     // TODO
                     break;
                 case PlayerState.jumping:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.running:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.falling:
                     Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
-                    //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.dead:
                     //TODO
@@ -346,6 +396,8 @@
             this.middleBody.LinearVelocity = Vector2.Zero;
             this.topBody.LinearVelocity = Vector2.Zero;
             this.wheelBody.LinearVelocity = Vector2.Zero;
+            this.wheelCollisionDisabled = false;
+            this.wheelDisabledTimer = 0.0f;
         }
 
         #region initialization
@@ -371,36 +423,25 @@
             float restitution = 0.125f;
 
             // Upper body for standing
-            this.topBody = BodyFactory.CreateBody(physicsWorld);
-            Vertices playerTopBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f)); // Top box is half of the standing height.
-            PolygonShape playerTopShape = new PolygonShape(playerTopBox, density);
-            Fixture playerTopFixture = this.topBody.CreateFixture(playerTopShape);
+            this.topBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height / 2.0f), density, ConvertUnits.ToSimUnits(this.topBodyOffset));
             this.topBody.BodyType = BodyType.Dynamic;
-            this.topBody.Position = ConvertUnits.ToSimUnits(this.topBodyOffset);
             this.topBody.Restitution = restitution;
             this.topBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Middle body for crouching
-            this.middleBody = BodyFactory.CreateBody(physicsWorld);
-            Vertices playerMiddleBox = PolygonTools.CreateRectangle(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height / 8.0f)); // Lower box is a quater of the standing height.
-            PolygonShape playerMiddleShape = new PolygonShape(playerMiddleBox, density);
-            Fixture playerMiddleFixture = this.middleBody.CreateFixture(playerMiddleShape);
+            this.middleBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f), density, ConvertUnits.ToSimUnits(this.middleBodyOffset));
             this.middleBody.BodyType = BodyType.Dynamic;
             this.middleBody.IgnoreCollisionWith(this.topBody);
-            this.middleBody.Position = ConvertUnits.ToSimUnits(this.middleBodyOffset);
             this.middleBody.Restitution = restitution;
             this.middleBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Wheel for movement
-            this.wheelBody = BodyFactory.CreateBody(physicsWorld);
-            CircleShape playerBottomShape = new CircleShape(ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density);
-            Fixture playerBottomFixture = this.wheelBody.CreateFixture(playerBottomShape);
+            this.wheelBody = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelBodyOffset));
             this.wheelBody.BodyType = BodyType.Dynamic;
             this.wheelBody.IgnoreCollisionWith(this.middleBody);
             this.wheelBody.IgnoreCollisionWith(this.topBody);
-            this.wheelBody.Position = ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             this.wheelBody.Restitution = restitution;
-            this.wheelBody.Friction = float.MaxValue; // TODO: set appropriatly
+            this.wheelBody.Friction = float.MaxValue;
             this.wheelBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Joints to connect the bodies.
@@ -415,28 +456,126 @@
         #endregion
 
         /// <summary>
-        /// Collision event handler for a stick man object.
+        /// Collision event handler for the stick man's wheel.
         /// </summary>
         /// <param name="fixtureOne">The first colliding fixture.</param>
         /// <param name="fixtureTwo">The second colliding fixture.</param>
         /// <param name="contact">The contact object.</param>
         /// <returns>Whether the collision was accepted or not.</returns>
-        private bool CollisionHandler(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        private bool CollisionHandlerWheel(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
-            // TODO: implement fully
-            if (fixtureOne.CollisionCategories == Category.Cat31)
+            bool collided = true;
+            // TODO: implement fully            
+            switch (fixtureTwo.CollisionCategories)
             {
-                if (this.motorJoint.MotorSpeed > 0.0f)
+                case EntityConstants.PlatformCategory:
+                    if (this.wheelCollisionDisabled)
+                    {
+                        collided = false;
+                    }
+                    else
+                    {
+                        if (this.state == PlayerState.jumping)
+                        {
+                            collided = false;
+                        }
+                        else
+                        {
+                            this.Land();
+                            collided = true;
+                        }
+                    }
+
+                    break;
+                case EntityConstants.FloorCategory:
+                    this.Land();
+                    // TODO: set max speed
+                    this.onFloor = true;
+                    collided = true;
+                    break;
+                default:
+                    collided = true;
+                    break;
+            }
+
+            return collided; // TODO: return false if collisions disabled
+        }
+
+        /// <summary>
+        /// Collision event handler for the stick man's middle body.
+        /// </summary>
+        /// <param name="fixtureOne">The first colliding fixture.</param>
+        /// <param name="fixtureTwo">The second colliding fixture.</param>
+        /// <param name="contact">The contact object.</param>
+        /// <returns>Whether the collision was accepted or not.</returns>
+        private bool CollisionHandlerMiddleBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        {
+            bool collided = true;
+            // TODO: implement fully
+            switch (fixtureTwo.CollisionCategories)
+            {
+                case EntityConstants.PlatformCategory:
+                    if (this.state == PlayerState.jumping || this.jumpingDown)
+                    {
+                        collided = false;
+                    }
+                    else
+                    {
+                        collided = true;
+                    }
+
+                    break;
+                case EntityConstants.FloorCategory:
+                    collided = true;
+                    break;
+                default:
+                    collided = true;
+                    break;
+            }
+
+            return collided;
+        }
+
+        /// <summary>
+        /// Collision event handler for the stick man's upper body.
+        /// </summary>
+        /// <param name="fixtureOne">The first colliding fixture.</param>
+        /// <param name="fixtureTwo">The second colliding fixture.</param>
+        /// <param name="contact">The contact object.</param>
+        /// <returns>Whether the collision was accepted or not.</returns>
+        private bool CollisionHandlerUpperBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        {
+            bool collided = true;
+            // TODO: implement fully
+            if (this.state == PlayerState.crouching)
+            {
+                collided = false;
+            }
+            else
+            {
+                switch (fixtureTwo.CollisionCategories)
                 {
-                    this.state = PlayerState.running;
-                }
-                else
-                {
-                    this.state = PlayerState.standing;
+                    case EntityConstants.PlatformCategory:
+                        if (this.state == PlayerState.jumping || this.jumpingDown)
+                        {
+                            collided = false;
+                        }
+                        else
+                        {
+                            collided = true;
+                        }
+
+                        break;
+                    case EntityConstants.FloorCategory:
+                        collided = true;
+                        break;
+                    default:
+                        collided = true;
+                        break;
                 }
             }
 
-            return true; // TODO: return false if collisions disabled
+            return collided;
         }
     }
 }
