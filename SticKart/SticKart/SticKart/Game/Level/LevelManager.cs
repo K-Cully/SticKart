@@ -152,8 +152,8 @@
             this.levelLoader.LoadLevel(this.currentLevel, this.currentLevelCustom);
 
             LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, this.gameDisplayResolution.Y);
-            LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms);
-            LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities);
+            LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
+            LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, this.spriteBatch, this.contentManager);
             this.stickman.Reset(this.levelLoader.StartPosition);
         }
 
@@ -204,6 +204,11 @@
         public void Draw()
         {
             // TODO
+            foreach (Platform platform in this.platforms)
+            {
+                platform.Draw();
+            }
+
             this.stickman.Draw();
         }
     }

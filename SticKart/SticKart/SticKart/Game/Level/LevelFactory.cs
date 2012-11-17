@@ -6,6 +6,8 @@
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Content;
 
     /// <summary>
     /// A factory class for creating levels.
@@ -18,7 +20,9 @@
         /// <param name="interactiveEntityDescriptions">A list of interactive entity descriptions.</param>
         /// <param name="physicsWorld">The physics world to create the entities in.</param>
         /// <param name="interactiveEntities">An empty list to store the interactive entities in.</param>
-        public static void CreateInteractiveEntities(List<InteractiveEntityDescription> interactiveEntityDescriptions, ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities)
+        /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
+        /// <param name="contentManager">The game's content manager.</param>
+        public static void CreateInteractiveEntities(List<InteractiveEntityDescription> interactiveEntityDescriptions, ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, SpriteBatch spriteBatch, ContentManager contentManager)
         {
             if (interactiveEntities.Count == 0)
             {
@@ -29,14 +33,19 @@
         /// <summary>
         /// Creates the platforms contained in a level.
         /// </summary>
-        /// <param name="list">A list of platform descriptions.</param>
+        /// <param name="platformDescriptions">A list of platform descriptions.</param>
         /// <param name="physicsWorld">The physics world to create the platforms in.</param>
         /// <param name="platforms">An empty list of to store the platforms in.</param>
-        public static void CreatePlatforms(List<PlatformDescription> list, ref World physicsWorld, ref List<Platform> platforms)
+        /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
+        /// <param name="contentManager">The game's content manager.</param>
+        public static void CreatePlatforms(List<PlatformDescription> platformDescriptions, ref World physicsWorld, ref List<Platform> platforms, SpriteBatch spriteBatch, ContentManager contentManager)
         {
             if (platforms.Count == 0)
             {
-                // TODO: Implement
+                foreach (PlatformDescription description in platformDescriptions)
+                {
+                    platforms.Add(new Platform(description, ref physicsWorld, spriteBatch, contentManager));
+                }
             }
         }
         
@@ -56,7 +65,9 @@
                 {
                     if (point != startPoint)
                     {
-                        floorEdges.Add(BodyFactory.CreateEdge(physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(point)));
+                        Body body = BodyFactory.CreateEdge(physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(point));
+                        body.CollisionCategories = EntityConstants.FloorCategory;
+                        floorEdges.Add(body);
                         startPoint = point;
                     }
                 }

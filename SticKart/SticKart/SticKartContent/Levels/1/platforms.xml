@@ -2,12 +2,12 @@
 <XnaContent>
   <Asset Type="SticKart.PlatformDescription[]">
     <Item>
-      <Position>240 100</Position>
+      <Position>480 580</Position>
       <Length>160</Length>
     </Item>
     <Item>
-      <Position>500 50</Position>
-      <Length>100</Length>
+      <Position>600 500</Position>
+      <Length>128</Length>
     </Item>
   </Asset>
 </XnaContent>

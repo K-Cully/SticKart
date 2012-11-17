@@ -112,7 +112,17 @@
 
         #endregion
 
+        /// <summary>
+        /// The name of the platform asset.
+        /// </summary>
+        public const string Platform = "Platform";       
+
         #region collision_categories
+
+        /// <summary>
+        /// The collision category of the stick man.
+        /// </summary>
+        public const Category FloorCategory = Category.Cat1;
 
         /// <summary>
         /// The collision category of the stick man.
@@ -120,9 +130,14 @@
         public const Category StickManCategory = Category.Cat31;
 
         /// <summary>
+        /// The collision category of a platform.
+        /// </summary>
+        public const Category PlatformCategory = Category.Cat2;
+
+        /// <summary>
         /// The collision category of an interactive entity.
         /// </summary>
-        public const Category InteractiveEntityCategory = Category.Cat20;
+        public const Category InteractiveEntityCategory = Category.Cat3;
 
         #endregion
     }

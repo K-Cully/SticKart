@@ -23,11 +23,18 @@
         /// </summary>
         protected Sprite sprite; 
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InteractiveEntity"/> class.
+        /// </summary>
+        /// <param name="physicsWorld">The physics world.</param>
+        /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
+        /// <param name="contentManager">The game's content manager.</param>
+        /// <param name="description">The description of the entity.</param>
         public InteractiveEntity(ref World physicsWorld, SpriteBatch spriteBatch, ContentManager contentManager, InteractiveEntityDescription description)
         {
             this.sprite = new Sprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
-            this.SetUpPhysics(ref physicsWorld);
+            this.SetUpPhysics(ref physicsWorld, description);
         }
 
         /// <summary>
@@ -41,9 +48,10 @@
         /// Sets up the physics body for an interactive entity.
         /// </summary>
         /// <param name="physicsWorld">The physics world to create the body in.</param>
-        protected virtual void SetUpPhysics(ref World physicsWorld)
+        /// <param name="description">The description of the interactive entity.</param>
+        protected virtual void SetUpPhysics(ref World physicsWorld, InteractiveEntityDescription description)
         {
-            this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.sprite.Width), ConvertUnits.ToSimUnits(this.sprite.Height), 3.0f);
+            this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(description.Dimensions.X), ConvertUnits.ToSimUnits(description.Dimensions.Y), 3.0f, ConvertUnits.ToSimUnits(description.Position));
             this.physicsBody.CollisionCategories = EntityConstants.InteractiveEntityCategory;
         }
 
