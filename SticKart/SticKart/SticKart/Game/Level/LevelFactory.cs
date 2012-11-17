@@ -6,8 +6,8 @@
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
     using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Graphics;
     using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
 
     /// <summary>
     /// A factory class for creating levels.
@@ -55,10 +55,11 @@
         /// <param name="points">The points which define the floor.</param>
         /// <param name="physicsWorld">The physics world to create the floor in.</param>
         /// <param name="floorEdges">An empty list to store the floor edges in.</param>
+        /// <param name="visualFloorEdges">An empty list to store the displayed floor edges in.</param>
         /// <param name="levelHeight">The height of the level.</param>
-        public static void CreateFloor(List<Vector2> points, ref World physicsWorld, ref List<Body> floorEdges, float levelHeight)
+        public static void CreateFloor(List<Vector2> points, ref World physicsWorld, ref List<Body> floorEdges, ref List<VisualEdge> visualFloorEdges, float levelHeight)
         {
-            if (floorEdges.Count == 0 && points.Count > 0)
+            if (floorEdges.Count == 0 && visualFloorEdges.Count == 0 && points.Count > 0)
             {
                 Vector2 startPoint = points[0];
                 foreach (Vector2 point in points)
@@ -68,6 +69,7 @@
                         Body body = BodyFactory.CreateEdge(physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(point));
                         body.CollisionCategories = EntityConstants.FloorCategory;
                         floorEdges.Add(body);
+                        visualFloorEdges.Add(new VisualEdge(startPoint, point));
                         startPoint = point;
                     }
                 }
@@ -82,8 +84,10 @@
         /// </summary>
         /// <param name="physicsWorld">The physics world containing the floor.</param>
         /// <param name="floorEdges">The list of floor edge bodies.</param>
-        public static void DisposeOfFloor(ref World physicsWorld, ref List<Body> floorEdges)
+        /// <param name="visualFloorEdges">The list of visual floor edges.</param>
+        public static void DisposeOfFloor(ref World physicsWorld, ref List<Body> floorEdges, ref List<VisualEdge> visualFloorEdges)
         {
+            visualFloorEdges.Clear();
             foreach (Body body in floorEdges)
             {
                 physicsWorld.RemoveBody(body);

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Display;
     using Entities;
     using FarseerPhysics.Common;
     using FarseerPhysics.Dynamics;
@@ -46,6 +47,11 @@
         private SpriteBatch spriteBatch;
 
         /// <summary>
+        /// The floor sprite.
+        /// </summary>
+        private Sprite floorSprite;
+
+        /// <summary>
         /// The content manager to use for loading content.
         /// </summary>
         private ContentManager contentManager;
@@ -64,6 +70,11 @@
         /// The list of floor edges.
         /// </summary>
         private List<Body> floorEdges;
+
+        /// <summary>
+        /// The list of visual floor edges.
+        /// </summary>
+        private List<VisualEdge> visualFloorEdges;
 
         /// <summary>
         /// The list of platforms.
@@ -106,9 +117,11 @@
             this.frameTime = frameTime;
             this.physicsWorld = null;
             this.spriteBatch = null;
+            this.floorSprite = new Sprite();
             this.contentManager = null;
             this.levelLoader = null;
             this.floorEdges = new List<Body>();
+            this.visualFloorEdges = new List<VisualEdge>();
             this.platforms = new List<Platform>();
             this.interactiveEntities = new List<InteractiveEntity>();
             this.stickman = null;
@@ -130,9 +143,9 @@
 
             this.contentManager = contentManager;
             this.spriteBatch = spriteBatch;
+            this.InitializeAndLoadSprites(this.spriteBatch, this.contentManager);
 
-            this.levelLoader = new LevelLoader(this.contentManager);
-        
+            this.levelLoader = new LevelLoader(this.contentManager);        
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
         }
 
@@ -151,7 +164,7 @@
             this.physicsWorld.ClearForces();
             this.levelLoader.LoadLevel(this.currentLevel, this.currentLevelCustom);
 
-            LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, this.gameDisplayResolution.Y);
+            LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges, this.gameDisplayResolution.Y);
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, this.spriteBatch, this.contentManager);
             this.stickman.Reset(this.levelLoader.StartPosition);
@@ -164,7 +177,7 @@
         {
             LevelFactory.DisposeOfPlatforms(ref this.physicsWorld, ref this.platforms);
             LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities);
-            LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges);
+            LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges);
         }
    
         /// <summary>
@@ -209,7 +222,22 @@
                 platform.Draw();
             }
 
+            foreach (VisualEdge edge in this.visualFloorEdges)
+            {
+                Sprite.Draw(this.floorSprite, edge.Position, edge.Angle);
+            }
+
             this.stickman.Draw();
+        }
+
+        /// <summary>
+        /// Initializes and loads the textures for the floor sprite.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
+        /// <param name="contentManager">The content manager to use for loading the sprites.</param>
+        private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
+        {
+            this.floorSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
         }
     }
 }

@@ -106,6 +106,7 @@
     <Compile Include="Game\Level\LevelManager.cs" />
     <Compile Include="Game\Level\LevelLoader.cs" />
     <Compile Include="Game\Level\LevelFactory.cs" />
+    <Compile Include="Game\Level\VisualEdge.cs" />
     <Compile Include="Input\ControlDevice.cs" />
     <Compile Include="Game\Entities\StickMan.cs" />
     <Compile Include="Input\Gestures\GestureType.cs" />

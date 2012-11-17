@@ -115,7 +115,12 @@
         /// <summary>
         /// The name of the platform asset.
         /// </summary>
-        public const string Platform = "Platform";       
+        public const string Platform = "Platform";
+
+        /// <summary>
+        /// The name of the floor asset.
+        /// </summary>
+        public const string Floor = "Floor";       
 
         #region collision_categories
 

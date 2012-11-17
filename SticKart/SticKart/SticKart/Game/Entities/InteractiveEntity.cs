@@ -38,6 +38,23 @@
         }
 
         /// <summary>
+        /// Destroys the body associated with the interactive entity.
+        /// </summary>
+        /// <param name="physicsWorld">The physics world containing the body.</param>
+        public virtual void Dispose(ref World physicsWorld)
+        {
+            physicsWorld.RemoveBody(this.physicsBody);
+        }
+
+        /// <summary>
+        /// Draws the interactive entity.
+        /// </summary>
+        public virtual void Draw()
+        {
+            Sprite.Draw(this.sprite, ConvertUnits.ToDisplayUnits(this.physicsBody.Position), this.physicsBody.Rotation);
+        }
+
+        /// <summary>
         /// Initializes and loads the textures for the sprites in an InteractiveEntity object.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
@@ -53,23 +70,6 @@
         {
             this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(description.Dimensions.X), ConvertUnits.ToSimUnits(description.Dimensions.Y), 3.0f, ConvertUnits.ToSimUnits(description.Position));
             this.physicsBody.CollisionCategories = EntityConstants.InteractiveEntityCategory;
-        }
-
-        /// <summary>
-        /// Destroys the body associated with the interactive entity.
-        /// </summary>
-        /// <param name="physicsWorld">The physics world containing the body.</param>
-        public virtual void Dispose(ref World physicsWorld)
-        {
-            physicsWorld.RemoveBody(this.physicsBody);
-        }
-
-        /// <summary>
-        /// Draws the interactive entity.
-        /// </summary>
-        public virtual void Draw()
-        {
-            Sprite.Draw(this.sprite, ConvertUnits.ToDisplayUnits(this.physicsBody.Position), this.physicsBody.Rotation);
         }
     }
 }
