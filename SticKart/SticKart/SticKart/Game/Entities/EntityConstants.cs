@@ -1,5 +1,6 @@
 ﻿namespace SticKart.Game.Entities
 {
+    using System.Collections.Generic;
     using FarseerPhysics.Dynamics;
 
     /// <summary>
@@ -145,5 +146,51 @@
         public const Category InteractiveEntityCategory = Category.Cat3;
 
         #endregion
+
+        /// <summary>
+        /// Gets the list of power up names.
+        /// </summary>
+        public static List<string> PowerUpNames
+        {
+            get
+            {
+                List<string> names = new List<string>();
+                names.Add(EntityConstants.InvincibleName);
+                names.Add(EntityConstants.HealthName);
+                names.Add(EntityConstants.SpeedName);
+                names.Add(EntityConstants.JumpName);
+                return names;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of obstacle names.
+        /// </summary>
+        public static List<string> ObstacleNames
+        {
+            get
+            {
+                List<string> names = new List<string>();
+                names.Add(EntityConstants.RockName);
+                names.Add(EntityConstants.SpikeName);
+                names.Add(EntityConstants.FireName);
+                return names;
+            }
+        }
+
+        /// <summary>
+        /// Gets the list of bonus names.
+        /// </summary>
+        public static List<string> BonusNames
+        {
+            get
+            {
+                List<string> names = new List<string>();
+                names.Add(EntityConstants.CoinName);
+                names.Add(EntityConstants.RubyName);
+                names.Add(EntityConstants.DiamondName);
+                return names;
+            }
+        }
     }
 }

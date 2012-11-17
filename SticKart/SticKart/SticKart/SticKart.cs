@@ -281,12 +281,11 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            this.GraphicsDevice.Clear(Color.CornflowerBlue);
-
             this.spriteBatch.Begin();
             switch (this.gameState)
             {
                 case GameState.InMenu:
+                    this.GraphicsDevice.Clear(Color.CornflowerBlue);
                     this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {
@@ -299,6 +298,7 @@ namespace SticKart
 
                     break;
                 case GameState.InGame:
+                    this.GraphicsDevice.Clear(Color.GhostWhite);
                     this.levelManager.Draw();
                     break;
                 default:

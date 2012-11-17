@@ -1,5 +1,6 @@
 ﻿namespace SticKart.Game.Entities
 {
+    using System.Collections.Generic;
     using Microsoft.Xna.Framework.Content;
 
     /// <summary>
@@ -7,67 +8,15 @@
     /// </summary>
     public static class EntitySettingsLoader
     {
-        #region bonus_descriptions
-
         /// <summary>
-        /// Gets the settings for a coin bonus.
+        /// The list of bonus and obstacle settings.
         /// </summary>
-        public static ObstacleOrBonusSetting CoinSettings { get; private set; }
-
+        private static List<ObstacleOrBonusSetting> obstacleAndBonusSettings = new List<ObstacleOrBonusSetting>();
+        
         /// <summary>
-        /// Gets the settings for a ruby bonus.
+        /// The list of power up settings.
         /// </summary>
-        public static ObstacleOrBonusSetting RubySettings { get; private set; }
-
-        /// <summary>
-        /// Gets the settings for a diamond bonus.
-        /// </summary>
-        public static ObstacleOrBonusSetting DiamondSettings { get; private set; }
-
-        #endregion
-
-        #region obstacle_descriptions
-
-        /// <summary>
-        /// Gets the settings for a rock obstacle.
-        /// </summary>
-        public static ObstacleOrBonusSetting RockSettings { get; private set; }
-
-        /// <summary>
-        /// Gets the settings for a spike obstacle.
-        /// </summary>
-        public static ObstacleOrBonusSetting SpikeSettings { get; private set; }
-
-        /// <summary>
-        /// Gets the settings for a fire obstacle.
-        /// </summary>
-        public static ObstacleOrBonusSetting FireSettings { get; private set; }
-
-        #endregion
-
-        #region powerup_descriptions
-
-        /// <summary>
-        /// Gets the settings for an invincible power up.
-        /// </summary>
-        public static PowerUpSetting InvincibleSettings { get; private set; }
-
-        /// <summary>
-        /// Gets the settings for a health power up.
-        /// </summary>
-        public static PowerUpSetting HealthSettings { get; private set; }
-
-        /// <summary>
-        /// Gets the settings for a speed power up.
-        /// </summary>
-        public static PowerUpSetting SpeedSettings { get; private set; }
-
-        /// <summary>
-        /// Gets the settings for a jump power up.
-        /// </summary>
-        public static PowerUpSetting JumpSettings { get; private set; }
-
-        #endregion
+        private static List<PowerUpSetting> powerUpSettings = new List<PowerUpSetting>();
 
         /// <summary>
         /// Loads all the entity settings used in level entities.
@@ -75,16 +24,52 @@
         /// <param name="content">The game's content manager.</param>
         public static void LoadEntitySettings(ContentManager content)
         {
-            EntitySettingsLoader.CoinSettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.CoinName);
-            EntitySettingsLoader.RubySettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.RubyName);
-            EntitySettingsLoader.DiamondSettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.DiamondName);
-            EntitySettingsLoader.RockSettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.RockName);
-            EntitySettingsLoader.SpikeSettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.SpikeName);
-            EntitySettingsLoader.FireSettings = content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.FireName);
-            EntitySettingsLoader.InvincibleSettings = content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.InvincibleName);
-            EntitySettingsLoader.HealthSettings = content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.HealthName);
-            EntitySettingsLoader.SpeedSettings = content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.SpeedName);
-            EntitySettingsLoader.JumpSettings = content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.JumpName);
+            EntitySettingsLoader.obstacleAndBonusSettings.Add(content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.CoinName));
+            EntitySettingsLoader.obstacleAndBonusSettings.Add(content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.RubyName));
+            EntitySettingsLoader.obstacleAndBonusSettings.Add(content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.DiamondName));
+            EntitySettingsLoader.obstacleAndBonusSettings.Add(content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.RockName));
+            EntitySettingsLoader.obstacleAndBonusSettings.Add(content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.SpikeName));
+            EntitySettingsLoader.obstacleAndBonusSettings.Add(content.Load<ObstacleOrBonusSetting>(EntityConstants.SettingsFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.FireName));
+            EntitySettingsLoader.powerUpSettings.Add(content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.InvincibleName));
+            EntitySettingsLoader.powerUpSettings.Add(content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.HealthName));
+            EntitySettingsLoader.powerUpSettings.Add(content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.SpeedName));
+            EntitySettingsLoader.powerUpSettings.Add(content.Load<PowerUpSetting>(EntityConstants.SettingsFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.JumpName));
+        }
+
+        /// <summary>
+        /// Gets the obstacle or bonus settings with the name passed in.
+        /// </summary>
+        /// <param name="name">The name of the settings to look for.</param>
+        /// <returns>The settings for the entity or null if not found.</returns>
+        public static ObstacleOrBonusSetting GetObstacleOrBonusSetting(string name)
+        {
+            foreach (ObstacleOrBonusSetting setting in EntitySettingsLoader.obstacleAndBonusSettings)
+            {
+                if (setting.Name == name)
+                {
+                    return setting;
+                }
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// Gets the power up settings with the name passed in.
+        /// </summary>
+        /// <param name="name">The name of the settings to look for.</param>
+        /// <returns>The settings for the power up or null if not found.</returns>
+        public static PowerUpSetting GetPowerUpSettings(string name)
+        {
+            foreach (PowerUpSetting setting in EntitySettingsLoader.powerUpSettings)
+            {
+                if (setting.Name == name)
+                {
+                    return setting;
+                }
+            }
+
+            return null;
         }
     }
 }

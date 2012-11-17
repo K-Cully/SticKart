@@ -26,7 +26,19 @@
         {
             if (interactiveEntities.Count == 0)
             {
-                // TODO: Implement
+                foreach (InteractiveEntityDescription description in interactiveEntityDescriptions)
+                {
+                    if (EntityConstants.PowerUpNames.Contains(description.Name))
+                    {
+                        // TODO: create power up once the class is implemented
+                        EntitySettingsLoader.GetPowerUpSettings(description.Name);
+                    }
+                    else
+                    {
+                        // TODO: Create obstacle or bonus once the class is implemented
+                        EntitySettingsLoader.GetObstacleOrBonusSetting(description.Name);
+                    }
+                }
             }
         }
 
