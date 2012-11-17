@@ -9,12 +9,7 @@
         /// The location of the Segoe UI sprite font asset.
         /// </summary>
         public const string SegoeUIFont = "Fonts/SegoeUIMono";
-
-        /// <summary>
-        /// The location of the stick man standing texture asset.
-        /// </summary>
-        public const string StickManStanding = "Sprites/StickMan__base";
-
+        
         /// <summary>
         /// The location of the hand icon texture asset.
         /// </summary>

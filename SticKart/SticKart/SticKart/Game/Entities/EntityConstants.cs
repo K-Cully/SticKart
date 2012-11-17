@@ -12,7 +12,12 @@
         /// <summary>
         /// The path to the entity settings folder.
         /// </summary>
-        public const string SpritesFolderPath = "Sprites/";
+        public const string SpritesFolderPath = "Sprites/Entities/";
+
+        /// <summary>
+        /// The sub-folder of the stick man asset folder.
+        /// </summary>
+        public const string StickManSubPath = "Stick_man/";
 
         /// <summary>
         /// The path to the entity settings folder.
@@ -20,17 +25,17 @@
         public const string SettingsFolderPath = "Entity_settings/";
 
         /// <summary>
-        /// The sub-folder path to the bonus settings folder.
+        /// The sub-folder path to the bonus settings/sprites folder.
         /// </summary>
         public const string BonusFolderSubPath = "Bonuses/";
 
         /// <summary>
-        /// The sub-folder path to the obstacle settings folder.
+        /// The sub-folder path to the obstacle settings/sprites folder.
         /// </summary>
         public const string ObstacleFolderSubPath = "Obstacles/";
 
         /// <summary>
-        /// The sub-folder path to the power up settings folder.
+        /// The sub-folder path to the power up settings/sprites folder.
         /// </summary>
         public const string PowerUpFolderSubPath = "Power_ups/";
 
@@ -95,6 +100,15 @@
         /// The name of a jump power up entity.
         /// </summary>
         public const string JumpName = "jump";
+
+        #endregion
+
+        #region stick_man_assets
+        
+        /// <summary>
+        /// The name of the stick man standing sprite.
+        /// </summary>
+        public const string StickManStanding = "StickManStanding";        
 
         #endregion
 

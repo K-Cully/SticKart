@@ -72,9 +72,7 @@
         /// The sprite which represents the stickman's standing pose.
         /// </summary>
         private Sprite standingSprite; // TODO: add animated sprite class and other sprites
-
-        private Sprite Wheelsprite; // TODO: remove
-
+        
         /// <summary>
         /// The minimum velocity at which the stickman can move horizontally.
         /// </summary>
@@ -156,7 +154,6 @@
             this.state = PlayerState.standing;
             this.onFloor = false;
             this.standingSprite = new Sprite();
-            this.Wheelsprite = new Sprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.topBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 4.0f);
             this.middleBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
@@ -305,7 +302,6 @@
                     //Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     break;
                 case PlayerState.crouching:
-                    Sprite.Draw(this.Wheelsprite, ConvertUnits.ToDisplayUnits(this.wheelBody.Position), this.wheelBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.jumping:
@@ -362,8 +358,7 @@
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             // TODO: rest of sprites
-            this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.StickManStanding);
-            this.Wheelsprite.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.HandIcon);
+            this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
         }
 
         /// <summary>
