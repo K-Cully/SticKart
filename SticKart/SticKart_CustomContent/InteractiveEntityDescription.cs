@@ -8,18 +8,28 @@ namespace SticKart
     public class InteractiveEntityDescription
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="InteractiveEntityDescription"/> class.
+        /// </summary>
+        public InteractiveEntityDescription()
+        {
+            this.Name = string.Empty;
+            this.Position = Vector2.Zero;
+            this.Dimensions = Vector2.Zero;
+        }
+
+        /// <summary>
         /// The name of the entity.
         /// </summary>
-        public string Name = string.Empty;
+        public string Name { get; set; }
 
         /// <summary>
         /// The position of the entity in display coordinates.
         /// </summary>
-        public Vector2 Position = Vector2.Zero;
+        public Vector2 Position { get; set; }
 
         /// <summary>
         /// The size of the entity in display coordinates.
         /// </summary>
-        public Vector2 Dimensions = Vector2.Zero;
+        public Vector2 Dimensions { get; set; }
     }
 }

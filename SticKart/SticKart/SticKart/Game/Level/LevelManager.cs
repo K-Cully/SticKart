@@ -21,6 +21,8 @@
         // TODO: remove/change to scrolling death once floor is implemented.
         private Body boundry;
 
+        #region level_settings
+
         /// <summary>
         /// The current level number.
         /// </summary>
@@ -30,6 +32,15 @@
         /// Whether the current level is a custom level or not.
         /// </summary>
         private bool currentLevelCustom;
+
+        /// <summary>
+        /// The physics world used by the level.
+        /// </summary>
+        private World physicsWorld;
+
+        #endregion
+
+        #region game_settings
 
         /// <summary>
         /// The resolution of the game display area.
@@ -46,6 +57,10 @@
         /// </summary>
         private SpriteBatch spriteBatch;
 
+        #endregion
+
+        #region content_managment
+
         /// <summary>
         /// The floor sprite.
         /// </summary>
@@ -60,11 +75,10 @@
         /// The level loader.
         /// </summary>
         private LevelLoader levelLoader;
-        
-        /// <summary>
-        /// The physics world used by the level.
-        /// </summary>
-        private World physicsWorld;
+
+        #endregion
+
+        #region entities
 
         /// <summary>
         /// The list of floor edges.
@@ -90,6 +104,8 @@
         /// The player's in game representation.
         /// </summary>
         private StickMan stickman;
+
+        #endregion
 
         // TODO: Remove this boundry or scroll.
         public Vertices GetBounds()
