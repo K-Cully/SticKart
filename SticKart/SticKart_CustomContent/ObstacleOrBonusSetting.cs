@@ -8,18 +8,28 @@
     public class ObstacleOrBonusSetting
     {
         /// <summary>
-        /// The name of the object.
+        /// Initializes a new instance of the <see cref="ObstacleOrBonusSetting"/> class.
         /// </summary>
-        public string Name = string.Empty;
+        public ObstacleOrBonusSetting()
+        {
+            this.Name = string.Empty;
+            this.IsBonus = false;
+            this.Value = 0;
+        }
 
         /// <summary>
-        /// Whether the object is a bonus or an obstacle.
+        /// Gets or sets the name of the object.
         /// </summary>
-        public bool IsBonus = false;
+        public string Name { get; set; }
 
         /// <summary>
-        /// The value to apply to the object.
+        /// Gets or sets a value indicating whether the object is a bonus or an obstacle.
         /// </summary>
-        public int Value = 0;
+        public bool IsBonus { get; set; }
+
+        /// <summary>
+        /// Gets or sets the value to apply to the object.
+        /// </summary>
+        public int Value { get; set; }
     }
 }

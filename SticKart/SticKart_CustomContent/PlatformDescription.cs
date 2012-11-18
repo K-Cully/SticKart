@@ -8,13 +8,22 @@
     public class PlatformDescription
     {
         /// <summary>
-        /// The position of the platform, in display units.
+        /// Initializes a new instance of the <see cref="PlatformDescription"/> class.
         /// </summary>
-        public Vector2 Position;
+        public PlatformDescription()
+        {
+            this.Position = Vector2.Zero;
+            this.Length = 0.0f;
+        }
 
         /// <summary>
-        /// The length of the platform, in display units.
+        /// Gets or sets the position of the platform, in display units.
         /// </summary>
-        public float Length;
+        public Vector2 Position { get; set; }
+
+        /// <summary>
+        /// Gets or sets the length of the platform, in display units.
+        /// </summary>
+        public float Length { get; set; }
     }
 }

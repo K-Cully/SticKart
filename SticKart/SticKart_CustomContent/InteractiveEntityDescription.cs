@@ -18,17 +18,17 @@ namespace SticKart
         }
 
         /// <summary>
-        /// The name of the entity.
+        /// Gets or sets the name of the entity.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// The position of the entity in display coordinates.
+        /// Gets or sets the position of the entity in display coordinates.
         /// </summary>
         public Vector2 Position { get; set; }
 
         /// <summary>
-        /// The size of the entity in display coordinates.
+        /// Gets or sets the size of the entity in display coordinates.
         /// </summary>
         public Vector2 Dimensions { get; set; }
     }

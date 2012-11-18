@@ -8,13 +8,22 @@
     public class PowerUpSetting
     {
         /// <summary>
-        /// The name of the power up.
+        /// Initializes a new instance of the <see cref="PowerUpSetting"/> class.
         /// </summary>
-        public string Name = string.Empty;
+        public PowerUpSetting()
+        {
+            this.Name = string.Empty;
+            this.TimeOfEffect = 0.0f;
+        }
 
         /// <summary>
-        /// The time, in seconds, to apply the effect for.
+        /// Gets or sets the name of the power up.
         /// </summary>
-        public float TimeOfEffect = 0.0f;
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the time, in seconds, to apply the effect for.
+        /// </summary>
+        public float TimeOfEffect { get; set; }
     }
 }

@@ -3,6 +3,7 @@ namespace SticKart
     using System;
     using System.Collections.Generic;
     using Display;
+    using Game;
     using Game.Entities;
     using Game.Level;
     using Input;
@@ -66,6 +67,11 @@ namespace SticKart
         /// The game's input manager.
         /// </summary>
         private InputManager inputManager;
+
+        /// <summary>
+        /// The game's settings.
+        /// </summary>
+        private GameSettings gameSettings;
 
         /// <summary>
         /// The current game state.
