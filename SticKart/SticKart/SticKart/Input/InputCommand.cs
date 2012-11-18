@@ -63,6 +63,16 @@
         /// <summary>
         /// Command to exit the game.
         /// </summary>
-        Exit
+        Exit,
+
+        /// <summary>
+        /// Command to go to the next page.
+        /// </summary>
+        NextPage,
+
+        /// <summary>
+        /// Command to go to the last page.
+        /// </summary>
+        PreviousPage
     }
 }

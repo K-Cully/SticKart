@@ -376,10 +376,10 @@
                 switch (gestureToApply)
                 {
                     case Gestures.GestureType.SwipeLeft:
-                        this.commands.Add(InputCommand.Left);
+                        this.commands.Add(InputCommand.NextPage);
                         break;
                     case Gestures.GestureType.SwipeRight:
-                        this.commands.Add(InputCommand.Run);
+                        this.commands.Add(InputCommand.PreviousPage);
                         break;
                     case Gestures.GestureType.Crouch:
                         this.commands.Add(InputCommand.Crouch);

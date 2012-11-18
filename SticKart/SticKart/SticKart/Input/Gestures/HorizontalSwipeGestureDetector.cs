@@ -42,9 +42,9 @@
         public HorizontalSwipeGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1200)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)
         {
-            this.swipeMinimumLength = 0.5f;
-            this.swipeMaximumHeight = 0.175f;
-            this.swipeMinimumDuration = 400;
+            this.swipeMinimumLength = 0.65f;
+            this.swipeMaximumHeight = 0.1f;
+            this.swipeMinimumDuration = 600;
             this.swipeMaximumDuration = 1800;
         }
 

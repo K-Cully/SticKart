@@ -63,7 +63,7 @@
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
             this.runTimeLimit = 800;
-            this.jumpTimeLimit = 80;
+            this.jumpTimeLimit = 90;
             this.lastLegLiftTime = DateTime.UtcNow;
             this.lastLegLifted = JointType.Spine;
             this.activeHand = primaryHand;
@@ -80,13 +80,13 @@
             this.gestureDetectors = new Collection<GestureDetector>();
             this.skeletonJoints = null;
 
-            HorizontalSwipeGestureDetector swipeGestureDetector = new HorizontalSwipeGestureDetector(this.activeHand);
+            HorizontalSwipeGestureDetector swipeGestureDetector = new HorizontalSwipeGestureDetector(this.activeHand, 50, 1200);
             this.gestureDetectors.Add(swipeGestureDetector);
-            PushGestureDetector pushGesturedetector = new PushGestureDetector(this.activeHand, 30);
-            this.gestureDetectors.Add(pushGesturedetector);
-            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleRight, 60, 100, 0.08f, 0.3f, 100, 2000, true, false);
+            PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30);
+            this.gestureDetectors.Add(pushGestureDetector);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleRight, 60, 100, 0.035f, 0.3f, 100, 2000, true, false);
             this.gestureDetectors.Add(rightLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 100, 0.08f, 0.3f, 100, 2000, true, false);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 100, 0.035f, 0.3f, 100, 2000, true, false);
             this.gestureDetectors.Add(leftLegSwipeGestureDetector);
             VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 1200, 0.35f, 0.2f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);

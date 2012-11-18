@@ -135,8 +135,6 @@ namespace SticKart
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             this.gameSettings = GameSettings.Load();
-            this.gameSettings.Clear();
-            this.gameSettings = GameSettings.Load();
 
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
@@ -238,6 +236,12 @@ namespace SticKart
                             break;
                         case InputCommand.SelectAt:
                             this.menuManager.Update(this.inputManager.SelectedPosition, null, this.gameSettings);
+                            break;
+                        case InputCommand.NextPage:
+                            this.menuManager.FlipPage(true);
+                            break;
+                        case InputCommand.PreviousPage:
+                            this.menuManager.FlipPage(false);
                             break;
                         case InputCommand.Up:
                             this.menuManager.MoveSelectionUp();

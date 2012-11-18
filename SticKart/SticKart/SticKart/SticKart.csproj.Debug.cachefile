@@ -10,6 +10,7 @@ Content\Sprites\Menu\Restart_icon_large.xnb
 Content\Sprites\Entities\Platform.xnb
 Content\Sprites\Entities\Floor.xnb
 Content\Fonts\SegoeUIMono.xnb
+Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Levels\1\points.xnb
 Content\Levels\1\platforms.xnb
 Content\Levels\1\interactiveEntities.xnb
@@ -23,4 +24,3 @@ Content\Entity_settings\Obstacles\fire.xnb
 Content\Entity_settings\Power_ups\jump.xnb
 Content\Entity_settings\Power_ups\health.xnb
 Content\Entity_settings\Power_ups\speed.xnb
-Content\Fonts\SegoeUIMonoLarge.xnb

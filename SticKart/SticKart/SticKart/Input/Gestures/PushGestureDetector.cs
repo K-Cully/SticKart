@@ -46,11 +46,11 @@
         public PushGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1000)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)
         {
-            this.pushMinimumLength = 0.42f;
+            this.pushMinimumLength = 0.4f;
             this.pushMaximumHeight = 0.21f;
-            this.pushMaximumWidth = 0.21f;
-            this.pushMinimumDuration = 350;
-            this.pushMaximumDuration = 3000;
+            this.pushMaximumWidth = 0.1f;
+            this.pushMinimumDuration = 500;
+            this.pushMaximumDuration = 1600;
         }
 
         /// <summary>
