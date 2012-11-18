@@ -43,7 +43,14 @@
         /// <param name="grayedOut">Whether the item should be grayed out or not.</param>
         public override void Draw(Vector2 parentPosition, bool grayedOut = false)
         {
-            Sprite.Draw(this.sprite, parentPosition + this.RelativePosition, 0.0f);
+            if (grayedOut)
+            {
+                Sprite.Draw(this.sprite, parentPosition + this.RelativePosition, 0.0f, new Color(30, 30, 30));
+            }
+            else
+            {
+                Sprite.Draw(this.sprite, parentPosition + this.RelativePosition, 0.0f);
+            }
         }
     }
 }

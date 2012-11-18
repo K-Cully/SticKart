@@ -47,7 +47,7 @@
         /// <summary>
         /// An event triggered on the user selecting to start a new level.
         /// </summary>
-        public event Action<bool> OnBeginLevelDetected;
+        public event Action<int> OnBeginLevelDetected;
 
         /// <summary>
         /// Gets or sets the currently active menu.
@@ -73,6 +73,24 @@
         }
 
         /// <summary>
+        /// Gets the drawing position of the currently highlighted menu item.
+        /// </summary>
+        public Vector2 HighlightedDrawingPosition
+        {
+            get
+            {
+                if (this.menus[this.ActiveMenu] != null)
+                {
+                    return this.menus[this.ActiveMenu].Offset + this.menus[this.ActiveMenu].HighlightedItemPosition;
+                }
+                else
+                {
+                    return Vector2.Zero;
+                }
+            }
+        }
+
+        /// <summary>
         /// Initializes all menus and loads all menu content.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use in drawing menu items.</param>
@@ -84,7 +102,7 @@
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
-            this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings));
+            this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.NameInput, null);
             this.menus.Add(MenuType.LevelComplete, null);
         }
@@ -111,41 +129,70 @@
 
                 if (selectedItemName != null)
                 {
-                    switch (selectedItemName)
+                    if (this.ActiveMenu == MenuType.LevelSelect)
                     {
-                        case SelectableNames.PlayButtonName:
-                            this.ActiveMenu = MenuType.None;
+                        try
+                        {
+                            int level = int.Parse(selectedItemName);
                             if (this.OnBeginLevelDetected != null)
                             {
-                                this.OnBeginLevelDetected(true);
+                                this.OnBeginLevelDetected(level);
                             }
+                        }
+                        catch
+                        {
+                            this.ActiveMenu = MenuType.Main;
+                        }
+                    }
+                    else
+                    {
+                        switch (selectedItemName)
+                        {
+                            case SelectableNames.PlayButtonName:
+                                this.ActiveMenu = MenuType.LevelSelect; //TODO: Fix
+                                this.menus[this.ActiveMenu].Reset();
+                                break;
+                            case SelectableNames.OptionsButtonName:
+                                this.ActiveMenu = MenuType.Options;
+                                this.menus[this.ActiveMenu].Reset();
+                                break;
+                            case SelectableNames.LeaderboardButtonName:
+                                this.ActiveMenu = MenuType.Leaderboard;
+                                this.menus[this.ActiveMenu].Reset();
+                                break;
+                            case SelectableNames.ExitButtonName:
+                                this.ActiveMenu = MenuType.None;
+                                if (this.OnQuitGameDetected != null)
+                                {
+                                    this.OnQuitGameDetected(true);
+                                }
 
-                            break;
-                        case SelectableNames.OptionsButtonName:
-                            this.ActiveMenu = MenuType.Options;
-                            break;
-                        case SelectableNames.LeaderboardButtonName:
-                            this.ActiveMenu = MenuType.Leaderboard;
-                            break;
-                        case SelectableNames.ExitButtonName:
-                            this.ActiveMenu = MenuType.None;
-                            if (this.OnQuitGameDetected != null)
-                            {
-                                this.OnQuitGameDetected(true);
-                            }
+                                break;
+                            case SelectableNames.BackButtonName:
+                                if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.Leaderboard)
+                                {
+                                    this.ActiveMenu = MenuType.Main;
+                                    this.menus[this.ActiveMenu].Reset();
+                                }
 
-                            break;
-                        case SelectableNames.BackButtonName:
-                            if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.Leaderboard || this.ActiveMenu == MenuType.LevelSelect)
-                            {
-                                this.ActiveMenu = MenuType.Main;
-                            }
-
-                            break;
-                        default:
-                            break;
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
+            }
+        }
+
+        /// <summary>
+        /// Changes the page of the current menu.
+        /// </summary>
+        /// <param name="right">A value indicating whether to move to th right or the left.</param>
+        public void FlipPage(bool right)
+        {
+            if (this.menus[this.ActiveMenu] != null)
+            {
+                this.menus[this.ActiveMenu].FlipPage(right);
             }
         }
 

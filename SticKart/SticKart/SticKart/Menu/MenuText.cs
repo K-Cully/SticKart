@@ -52,7 +52,14 @@
         /// <param name="grayedOut">Whether the item should be grayed out or not.</param>
         public override void Draw(Vector2 parentPosition, bool grayedOut = false)
         {
-            RenderableText.Draw(this.text, parentPosition + this.RelativePosition, 0.0f);
+            if (grayedOut)
+            {
+                RenderableText.Draw(this.text, parentPosition + this.RelativePosition, 0.0f, new Color(30, 30, 30));
+            }
+            else
+            {
+                RenderableText.Draw(this.text, parentPosition + this.RelativePosition, 0.0f);
+            }
         }
     }
 }

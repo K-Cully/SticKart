@@ -135,6 +135,9 @@ namespace SticKart
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             this.gameSettings = GameSettings.Load();
+            this.gameSettings.Clear();
+            this.gameSettings = GameSettings.Load();
+
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
 
@@ -264,11 +267,11 @@ namespace SticKart
         /// Event handler for a begin level event.
         /// </summary>
         /// <param name="value">The value passed from the sender.</param>
-        protected void BeginLevel(bool value)
+        protected void BeginLevel(int value)
         {
             // TODO: refine.
             this.gameState = GameState.InGame;
-            this.levelManager.BeginLevel(1, false); // TODO: Set to level number selected.
+            this.levelManager.BeginLevel(value, false);
         }
 
         /// <summary>
@@ -295,7 +298,7 @@ namespace SticKart
                     this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {
-                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedPosition, 0.0f);
+                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f);
                     }
                     else
                     {

@@ -9,6 +9,11 @@
         /// The location of the Segoe UI sprite font asset.
         /// </summary>
         public const string SegoeUIFont = "Fonts/SegoeUIMono";
+
+        /// <summary>
+        /// The location of the large Segoe UI sprite font asset.
+        /// </summary>
+        public const string SegoeUIFontLarge = "Fonts/SegoeUIMonoLarge";
         
         /// <summary>
         /// The location of the hand icon texture asset.

@@ -19,8 +19,8 @@
         /// </summary>
         private GameSettings()
         {
-            this.LevelsUnlocked = 0;
-            this.TotalLevels = 0;
+            this.LevelsUnlocked = 1;
+            this.TotalLevels = 32;
         }
 
         /// <summary>

@@ -50,6 +50,26 @@
         /// </summary>
         private int selectableColumns;
 
+        /// <summary>
+        /// The number of pages in the menu.
+        /// </summary>
+        private int pages;
+
+        /// <summary>
+        /// The current menu page selected.
+        /// </summary>
+        private int pageSelected;
+
+        /// <summary>
+        /// The width of a page.
+        /// </summary>
+        private float pageWidth;
+
+        /// <summary>
+        /// The initial position of the menu.
+        /// </summary>
+        private Vector2 initialPosition;
+
         #endregion
 
         /// <summary>
@@ -58,7 +78,9 @@
         /// <param name="position">The centre position of the menu.</param>
         /// <param name="selectableRows">The number of selectable rows in the menu.</param>
         /// <param name="selectableColumns">The number of delectable columns in the menu.</param>
-        public Menu(Vector2 position, int selectableRows, int selectableColumns)
+        /// <param name="pages">The number of pages in the menu.</param>
+        /// <param name="pageWidth">The width of the screen.</param>
+        public Menu(Vector2 position, int selectableRows, int selectableColumns, int pages = 1, float pageWidth = 0.0f)
         {
             this.Position = position;
             this.menuItems = new Collection<MenuItem>();
@@ -69,6 +91,10 @@
             this.selectedColumn = 0;
             this.highlightedIndex = this.selectedRow + this.selectedColumn;
             this.selectablesActive = 0;
+            this.pages = pages;
+            this.pageSelected = 1;
+            this.pageWidth = pageWidth;
+            this.initialPosition = position;
         }
 
         /// <summary>
@@ -107,6 +133,17 @@
         /// Gets the position of the menu.
         /// </summary>
         public Vector2 Position { get; private set; }
+
+        /// <summary>
+        /// Gets the drawing offset based on the menu's page.
+        /// </summary>
+        public Vector2 Offset
+        {
+            get
+            {
+                return new Vector2((this.pageSelected - 1.0f) * this.pageWidth, 0.0f);
+            }
+        }
 
         /// <summary>
         /// Gets the collection of selectable item names.
@@ -153,6 +190,46 @@
         }
 
         /// <summary>
+        /// Resets the menu.
+        /// </summary>
+        public void Reset()
+        {
+            this.highlightedIndex = 0;
+            this.selectedRow = 0;
+            this.selectedColumn = 0;
+            this.pageSelected = 1;
+            this.Position = this.initialPosition;
+        }
+
+        /// <summary>
+        /// Moves the menu by one page width.
+        /// </summary>
+        /// <param name="right">A value indicating whether the flip should move right or left.</param>
+        public void FlipPage(bool right)
+        {
+            if (right)
+            {
+                this.pageSelected++;
+                this.Position = new Vector2(this.Position.X - this.pageWidth, this.Position.Y);
+                if (this.pageSelected > this.pages)
+                {
+                    this.Position = this.initialPosition;
+                    this.pageSelected = 1;
+                }
+            }
+            else
+            {
+                this.pageSelected--;
+                this.Position = new Vector2(this.Position.X + this.pageWidth, this.Position.Y);
+                if (this.pageSelected <= 0)
+                {
+                    this.Position = this.initialPosition - new Vector2((this.pages - 1) * this.pageWidth, 0.0f);
+                    this.pageSelected = this.pages;
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks if the selection made is in the menu.
         /// </summary>
         /// <param name="selectionPosition">The position selected.</param>
@@ -165,6 +242,7 @@
             }
             else
             {
+                selectionPosition += this.Offset;
                 int selectableCount = 1;
                 string itemFound = null;
                 foreach (MenuItem menuItem in this.menuItems)
@@ -285,6 +363,7 @@
             if (this.selectedColumn >= this.selectableColumns)
             {
                 this.selectedColumn = 0;
+                this.FlipPage(true);
             }
 
             this.highlightedIndex = (this.selectedRow * this.selectableColumns) + this.selectedColumn;
@@ -303,6 +382,7 @@
             if (this.selectedColumn < 0)
             {
                 this.selectedColumn = this.selectableColumns - 1;
+                this.FlipPage(false);
             }
 
             this.highlightedIndex = (this.selectedRow * this.selectableColumns) + this.selectedColumn;
