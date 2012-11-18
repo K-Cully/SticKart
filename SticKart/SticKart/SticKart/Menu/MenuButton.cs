@@ -56,21 +56,25 @@
         /// Draws the button to the screen.
         /// </summary>
         /// <param name="parentPosition">The position of the button's parent/owner.</param>
-        public override void Draw(Vector2 parentPosition)
+        /// <param name="grayedOut">Whether the item should be grayed out or not.</param>
+        public override void Draw(Vector2 parentPosition, bool grayedOut = false)
         {
             if (this.tile != null)
             {
                 this.tile.Draw(parentPosition + this.RelativePosition);
             }
 
-            if (this.icon != null)
+            if (grayedOut == false)
             {
-                this.icon.Draw(parentPosition + this.RelativePosition);
-            }
+                if (this.icon != null)
+                {
+                    this.icon.Draw(parentPosition + this.RelativePosition);
+                }
 
-            if (this.text != null)
-            {
-                this.text.Draw(parentPosition + this.RelativePosition);
+                if (this.text != null)
+                {
+                    this.text.Draw(parentPosition + this.RelativePosition);
+                }
             }
         }
     }

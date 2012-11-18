@@ -32,6 +32,7 @@
         /// Draws the menu item.
         /// </summary>
         /// <param name="parentPosition">The position of the menu item's parent/owner.</param>
-        public abstract void Draw(Vector2 parentPosition);
+        /// <param name="grayedOut">Whether the item should be grayed out or not.</param>
+        public abstract void Draw(Vector2 parentPosition, bool grayedOut = false);
     }
 }

@@ -132,11 +132,10 @@ namespace SticKart
         /// </summary>
         protected override void LoadContent()
         {
-            // Create a new SpriteBatch, which can be used to draw textures.
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
-            this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content);
-
+            this.gameSettings = GameSettings.Load();
+            this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
 
             EntitySettingsLoader.LoadEntitySettings(this.Content);
@@ -149,6 +148,7 @@ namespace SticKart
         /// </summary>
         protected override void UnloadContent()
         {
+            this.gameSettings.Save();
             this.inputManager.Dispose();
         }
 
@@ -231,10 +231,10 @@ namespace SticKart
                     switch (command)
                     {                 
                         case InputCommand.Select:
-                            this.menuManager.Update(this.menuManager.HighlightedPosition, null);
+                            this.menuManager.Update(this.menuManager.HighlightedPosition, null, this.gameSettings);
                             break;
                         case InputCommand.SelectAt:
-                            this.menuManager.Update(this.inputManager.SelectedPosition, null);
+                            this.menuManager.Update(this.inputManager.SelectedPosition, null, this.gameSettings);
                             break;
                         case InputCommand.Up:
                             this.menuManager.MoveSelectionUp();
@@ -256,7 +256,7 @@ namespace SticKart
 
             if (this.inputManager.VoiceCommandAvailable)
             {
-                this.menuManager.Update(Vector2.Zero, this.inputManager.LastVoiceCommand);
+                this.menuManager.Update(Vector2.Zero, this.inputManager.LastVoiceCommand, this.gameSettings);
             }                
         }
 

@@ -1,6 +1,7 @@
 ﻿namespace SticKart.Menu
 {
     using Display;
+    using Game;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -59,6 +60,12 @@
             mainMenu.AddItem(button);
 
             return mainMenu;
+        }
+
+        public static Menu CreateLevelSelectMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position, GameSettings gameSettings)
+        {
+            Menu placeHolderMenu = new Menu(position, 1, 1);
+            return placeHolderMenu;
         }
 
         /// <summary>

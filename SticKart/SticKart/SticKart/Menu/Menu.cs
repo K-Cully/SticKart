@@ -19,6 +19,13 @@
         private Collection<string> selectableItemNames;
 
         /// <summary>
+        /// The number of active selectible items.
+        /// </summary>
+        private int selectablesActive;
+
+        #region selection_movement
+
+        /// <summary>
         /// The index of the highlighted menu item, if any.
         /// </summary>
         private int highlightedIndex;
@@ -39,9 +46,11 @@
         private int selectableRows;
 
         /// <summary>
-        /// The number of delectable columns in the menu.
+        /// The number of selectable columns in the menu.
         /// </summary>
         private int selectableColumns;
+
+        #endregion
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Menu"/> class.
@@ -59,6 +68,7 @@
             this.selectedRow = 0;
             this.selectedColumn = 0;
             this.highlightedIndex = this.selectedRow + this.selectedColumn;
+            this.selectablesActive = 0;
         }
 
         /// <summary>
@@ -110,6 +120,24 @@
         }
 
         /// <summary>
+        /// Sets the number of selectable items which should be active.
+        /// </summary>
+        public int SelectablesActive
+        {
+            set
+            {
+                if (value < 0)
+                {
+                    this.selectablesActive = 0;
+                }
+                else
+                {
+                    this.selectablesActive = value;
+                }
+            }
+        }
+
+        /// <summary>
         /// Adds a menu item to the menu.
         /// </summary>
         /// <param name="menuItem">The menu item to add.</param>
@@ -117,7 +145,8 @@
         {
             if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
             {
-                this.selectableItemNames.Add((menuItem as MenuSelectableItem).Name.ToUpperInvariant());             
+                this.selectableItemNames.Add((menuItem as MenuSelectableItem).Name.ToUpperInvariant());
+                this.selectablesActive++;
             }
 
             this.menuItems.Add(menuItem);
@@ -136,11 +165,17 @@
             }
             else
             {
+                int selectableCount = 1;
                 string itemFound = null;
                 foreach (MenuItem menuItem in this.menuItems)
                 {
-                    if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
+                    if (selectableCount > this.selectablesActive)
                     {
+                        break;
+                    }
+                    else if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
+                    {
+                        selectableCount++;
                         if ((menuItem as MenuSelectableItem).CheckForClick(selectionPosition, this.Position))
                         {
                             itemFound = (menuItem as MenuSelectableItem).Name;
@@ -166,11 +201,17 @@
             }
             else
             {
+                int selectableCount = 1;
                 string itemFound = null;
                 foreach (MenuItem menuItem in this.menuItems)
                 {
-                    if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
+                    if (selectableCount > this.selectablesActive)
                     {
+                        break;
+                    }
+                    else if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
+                    {
+                        selectableCount++;
                         if (name.ToUpperInvariant() == (menuItem as MenuSelectableItem).Name.ToUpperInvariant())
                         {
                             itemFound = (menuItem as MenuSelectableItem).Name;
@@ -188,9 +229,18 @@
         /// </summary>
         public void Draw()
         {
+            int selectableCount = 0;
             foreach (MenuItem menuItem in this.menuItems)
             {
-                menuItem.Draw(this.Position);
+                if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
+                {
+                    selectableCount++;
+                    menuItem.Draw(this.Position, selectableCount > this.selectablesActive);
+                }
+                else
+                {
+                    menuItem.Draw(this.Position);
+                }
             }
         }
 

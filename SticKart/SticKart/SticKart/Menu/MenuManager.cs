@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Game;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -76,13 +77,14 @@
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use in drawing menu items.</param>
         /// <param name="contentManager">The content manager to load content with.</param>
-        public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
+        /// <param name="gameSettings">The game settings.</param>
+        public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, GameSettings gameSettings)
         {
             this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
-            this.menus.Add(MenuType.LevelSelect, null);
+            this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings));
             this.menus.Add(MenuType.NameInput, null);
             this.menus.Add(MenuType.LevelComplete, null);
         }
@@ -92,7 +94,8 @@
         /// </summary>
         /// <param name="selectionPosition">The selection position.</param>
         /// <param name="selectionName">The selection name.</param>
-        public void Update(Vector2 selectionPosition, string selectionName)
+        /// <param name="gameSettings">The game settings.</param>
+        public void Update(Vector2 selectionPosition, string selectionName, GameSettings gameSettings)
         {
             if (this.menus[this.ActiveMenu] != null)
             {
