@@ -19,6 +19,7 @@ Content\Sprites\Entities\Obstacles\spike.xnb
 Content\Sprites\Entities\Power_ups\invincible.xnb
 Content\Sprites\Entities\Power_ups\jump.xnb
 Content\Sprites\Entities\Power_ups\speed.xnb
+Content\Sprites\Entities\Power_ups\health.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Levels\1\points.xnb
@@ -55,6 +56,7 @@ Content\Sprites\Entities\Obstacles\spike.xnb
 Content\Sprites\Entities\Power_ups\invincible.xnb
 Content\Sprites\Entities\Power_ups\jump.xnb
 Content\Sprites\Entities\Power_ups\speed.xnb
+Content\Sprites\Entities\Power_ups\health.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Levels\1\points.xnb
