@@ -1,6 +1,6 @@
 using System;
 
-namespace SticKartLevelEditor
+namespace SticKart
 {
 #if WINDOWS || XBOX
     static class Program
@@ -10,7 +10,7 @@ namespace SticKartLevelEditor
         /// </summary>
         static void Main(string[] args)
         {
-            using (LevelEditorGame game = new LevelEditorGame())
+            using (SticKartLevelEditor game = new SticKartLevelEditor())
             {
                 game.Run();
             }

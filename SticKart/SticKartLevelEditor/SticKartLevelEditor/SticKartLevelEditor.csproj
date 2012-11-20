@@ -1,20 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{23CCA350-543F-477C-A8C3-FC7F6DFEE9ED}</ProjectGuid>
+    <ProjectGuid>{E44D25D4-8896-4741-993A-9CAA8325E2DD}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SticKartLevelEditor</RootNamespace>
+    <RootNamespace>SticKart</RootNamespace>
     <AssemblyName>SticKartLevelEditor</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
-    <XnaCrossPlatformGroupID>9f26aa64-e6ec-4b71-b6a0-ba3ad80197a6</XnaCrossPlatformGroupID>
+    <XnaCrossPlatformGroupID>7655cc12-5671-416e-af82-fc6e3f18c90c</XnaCrossPlatformGroupID>
     <XnaOutputType>Game</XnaOutputType>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
@@ -74,7 +74,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="LevelEditorGame.cs" />
+    <Compile Include="SticKartLevelEditor.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
@@ -83,6 +83,11 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SticKart\SticKartContent\SticKart_Content.contentproj">
+      <Project>{50E281F0-C446-4EEB-9731-FF866EB0F1C7}</Project>
+      <Name>SticKart_Content %28Content%29</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+    </ProjectReference>
     <ProjectReference Include="..\..\SticKart\SticKart\SticKart.csproj">
       <Project>{BB5648CB-EFE9-4069-B976-DE7537C693B4}</Project>
       <Name>SticKart</Name>
@@ -90,10 +95,6 @@
     <ProjectReference Include="..\..\SticKart_CustomContent\SticKart_CustomContent.csproj">
       <Project>{264DD867-FD3C-4AC6-9935-3736B0BAC654}</Project>
       <Name>SticKart_CustomContent</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SticKartLevelEditorContent\SticKartLevelEditorContent.contentproj">
-      <Name>SticKartLevelEditorContent</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +123,9 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

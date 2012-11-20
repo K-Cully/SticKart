@@ -1,28 +1,37 @@
-namespace SticKartLevelEditor
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using Microsoft.Xna.Framework;
-    using Microsoft.Xna.Framework.Audio;
-    using Microsoft.Xna.Framework.Content;
-    using Microsoft.Xna.Framework.GamerServices;
-    using Microsoft.Xna.Framework.Graphics;
-    using Microsoft.Xna.Framework.Media;
-    using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.GamerServices;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 
+namespace SticKart
+{
     /// <summary>
     /// This is the main type for your game
     /// </summary>
-    public class LevelEditorGame : Microsoft.Xna.Framework.Game
+    public class SticKartLevelEditor : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
+        
         SpriteBatch spriteBatch;
 
-        public LevelEditorGame()
+        Vector2 screenDimensions;
+
+        public SticKartLevelEditor()
         {
-            graphics = new GraphicsDeviceManager(this);
+            this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 30.0);
+            this.screenDimensions = new Vector2(1280.0f, 720.0f);
+            this.graphics = new GraphicsDeviceManager(this);
+            this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
+            this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
+            this.graphics.IsFullScreen = false; // TODO: set to true for release 
             Content.RootDirectory = "Content";
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -46,7 +55,6 @@ namespace SticKartLevelEditor
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
             // TODO: use this.Content to load your game content here
         }
 
