@@ -51,7 +51,7 @@
         /// </summary>
         public virtual void Draw()
         {
-            Sprite.Draw(this.sprite, ConvertUnits.ToDisplayUnits(this.physicsBody.Position), this.physicsBody.Rotation);
+            Camera2D.Draw(this.sprite, ConvertUnits.ToDisplayUnits(this.physicsBody.Position), this.physicsBody.Rotation);
         }
 
         /// <summary>

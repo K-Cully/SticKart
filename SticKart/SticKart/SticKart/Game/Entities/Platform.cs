@@ -61,7 +61,7 @@
             Vector2 position = ConvertUnits.ToDisplayUnits(this.body.Position);
             foreach (Vector2 offset in this.spriteOffsets)
             {
-                Sprite.Draw(this.sprite, position + offset, 0.0f);
+                Camera2D.Draw(this.sprite, position + offset, 0.0f);
             }
         }
 

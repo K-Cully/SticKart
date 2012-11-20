@@ -352,21 +352,21 @@
             switch (this.state)
             {
                 case PlayerState.standing:
-                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     break;
                 case PlayerState.crouching:
                     // TODO
                     break;
                 case PlayerState.jumping:
-                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.running:
-                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     // TODO
                     break;
                 case PlayerState.falling:
-                    Sprite.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     break;
                 case PlayerState.dead:
                     //TODO

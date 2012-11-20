@@ -94,6 +94,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Display\Camera.cs" />
     <Compile Include="Display\ContentLocations.cs" />
     <Compile Include="Display\RenderableText.cs" />
     <Compile Include="ExternalTools\ConvertUnits.cs" />
@@ -194,12 +195,12 @@
   <ItemGroup>
     <PublishFile Include="Microsoft.Speech">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

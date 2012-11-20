@@ -103,6 +103,9 @@ namespace SticKart
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
             this.graphics.IsFullScreen = false; // TODO: set to true for release 
+
+            Camera2D.Initialize(this.screenDimensions);
+
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect);
             this.levelManager = new LevelManager(this.screenDimensions, SticKart.FrameTime);
@@ -167,6 +170,7 @@ namespace SticKart
                     break;
                 case GameState.InGame:
                     this.UpdateGame(gameTime);
+                    //TODO: Camera2D.Update(new Vector2(20.0f, 0.0f), gameTime);
                     break;
                 default:
                     break;

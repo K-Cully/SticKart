@@ -9,6 +9,15 @@ Content\Sprites\Menu\Back_icon_large.xnb
 Content\Sprites\Menu\Restart_icon_large.xnb
 Content\Sprites\Entities\Platform.xnb
 Content\Sprites\Entities\Floor.xnb
+Content\Sprites\Entities\Bonuses\coin.xnb
+Content\Sprites\Entities\Bonuses\diamond.xnb
+Content\Sprites\Entities\Bonuses\ruby.xnb
+Content\Sprites\Entities\Obstacles\fire.xnb
+Content\Sprites\Entities\Obstacles\rock.xnb
+Content\Sprites\Entities\Obstacles\spikes.xnb
+Content\Sprites\Entities\Power_ups\invincible.xnb
+Content\Sprites\Entities\Power_ups\jump.xnb
+Content\Sprites\Entities\Power_ups\speed.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Levels\1\points.xnb

@@ -242,7 +242,7 @@
 
             foreach (VisualEdge edge in this.visualFloorEdges)
             {
-                Sprite.Draw(this.floorSprite, edge.Position, edge.Angle);
+                Camera2D.Draw(this.floorSprite, edge.Position, edge.Angle);
             }
 
             this.stickman.Draw();
