@@ -251,8 +251,8 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Entities\Obstacles\spikes.png">
-      <Name>spikes</Name>
+    <Compile Include="Sprites\Entities\Obstacles\spike.png">
+      <Name>spike</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

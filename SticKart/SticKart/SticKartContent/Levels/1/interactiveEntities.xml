@@ -9,7 +9,7 @@
     <Item>
       <Name>invincible</Name>
       <Position>180 15</Position>
-      <Dimensions>32 32</Dimensions>
+      <Dimensions>48 48</Dimensions>
     </Item>
     <Item>
       <Name>rock</Name>
@@ -17,9 +17,9 @@
       <Dimensions>32 32</Dimensions>
     </Item>
     <Item>
-      <Name>rock</Name>
+      <Name>spike</Name>
       <Position>560 10</Position>
-      <Dimensions>32 32</Dimensions>
+      <Dimensions>32 64</Dimensions>
     </Item>
   </Asset>
 </XnaContent>
