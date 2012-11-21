@@ -14,6 +14,5 @@ namespace SticKart.LevelEditor
     /// </summary>
     public class LevelEditor
     {
-
     }
 }

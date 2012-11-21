@@ -36,6 +36,7 @@ namespace SticKart
             this.graphics.IsFullScreen = false; // TODO: set to true for release 
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
+            Camera2D.Initialize(this.screenDimensions);
         }
 
         /// <summary>
