@@ -4,7 +4,7 @@
     using Microsoft.Xna.Framework;
 
     /// <summary>
-    /// Defines a level editor for the game SticKart.
+    /// Defines a level editor for the game.
     /// </summary>
     public class LevelEditor
     {

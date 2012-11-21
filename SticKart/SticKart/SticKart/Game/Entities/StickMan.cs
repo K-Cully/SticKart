@@ -148,7 +148,7 @@
         /// </summary>
         private float wheelDisabledTimer;
         
-        // private PowerUp activePowerUp; // TODO: implement once power-ups are implemented
+        //// private PowerUp activePowerUp; // TODO: implement once power-ups are implemented
 
         #endregion
 
@@ -251,7 +251,6 @@
             else if (this.state == PlayerState.jumping && this.middleBody.LinearVelocity.Y >= 0.0f)
             {
                 this.state = PlayerState.falling;
-                // TODO: switch on collisions with platforms
             }
         }
 
@@ -280,8 +279,6 @@
             if (this.state == PlayerState.crouching)
             {
                 this.state = PlayerState.standing;
-                this.topBody.IsSensor = false;
-                // TODO: test collisions with top box
             }
         }
 
@@ -293,11 +290,12 @@
             if (this.state != PlayerState.crouching && this.inCart)
             {
                 this.state = PlayerState.crouching;
+
                 // TODO: test collisions with top box
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
             {
-                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse/8.0f));
+                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse/  8.0f));
                 this.state = PlayerState.falling;
                 this.wheelCollisionDisabled = true;
                 this.wheelDisabledTimer = 0.0f;
@@ -323,7 +321,6 @@
                 {
                     this.motorJoint.MotorSpeed = 0.0f;
                 }
-                // TODO: switch off collisions with platforms
             }
         }
 
@@ -355,21 +352,25 @@
                     Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     break;
                 case PlayerState.crouching:
+
                     // TODO
                     break;
                 case PlayerState.jumping:
                     Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+
                     // TODO
                     break;
                 case PlayerState.running:
                     Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+
                     // TODO
                     break;
                 case PlayerState.falling:
                     Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
                     break;
                 case PlayerState.dead:
-                    //TODO
+
+                    // TODO
                     break;
                 default:
                     break;
@@ -465,6 +466,7 @@
         private bool CollisionHandlerWheel(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
+
             // TODO: implement fully            
             switch (fixtureTwo.CollisionCategories)
             {
@@ -489,6 +491,7 @@
                     break;
                 case EntityConstants.FloorCategory:
                     this.Land();
+
                     // TODO: set max speed
                     this.onFloor = true;
                     collided = true;
@@ -511,6 +514,7 @@
         private bool CollisionHandlerMiddleBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
+
             // TODO: implement fully
             switch (fixtureTwo.CollisionCategories)
             {
@@ -546,6 +550,7 @@
         private bool CollisionHandlerUpperBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
+
             // TODO: implement fully
             if (this.state == PlayerState.crouching)
             {

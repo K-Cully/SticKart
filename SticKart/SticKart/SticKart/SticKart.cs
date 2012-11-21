@@ -32,8 +32,7 @@ namespace SticKart
     /// </summary>
     public class SticKart : Microsoft.Xna.Framework.Game
     {
-        // TODO: Note scaling factor: 64px == 1.8m => 35.56px == 1m
-        
+        // TODO: Note scaling factor: 64px == 1.8m => 35.56px == 1m        
         #region graphics
 
         /// <summary>
@@ -56,7 +55,9 @@ namespace SticKart
         /// </summary>
         private SpriteBatch spriteBatch;
         
-        // TODO: Place in menu?
+        /// <summary>
+        /// The sprite to display the user's hand position.
+        /// </summary>
         private Sprite handSprite;
 
         #endregion
@@ -110,11 +111,11 @@ namespace SticKart
             this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect);
             this.levelManager = new LevelManager(this.screenDimensions, SticKart.FrameTime);
 
+            // TODO: add other menu event handlers.
             this.menuManager = new MenuManager(this.screenDimensions);
             this.menuManager.OnBeginLevelDetected += this.BeginLevel;
             this.menuManager.OnQuitGameDetected += this.QuitGame;
-            // TODO: add other menu event handlers.
-
+            
             this.handSprite = new Sprite();
         }
 
@@ -170,7 +171,8 @@ namespace SticKart
                     break;
                 case GameState.InGame:
                     this.UpdateGame(gameTime);
-                    //TODO: Camera2D.Update(new Vector2(20.0f, 0.0f), gameTime);
+
+                    // Camera2D.Update(new Vector2(20.0f, 0.0f), gameTime);
                     break;
                 default:
                     break;
@@ -187,8 +189,9 @@ namespace SticKart
         {
             this.levelManager.Update(gameTime, this.inputManager.Commands);
 
-            if (this.inputManager.Update()) // Commands are available.
+            if (this.inputManager.Update())
             {
+                // Commands are available.
                 foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)
@@ -229,8 +232,9 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateMenu(GameTime gameTime)
         {
-            if (this.inputManager.Update()) // Commands are available.
+            if (this.inputManager.Update())
             {
+                // Commands are available.
                 foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)

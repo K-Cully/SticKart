@@ -78,9 +78,11 @@
             if (description.Length > this.sprite.Width)
             {
                 int count = 0;
+
                 // Useable area on middle sprites (removing rounded ends)
                 float offset = this.sprite.Width - this.sprite.Height;
                 float halfLeftOver = (description.Length - offset) * 0.5f;
+
                 // Leftover greater than useable area on end sprites
                 while (halfLeftOver > this.sprite.Width - (this.sprite.Height / 2.0f))
                 {

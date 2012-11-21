@@ -35,7 +35,7 @@
         /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
         /// <param name="tile">The button's background sprite.</param>
         /// <param name="textIcon">The text to display at the centre of the button.</param>
-        /// <param name="text">The text to display at teh bottom of the button.</param>
+        /// <param name="text">The text to display at the bottom of the button.</param>
         /// <param name="name">The name of the button.</param>
         public MenuButton(Vector2 relativePosition, Sprite tile, RenderableText textIcon, RenderableText text, string name)
             : base(relativePosition, name, new Vector2(tile.Width, tile.Height))

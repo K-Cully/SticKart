@@ -176,7 +176,6 @@
             this.currentLevelCustom = isCustom;
 
             // TODO: Implement logic to allow for custom levels.
-
             this.physicsWorld.ClearForces();
             this.levelLoader.LoadLevel(this.currentLevel, this.currentLevelCustom);
 
@@ -184,6 +183,7 @@
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, this.spriteBatch, this.contentManager);
             this.stickman.Reset(this.levelLoader.StartPosition);
+
             // TODO: this.exit = new Exit(this.levelLoader.EndPosition);
         }
 
@@ -195,6 +195,7 @@
             LevelFactory.DisposeOfPlatforms(ref this.physicsWorld, ref this.platforms);
             LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities);
             LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges);
+
             // TODO: this.exit.Dispose();
         }
    

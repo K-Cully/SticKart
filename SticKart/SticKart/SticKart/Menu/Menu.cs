@@ -19,7 +19,7 @@
         private Collection<string> selectableItemNames;
 
         /// <summary>
-        /// The number of active selectible items.
+        /// The number of active selectable items.
         /// </summary>
         private int selectablesActive;
 

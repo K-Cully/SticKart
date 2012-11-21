@@ -149,7 +149,7 @@
                         switch (selectedItemName)
                         {
                             case SelectableNames.PlayButtonName:
-                                this.ActiveMenu = MenuType.LevelSelect; //TODO: Fix
+                                this.ActiveMenu = MenuType.LevelSelect; // TODO: Fix
                                 this.menus[this.ActiveMenu].Reset();
                                 break;
                             case SelectableNames.OptionsButtonName:
@@ -187,7 +187,7 @@
         /// <summary>
         /// Changes the page of the current menu.
         /// </summary>
-        /// <param name="right">A value indicating whether to move to th right or the left.</param>
+        /// <param name="right">A value indicating whether to move to the right or the left.</param>
         public void FlipPage(bool right)
         {
             if (this.menus[this.ActiveMenu] != null)

@@ -68,8 +68,7 @@
         public static void Update(Vector2 velocity, GameTime gameTime)
         {
             Camera2D.offset += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Camera2D.drawSpace.Location = new Point((int)Camera2D.offset.X, (int)Camera2D.offset.Y);
-            
+            Camera2D.drawSpace.Location = new Point((int)Camera2D.offset.X, (int)Camera2D.offset.Y);            
         }
 
         /// <summary>
