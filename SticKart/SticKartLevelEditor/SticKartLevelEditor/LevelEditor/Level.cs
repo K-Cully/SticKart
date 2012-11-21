@@ -31,8 +31,20 @@ namespace SticKart.LevelEditor
         /// </summary>
         private Sprite edgeSprite;
 
+        /// <summary>
+        /// The start position sprite.
+        /// </summary>
+        private Sprite startSprite;
+
+        /// <summary>
+        /// The exit sprite.
+        /// </summary>
+        private Sprite exitSprite;
+
         #endregion
 
+        #region private_entities
+        
         /// <summary>
         /// A list of platform descriptions.
         /// </summary>
@@ -43,16 +55,36 @@ namespace SticKart.LevelEditor
         /// </summary>
         private List<Vector2> floorEdgePoints;
 
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Level"/> class.
         /// </summary>
         public Level()
         {
+            this.StartPosition = Vector2.Zero;
+            this.ExitPosition = Vector2.Zero;
             this.platformDescriptions = new List<PlatformDescription>();
             this.floorEdgePoints = new List<Vector2>();
             this.platformSprite = new Sprite();
             this.edgeSprite = new Sprite();
+            this.startSprite = new Sprite();
+            this.exitSprite = new Sprite();
         }
+
+        #region public_entities
+
+        /// <summary>
+        /// Gets or sets the start position.
+        /// </summary>
+        public Vector2 StartPosition { get; set; }
+
+        /// <summary>
+        /// Gets or sets the exit position.
+        /// </summary>
+        public Vector2 ExitPosition { get; set; }
+
+        #endregion
 
         /// <summary>
         /// Loads any resources used by a level.
@@ -63,6 +95,8 @@ namespace SticKart.LevelEditor
         {
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
+            this.startSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManStanding);
+            this.exitSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Exit);
         }
 
         #region insertion
@@ -125,6 +159,16 @@ namespace SticKart.LevelEditor
         public void Draw()
         {
             // TODO: Implement rest of objects
+
+            if (this.StartPosition != Vector2.Zero)
+            {
+                Camera2D.Draw(this.startSprite, this.StartPosition, 0.0f);
+            }
+
+            if (this.ExitPosition != Vector2.Zero)
+            {
+                Camera2D.Draw(this.exitSprite, this.ExitPosition, 0.0f);
+            }
 
             this.DrawFloor();
             foreach (PlatformDescription platformDescription in this.platformDescriptions)

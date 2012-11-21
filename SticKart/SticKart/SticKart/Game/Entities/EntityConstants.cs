@@ -127,7 +127,12 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The name of the floor asset.
         /// </summary>
-        public const string Floor = "Floor";       
+        public const string Floor = "Floor";
+
+        /// <summary>
+        /// The name of the exit asset.
+        /// </summary>
+        public const string Exit = "exit";       
 
         #region collision_categories
 
