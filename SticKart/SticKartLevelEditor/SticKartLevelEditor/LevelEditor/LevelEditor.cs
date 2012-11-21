@@ -98,8 +98,6 @@ namespace SticKart.LevelEditor
         /// </summary>
         private Level levelToEdit;
 
-
-        // TODO: Modify this
         /// <summary>
         /// The width of the next platform.
         /// </summary>
@@ -111,7 +109,7 @@ namespace SticKart.LevelEditor
         private Vector2 lastFloorPoint;
 
         /// <summary>
-        /// The position ot he current floor point.
+        /// The position of the current floor point.
         /// </summary>
         private Vector2 currentFloorPoint;
 
@@ -163,6 +161,7 @@ namespace SticKart.LevelEditor
             {
                 return this.platformWidth;
             }
+
             set
             {
                 if (value < this.platformSprite.Width)
@@ -189,9 +188,9 @@ namespace SticKart.LevelEditor
         {
             this.levelToEdit.LoadContent(spriteBatch, contentManager);
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
-            this.platformWidth = platformSprite.Width;
+            this.platformWidth = this.platformSprite.Width;
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
-            this.startSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManStanding);
+            this.startSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
             this.exitSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Exit);
             this.invincibleSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.InvincibleName);
             this.jumpSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.JumpName);
@@ -272,6 +271,50 @@ namespace SticKart.LevelEditor
                     break;
                 case ModifiableEntity.Spike:
                     this.levelToEdit.AddInteractiveEntity(EntityConstants.SpikeName, this.cursorPosition, new Vector2(this.spikeSprite.Width, this.spikeSprite.Height));
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void RemoveSelectedElement()
+        {
+            switch (this.EntitySelected)
+            {
+                case ModifiableEntity.Floor:
+                    
+                    // TODO:                    
+                    //this.levelToEdit.RemoveLastFloorPoint(this.currentFloorPoint);
+                    break;
+                case ModifiableEntity.StartPosition:
+                    this.levelToEdit.StartPosition = Vector2.Zero;
+                    break;
+                case ModifiableEntity.ExitPosition:
+                    this.levelToEdit.ExitPosition = Vector2.Zero;
+                    break;
+                case ModifiableEntity.Platform:
+                    this.levelToEdit.RemoveLastPlatform();
+                    break;
+                case ModifiableEntity.Invincible:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Speed:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Jump:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Health:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Fire:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Rock:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Spike:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
                     break;
                 default:
                     break;
@@ -380,7 +423,7 @@ namespace SticKart.LevelEditor
             {
                 position = new Vector2(this.edgeSprite.Width / 2.0f, this.cursorPosition.Y);
             }
-            else
+            else if (this.currentFloorPoint != this.lastFloorPoint)
             {
                 position = (this.lastFloorPoint + this.currentFloorPoint) / 2.0f;
                 Vector2 direction = this.currentFloorPoint - this.lastFloorPoint;

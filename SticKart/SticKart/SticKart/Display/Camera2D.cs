@@ -35,6 +35,17 @@ namespace SticKart.Display
         private static Vector2 offset;
 
         /// <summary>
+        /// Gets the offset position of the camera.
+        /// </summary>
+        public static Vector2 OffsetPosition 
+        {
+            get
+            {
+                return Camera2D.offset;
+            }
+        }
+
+        /// <summary>
         /// Initializes the camera.
         /// </summary>
         /// <param name="displayDimensions">The dimensions of the render area.</param>

@@ -174,7 +174,7 @@
     <timestamps>
       <styleCop>2012/10/05 11:23:44.000</styleCop>
       <settingsFile>2012/09/27 22:03:32.000</settingsFile>
-      <sourceFile>2012/11/21 20:09:24.247</sourceFile>
+      <sourceFile>2012/11/21 20:33:56.869</sourceFile>
       <parser>2012/10/05 11:23:44.000</parser>
       <StyleCop.CSharp.DocumentationRules>2012/10/05 11:23:44.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>496436618</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -192,9 +192,9 @@
       <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
     </timestamps>
     <violations>
-      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementsMustBeDocumented" ruleCheckId="SA1600">
-        <context>The method must have a documentation header.</context>
-        <line>167</line>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementDocumentationMustBeSpelledCorrectly" ruleCheckId="SA1650">
+        <context>The documentation text within the summary tag contains incorrectly spelled words: ot</context>
+        <line>114</line>
         <warning>False</warning>
       </violation>
     </violations>

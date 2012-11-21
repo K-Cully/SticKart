@@ -14,6 +14,7 @@ namespace SticKart
     using Microsoft.Xna.Framework.Input;
     using Microsoft.Xna.Framework.Media;
     using Display;
+    using LevelEditor;
 
     /// <summary>
     /// This is the main type for your game
@@ -26,6 +27,8 @@ namespace SticKart
 
         Vector2 screenDimensions;
 
+        LevelEditor.LevelEditor levelEditor;
+
         public SticKartLevelEditor()
         {
             this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 30.0);
@@ -37,6 +40,7 @@ namespace SticKart
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             Camera2D.Initialize(this.screenDimensions);
+            this.levelEditor = new LevelEditor.LevelEditor();
         }
 
         /// <summary>
@@ -48,7 +52,6 @@ namespace SticKart
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
             base.Initialize();
         }
 
@@ -60,7 +63,7 @@ namespace SticKart
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            // TODO: use this.Content to load your game content here
+            this.levelEditor.LoadContent(this.spriteBatch, this.Content);
         }
 
         /// <summary>
@@ -83,6 +86,36 @@ namespace SticKart
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
+            MouseState mouseState = Mouse.GetState();
+
+            if (mouseState.X > 0 && mouseState.Y > 0 && mouseState.X < this.screenDimensions.X && mouseState.Y < screenDimensions.Y)
+            {
+                this.levelEditor.Update(new Vector2(mouseState.X, mouseState.Y) + Camera2D.OffsetPosition);
+
+                if (mouseState.LeftButton == ButtonState.Pressed)
+                {
+                    this.levelEditor.AddSelectedElement();
+                }
+                else if (mouseState.RightButton == ButtonState.Pressed)
+                {
+                    this.levelEditor.RemoveSelectedElement();
+                }
+
+                KeyboardState temp = Keyboard.GetState();
+
+                if (temp.IsKeyDown(Keys.Right))
+                {
+                    Camera2D.Update(new Vector2(50.0f, 0.0f), gameTime);
+                }
+                else if (temp.IsKeyDown(Keys.Left) && Camera2D.OffsetPosition.X > 0.0f)
+                {
+                    Camera2D.Update(new Vector2(-50.0f, 0.0f), gameTime);
+                }
+                if (temp.IsKeyDown(Keys.Up) && gameTime.TotalGameTime.TotalMilliseconds % 30 == 0)
+                {
+                    this.levelEditor.CycleSelection();
+                }
+            }
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -96,8 +129,11 @@ namespace SticKart
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            this.spriteBatch.Begin();
             // TODO: Add your drawing code here
+            this.levelEditor.Draw();
 
+            this.spriteBatch.End();
             base.Draw(gameTime);
         }
     }

@@ -122,6 +122,7 @@ namespace SticKart.LevelEditor
             this.StartPosition = Vector2.Zero;
             this.ExitPosition = Vector2.Zero;
             this.platformDescriptions = new List<PlatformDescription>();
+            this.interactiveEntityDescriptions = new List<InteractiveEntityDescription>();
             this.floorEdgePoints = new List<Vector2>();
             this.platformSprite = new Sprite();
             this.edgeSprite = new Sprite();
@@ -166,7 +167,7 @@ namespace SticKart.LevelEditor
         {
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
-            this.startSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManStanding);
+            this.startSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
             this.exitSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Exit);
             this.invincibleSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.InvincibleName);
             this.jumpSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.JumpName);
