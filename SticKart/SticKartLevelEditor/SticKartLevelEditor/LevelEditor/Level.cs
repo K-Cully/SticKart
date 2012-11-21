@@ -12,21 +12,36 @@ namespace SticKart.LevelEditor
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
+    using System;
 
     /// <summary>
     /// Defines a level which the level editor can modify.
     /// </summary>
     public class Level
     {
+        #region sprites
+
         /// <summary>
         /// A platform sprite.
         /// </summary>
-        private Sprite platformSprite; 
-        
+        private Sprite platformSprite;
+
+        /// <summary>
+        /// An edge sprite.
+        /// </summary>
+        private Sprite edgeSprite;
+
+        #endregion
+
         /// <summary>
         /// A list of platform descriptions.
         /// </summary>
         private List<PlatformDescription> platformDescriptions;
+
+        /// <summary>
+        /// A list of points which define the ends of the floor edges.
+        /// </summary>
+        private List<Vector2> floorEdgePoints;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Level"/> class.
@@ -34,7 +49,9 @@ namespace SticKart.LevelEditor
         public Level()
         {
             this.platformDescriptions = new List<PlatformDescription>();
+            this.floorEdgePoints = new List<Vector2>();
             this.platformSprite = new Sprite();
+            this.edgeSprite = new Sprite();
         }
 
         /// <summary>
@@ -45,7 +62,10 @@ namespace SticKart.LevelEditor
         public void LoadContent(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
+            this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
         }
+
+        #region insertion
 
         /// <summary>
         /// Adds a platform to the level.
@@ -59,6 +79,45 @@ namespace SticKart.LevelEditor
             platformDescription.Position = position;
             this.platformDescriptions.Add(platformDescription);
         }
+        
+        /// <summary>
+        /// Adds a point to the floor edges.
+        /// </summary>
+        /// <param name="point">The point to add.</param>
+        public void AddFloorPoint(Vector2 point)
+        {
+            this.floorEdgePoints.Add(point);
+        }
+
+        #endregion
+
+        #region removal
+
+        /// <summary>
+        /// Removes the last platform added.
+        /// </summary>
+        public void RemoveLastPlatform()
+        {
+            if (this.platformDescriptions.Count > 0)
+            {
+                this.platformDescriptions.RemoveAt(this.platformDescriptions.Count - 1);
+            }
+        }
+
+        /// <summary>
+        /// Removes the last floor point added.
+        /// </summary>
+        public void RemoveLastFloorPoint()
+        {
+            if (this.floorEdgePoints.Count > 0)
+            {
+                this.floorEdgePoints.RemoveAt(this.floorEdgePoints.Count - 1);
+            }
+        }
+
+        #endregion
+
+        #region drawing
 
         /// <summary>
         /// Draws the level.
@@ -67,10 +126,29 @@ namespace SticKart.LevelEditor
         {
             // TODO: Implement rest of objects
 
-            // Draw platforms
+            this.DrawFloor();
             foreach (PlatformDescription platformDescription in this.platformDescriptions)
             {
                 this.DrawPlatform(platformDescription);
+            }
+        }
+
+        /// <summary>
+        /// Draws the floor to the screen.
+        /// </summary>
+        private void DrawFloor()
+        {
+            Vector2 startPoint = Vector2.Zero;
+            foreach (Vector2 point in this.floorEdgePoints)
+            {
+                if (startPoint != Vector2.Zero)
+                {
+                    Vector2 direction = point - startPoint;
+                    direction.Normalize();
+                    Camera2D.Draw(this.edgeSprite, (startPoint + point) / 2.0f, (float)Math.Acos(direction.X));
+                }
+
+                startPoint = point;
             }
         }
 
@@ -104,7 +182,9 @@ namespace SticKart.LevelEditor
                     Camera2D.Draw(this.platformSprite, platformDescription.Position + new Vector2((platformDescription.Length / 2.0f) - (this.platformSprite.Width / 2.0f), 0.0f), 0.0f);
                     Camera2D.Draw(this.platformSprite, platformDescription.Position + new Vector2(-(platformDescription.Length / 2.0f) + (this.platformSprite.Width / 2.0f), 0.0f), 0.0f);
                 }
-            }  
+            }
         }
+
+        #endregion
     }
 }
