@@ -1,4 +1,10 @@
-﻿namespace SticKart.Input
+﻿// -----------------------------------------------------------------------
+// <copyright file="InputCommand.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Input
 {
     /// <summary>
     /// An enumeration of commands which can be received from the input manager.

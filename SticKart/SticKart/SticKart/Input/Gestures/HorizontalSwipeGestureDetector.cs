@@ -1,4 +1,10 @@
-﻿namespace SticKart.Input.Gestures
+﻿// -----------------------------------------------------------------------
+// <copyright file="HorizontalSwipeGestureDetector.cs" company="Microsoft">
+// http://kinecttoolbox.codeplex.com/license
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Input.Gestures
 {
     using System;
     using System.Collections.Generic;

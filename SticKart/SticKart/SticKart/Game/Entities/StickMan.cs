@@ -1,4 +1,10 @@
-﻿namespace SticKart.Game.Entities
+﻿// -----------------------------------------------------------------------
+// <copyright file="StickMan.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Game.Entities
 {
     using Display;
     using FarseerPhysics.Collision.Shapes;
@@ -295,7 +301,7 @@
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
             {
-                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse/  8.0f));
+                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse / 8.0f));
                 this.state = PlayerState.falling;
                 this.wheelCollisionDisabled = true;
                 this.wheelDisabledTimer = 0.0f;

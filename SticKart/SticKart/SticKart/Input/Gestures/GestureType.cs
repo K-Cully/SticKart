@@ -1,4 +1,10 @@
-﻿namespace SticKart.Input.Gestures
+﻿// -----------------------------------------------------------------------
+// <copyright file="GestureType.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Input.Gestures
 {
     /// <summary>
     /// An enumeration of the different gesture types available.

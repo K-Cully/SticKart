@@ -1,4 +1,10 @@
-﻿namespace SticKart.Input.Gestures
+﻿// -----------------------------------------------------------------------
+// <copyright file="GestureEntry.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Input.Gestures
 {
     using System;
     using Microsoft.Xna.Framework;

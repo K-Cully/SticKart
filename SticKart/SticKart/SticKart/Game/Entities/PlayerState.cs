@@ -1,4 +1,10 @@
-﻿namespace SticKart.Game.Entities
+﻿// -----------------------------------------------------------------------
+// <copyright file="PlayerState.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Game.Entities
 {
     /// <summary>
     /// An enumeration of states which the stickman can be in.

@@ -1,4 +1,10 @@
-﻿namespace SticKart.Game.Level
+﻿// -----------------------------------------------------------------------
+// <copyright file="LevelManager.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Game.Level
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;

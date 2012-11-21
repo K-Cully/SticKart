@@ -1,3 +1,9 @@
+// -----------------------------------------------------------------------
+// <copyright file="SticKart.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
 namespace SticKart
 {
     using System;

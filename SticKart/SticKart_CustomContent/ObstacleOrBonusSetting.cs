@@ -1,4 +1,10 @@
-﻿namespace SticKart
+﻿// -----------------------------------------------------------------------
+// <copyright file="ObstacleOrBonusSetting.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart
 {
     using Microsoft.Xna.Framework;
 

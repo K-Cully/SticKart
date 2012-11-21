@@ -1,4 +1,10 @@
-﻿namespace SticKart.Input
+﻿// -----------------------------------------------------------------------
+// <copyright file="InputManager.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Input
 {
     using System;
     using System.Collections.Generic;

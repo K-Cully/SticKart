@@ -1,4 +1,10 @@
-﻿namespace SticKart.Display
+﻿// -----------------------------------------------------------------------
+// <copyright file="Camera2D.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Display
 {
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;

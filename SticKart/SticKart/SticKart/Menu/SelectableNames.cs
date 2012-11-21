@@ -1,4 +1,10 @@
-﻿namespace SticKart.Menu
+﻿// -----------------------------------------------------------------------
+// <copyright file="SelectableNames.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Menu
 {
     /// <summary>
     /// A class containing all the selectable menu items' names.

@@ -1,4 +1,10 @@
-﻿namespace SticKart.Menu
+﻿// -----------------------------------------------------------------------
+// <copyright file="MenuManager.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Menu
 {
     using System;
     using System.Collections.Generic;

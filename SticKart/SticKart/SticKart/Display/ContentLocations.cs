@@ -1,4 +1,10 @@
-﻿namespace SticKart.Display
+﻿// -----------------------------------------------------------------------
+// <copyright file="ContentLocations.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Display
 {
     /// <summary>
     /// Contains the locations of image and font assets, relative to the root content directory.

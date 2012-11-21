@@ -1,4 +1,10 @@
-﻿namespace SticKart.Game.Entities
+﻿// -----------------------------------------------------------------------
+// <copyright file="InteractiveEntity.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Game.Entities
 {
     using Display;
     using FarseerPhysics.Dynamics;

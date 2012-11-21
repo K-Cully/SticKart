@@ -1,4 +1,10 @@
-﻿namespace SticKart.Input
+﻿// -----------------------------------------------------------------------
+// <copyright file="ControlDevice.cs" company="None">
+// Copyright Keith Cully 2012.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace SticKart.Input
 {
     /// <summary>
     /// An enumeration of control devices which can be used with the input manager.
