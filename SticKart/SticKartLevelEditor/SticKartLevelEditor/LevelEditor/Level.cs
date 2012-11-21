@@ -6,13 +6,13 @@
 
 namespace SticKart.LevelEditor
 {
+    using System;
     using System.Collections.Generic;
     using Display;
     using Game.Entities;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
-    using System;
 
     /// <summary>
     /// Defines a level which the level editor can modify.
@@ -41,6 +41,56 @@ namespace SticKart.LevelEditor
         /// </summary>
         private Sprite exitSprite;
 
+        /// <summary>
+        /// The jump power up sprite.
+        /// </summary>
+        private Sprite jumpSprite;
+
+        /// <summary>
+        /// The speed power up sprite.
+        /// </summary>
+        private Sprite speedSprite;
+
+        /// <summary>
+        /// The invincible power up sprite.
+        /// </summary>
+        private Sprite invincibleSprite;
+
+        /// <summary>
+        /// The health power up sprite.
+        /// </summary>
+        private Sprite healthSprite;
+
+        /// <summary>
+        /// The rock sprite.
+        /// </summary>
+        private Sprite rockSprite;
+
+        /// <summary>
+        /// The fire sprite.
+        /// </summary>
+        private Sprite fireSprite;
+
+        /// <summary>
+        /// The spike sprite.
+        /// </summary>
+        private Sprite spikeSprite;
+
+        /// <summary>
+        /// The coin sprite.
+        /// </summary>
+        private Sprite coinSprite;
+
+        /// <summary>
+        /// The ruby sprite.
+        /// </summary>
+        private Sprite rubySprite;
+
+        /// <summary>
+        /// The diamond sprite.
+        /// </summary>
+        private Sprite diamondSprite;
+
         #endregion
 
         #region private_entities
@@ -51,11 +101,18 @@ namespace SticKart.LevelEditor
         private List<PlatformDescription> platformDescriptions;
 
         /// <summary>
+        /// A list of interactive entity descriptions.
+        /// </summary>
+        private List<InteractiveEntityDescription> interactiveEntityDescriptions;
+
+        /// <summary>
         /// A list of points which define the ends of the floor edges.
         /// </summary>
         private List<Vector2> floorEdgePoints;
 
         #endregion
+
+        #region constructor
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Level"/> class.
@@ -70,7 +127,19 @@ namespace SticKart.LevelEditor
             this.edgeSprite = new Sprite();
             this.startSprite = new Sprite();
             this.exitSprite = new Sprite();
+            this.invincibleSprite = new Sprite();
+            this.jumpSprite = new Sprite();
+            this.speedSprite = new Sprite();
+            this.healthSprite = new Sprite();
+            this.fireSprite = new Sprite();
+            this.spikeSprite = new Sprite();
+            this.rockSprite = new Sprite();
+            this.coinSprite = new Sprite();
+            this.diamondSprite = new Sprite();
+            this.rubySprite = new Sprite();
         }
+
+        #endregion
 
         #region public_entities
 
@@ -86,6 +155,8 @@ namespace SticKart.LevelEditor
 
         #endregion
 
+        #region content_loading
+
         /// <summary>
         /// Loads any resources used by a level.
         /// </summary>
@@ -97,7 +168,19 @@ namespace SticKart.LevelEditor
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
             this.startSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManStanding);
             this.exitSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Exit);
+            this.invincibleSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.InvincibleName);
+            this.jumpSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.JumpName);
+            this.speedSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.SpeedName);
+            this.healthSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + EntityConstants.HealthName);
+            this.fireSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.FireName);            
+            this.spikeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.SpikeName);
+            this.rockSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.ObstacleFolderSubPath + EntityConstants.RockName);
+            this.coinSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.CoinName);
+            this.diamondSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.DiamondName);
+            this.rubySprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.RubyName);
         }
+
+        #endregion
 
         #region insertion
 
@@ -112,6 +195,21 @@ namespace SticKart.LevelEditor
             platformDescription.Length = length;
             platformDescription.Position = position;
             this.platformDescriptions.Add(platformDescription);
+        }
+
+        /// <summary>
+        /// Adds an interactive entity to the level.
+        /// </summary>
+        /// <param name="name">The name of the entity.</param>
+        /// <param name="position">The position of the entity.</param>
+        /// <param name="size">The size of the entity in display coordinates.</param>
+        public void AddInteractiveEntity(string name, Vector2 position, Vector2 size)
+        {
+            InteractiveEntityDescription entityDescription = new InteractiveEntityDescription();
+            entityDescription.Position = position;
+            entityDescription.Name = name;
+            entityDescription.Dimensions = size;
+            this.interactiveEntityDescriptions.Add(entityDescription);
         }
         
         /// <summary>
@@ -137,6 +235,17 @@ namespace SticKart.LevelEditor
                 this.platformDescriptions.RemoveAt(this.platformDescriptions.Count - 1);
             }
         }
+        
+        /// <summary>
+        /// Removes the last interactive entity added.
+        /// </summary>
+        public void RemoveLastInteractiveEntity()
+        {
+            if (this.interactiveEntityDescriptions.Count > 0)
+            {
+                this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
+            }
+        }
 
         /// <summary>
         /// Removes the last floor point added.
@@ -159,7 +268,6 @@ namespace SticKart.LevelEditor
         public void Draw()
         {
             // TODO: Implement rest of objects
-
             if (this.StartPosition != Vector2.Zero)
             {
                 Camera2D.Draw(this.startSprite, this.StartPosition, 0.0f);
@@ -174,6 +282,11 @@ namespace SticKart.LevelEditor
             foreach (PlatformDescription platformDescription in this.platformDescriptions)
             {
                 this.DrawPlatform(platformDescription);
+            }
+
+            foreach (InteractiveEntityDescription entityDescription in this.interactiveEntityDescriptions)
+            {
+                this.DrawInteractiveEntity(entityDescription);
             }
         }
 
@@ -193,6 +306,49 @@ namespace SticKart.LevelEditor
                 }
 
                 startPoint = point;
+            }
+        }
+
+        /// <summary>
+        /// Draws an interactive entity.
+        /// </summary>
+        /// <param name="entityDescription">The entity's description.</param>
+        private void DrawInteractiveEntity(InteractiveEntityDescription entityDescription)
+        {
+            switch (entityDescription.Name)
+            {
+                case EntityConstants.FireName:
+                    Camera2D.Draw(this.fireSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.SpikeName:
+                    Camera2D.Draw(this.spikeSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.RockName:
+                    Camera2D.Draw(this.rockSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.InvincibleName:
+                    Camera2D.Draw(this.invincibleSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.HealthName:
+                    Camera2D.Draw(this.healthSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.SpeedName:
+                    Camera2D.Draw(this.speedSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.JumpName:
+                    Camera2D.Draw(this.jumpSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.CoinName:
+                    Camera2D.Draw(this.coinSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.DiamondName:
+                    Camera2D.Draw(this.diamondSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.RubyName:
+                    Camera2D.Draw(this.rubySprite, entityDescription.Position, 0.0f);
+                    break;
+                default:
+                    break;
             }
         }
 
