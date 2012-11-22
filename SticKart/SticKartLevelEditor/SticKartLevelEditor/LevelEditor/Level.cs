@@ -303,7 +303,7 @@ namespace SticKart.LevelEditor
                 {
                     Vector2 direction = point - startPoint;
                     direction.Normalize();
-                    Camera2D.Draw(this.edgeSprite, (startPoint + point) / 2.0f, (float)Math.Acos(direction.X));
+                    Camera2D.Draw(this.edgeSprite, (startPoint + point) / 2.0f, (float)Math.Asin(direction.Y));
                 }
 
                 startPoint = point;

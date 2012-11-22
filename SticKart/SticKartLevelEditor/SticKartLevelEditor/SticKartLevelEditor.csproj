@@ -90,21 +90,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\SticKart\SticKartContent\SticKart_Content.contentproj">
-      <Project>{50E281F0-C446-4EEB-9731-FF866EB0F1C7}</Project>
-      <Name>SticKart_Content %28Content%29</Name>
-      <XnaReferenceType>Content</XnaReferenceType>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SticKart\SticKart\SticKart.csproj">
-      <Project>{BB5648CB-EFE9-4069-B976-DE7537C693B4}</Project>
-      <Name>SticKart</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SticKart_CustomContent\SticKart_CustomContent.csproj">
-      <Project>{264DD867-FD3C-4AC6-9935-3736B0BAC654}</Project>
-      <Name>SticKart_CustomContent</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
@@ -130,6 +115,22 @@
       <ProductName>Microsoft XNA Framework Redistributable 4.0</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\SticKart\SticKartContent\SticKart_Content.contentproj">
+      <Project>{50E281F0-C446-4EEB-9731-FF866EB0F1C7}</Project>
+      <Name>SticKart_Content %28Content%29</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+      <Private>False</Private>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SticKart\SticKart\SticKart.csproj">
+      <Project>{BB5648CB-EFE9-4069-B976-DE7537C693B4}</Project>
+      <Name>SticKart</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SticKart_CustomContent\SticKart_CustomContent.csproj">
+      <Project>{264DD867-FD3C-4AC6-9935-3736B0BAC654}</Project>
+      <Name>SticKart_CustomContent</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

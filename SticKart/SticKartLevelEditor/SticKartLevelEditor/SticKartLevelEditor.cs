@@ -27,6 +27,14 @@ namespace SticKart
 
         Vector2 screenDimensions;
 
+        float clickTimer;
+
+        float maxTimeBetweenClicks;
+
+        float keyTimer;
+
+        float maxTimeBetweenKeys;
+
         LevelEditor.LevelEditor levelEditor;
 
         public SticKartLevelEditor()
@@ -41,6 +49,10 @@ namespace SticKart
             this.IsMouseVisible = true;
             Camera2D.Initialize(this.screenDimensions);
             this.levelEditor = new LevelEditor.LevelEditor();
+            this.maxTimeBetweenKeys = 0.2f;
+            this.keyTimer = this.maxTimeBetweenKeys;
+            this.maxTimeBetweenClicks = 0.2f;
+            this.clickTimer = this.maxTimeBetweenClicks;
         }
 
         /// <summary>
@@ -82,6 +94,9 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+            this.keyTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            this.clickTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
@@ -92,28 +107,39 @@ namespace SticKart
             {
                 this.levelEditor.Update(new Vector2(mouseState.X, mouseState.Y) + Camera2D.OffsetPosition);
 
-                if (mouseState.LeftButton == ButtonState.Pressed)
+                if (this.clickTimer > this.maxTimeBetweenClicks)
                 {
-                    this.levelEditor.AddSelectedElement();
-                }
-                else if (mouseState.RightButton == ButtonState.Pressed)
-                {
-                    this.levelEditor.RemoveSelectedElement();
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        this.levelEditor.AddSelectedElement();
+                        this.clickTimer = 0.0f;
+                    }
+                    else if (mouseState.RightButton == ButtonState.Pressed)
+                    {
+                        this.levelEditor.RemoveSelectedElement();
+                        this.clickTimer = 0.0f;
+                    }
                 }
 
                 KeyboardState temp = Keyboard.GetState();
-
                 if (temp.IsKeyDown(Keys.Right))
                 {
-                    Camera2D.Update(new Vector2(50.0f, 0.0f), gameTime);
+                    Camera2D.Update(new Vector2(250.0f, 0.0f), gameTime);
+                    this.keyTimer = 0.0f;
                 }
                 else if (temp.IsKeyDown(Keys.Left) && Camera2D.OffsetPosition.X > 0.0f)
                 {
-                    Camera2D.Update(new Vector2(-50.0f, 0.0f), gameTime);
+                    Camera2D.Update(new Vector2(-250.0f, 0.0f), gameTime);
+                    this.keyTimer = 0.0f;
                 }
-                if (temp.IsKeyDown(Keys.Up) && gameTime.TotalGameTime.TotalMilliseconds % 30 == 0)
-                {
-                    this.levelEditor.CycleSelection();
+
+                if (this.keyTimer > this.maxTimeBetweenKeys)
+                {                    
+                    if (temp.IsKeyDown(Keys.Up))
+                    {
+                        this.levelEditor.CycleSelection();
+                        this.keyTimer = 0.0f;
+                    }
                 }
             }
             // TODO: Add your update logic here

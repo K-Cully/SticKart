@@ -35,6 +35,7 @@ Content\Entity_settings\Obstacles\fire.xnb
 Content\Entity_settings\Power_ups\jump.xnb
 Content\Entity_settings\Power_ups\health.xnb
 Content\Entity_settings\Power_ups\speed.xnb
+Content\Sprites\Entities\Stick_man\StickManStanding.png
 Content\Sprites\Entities\Stick_man\StickManStanding.xnb
 Content\Sprites\Menu\Hand.xnb
 Content\Sprites\Menu\Button_large.xnb
@@ -72,3 +73,4 @@ Content\Entity_settings\Obstacles\fire.xnb
 Content\Entity_settings\Power_ups\jump.xnb
 Content\Entity_settings\Power_ups\health.xnb
 Content\Entity_settings\Power_ups\speed.xnb
+Content\Sprites\Entities\Stick_man\StickManStanding.png

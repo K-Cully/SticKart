@@ -18,7 +18,12 @@ namespace SticKart.LevelEditor
     /// Defines a level editor for the game.
     /// </summary>
     public class LevelEditor
-    {        
+    {
+        /// <summary>
+        /// The maximum angle change between two floor edges.
+        /// </summary>
+        private const float MaxFloorAngleDeviation = 0.1f; 
+ 
         #region sprites
 
         /// <summary>
@@ -114,6 +119,11 @@ namespace SticKart.LevelEditor
         private Vector2 currentFloorPoint;
 
         /// <summary>
+        /// The angle of the last floor edge.
+        /// </summary>
+        private float lastFloorAngle;
+        
+        /// <summary>
         /// The current position of the user's cursor.
         /// </summary>
         private Vector2 cursorPosition;
@@ -126,6 +136,7 @@ namespace SticKart.LevelEditor
             this.cursorPosition = Vector2.Zero;
             this.lastFloorPoint = Vector2.Zero;
             this.currentFloorPoint = Vector2.Zero;
+            this.lastFloorAngle = 0.0f;
             this.EntitySelected = ModifiableEntity.Floor;
             this.levelToEdit = new Level();
             this.platformSprite = new Sprite();
@@ -219,14 +230,34 @@ namespace SticKart.LevelEditor
                 if (this.lastFloorPoint == Vector2.Zero)
                 {
                     this.currentFloorPoint = new Vector2(0.0f, this.cursorPosition.Y);
+                    this.lastFloorAngle = 0.0f;
                 }
                 else
                 {
                     Vector2 direction = this.cursorPosition - this.lastFloorPoint;
-                    direction.Normalize();
-                    
-                    // TODO: limit the angle of this vector.
-                    this.currentFloorPoint = direction * this.edgeSprite.Width; 
+                    if (direction.X <= 0.0f)
+                    {
+                        direction = Vector2.UnitX;
+                    }
+                    else
+                    {
+                        direction.Normalize();
+                        float edgeAngle = (float)Math.Asin(direction.Y);
+                        float difference = edgeAngle - this.lastFloorAngle;
+
+                        if (difference < -LevelEditor.MaxFloorAngleDeviation)
+                        {
+                            float newAngle = this.lastFloorAngle - LevelEditor.MaxFloorAngleDeviation;
+                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                        }
+                        else if (difference > LevelEditor.MaxFloorAngleDeviation)
+                        {
+                            float newAngle = this.lastFloorAngle + LevelEditor.MaxFloorAngleDeviation;
+                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                        }
+                    }
+
+                    this.currentFloorPoint = this.lastFloorPoint + (direction * this.edgeSprite.Width); 
                 }
             }
         }
@@ -240,6 +271,14 @@ namespace SticKart.LevelEditor
             {
                 case ModifiableEntity.Floor:
                     this.levelToEdit.AddFloorPoint(this.currentFloorPoint);
+                    Vector2 direction = this.currentFloorPoint - this.lastFloorPoint;
+                    if (this.lastFloorPoint == Vector2.Zero)
+                    {
+                        direction = Vector2.UnitX;
+                    }
+
+                    direction.Normalize();
+                    this.lastFloorAngle = (float)Math.Asin(direction.Y);
                     this.lastFloorPoint = this.currentFloorPoint;
                     break;
                 case ModifiableEntity.StartPosition:
@@ -428,7 +467,7 @@ namespace SticKart.LevelEditor
                 position = (this.lastFloorPoint + this.currentFloorPoint) / 2.0f;
                 Vector2 direction = this.currentFloorPoint - this.lastFloorPoint;
                 direction.Normalize();
-                angle = (float)Math.Acos(direction.X);
+                angle = (float)Math.Asin(direction.Y);
             }
 
             Camera2D.Draw(this.edgeSprite, position, angle);
