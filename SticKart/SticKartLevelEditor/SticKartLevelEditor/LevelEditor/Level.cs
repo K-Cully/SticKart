@@ -22,6 +22,16 @@ namespace SticKart.LevelEditor
         #region sprites
 
         /// <summary>
+        /// A cart sprite.
+        /// </summary>
+        private Sprite cartSprite;
+
+        /// <summary>
+        /// A switch sprite.
+        /// </summary>
+        private Sprite switchSprite;
+
+        /// <summary>
         /// A platform sprite.
         /// </summary>
         private Sprite platformSprite;
@@ -125,6 +135,8 @@ namespace SticKart.LevelEditor
             this.interactiveEntityDescriptions = new List<InteractiveEntityDescription>();
             this.floorEdgePoints = new List<Vector2>();
             this.platformSprite = new Sprite();
+            this.switchSprite = new Sprite();
+            this.cartSprite = new Sprite();
             this.edgeSprite = new Sprite();
             this.startSprite = new Sprite();
             this.exitSprite = new Sprite();
@@ -165,6 +177,8 @@ namespace SticKart.LevelEditor
         /// <param name="contentManager">The game's content manager.</param>
         public void LoadContent(SpriteBatch spriteBatch, ContentManager contentManager)
         {
+            this.cartSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartFull);
+            this.switchSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Switch);
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
             this.startSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
@@ -251,11 +265,21 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// Removes the last floor point added.
         /// </summary>
-        public void RemoveLastFloorPoint()
+        /// <returns>The last floor point.</returns>
+        public Vector2 RemoveLastFloorPoint()
         {
             if (this.floorEdgePoints.Count > 0)
             {
                 this.floorEdgePoints.RemoveAt(this.floorEdgePoints.Count - 1);
+            }
+
+            if (this.floorEdgePoints.Count > 0)
+            {
+                return this.floorEdgePoints[this.floorEdgePoints.Count - 1];
+            }
+            else
+            {
+                return Vector2.Zero;
             }
         }
 
@@ -268,7 +292,6 @@ namespace SticKart.LevelEditor
         /// </summary>
         public void Draw()
         {
-            // TODO: Implement rest of objects
             if (this.StartPosition != Vector2.Zero)
             {
                 Camera2D.Draw(this.startSprite, this.StartPosition, 0.0f);
@@ -347,6 +370,12 @@ namespace SticKart.LevelEditor
                     break;
                 case EntityConstants.RubyName:
                     Camera2D.Draw(this.rubySprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.Switch:
+                    Camera2D.Draw(this.switchSprite, entityDescription.Position, 0.0f);
+                    break;
+                case EntityConstants.CartBody:
+                    Camera2D.Draw(this.cartSprite, entityDescription.Position, 0.0f);
                     break;
                 default:
                     break;

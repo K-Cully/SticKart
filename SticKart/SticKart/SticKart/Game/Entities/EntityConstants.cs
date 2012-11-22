@@ -119,6 +119,28 @@ namespace SticKart.Game.Entities
 
         #endregion
 
+        #region other_entity_assets
+
+        /// <summary>
+        /// The name of the switch asset.
+        /// </summary>
+        public const string Switch = "switch";
+
+        /// <summary>
+        /// The name of the cart body asset.
+        /// </summary>
+        public const string CartBody = "cart";
+
+        /// <summary>
+        /// The name of the cart wheel asset.
+        /// </summary>
+        public const string CartWheel = "cartWheel";
+
+        /// <summary>
+        /// The name of the cart wheel asset.
+        /// </summary>
+        public const string CartFull = "cartFull";
+
         /// <summary>
         /// The name of the platform asset.
         /// </summary>
@@ -132,7 +154,9 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The name of the exit asset.
         /// </summary>
-        public const string Exit = "exit";       
+        public const string Exit = "exit";
+
+        #endregion
 
         #region collision_categories
 

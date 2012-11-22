@@ -20,6 +20,10 @@ Content\Sprites\Entities\Power_ups\invincible.xnb
 Content\Sprites\Entities\Power_ups\jump.xnb
 Content\Sprites\Entities\Power_ups\speed.xnb
 Content\Sprites\Entities\Power_ups\health.xnb
+Content\Sprites\Entities\cart.xnb
+Content\Sprites\Entities\cartFull.xnb
+Content\Sprites\Entities\cartWheel.xnb
+Content\Sprites\Entities\switch.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Levels\1\points.xnb
@@ -35,7 +39,6 @@ Content\Entity_settings\Obstacles\fire.xnb
 Content\Entity_settings\Power_ups\jump.xnb
 Content\Entity_settings\Power_ups\health.xnb
 Content\Entity_settings\Power_ups\speed.xnb
-Content\Sprites\Entities\Stick_man\StickManStanding.png
 Content\Sprites\Entities\Stick_man\StickManStanding.xnb
 Content\Sprites\Menu\Hand.xnb
 Content\Sprites\Menu\Button_large.xnb
@@ -58,6 +61,10 @@ Content\Sprites\Entities\Power_ups\invincible.xnb
 Content\Sprites\Entities\Power_ups\jump.xnb
 Content\Sprites\Entities\Power_ups\speed.xnb
 Content\Sprites\Entities\Power_ups\health.xnb
+Content\Sprites\Entities\cart.xnb
+Content\Sprites\Entities\cartFull.xnb
+Content\Sprites\Entities\cartWheel.xnb
+Content\Sprites\Entities\switch.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Levels\1\points.xnb
@@ -73,4 +80,3 @@ Content\Entity_settings\Obstacles\fire.xnb
 Content\Entity_settings\Power_ups\jump.xnb
 Content\Entity_settings\Power_ups\health.xnb
 Content\Entity_settings\Power_ups\speed.xnb
-Content\Sprites\Entities\Stick_man\StickManStanding.png

@@ -64,6 +64,16 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// A spike obstacle.
         /// </summary>
-        Spike
+        Spike,
+
+        /// <summary>
+        /// A cart entity.
+        /// </summary>
+        Cart,
+
+        /// <summary>
+        /// A switch entity.
+        /// </summary>
+        Switch,
     }
 }

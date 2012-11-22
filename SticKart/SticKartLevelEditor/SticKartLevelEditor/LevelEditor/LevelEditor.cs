@@ -27,6 +27,16 @@ namespace SticKart.LevelEditor
         #region sprites
 
         /// <summary>
+        /// A switch sprite.
+        /// </summary>
+        private Sprite switchSprite;
+
+        /// <summary>
+        /// A cart sprite.
+        /// </summary>
+        private Sprite cartSprite;
+
+        /// <summary>
         /// A platform sprite.
         /// </summary>
         private Sprite platformSprite;
@@ -127,6 +137,11 @@ namespace SticKart.LevelEditor
         /// The current position of the user's cursor.
         /// </summary>
         private Vector2 cursorPosition;
+        
+        /// <summary>
+        /// A value indicating whether the switch has been placed or not.
+        /// </summary>
+        private bool switchPlaced;
                 
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelEditor"/> class.
@@ -153,7 +168,10 @@ namespace SticKart.LevelEditor
             this.coinSprite = new Sprite();
             this.diamondSprite = new Sprite();
             this.rubySprite = new Sprite();
+            this.switchSprite = new Sprite();
+            this.cartSprite = new Sprite();
             this.platformWidth = 128.0f;
+            this.switchPlaced = false;
         }
 
         #region public_accessors
@@ -198,6 +216,8 @@ namespace SticKart.LevelEditor
         public void LoadContent(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.levelToEdit.LoadContent(spriteBatch, contentManager);
+            this.cartSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartFull);
+            this.switchSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Switch);
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
             this.platformWidth = this.platformSprite.Width;
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
@@ -311,6 +331,14 @@ namespace SticKart.LevelEditor
                 case ModifiableEntity.Spike:
                     this.levelToEdit.AddInteractiveEntity(EntityConstants.SpikeName, this.cursorPosition, new Vector2(this.spikeSprite.Width, this.spikeSprite.Height));
                     break;
+                case ModifiableEntity.Cart:
+                    this.EntitySelected = ModifiableEntity.Switch;
+                    this.levelToEdit.AddInteractiveEntity(EntityConstants.CartBody, this.cursorPosition, new Vector2(this.cartSprite.Width, this.cartSprite.Height));
+                    break;
+                case ModifiableEntity.Switch:
+                    this.EntitySelected = ModifiableEntity.Cart;
+                    this.levelToEdit.AddInteractiveEntity(EntityConstants.Switch, this.cursorPosition, new Vector2(this.switchSprite.Width, this.switchSprite.Height));
+                    break;
                 default:
                     break;
             }
@@ -321,9 +349,8 @@ namespace SticKart.LevelEditor
             switch (this.EntitySelected)
             {
                 case ModifiableEntity.Floor:
-                    
-                    // TODO:                    
-                    //this.levelToEdit.RemoveLastFloorPoint(this.currentFloorPoint);
+                    this.lastFloorPoint = this.levelToEdit.RemoveLastFloorPoint();
+                    this.lastFloorAngle = 0.0f;
                     break;
                 case ModifiableEntity.StartPosition:
                     this.levelToEdit.StartPosition = Vector2.Zero;
@@ -354,6 +381,13 @@ namespace SticKart.LevelEditor
                     break;
                 case ModifiableEntity.Spike:
                     this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Cart:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    break;
+                case ModifiableEntity.Switch:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    this.EntitySelected = ModifiableEntity.Cart;
                     break;
                 default:
                     break;
@@ -398,6 +432,9 @@ namespace SticKart.LevelEditor
                     this.EntitySelected = ModifiableEntity.Spike;
                     break;
                 case ModifiableEntity.Spike:
+                    this.EntitySelected = ModifiableEntity.Cart;
+                    break;
+                case ModifiableEntity.Cart:
                     this.EntitySelected = ModifiableEntity.Floor;
                     break;
                 default:
@@ -445,6 +482,12 @@ namespace SticKart.LevelEditor
                     break;
                 case ModifiableEntity.Spike:
                     Camera2D.Draw(this.spikeSprite, this.cursorPosition, 0.0f);
+                    break;
+                case ModifiableEntity.Cart:
+                    Camera2D.Draw(this.cartSprite, this.cursorPosition, 0.0f);
+                    break;
+                case ModifiableEntity.Switch:
+                    Camera2D.Draw(this.switchSprite, this.cursorPosition, 0.0f);
                     break;
                 default:
                     break;
