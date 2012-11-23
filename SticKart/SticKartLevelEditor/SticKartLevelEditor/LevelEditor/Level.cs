@@ -158,7 +158,7 @@ namespace SticKart.LevelEditor
 
         #endregion
 
-        #region public_entities
+        #region public_accessors
 
         /// <summary>
         /// Gets or sets the start position.
@@ -169,6 +169,24 @@ namespace SticKart.LevelEditor
         /// Gets or sets the exit position.
         /// </summary>
         public Vector2 ExitPosition { get; set; }
+
+        /// <summary>
+        /// Gets the last floor edge point.
+        /// </summary>
+        public Vector2 LastFloorPoint
+        {
+            get
+            {
+                if (this.floorEdgePoints.Count == 0)
+                {
+                    return Vector2.Zero;
+                }
+                else
+                {
+                    return this.floorEdgePoints[this.floorEdgePoints.Count - 1];
+                }
+            }
+        }
 
         #endregion
 
@@ -323,6 +341,11 @@ namespace SticKart.LevelEditor
                 {
                     if (levelFile.DirectoryExists(levelNumber.ToString()))
                     {
+                        foreach (string name in levelFile.GetFileNames(levelNumber.ToString() + "/*"))
+                        {
+                            levelFile.DeleteFile(levelNumber.ToString() + "/" + name);
+                        }
+
                         levelFile.DeleteDirectory(levelNumber.ToString());
                     }
 
@@ -344,9 +367,6 @@ namespace SticKart.LevelEditor
         /// <param name="levelNumber">The level number.</param>
         public void Load(int levelNumber)
         {
-            // TODO:
-            // Implement.
-            // Check if file exists.
             if (levelNumber > 0)
             {
 #if WINDOWS_PHONE
@@ -358,11 +378,9 @@ namespace SticKart.LevelEditor
                     if (levelFile.DirectoryExists(levelNumber.ToString()))
                     {
                         this.Clear();
-
-                        // TODO: Add methods
-                        //this.DeserializeLevelPoints(levelNumber.ToString(), levelFile);
-                        //this.DeserializePlatforms(levelNumber.ToString(), levelFile);
-                        //this.DeserializeInteractiveEntities(levelNumber.ToString(), levelFile);
+                        this.DeserializeLevelPoints(levelNumber.ToString(), levelFile);
+                        this.DeserializePlatforms(levelNumber.ToString(), levelFile);
+                        this.DeserializeInteractiveEntities(levelNumber.ToString(), levelFile);
                     }
                     else
                     {
@@ -555,6 +573,54 @@ namespace SticKart.LevelEditor
             {
                 XmlSerializer serializer = new XmlSerializer(typeof(List<InteractiveEntityDescription>));
                 serializer.Serialize(levelStream, this.interactiveEntityDescriptions);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes the start position, exit position and floor points from a file.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void DeserializeLevelPoints(string levelNumber, IsolatedStorageFile levelFile)
+        {
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.PointSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<Vector2>));
+                List<Vector2> levelPoints = new List<Vector2>();
+                levelPoints = (List<Vector2>)deserializer.Deserialize(levelStream);
+                this.StartPosition = levelPoints[0];
+                levelPoints.RemoveAt(0);
+                this.ExitPosition = levelPoints[0];
+                levelPoints.RemoveAt(0);
+                this.floorEdgePoints = new List<Vector2>(levelPoints);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes the platforms from a file.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void DeserializePlatforms(string levelNumber, IsolatedStorageFile levelFile)
+        {
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.PlatformSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<PlatformDescription>));
+                this.platformDescriptions = (List<PlatformDescription>)deserializer.Deserialize(levelStream);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes the interactive entities from a file.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void DeserializeInteractiveEntities(string levelNumber, IsolatedStorageFile levelFile)
+        {
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.InteractiveSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<InteractiveEntityDescription>));
+                this.interactiveEntityDescriptions = (List<InteractiveEntityDescription>)deserializer.Deserialize(levelStream);
             }
         }
 

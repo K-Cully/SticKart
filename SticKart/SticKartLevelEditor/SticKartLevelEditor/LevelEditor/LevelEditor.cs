@@ -248,17 +248,15 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// Loads a previously saved level.
         /// </summary>
-        /// <param name="number">Th</param>
+        /// <param name="number">The level number.</param>
         public void LoadLevel(int number)
         {
-            if (number > 0 && number <= this.levelsCreated)
-            {
-                this.levelToEdit.Load(number);
-            }
-            else
-            {
-                throw new Exception("The level selected does not exist.");
-            }
+            this.lastFloorAngle = 0.0f;
+            this.currentFloorPoint = Vector2.Zero;
+            this.EntitySelected = ModifiableEntity.Floor;
+            this.levelToEdit.Load(number);
+            this.currentLevelNumber = number;
+            this.lastFloorPoint = this.levelToEdit.LastFloorPoint;
         }
 
         /// <summary>
@@ -283,7 +281,7 @@ namespace SticKart.LevelEditor
             this.lastFloorAngle = 0.0f;
             this.lastFloorPoint = Vector2.Zero;
             this.currentFloorPoint = Vector2.Zero;
-            this.EntitySelected = ModifiableEntity.StartPosition;
+            this.EntitySelected = ModifiableEntity.Floor;
         }
 
         #endregion
