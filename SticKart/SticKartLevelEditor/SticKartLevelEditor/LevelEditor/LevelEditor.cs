@@ -137,17 +137,24 @@ namespace SticKart.LevelEditor
         /// The current position of the user's cursor.
         /// </summary>
         private Vector2 cursorPosition;
-        
+
         /// <summary>
-        /// A value indicating whether the switch has been placed or not.
+        /// The current level number.
         /// </summary>
-        private bool switchPlaced;
+        private int currentLevelNumber;
+
+        /// <summary>
+        /// The number of levels created.
+        /// </summary>
+        private int levelsCreated;
                 
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelEditor"/> class.
         /// </summary>
         public LevelEditor()
         {
+            this.levelsCreated = 0;
+            this.currentLevelNumber = 1;
             this.cursorPosition = Vector2.Zero;
             this.lastFloorPoint = Vector2.Zero;
             this.currentFloorPoint = Vector2.Zero;
@@ -171,7 +178,6 @@ namespace SticKart.LevelEditor
             this.switchSprite = new Sprite();
             this.cartSprite = new Sprite();
             this.platformWidth = 128.0f;
-            this.switchPlaced = false;
         }
 
         #region public_accessors
@@ -203,7 +209,7 @@ namespace SticKart.LevelEditor
                 }
             }
         }
-
+        
         #endregion
 
         #region content_loading
@@ -233,6 +239,51 @@ namespace SticKart.LevelEditor
             this.coinSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.CoinName);
             this.diamondSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.DiamondName);
             this.rubySprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.RubyName);
+        }
+
+        #endregion
+
+        #region loading_and_saving
+
+        /// <summary>
+        /// Loads a previously saved level.
+        /// </summary>
+        /// <param name="number">Th</param>
+        public void LoadLevel(int number)
+        {
+            if (number > 0 && number <= this.levelsCreated)
+            {
+                this.levelToEdit.Load(number);
+            }
+            else
+            {
+                throw new Exception("The level selected does not exist.");
+            }
+        }
+
+        /// <summary>
+        /// Saves the current level.
+        /// </summary>
+        public void SaveLevel()
+        {
+            this.levelToEdit.Save(this.currentLevelNumber);
+            if (this.currentLevelNumber > this.levelsCreated)
+            {
+                this.levelsCreated++;
+            }
+        }
+
+        /// <summary>
+        /// Starts a new level.
+        /// </summary>
+        public void CreateNewLevel()
+        {
+            this.levelToEdit.Clear();
+            this.currentLevelNumber = this.levelsCreated + 1;
+            this.lastFloorAngle = 0.0f;
+            this.lastFloorPoint = Vector2.Zero;
+            this.currentFloorPoint = Vector2.Zero;
+            this.EntitySelected = ModifiableEntity.StartPosition;
         }
 
         #endregion
@@ -344,6 +395,9 @@ namespace SticKart.LevelEditor
             }
         }
 
+        /// <summary>
+        /// Removes the last entity of the same type as the entity selected. 
+        /// </summary>
         public void RemoveSelectedElement()
         {
             switch (this.EntitySelected)

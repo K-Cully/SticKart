@@ -16,26 +16,6 @@ namespace SticKart.Game.Level
     public class LevelLoader
     {
         /// <summary>
-        /// The file path to the levels folder.
-        /// </summary>
-        private const string StandardFilePath = "Levels/";
-
-        /// <summary>
-        /// The sub path to the list of points which define the level's floor.
-        /// </summary>
-        private const string PointSubPath = "points";
-
-        /// <summary>
-        /// The sub path to the list of platforms.
-        /// </summary>
-        private const string PlatformSubPath = "platforms";
-
-        /// <summary>
-        /// The sub path to the list of level entities which the player can interact with.
-        /// </summary>
-        private const string InteractiveSubPath = "interactiveEntities";
-
-        /// <summary>
         /// The content manager to use for loading data.
         /// </summary>
         private ContentManager contentManager;
@@ -125,9 +105,9 @@ namespace SticKart.Game.Level
             }
             else
             {
-                this.levelPoints = new List<Vector2>(this.contentManager.Load<Vector2[]>(LevelLoader.StandardFilePath + levelNumber.ToString() + "/" + LevelLoader.PointSubPath));
-                this.platformDescriptions = new List<PlatformDescription>(this.contentManager.Load<PlatformDescription[]>(LevelLoader.StandardFilePath + levelNumber.ToString() + "/" + LevelLoader.PlatformSubPath));
-                this.interactiveEntityDescriptions = new List<InteractiveEntityDescription>(this.contentManager.Load<InteractiveEntityDescription[]>(LevelLoader.StandardFilePath + levelNumber.ToString() + "/" + LevelLoader.InteractiveSubPath));
+                this.levelPoints = new List<Vector2>(this.contentManager.Load<Vector2[]>(LevelConstants.StandardFilePath + levelNumber.ToString() + "/" + LevelConstants.PointSubPath));
+                this.platformDescriptions = new List<PlatformDescription>(this.contentManager.Load<PlatformDescription[]>(LevelConstants.StandardFilePath + levelNumber.ToString() + "/" + LevelConstants.PlatformSubPath));
+                this.interactiveEntityDescriptions = new List<InteractiveEntityDescription>(this.contentManager.Load<InteractiveEntityDescription[]>(LevelConstants.StandardFilePath + levelNumber.ToString() + "/" + LevelConstants.InteractiveSubPath));
                 this.StartPosition = this.levelPoints[0];
                 this.levelPoints.RemoveAt(0);
                 this.EndPosition = this.levelPoints[0];

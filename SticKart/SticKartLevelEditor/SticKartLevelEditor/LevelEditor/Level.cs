@@ -8,8 +8,12 @@ namespace SticKart.LevelEditor
 {
     using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.IO.IsolatedStorage;
+    using System.Xml.Serialization;
     using Display;
     using Game.Entities;
+    using Game.Level;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -241,6 +245,18 @@ namespace SticKart.LevelEditor
         #region removal
 
         /// <summary>
+        /// Clears the level.
+        /// </summary>
+        public void Clear()
+        {
+            this.StartPosition = Vector2.Zero;
+            this.ExitPosition = Vector2.Zero;
+            this.platformDescriptions.Clear();
+            this.interactiveEntityDescriptions.Clear();
+            this.floorEdgePoints.Clear();
+        }
+
+        /// <summary>
         /// Removes the last platform added.
         /// </summary>
         public void RemoveLastPlatform()
@@ -259,6 +275,10 @@ namespace SticKart.LevelEditor
             if (this.interactiveEntityDescriptions.Count > 0)
             {
                 this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
+                if (this.interactiveEntityDescriptions[this.interactiveEntityDescriptions.Count - 1].Name == EntityConstants.CartBody)
+                {
+                    this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1); // TODO: test
+                }
             }
         }
 
@@ -280,6 +300,79 @@ namespace SticKart.LevelEditor
             else
             {
                 return Vector2.Zero;
+            }
+        }
+
+        #endregion
+
+        #region save_and_load
+
+        /// <summary>
+        /// Saves the level to isolated storage.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        public void Save(int levelNumber)
+        {
+            if (levelNumber > 0)
+            {
+#if WINDOWS_PHONE
+                using (IsolatedStorageFile levelFile = IsolatedStorageFile.GetUserStoreForApplication())
+#else
+                using (IsolatedStorageFile levelFile = IsolatedStorageFile.GetUserStoreForDomain())
+#endif
+                {
+                    if (levelFile.DirectoryExists(levelNumber.ToString()))
+                    {
+                        levelFile.DeleteDirectory(levelNumber.ToString());
+                    }
+
+                    levelFile.CreateDirectory(levelNumber.ToString());
+                    this.SerializeLevelPoints(levelNumber.ToString(), levelFile);
+                    this.SerializePlatforms(levelNumber.ToString(), levelFile);
+                    this.SerializeInteractiveEntities(levelNumber.ToString(), levelFile);
+                }
+            }
+            else
+            {
+                throw new Exception("The level value must be greater than 0.");
+            }
+        }
+
+        /// <summary>
+        /// Loads the level from isolated storage.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        public void Load(int levelNumber)
+        {
+            // TODO:
+            // Implement.
+            // Check if file exists.
+            if (levelNumber > 0)
+            {
+#if WINDOWS_PHONE
+                using (IsolatedStorageFile levelFile = IsolatedStorageFile.GetUserStoreForApplication())
+#else
+                using (IsolatedStorageFile levelFile = IsolatedStorageFile.GetUserStoreForDomain())
+#endif
+                {
+                    if (levelFile.DirectoryExists(levelNumber.ToString()))
+                    {
+                        this.Clear();
+
+                        // TODO: Add methods
+                        //this.DeserializeLevelPoints(levelNumber.ToString(), levelFile);
+                        //this.DeserializePlatforms(levelNumber.ToString(), levelFile);
+                        //this.DeserializeInteractiveEntities(levelNumber.ToString(), levelFile);
+                    }
+                    else
+                    {
+                        throw new Exception("Level " + levelNumber.ToString() + " does not exist.");
+                    }
+                }
+            }
+            else
+            {
+                throw new Exception("The level value must be greater than 0.");
             }
         }
 
@@ -412,6 +505,56 @@ namespace SticKart.LevelEditor
                     Camera2D.Draw(this.platformSprite, platformDescription.Position + new Vector2((platformDescription.Length / 2.0f) - (this.platformSprite.Width / 2.0f), 0.0f), 0.0f);
                     Camera2D.Draw(this.platformSprite, platformDescription.Position + new Vector2(-(platformDescription.Length / 2.0f) + (this.platformSprite.Width / 2.0f), 0.0f), 0.0f);
                 }
+            }
+        }
+
+        #endregion
+
+        #region serialization
+
+        /// <summary>
+        /// Serializes the start position, exit position and floor points to a file.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void SerializeLevelPoints(string levelNumber, IsolatedStorageFile levelFile)
+        {
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.PointSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Vector2>));
+                List<Vector2> levelPoints = new List<Vector2>();
+                levelPoints.Add(this.StartPosition);
+                levelPoints.Add(this.ExitPosition);
+                levelPoints.AddRange(this.floorEdgePoints);
+                serializer.Serialize(levelStream, levelPoints);
+            }
+        }
+
+        /// <summary>
+        /// Serializes the platforms to a file.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void SerializePlatforms(string levelNumber, IsolatedStorageFile levelFile)
+        {
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.PlatformSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<PlatformDescription>));
+                serializer.Serialize(levelStream, this.platformDescriptions);
+            }
+        }
+
+        /// <summary>
+        /// Serializes the interactive entities to a file.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void SerializeInteractiveEntities(string levelNumber, IsolatedStorageFile levelFile)
+        {
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.InteractiveSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(List<InteractiveEntityDescription>));
+                serializer.Serialize(levelStream, this.interactiveEntityDescriptions);
             }
         }
 

@@ -122,15 +122,24 @@ namespace SticKart
                 }
 
                 KeyboardState temp = Keyboard.GetState();
-                if (temp.IsKeyDown(Keys.Right))
+                if (mouseState.X > this.screenDimensions.X * 0.9f)
+                {
+                    Camera2D.Update(new Vector2(50.0f, 0.0f), gameTime);
+                }                
+                else if (temp.IsKeyDown(Keys.Right))
                 {
                     Camera2D.Update(new Vector2(250.0f, 0.0f), gameTime);
-                    this.keyTimer = 0.0f;
                 }
-                else if (temp.IsKeyDown(Keys.Left) && Camera2D.OffsetPosition.X > 0.0f)
+                else if (Camera2D.OffsetPosition.X > 0.0f)
                 {
-                    Camera2D.Update(new Vector2(-250.0f, 0.0f), gameTime);
-                    this.keyTimer = 0.0f;
+                    if (mouseState.X < this.screenDimensions.X * 0.1f)
+                    {
+                        Camera2D.Update(new Vector2(-50.0f, 0.0f), gameTime);
+                    }
+                    else if (temp.IsKeyDown(Keys.Left))
+                    {
+                        Camera2D.Update(new Vector2(-250.0f, 0.0f), gameTime);
+                    }
                 }
 
                 if (this.keyTimer > this.maxTimeBetweenKeys)
@@ -138,6 +147,21 @@ namespace SticKart
                     if (temp.IsKeyDown(Keys.Up))
                     {
                         this.levelEditor.CycleSelection();
+                        this.keyTimer = 0.0f;
+                    }
+                    else if (temp.IsKeyDown(Keys.S))
+                    {
+                        this.levelEditor.SaveLevel();
+                        this.keyTimer = 0.0f;
+                    }
+                    else if (temp.IsKeyDown(Keys.L))
+                    {
+                        this.levelEditor.LoadLevel(1);
+                        this.keyTimer = 0.0f;
+                    }
+                    else if (temp.IsKeyDown(Keys.N))
+                    {
+                        this.levelEditor.CreateNewLevel();
                         this.keyTimer = 0.0f;
                     }
                 }

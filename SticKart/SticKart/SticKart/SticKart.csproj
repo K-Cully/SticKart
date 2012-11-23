@@ -105,6 +105,7 @@
     <Compile Include="Game\Entities\EntityConstants.cs" />
     <Compile Include="Game\Entities\EntitySettingsLoader.cs" />
     <Compile Include="Game\GameSettings.cs" />
+    <Compile Include="Game\Level\LevelConstants.cs" />
     <Compile Include="Game\Level\LevelManager.cs" />
     <Compile Include="Game\Level\LevelLoader.cs" />
     <Compile Include="Game\Level\LevelFactory.cs" />
