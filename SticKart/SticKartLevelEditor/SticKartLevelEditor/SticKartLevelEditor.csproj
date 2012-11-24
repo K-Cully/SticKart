@@ -76,6 +76,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="LevelEditor\LevelSerializationConstants.cs" />
     <Compile Include="LevelEditor\ModifiableEntity.cs" />
     <Compile Include="LevelEditor\Level.cs" />
     <Compile Include="LevelEditor\LevelEditor.cs" />

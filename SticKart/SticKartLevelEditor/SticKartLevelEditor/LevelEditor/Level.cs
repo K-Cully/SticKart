@@ -10,7 +10,7 @@ namespace SticKart.LevelEditor
     using System.Collections.Generic;
     using System.IO;
     using System.IO.IsolatedStorage;
-    using System.Linq;
+    using System.Xml.Linq;
     using System.Xml.Serialization;
     using Display;
     using Game.Entities;
@@ -548,7 +548,17 @@ namespace SticKart.LevelEditor
                 levelPoints.AddRange(this.floorEdgePoints);
                 if (contentManagerFormat)
                 {
-                    // TODO:
+                    string vectorArrayAsString = "\n";
+                    foreach (Vector2 vector in levelPoints)
+                    {
+                        vectorArrayAsString += vector.X + " " + vector.Y + "\n";
+                    }
+
+                    XAttribute typeAttribute = new XAttribute(LevelSerializationConstants.TypeAttributeName, LevelSerializationConstants.VectorArrayTypeField);
+                    XElement assetElement = new XElement(LevelSerializationConstants.AssetTag, typeAttribute);
+                    assetElement.SetValue(vectorArrayAsString);
+                    XDocument xmlSerializer = new XDocument(new XElement(LevelSerializationConstants.XnaContentTag, assetElement));
+                    xmlSerializer.Save(levelStream);
                 }
                 else
                 {
@@ -570,7 +580,20 @@ namespace SticKart.LevelEditor
             {
                 if (contentManagerFormat)
                 {
-                    // TODO:
+                    XAttribute typeAttribute = new XAttribute(LevelSerializationConstants.TypeAttributeName, LevelSerializationConstants.PlatformArrayTypeField);
+                    XElement assetElement = new XElement(LevelSerializationConstants.AssetTag, typeAttribute);
+                    XElement itemElement;
+                    foreach (PlatformDescription platform in this.platformDescriptions)
+                    {
+                        itemElement = new XElement(LevelSerializationConstants.ItemTag);
+                        string positionAsString = platform.Position.X + " " + platform.Position.Y;
+                        itemElement.Add(new XElement(LevelSerializationConstants.PositionTag, positionAsString));
+                        itemElement.Add(new XElement(LevelSerializationConstants.LengthTag, platform.Length.ToString()));
+                        assetElement.Add(itemElement);
+                    }
+
+                    XDocument xmlSerializer = new XDocument(new XElement(LevelSerializationConstants.XnaContentTag, assetElement));
+                    xmlSerializer.Save(levelStream);
                 }
                 else
                 {
@@ -593,6 +616,20 @@ namespace SticKart.LevelEditor
                 if (contentManagerFormat)
                 {
                     // TODO:
+                    XAttribute typeAttribute = new XAttribute(LevelSerializationConstants.TypeAttributeName, LevelSerializationConstants.PlatformArrayTypeField);
+                    XElement assetElement = new XElement(LevelSerializationConstants.AssetTag, typeAttribute);
+                    XElement itemElement;
+                    foreach (PlatformDescription platform in this.platformDescriptions)
+                    {
+                        itemElement = new XElement(LevelSerializationConstants.ItemTag);
+                        string positionAsString = platform.Position.X + " " + platform.Position.Y;
+                        itemElement.Add(new XElement(LevelSerializationConstants.PositionTag, positionAsString));
+                        itemElement.Add(new XElement(LevelSerializationConstants.LengthTag, platform.Length.ToString()));
+                        assetElement.Add(itemElement);
+                    }
+
+                    XDocument xmlSerializer = new XDocument(new XElement(LevelSerializationConstants.XnaContentTag, assetElement));
+                    xmlSerializer.Save(levelStream);
                 }
                 else
                 {
