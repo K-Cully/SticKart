@@ -44,7 +44,7 @@ namespace SticKart
             this.graphics = new GraphicsDeviceManager(this);
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = false; // TODO: set to true for release 
+            this.graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             Camera2D.Initialize(this.screenDimensions);
@@ -63,7 +63,6 @@ namespace SticKart
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();
         }
 
@@ -84,7 +83,6 @@ namespace SticKart
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
         }
 
         /// <summary>
@@ -149,9 +147,24 @@ namespace SticKart
                         this.levelEditor.CycleSelection();
                         this.keyTimer = 0.0f;
                     }
+                    else if (temp.IsKeyDown(Keys.Add))
+                    {
+                        this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + 16.0f;
+                        this.keyTimer = 0.0f;
+                    }
+                    else if (temp.IsKeyDown(Keys.Subtract))
+                    {
+                        this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + -16.0f;
+                        this.keyTimer = 0.0f;
+                    }
                     else if (temp.IsKeyDown(Keys.S))
                     {
-                        this.levelEditor.SaveLevel();
+                        this.levelEditor.SaveLevel(true);
+                        this.keyTimer = 0.0f;
+                    }
+                    else if (temp.IsKeyDown(Keys.A))
+                    {
+                        this.levelEditor.SaveLevel(false);
                         this.keyTimer = 0.0f;
                     }
                     else if (temp.IsKeyDown(Keys.L))
@@ -166,7 +179,6 @@ namespace SticKart
                     }
                 }
             }
-            // TODO: Add your update logic here
 
             base.Update(gameTime);
         }
@@ -180,9 +192,7 @@ namespace SticKart
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             this.spriteBatch.Begin();
-            // TODO: Add your drawing code here
             this.levelEditor.Draw();
-
             this.spriteBatch.End();
             base.Draw(gameTime);
         }

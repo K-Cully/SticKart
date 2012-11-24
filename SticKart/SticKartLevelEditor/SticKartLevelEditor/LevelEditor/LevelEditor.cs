@@ -262,9 +262,10 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// Saves the current level.
         /// </summary>
-        public void SaveLevel()
+        /// <param name="formatForContentManager">Whether to format the data for the content manager or the xml serializer.</param>
+        public void SaveLevel(bool formatForContentManager)
         {
-            this.levelToEdit.Save(this.currentLevelNumber);
+            this.levelToEdit.Save(this.currentLevelNumber, formatForContentManager);
             if (this.currentLevelNumber > this.levelsCreated)
             {
                 this.levelsCreated++;

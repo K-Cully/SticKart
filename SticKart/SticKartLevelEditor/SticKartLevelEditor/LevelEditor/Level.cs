@@ -10,6 +10,7 @@ namespace SticKart.LevelEditor
     using System.Collections.Generic;
     using System.IO;
     using System.IO.IsolatedStorage;
+    using System.Linq;
     using System.Xml.Serialization;
     using Display;
     using Game.Entities;
@@ -295,7 +296,7 @@ namespace SticKart.LevelEditor
                 this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
                 if (this.interactiveEntityDescriptions[this.interactiveEntityDescriptions.Count - 1].Name == EntityConstants.CartBody)
                 {
-                    this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1); // TODO: test
+                    this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
                 }
             }
         }
@@ -329,7 +330,8 @@ namespace SticKart.LevelEditor
         /// Saves the level to isolated storage.
         /// </summary>
         /// <param name="levelNumber">The level number.</param>
-        public void Save(int levelNumber)
+        /// <param name="contentManagerFormat">Whether to format the data for the content manager or the xml serializer.</param>
+        public void Save(int levelNumber, bool contentManagerFormat)
         {
             if (levelNumber > 0)
             {
@@ -350,9 +352,9 @@ namespace SticKart.LevelEditor
                     }
 
                     levelFile.CreateDirectory(levelNumber.ToString());
-                    this.SerializeLevelPoints(levelNumber.ToString(), levelFile);
-                    this.SerializePlatforms(levelNumber.ToString(), levelFile);
-                    this.SerializeInteractiveEntities(levelNumber.ToString(), levelFile);
+                    this.SerializeLevelPoints(levelNumber.ToString(), levelFile, contentManagerFormat);
+                    this.SerializePlatforms(levelNumber.ToString(), levelFile, contentManagerFormat);
+                    this.SerializeInteractiveEntities(levelNumber.ToString(), levelFile, contentManagerFormat);
                 }
             }
             else
@@ -535,16 +537,24 @@ namespace SticKart.LevelEditor
         /// </summary>
         /// <param name="levelNumber">The level number.</param>
         /// <param name="levelFile">The isolated storage file.</param>
-        private void SerializeLevelPoints(string levelNumber, IsolatedStorageFile levelFile)
+        /// <param name="contentManagerFormat">Whether to format the data for the content manager or the xml serializer.</param>
+        private void SerializeLevelPoints(string levelNumber, IsolatedStorageFile levelFile, bool contentManagerFormat)
         {
             using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.PointSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Vector2>));
                 List<Vector2> levelPoints = new List<Vector2>();
                 levelPoints.Add(this.StartPosition);
                 levelPoints.Add(this.ExitPosition);
                 levelPoints.AddRange(this.floorEdgePoints);
-                serializer.Serialize(levelStream, levelPoints);
+                if (contentManagerFormat)
+                {
+                    // TODO:
+                }
+                else
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<Vector2>));
+                    serializer.Serialize(levelStream, levelPoints);
+                }
             }
         }
 
@@ -553,12 +563,20 @@ namespace SticKart.LevelEditor
         /// </summary>
         /// <param name="levelNumber">The level number.</param>
         /// <param name="levelFile">The isolated storage file.</param>
-        private void SerializePlatforms(string levelNumber, IsolatedStorageFile levelFile)
+        /// <param name="contentManagerFormat">Whether to format the data for the content manager or the xml serializer.</param>
+        private void SerializePlatforms(string levelNumber, IsolatedStorageFile levelFile, bool contentManagerFormat)
         {
             using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.PlatformSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<PlatformDescription>));
-                serializer.Serialize(levelStream, this.platformDescriptions);
+                if (contentManagerFormat)
+                {
+                    // TODO:
+                }
+                else
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<PlatformDescription>));
+                    serializer.Serialize(levelStream, this.platformDescriptions);
+                }
             }
         }
 
@@ -567,12 +585,20 @@ namespace SticKart.LevelEditor
         /// </summary>
         /// <param name="levelNumber">The level number.</param>
         /// <param name="levelFile">The isolated storage file.</param>
-        private void SerializeInteractiveEntities(string levelNumber, IsolatedStorageFile levelFile)
+        /// <param name="contentManagerFormat">Whether to format the data for the content manager or the xml serializer.</param>
+        private void SerializeInteractiveEntities(string levelNumber, IsolatedStorageFile levelFile, bool contentManagerFormat)
         {
             using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(levelNumber + "/" + LevelConstants.InteractiveSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(List<InteractiveEntityDescription>));
-                serializer.Serialize(levelStream, this.interactiveEntityDescriptions);
+                if (contentManagerFormat)
+                {
+                    // TODO:
+                }
+                else
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<InteractiveEntityDescription>));
+                    serializer.Serialize(levelStream, this.interactiveEntityDescriptions);
+                }
             }
         }
 
