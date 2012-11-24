@@ -52,10 +52,10 @@ namespace SticKart.Input.Gestures
         public PushGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1000)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)
         {
-            this.pushMinimumLength = 0.4f;
+            this.pushMinimumLength = 0.3f;
             this.pushMaximumHeight = 0.21f;
-            this.pushMaximumWidth = 0.1f;
-            this.pushMinimumDuration = 500;
+            this.pushMaximumWidth = 0.125f;
+            this.pushMinimumDuration = 300;
             this.pushMaximumDuration = 1600;
         }
 
