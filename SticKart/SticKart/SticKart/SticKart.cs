@@ -147,8 +147,9 @@ namespace SticKart
             this.gameSettings = GameSettings.Load();
 
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
+            this.inputManager.InitializeSpeechEngine(this.menuManager.GetAllSelectableNames());
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
-
+            
             EntitySettingsLoader.LoadEntitySettings(this.Content);
             this.levelManager.LoadContent(this.Content, this.spriteBatch);
         }
@@ -288,6 +289,8 @@ namespace SticKart
         protected void BeginLevel(int value)
         {
             // TODO: refine.
+            this.levelManager.EndLevel();
+            Camera2D.Reset();
             this.gameState = GameState.InGame;
             this.levelManager.BeginLevel(value, false);
         }

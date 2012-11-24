@@ -113,7 +113,8 @@ namespace SticKart.Menu
                 {
                     RenderableText text = new RenderableText();
                     RenderableText largeText = new RenderableText();
-                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, total.ToString());
+                    string name = ConvertToWords.ConvertIntToWords(total);
+                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, name);
                     largeText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, total.ToString());
                     button = new MenuButton(relativePos, largeButtonTile, largeText, text, total.ToString());
                     levelSelectMenu.AddItem(button);

@@ -300,10 +300,22 @@ namespace SticKart.Menu
                     else if (typeof(MenuSelectableItem).IsAssignableFrom(menuItem.Type))
                     {
                         selectableCount++;
-                        if (name.ToUpperInvariant() == (menuItem as MenuSelectableItem).Name.ToUpperInvariant())
+                        try
                         {
-                            itemFound = (menuItem as MenuSelectableItem).Name;
-                            break;
+                            int level = int.Parse((menuItem as MenuSelectableItem).Name);
+                            if (name.ToUpperInvariant() == ConvertToWords.ConvertIntToWords(level).ToUpperInvariant())
+                            {
+                                itemFound = (menuItem as MenuSelectableItem).Name;
+                                break;
+                            }
+                        }
+                        catch
+                        {
+                            if (name.ToUpperInvariant() == (menuItem as MenuSelectableItem).Name.ToUpperInvariant())
+                            {
+                                itemFound = (menuItem as MenuSelectableItem).Name;
+                                break;
+                            }
                         }
                     }
                 }

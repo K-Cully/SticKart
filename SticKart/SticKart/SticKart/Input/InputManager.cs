@@ -261,6 +261,21 @@ namespace SticKart.Input
         }
 
         /// <summary>
+        /// Initializes the speech engine and adds the menu commands passed in into it as recognizable grammer.
+        /// </summary>
+        /// <param name="menuCommandNames">The list of menu item names to add to the speech engine.</param>
+        public void InitializeSpeechEngine(List<string> menuCommandNames)
+        {
+            if (this.controlDevice == ControlDevice.Kinect && this.kinectSensor != null)
+            {
+                if (!this.TryStartSpeechEngine(menuCommandNames))
+                {
+                    this.speechEngine = null;
+                }
+            }
+        }
+
+        /// <summary>
         /// Checks for user input this frame.
         /// </summary>
         /// <returns>Whether any new commands have been picked up or not.</returns>
@@ -523,18 +538,15 @@ namespace SticKart.Input
             {
                 this.coordinateMapper = new CoordinateMapper(this.kinectSensor);
                 this.gestureManager = new GestureManager();
-                if (!this.TryStartSpeechEngine())
-                {
-                    this.speechEngine = null;
-                }
             }
         }
 
         /// <summary>
         /// Tries to start the speech engine.
         /// </summary>
+        /// <param name="selectableNames">The list of menu item names to add to the speech engine.</param>
         /// <returns>Whether the speech engine was successfully started or not.</returns>
-        private bool TryStartSpeechEngine()
+        private bool TryStartSpeechEngine(List<string> selectableNames)
         {
             RecognizerInfo recognizerInfo = this.GetKinectRecognizer();
 
@@ -546,23 +558,16 @@ namespace SticKart.Input
             {
                 this.speechEngine = new SpeechRecognitionEngine(recognizerInfo.Id);
                 Choices grammarChoices = new Choices();
-                grammarChoices.Add(new SemanticResultValue(SelectableNames.PlayButtonName.ToLower(), SelectableNames.PlayButtonName));
-                grammarChoices.Add(new SemanticResultValue(SelectableNames.BackButtonName.ToLower(), SelectableNames.BackButtonName));
-                grammarChoices.Add(new SemanticResultValue(SelectableNames.LeaderboardButtonName.ToLower(), SelectableNames.LeaderboardButtonName));
-                grammarChoices.Add(new SemanticResultValue(SelectableNames.OptionsButtonName.ToLower(), SelectableNames.OptionsButtonName));
-                grammarChoices.Add(new SemanticResultValue(SelectableNames.ExitButtonName.ToLower(), SelectableNames.ExitButtonName));
+                foreach (string name in selectableNames)
+                {
+                    grammarChoices.Add(new SemanticResultValue(name.ToLower(), name));
+                }
+
                 grammarChoices.Add(new SemanticResultValue(SelectableNames.PauseCommandName.ToLower(), SelectableNames.PauseCommandName));
                 GrammarBuilder grammarBuilder = new GrammarBuilder();
                 grammarBuilder.Culture = recognizerInfo.Culture;
                 grammarBuilder.Append(grammarChoices);
                 Grammar grammar = new Grammar(grammarBuilder);
-
-                //// TODO: Possibly create a grammar from grammar definition XML file.
-                // using (var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes(Properties.Resources.SpeechGrammar)))
-                // {
-                //     var g = new Grammar(memoryStream);
-                //     speechEngine.LoadGrammar(g);
-                // }
                 this.speechEngine.LoadGrammar(grammar);
                 this.speechEngine.SpeechRecognized += this.SpeechRecognized;
                 this.speechEngine.SetInputToAudioStream(this.kinectSensor.AudioSource.Start(), new SpeechAudioFormatInfo(EncodingFormat.Pcm, 16000, 16, 1, 32000, 2, null));

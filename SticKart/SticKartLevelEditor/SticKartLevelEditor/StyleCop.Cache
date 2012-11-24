@@ -190,9 +190,6 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <project key="-1955699068">
-    <configuration>DEBUG;TRACE;WINDOWS</configuration>
-  </project>
   <sourcecode name="LevelSerializationConstants.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2012/10/05 11:23:44.000</styleCop>
@@ -216,4 +213,7 @@
     </timestamps>
     <violations />
   </sourcecode>
+  <project key="-1955699068">
+    <configuration>DEBUG;TRACE;WINDOWS</configuration>
+  </project>
 </stylecopresultscache>

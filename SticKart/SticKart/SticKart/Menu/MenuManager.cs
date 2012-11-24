@@ -205,9 +205,32 @@ namespace SticKart.Menu
         public List<string> GetAllSelectableNames()
         {
             List<string> selectableNames = new List<string>();
-            foreach (Menu menu in this.menus.Values)
+            foreach (MenuType menuType in this.menus.Keys)
             {
-                selectableNames.AddRange(menu.SelectableItemNames);
+                switch (menuType)
+                {
+                    case MenuType.LevelSelect:
+                        foreach (string name in this.menus[menuType].SelectableItemNames)
+                        {
+                            if (name == SelectableNames.BackButtonName)
+                            {
+                                selectableNames.Add(name);
+                            }
+                            else
+                            {
+                                selectableNames.Add(ConvertToWords.ConvertIntToWords(int.Parse(name)));
+                            }
+                        }
+
+                        break;
+                    default:
+                        if (this.menus[menuType] != null)
+                        {
+                            selectableNames.AddRange(this.menus[menuType].SelectableItemNames);
+                        }
+
+                        break;
+                }
             }
 
             return selectableNames;

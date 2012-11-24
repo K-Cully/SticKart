@@ -121,6 +121,7 @@
     <Compile Include="Input\Gestures\HorizontalSwipeGestureDetector.cs" />
     <Compile Include="Input\Gestures\VerticalSwipeGestureDetector.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="Menu\ConvertToWords.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\MenuFactory.cs" />
     <Compile Include="Menu\MenuImage.cs" />
