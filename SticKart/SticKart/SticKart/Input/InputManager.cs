@@ -261,7 +261,7 @@ namespace SticKart.Input
         }
 
         /// <summary>
-        /// Initializes the speech engine and adds the menu commands passed in into it as recognizable grammer.
+        /// Initializes the speech engine and adds the menu commands passed in into it as recognizable grammar.
         /// </summary>
         /// <param name="menuCommandNames">The list of menu item names to add to the speech engine.</param>
         public void InitializeSpeechEngine(List<string> menuCommandNames)

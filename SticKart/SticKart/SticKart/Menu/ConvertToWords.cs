@@ -38,7 +38,7 @@ namespace SticKart.Menu
                     numberAsWords += singles[hundredCount] + " " + hundred;
                     if (leftover > 0)
                     {
-                        numberAsWords += " and";
+                        numberAsWords += " and ";
                     }
                 }
 
@@ -46,16 +46,20 @@ namespace SticKart.Menu
                 leftover = leftover % 10;
                 if (tenCount == 1)
                 {
-                    numberAsWords += " " + teens[leftover];
+                    numberAsWords += teens[leftover];
                 }
                 else if (tenCount != 0)
                 {
-                    numberAsWords += " " + otherTens[tenCount];
+                    numberAsWords += otherTens[tenCount];
+                    if (leftover > 0)
+                    {
+                        numberAsWords += " ";
+                    }
                 }
 
                 if (leftover > 0 && tenCount != 1)
                 {
-                    numberAsWords += " " + singles[leftover];
+                    numberAsWords += singles[leftover];
                 }
 
                 return numberAsWords;
