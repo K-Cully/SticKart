@@ -237,12 +237,16 @@ namespace SticKart.Input
                 }
                 else
                 {
-                    Vector2 position = Tools.Convert(this.kinectSensor, this.gestureManager.HandPosition, this.coordinateMapper);
-                    position.X *= this.screenDimensions.X;
-                    float centerOffsetX = position.X - (this.screenDimensions.X / 2.0f);
-                    float scaleX = Math.Min(Math.Max(1.0f, (centerOffsetX * 0.00390625f) * (centerOffsetX * 0.00390625f)), 1.6f);
-                    position.X = (this.screenDimensions.X / 2.0f) + (centerOffsetX * scaleX);
-                    position.Y *= this.screenDimensions.Y * 2.0f;
+                    Vector2 handPosition = Tools.Convert(this.kinectSensor, this.gestureManager.HandPosition, this.coordinateMapper);
+                    Vector2 shoulderPosition = Tools.Convert(this.kinectSensor, this.gestureManager.ShoulderPosition, this.coordinateMapper);
+
+                    float scaling = 1.0f;
+                    Vector2 position = (this.screenDimensions / 2.0f) + (scaling * (handPosition - shoulderPosition));
+                    //position.X *= this.screenDimensions.X;
+                    //float centerOffsetX = position.X - (this.screenDimensions.X / 2.0f);
+                    //float scaleX = Math.Min(Math.Max(1.0f, (centerOffsetX * 0.00390625f) * (centerOffsetX * 0.00390625f)), 1.6f);
+                    //position.X = (this.screenDimensions.X / 2.0f) + (centerOffsetX * scaleX);
+                    //position.Y *= this.screenDimensions.Y * 2.0f;
                     return position;
                 }
             }
@@ -589,7 +593,8 @@ namespace SticKart.Input
                 this.kinectSensor = KinectSensor.KinectSensors[0];
                 if (this.kinectSensor.Status == KinectStatus.Connected)
                 {
-                    this.kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution320x240Fps30);
+                    // this.kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution320x240Fps30);
+                    this.kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
                     this.kinectSensor.SkeletonStream.Enable();
                     try
                     {

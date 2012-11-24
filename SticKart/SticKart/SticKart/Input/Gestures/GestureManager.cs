@@ -99,7 +99,7 @@ namespace SticKart.Input.Gestures
         }
         
         /// <summary>
-        /// Gets position of the active hand relative to the shoulder.
+        /// Gets position of the active hand.
         /// </summary>
         public SkeletonPoint HandPosition
         {
@@ -115,18 +115,29 @@ namespace SticKart.Input.Gestures
                 }
                 else
                 {
-                    SkeletonPoint handPosition = this.skeletonJoints[this.activeHand].Position;
-                    SkeletonPoint shoulderPosition = this.skeletonJoints[this.activeShoulder].Position;
-                    if (this.activeHand == JointType.HandRight)
-                    {
-                        handPosition.X -= shoulderPosition.X;
-                    }
-                    else
-                    {
-                        handPosition.X += shoulderPosition.X;
-                    }
+                    return this.skeletonJoints[this.activeHand].Position;
+                }
+            }
+        }
 
-                    return handPosition;
+        /// <summary>
+        /// gets the position of the active shoulder.
+        /// </summary>
+        public SkeletonPoint ShoulderPosition
+        {
+            get
+            {
+                if (this.skeletonJoints == null)
+                {
+                    SkeletonPoint point = new SkeletonPoint();
+                    point.X = 0;
+                    point.Y = 0;
+                    point.Z = 0;
+                    return point;
+                }
+                else
+                {
+                    return this.skeletonJoints[this.activeShoulder].Position;
                 }
             }
         }
