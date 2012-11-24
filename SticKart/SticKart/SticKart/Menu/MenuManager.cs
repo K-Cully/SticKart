@@ -40,6 +40,8 @@ namespace SticKart.Menu
             this.ActiveMenu = MenuType.None;
         }
 
+        #region events
+
         /// <summary>
         /// An event triggered on the user selecting exit.
         /// </summary>
@@ -54,6 +56,10 @@ namespace SticKart.Menu
         /// An event triggered on the user selecting to start a new level.
         /// </summary>
         public event Action<int> OnBeginLevelDetected;
+
+        #endregion
+
+        #region public_accessors
 
         /// <summary>
         /// Gets or sets the currently active menu.
@@ -95,6 +101,8 @@ namespace SticKart.Menu
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Initializes all menus and loads all menu content.
@@ -191,6 +199,21 @@ namespace SticKart.Menu
         }
 
         /// <summary>
+        /// Retrieves the list of words which can be used to select menu items.
+        /// </summary>
+        /// <returns>The list of words which can be used to select menu items</returns>
+        public List<string> GetAllSelectableNames()
+        {
+            List<string> selectableNames = new List<string>();
+            foreach (Menu menu in this.menus.Values)
+            {
+                selectableNames.AddRange(menu.SelectableItemNames);
+            }
+
+            return selectableNames;
+        }
+
+        /// <summary>
         /// Changes the page of the current menu.
         /// </summary>
         /// <param name="right">A value indicating whether to move to the right or the left.</param>
@@ -212,6 +235,8 @@ namespace SticKart.Menu
                 this.menus[this.ActiveMenu].Draw();
             }
         }
+
+        #region selection_movement
 
         /// <summary>
         /// Moves the selection right.
@@ -256,5 +281,7 @@ namespace SticKart.Menu
                 this.menus[this.ActiveMenu].MoveSelectionDown();
             }
         }
+
+        #endregion
     }
 }

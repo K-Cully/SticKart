@@ -103,6 +103,8 @@ namespace SticKart.Menu
             this.initialPosition = position;
         }
 
+        #region public_accessors
+
         /// <summary>
         /// Gets the position of the currently highlighted item.
         /// </summary>
@@ -179,6 +181,8 @@ namespace SticKart.Menu
                 }
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Adds a menu item to the menu.
