@@ -108,6 +108,8 @@ namespace SticKart.LevelEditor
 
         #endregion
 
+        #region private_variables
+
         /// <summary>
         /// The level being edited.
         /// </summary>
@@ -147,7 +149,11 @@ namespace SticKart.LevelEditor
         /// The number of levels created.
         /// </summary>
         private int levelsCreated;
-                
+
+        #endregion
+
+        #region constructor
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelEditor"/> class.
         /// </summary>
@@ -180,8 +186,10 @@ namespace SticKart.LevelEditor
             this.platformWidth = 128.0f;
         }
 
+        #endregion
+
         #region public_accessors
-        
+
         /// <summary>
         /// Gets or sets the currently selected entity to modify. 
         /// </summary>
@@ -242,95 +250,8 @@ namespace SticKart.LevelEditor
         }
 
         #endregion
-
-        #region loading_and_saving
-
-        /// <summary>
-        /// Loads a previously saved level.
-        /// </summary>
-        /// <param name="number">The level number.</param>
-        public void LoadLevel(int number)
-        {
-            this.lastFloorAngle = 0.0f;
-            this.currentFloorPoint = Vector2.Zero;
-            this.EntitySelected = ModifiableEntity.Floor;
-            this.levelToEdit.Load(number);
-            this.currentLevelNumber = number;
-            this.lastFloorPoint = this.levelToEdit.LastFloorPoint;
-        }
-
-        /// <summary>
-        /// Saves the current level.
-        /// </summary>
-        /// <param name="formatForContentManager">Whether to format the data for the content manager or the xml serializer.</param>
-        public void SaveLevel(bool formatForContentManager)
-        {
-            this.levelToEdit.Save(this.currentLevelNumber, formatForContentManager);
-            if (this.currentLevelNumber > this.levelsCreated)
-            {
-                this.levelsCreated++;
-            }
-        }
-
-        /// <summary>
-        /// Starts a new level.
-        /// </summary>
-        public void CreateNewLevel()
-        {
-            this.levelToEdit.Clear();
-            this.currentLevelNumber = this.levelsCreated + 1;
-            this.lastFloorAngle = 0.0f;
-            this.lastFloorPoint = Vector2.Zero;
-            this.currentFloorPoint = Vector2.Zero;
-            this.EntitySelected = ModifiableEntity.Floor;
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Updates the level editor.
-        /// </summary>
-        /// <param name="cursorPosition">The user's cursor position.</param>
-        public void Update(Vector2 cursorPosition)
-        {
-            this.cursorPosition = cursorPosition;
-
-            if (this.EntitySelected == ModifiableEntity.Floor)
-            {
-                if (this.lastFloorPoint == Vector2.Zero)
-                {
-                    this.currentFloorPoint = new Vector2(0.0f, this.cursorPosition.Y);
-                    this.lastFloorAngle = 0.0f;
-                }
-                else
-                {
-                    Vector2 direction = this.cursorPosition - this.lastFloorPoint;
-                    if (direction.X <= 0.0f)
-                    {
-                        direction = Vector2.UnitX;
-                    }
-                    else
-                    {
-                        direction.Normalize();
-                        float edgeAngle = (float)Math.Asin(direction.Y);
-                        float difference = edgeAngle - this.lastFloorAngle;
-
-                        if (difference < -LevelEditor.MaxFloorAngleDeviation)
-                        {
-                            float newAngle = this.lastFloorAngle - LevelEditor.MaxFloorAngleDeviation;
-                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
-                        }
-                        else if (difference > LevelEditor.MaxFloorAngleDeviation)
-                        {
-                            float newAngle = this.lastFloorAngle + LevelEditor.MaxFloorAngleDeviation;
-                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
-                        }
-                    }
-
-                    this.currentFloorPoint = this.lastFloorPoint + (direction * this.edgeSprite.Width); 
-                }
-            }
-        }
+        
+        #region insertion_and_deletion
 
         /// <summary>
         /// Adds the currently selected element to the level.
@@ -495,6 +416,101 @@ namespace SticKart.LevelEditor
             }
         }
 
+        #endregion
+
+        #region loading_and_saving
+
+        /// <summary>
+        /// Loads a previously saved level.
+        /// </summary>
+        /// <param name="number">The level number.</param>
+        public void LoadLevel(int number)
+        {
+            this.lastFloorAngle = 0.0f;
+            this.currentFloorPoint = Vector2.Zero;
+            this.EntitySelected = ModifiableEntity.Floor;
+            this.levelToEdit.Load(number);
+            this.currentLevelNumber = number;
+            this.lastFloorPoint = this.levelToEdit.LastFloorPoint;
+        }
+
+        /// <summary>
+        /// Saves the current level.
+        /// </summary>
+        /// <param name="formatForContentManager">Whether to format the data for the content manager or the xml serializer.</param>
+        public void SaveLevel(bool formatForContentManager)
+        {
+            this.levelToEdit.Save(this.currentLevelNumber, formatForContentManager);
+            if (this.currentLevelNumber > this.levelsCreated)
+            {
+                this.levelsCreated++;
+            }
+        }
+
+        /// <summary>
+        /// Starts a new level.
+        /// </summary>
+        public void CreateNewLevel()
+        {
+            this.levelToEdit.Clear();
+            this.currentLevelNumber = this.levelsCreated + 1;
+            this.lastFloorAngle = 0.0f;
+            this.lastFloorPoint = Vector2.Zero;
+            this.currentFloorPoint = Vector2.Zero;
+            this.EntitySelected = ModifiableEntity.Floor;
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Updates the level editor.
+        /// </summary>
+        /// <param name="cursorPosition">The user's cursor position.</param>
+        public void Update(Vector2 cursorPosition)
+        {
+            this.cursorPosition.X = 8.0f * ((int)cursorPosition.X / 8);
+            this.cursorPosition.Y = 8.0f * ((int)cursorPosition.Y / 8);
+
+            if (this.EntitySelected == ModifiableEntity.Floor)
+            {
+                this.cursorPosition = cursorPosition;
+                if (this.lastFloorPoint == Vector2.Zero)
+                {
+                    this.currentFloorPoint = new Vector2(0.0f, this.cursorPosition.Y);
+                    this.lastFloorAngle = 0.0f;
+                }
+                else
+                {
+                    Vector2 direction = this.cursorPosition - this.lastFloorPoint;
+                    if (direction.X <= 0.0f)
+                    {
+                        direction = Vector2.UnitX;
+                    }
+                    else
+                    {
+                        direction.Normalize();
+                        float edgeAngle = (float)Math.Asin(direction.Y);
+                        float difference = edgeAngle - this.lastFloorAngle;
+
+                        if (difference < -LevelEditor.MaxFloorAngleDeviation)
+                        {
+                            float newAngle = this.lastFloorAngle - LevelEditor.MaxFloorAngleDeviation;
+                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                        }
+                        else if (difference > LevelEditor.MaxFloorAngleDeviation)
+                        {
+                            float newAngle = this.lastFloorAngle + LevelEditor.MaxFloorAngleDeviation;
+                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                        }
+                    }
+
+                    this.currentFloorPoint = this.lastFloorPoint + (direction * this.edgeSprite.Width); 
+                }
+            }
+        }
+
+        #region drawing
+
         /// <summary>
         /// Draws the level editor's world.
         /// </summary>
@@ -601,5 +617,7 @@ namespace SticKart.LevelEditor
                 }
             }
         }
+
+        #endregion
     }
 }
