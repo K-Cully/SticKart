@@ -12,7 +12,7 @@ namespace SticKart.LevelEditor
     public class LevelSerializationConstants
     {
         /// <summary>
-        /// The name of the xna content element tag.
+        /// The name of the content element tag.
         /// </summary>
         public const string XnaContentTag = "XnaContent";
 
@@ -37,18 +37,33 @@ namespace SticKart.LevelEditor
         public const string LengthTag = "Length";
 
         /// <summary>
+        /// The name of a name element tag.
+        /// </summary>
+        public const string NameTag = "Name";
+
+        /// <summary>
+        /// The name of a dimensions element tag.
+        /// </summary>
+        public const string DimensionsTag = "Dimensions";
+
+        /// <summary>
         /// The name of the type attribute, within the asset element.
         /// </summary>
         public const string TypeAttributeName = "Type";
                 
         /// <summary>
-        /// The content of the tpye field for a vector array.
+        /// The content of the type field for a vector array.
         /// </summary>
         public const string VectorArrayTypeField = "Microsoft.Xna.Framework.Vector2[]";
                 
         /// <summary>
-        /// The content of the tpye field for a platform description array.
+        /// The content of the type field for a platform description array.
         /// </summary>
         public const string PlatformArrayTypeField = "SticKart.PlatformDescription[]";
+
+        /// <summary>
+        /// The content of the type field for an interactive entity description array.
+        /// </summary>
+        public const string EntityArrayTypeField = "SticKart.InteractiveEntityDescription[]";
     }
 }

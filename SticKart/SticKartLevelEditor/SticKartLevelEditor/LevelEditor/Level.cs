@@ -615,16 +615,18 @@ namespace SticKart.LevelEditor
             {
                 if (contentManagerFormat)
                 {
-                    // TODO:
-                    XAttribute typeAttribute = new XAttribute(LevelSerializationConstants.TypeAttributeName, LevelSerializationConstants.PlatformArrayTypeField);
+                    XAttribute typeAttribute = new XAttribute(LevelSerializationConstants.TypeAttributeName, LevelSerializationConstants.EntityArrayTypeField);
                     XElement assetElement = new XElement(LevelSerializationConstants.AssetTag, typeAttribute);
                     XElement itemElement;
-                    foreach (PlatformDescription platform in this.platformDescriptions)
+                    string vectorAsString = string.Empty;
+                    foreach (InteractiveEntityDescription entity in this.interactiveEntityDescriptions)
                     {
                         itemElement = new XElement(LevelSerializationConstants.ItemTag);
-                        string positionAsString = platform.Position.X + " " + platform.Position.Y;
-                        itemElement.Add(new XElement(LevelSerializationConstants.PositionTag, positionAsString));
-                        itemElement.Add(new XElement(LevelSerializationConstants.LengthTag, platform.Length.ToString()));
+                        itemElement.Add(new XElement(LevelSerializationConstants.NameTag, entity.Name));
+                        vectorAsString = entity.Position.X + " " + entity.Position.Y;
+                        itemElement.Add(new XElement(LevelSerializationConstants.PositionTag, vectorAsString));
+                        vectorAsString = entity.Dimensions.X + " " + entity.Dimensions.Y;
+                        itemElement.Add(new XElement(LevelSerializationConstants.DimensionsTag, vectorAsString));
                         assetElement.Add(itemElement);
                     }
 

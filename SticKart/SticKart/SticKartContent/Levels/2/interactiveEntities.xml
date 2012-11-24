@@ -1,170 +1,50 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
   <Asset Type="SticKart.InteractiveEntityDescription[]">
     <Item>
       <Name>invincible</Name>
-      <Position>
-        1212.75
-        436
-      </Position>
-      <Dimensions>
-        48
-        48
-      </Dimensions>
+      <Position>296 416</Position>
+      <Dimensions>48 48</Dimensions>
     </Item>
     <Item>
       <Name>speed</Name>
-      <Position>
-        1193.75
-        146
-      </Position>
-      <Dimensions>
-        48
-        48
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>health</Name>
-      <Position>
-        563.5
-        233
-      </Position>
-      <Dimensions>
-        48
-        48
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>fire</Name>
-      <Position>
-        523.5
-        576
-      </Position>
-      <Dimensions>
-        32
-        32
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>fire</Name>
-      <Position>
-        563.5
-        580
-      </Position>
-      <Dimensions>
-        32
-        32
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>fire</Name>
-      <Position>
-        620.5
-        593
-      </Position>
-      <Dimensions>
-        32
-        32
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>fire</Name>
-      <Position>
-        671.5
-        607
-      </Position>
-      <Dimensions>
-        32
-        32
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>fire</Name>
-      <Position>
-        717.5
-        613
-      </Position>
-      <Dimensions>
-        32
-        32
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>rock</Name>
-      <Position>
-        1128.5
-        333
-      </Position>
-      <Dimensions>
-        32
-        32
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>spike</Name>
-      <Position>
-        1101.5
-        144
-      </Position>
-      <Dimensions>
-        32
-        64
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>cart</Name>
-      <Position>
-        282.5
-        609
-      </Position>
-      <Dimensions>
-        64
-        43
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>switch</Name>
-      <Position>
-        307.5
-        448
-      </Position>
-      <Dimensions>
-        64
-        64
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>cart</Name>
-      <Position>
-        975.5
-        632
-      </Position>
-      <Dimensions>
-        64
-        43
-      </Dimensions>
-    </Item>
-    <Item>
-      <Name>switch</Name>
-      <Position>
-        1044.5
-        319
-      </Position>
-      <Dimensions>
-        64
-        64
-      </Dimensions>
+      <Position>376 416</Position>
+      <Dimensions>48 48</Dimensions>
     </Item>
     <Item>
       <Name>jump</Name>
-      <Position>
-        1262.5
-        148
-      </Position>
-      <Dimensions>
-        48
-        48
-      </Dimensions>
+      <Position>448 416</Position>
+      <Dimensions>48 48</Dimensions>
+    </Item>
+    <Item>
+      <Name>health</Name>
+      <Position>504 416</Position>
+      <Dimensions>48 48</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>288 480</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>rock</Name>
+      <Position>368 488</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>spike</Name>
+      <Position>440 480</Position>
+      <Dimensions>32 64</Dimensions>
+    </Item>
+    <Item>
+      <Name>cart</Name>
+      <Position>600 600</Position>
+      <Dimensions>64 43</Dimensions>
+    </Item>
+    <Item>
+      <Name>switch</Name>
+      <Position>600 488</Position>
+      <Dimensions>64 64</Dimensions>
     </Item>
   </Asset>
 </XnaContent>
