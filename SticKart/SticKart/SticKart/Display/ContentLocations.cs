@@ -11,16 +11,61 @@ namespace SticKart.Display
     /// </summary>
     public class ContentLocations
     {
+        #region fonts
+
         /// <summary>
         /// The location of the Segoe UI sprite font asset.
         /// </summary>
         public const string SegoeUIFont = "Fonts/SegoeUIMono";
 
         /// <summary>
+        /// The location of the medium Segoe UI sprite font asset.
+        /// </summary>
+        public const string SegoeUIFontMedium = "Fonts/SegoeUIMonoMedium";
+
+        /// <summary>
         /// The location of the large Segoe UI sprite font asset.
         /// </summary>
         public const string SegoeUIFontLarge = "Fonts/SegoeUIMonoLarge";
+
+        #endregion
+
+        #region hud
+
+        /// <summary>
+        /// The path to the directory containing sprites used by the heads up display.
+        /// </summary>
+        public const string HudPath = "Sprites/Hud/";
+
+        /// <summary>
+        /// The name of the power up box asset.
+        /// </summary>
+        public const string PowerUpBox = "powerUpBox";
         
+        /// <summary>
+        /// The name of the invincible icon asset.
+        /// </summary>
+        public const string InvincibleIcon = "invincible";
+
+        /// <summary>
+        /// The name of the health icon asset.
+        /// </summary>
+        public const string HealthIcon = "health";
+
+        /// <summary>
+        /// The name of the jump icon asset.
+        /// </summary>
+        public const string JumpIcon = "jump";
+
+        /// <summary>
+        /// The name of the speed icon asset.
+        /// </summary>
+        public const string SpeedIcon = "speed";
+
+        #endregion
+
+        #region menu
+
         /// <summary>
         /// The location of the hand icon texture asset.
         /// </summary>
@@ -55,5 +100,7 @@ namespace SticKart.Display
         /// The location of the large leaderboard icon texture asset.
         /// </summary>
         public const string LargeLeaderboardIcon = "Sprites/Menu/Leaderboard_icon_large";
+
+        #endregion
     }
 }

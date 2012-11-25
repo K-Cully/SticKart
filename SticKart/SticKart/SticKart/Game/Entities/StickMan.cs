@@ -153,7 +153,7 @@ namespace SticKart.Game.Entities
         /// </summary>
         private float wheelDisabledTimer;
         
-        //// private PowerUp activePowerUp; // TODO: implement once power-ups are implemented
+        private PowerUpType activePowerUp;
 
         #endregion
 
@@ -168,6 +168,7 @@ namespace SticKart.Game.Entities
         /// <param name="contentManager">The content manager to use in loading sprites.</param>
         public StickMan(ref World physicsWorld, float maximumHorizontalSpeed, int maximumHealth, float jumpImpulse, SpriteBatch spriteBatch, ContentManager contentManager)
         {
+            this.activePowerUp = PowerUpType.None;
             this.minimumHorizontalVelocity = 0.0f;
             this.idealHorizontalVelocity = 0.0f;
             this.maximumHorizontalVelocity = maximumHorizontalSpeed;
@@ -396,6 +397,7 @@ namespace SticKart.Game.Entities
         /// <param name="position">The display coordinate to place the player at.</param>
         public void Reset(Vector2 position)
         {
+            this.activePowerUp = PowerUpType.None;
             this.fullBody.Position = ConvertUnits.ToSimUnits(position + this.fullBodyOffset);
             this.smallBody.Position = ConvertUnits.ToSimUnits(position + this.smallBodyOffset);
             this.smallBody.CollidesWith = Category.None;

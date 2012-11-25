@@ -60,7 +60,12 @@ namespace SticKart
         /// The sprite batch used by the game.
         /// </summary>
         private SpriteBatch spriteBatch;
-        
+
+        /// <summary>
+        /// The game's heads up display.
+        /// </summary>
+        private HeadsUpDisplay headsUpDisplay;
+
         /// <summary>
         /// The sprite to display the user's hand position.
         /// </summary>
@@ -112,7 +117,7 @@ namespace SticKart
             this.graphics.IsFullScreen = false; // TODO: set to true for release 
 
             Camera2D.Initialize(this.screenDimensions);
-
+            this.headsUpDisplay = new HeadsUpDisplay(this.screenDimensions);
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect);
             this.levelManager = new LevelManager(this.screenDimensions, SticKart.FrameTime);
@@ -149,7 +154,7 @@ namespace SticKart
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.inputManager.InitializeSpeechEngine(this.menuManager.GetAllSelectableNames());
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
-            
+            this.headsUpDisplay.InitializeAndLoad(this.spriteBatch, this.Content);
             EntitySettingsLoader.LoadEntitySettings(this.Content);
             this.levelManager.LoadContent(this.Content, this.spriteBatch);
         }
@@ -330,6 +335,7 @@ namespace SticKart
                 case GameState.InGame:
                     this.GraphicsDevice.Clear(Color.GhostWhite);
                     this.levelManager.Draw();
+                    this.headsUpDisplay.Draw();
                     break;
                 default:
                     break;

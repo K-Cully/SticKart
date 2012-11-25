@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Display\Camera2D.cs" />
     <Compile Include="Display\ContentLocations.cs" />
+    <Compile Include="Display\HeadsUpDisplay.cs" />
     <Compile Include="Display\RenderableText.cs" />
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
@@ -104,6 +105,7 @@
     <Compile Include="Game\Entities\PlayerState.cs" />
     <Compile Include="Game\Entities\EntityConstants.cs" />
     <Compile Include="Game\Entities\EntitySettingsLoader.cs" />
+    <Compile Include="Game\Entities\PowerUpType.cs" />
     <Compile Include="Game\GameSettings.cs" />
     <Compile Include="Game\Level\LevelConstants.cs" />
     <Compile Include="Game\Level\LevelManager.cs" />
