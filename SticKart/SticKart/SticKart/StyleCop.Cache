@@ -1101,14 +1101,11 @@
     </timestamps>
     <violations />
   </sourcecode>
-  <project key="884484711">
-    <configuration>DEBUG;TRACE;WINDOWS</configuration>
-  </project>
-  <sourcecode name="StickMan.cs" parser="StyleCop.CSharp.CsParser">
+  <sourcecode name="InteractiveEntityType.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2012/10/05 11:23:44.000</styleCop>
       <settingsFile>2012/09/27 22:03:32.000</settingsFile>
-      <sourceFile>2012/11/25 13:36:33.105</sourceFile>
+      <sourceFile>2012/11/25 13:45:51.762</sourceFile>
       <parser>2012/10/05 11:23:44.000</parser>
       <StyleCop.CSharp.DocumentationRules>2012/10/05 11:23:44.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>496436618</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -1127,11 +1124,82 @@
     </timestamps>
     <violations />
   </sourcecode>
+  <sourcecode name="InteractiveEntityUserData.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2012/10/05 11:23:44.000</styleCop>
+      <settingsFile>2012/09/27 22:03:32.000</settingsFile>
+      <sourceFile>2012/11/25 13:56:42.940</sourceFile>
+      <parser>2012/10/05 11:23:44.000</parser>
+      <StyleCop.CSharp.DocumentationRules>2012/10/05 11:23:44.000</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>496436618</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2012/10/05 11:23:44.000</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2012/10/05 11:23:44.000</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2012/10/05 11:23:44.000</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2012/10/05 11:23:44.000</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2012/10/05 11:23:44.000</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2012/10/05 11:23:44.000</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="PropertySummaryDocumentationMustMatchAccessors" ruleCheckId="SA1623">
+        <context>The property's documentation summary text must begin with: Gets or sets a value indicating whether</context>
+        <line>57</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
+  <project key="884484711">
+    <configuration>DEBUG;TRACE;WINDOWS</configuration>
+  </project>
+  <sourcecode name="StickMan.cs" parser="StyleCop.CSharp.CsParser">
+    <timestamps>
+      <styleCop>2012/10/05 11:23:44.000</styleCop>
+      <settingsFile>2012/09/27 22:03:32.000</settingsFile>
+      <sourceFile>2012/11/25 14:41:37.332</sourceFile>
+      <parser>2012/10/05 11:23:44.000</parser>
+      <StyleCop.CSharp.DocumentationRules>2012/10/05 11:23:44.000</StyleCop.CSharp.DocumentationRules>
+      <StyleCop.CSharp.DocumentationRules.FilesHashCode>496436618</StyleCop.CSharp.DocumentationRules.FilesHashCode>
+      <StyleCop.CSharp.LayoutRules>2012/10/05 11:23:44.000</StyleCop.CSharp.LayoutRules>
+      <StyleCop.CSharp.LayoutRules.FilesHashCode>0</StyleCop.CSharp.LayoutRules.FilesHashCode>
+      <StyleCop.CSharp.MaintainabilityRules>2012/10/05 11:23:44.000</StyleCop.CSharp.MaintainabilityRules>
+      <StyleCop.CSharp.MaintainabilityRules.FilesHashCode>0</StyleCop.CSharp.MaintainabilityRules.FilesHashCode>
+      <StyleCop.CSharp.NamingRules>2012/10/05 11:23:44.000</StyleCop.CSharp.NamingRules>
+      <StyleCop.CSharp.NamingRules.FilesHashCode>0</StyleCop.CSharp.NamingRules.FilesHashCode>
+      <StyleCop.CSharp.OrderingRules>2012/10/05 11:23:44.000</StyleCop.CSharp.OrderingRules>
+      <StyleCop.CSharp.OrderingRules.FilesHashCode>0</StyleCop.CSharp.OrderingRules.FilesHashCode>
+      <StyleCop.CSharp.ReadabilityRules>2012/10/05 11:23:44.000</StyleCop.CSharp.ReadabilityRules>
+      <StyleCop.CSharp.ReadabilityRules.FilesHashCode>0</StyleCop.CSharp.ReadabilityRules.FilesHashCode>
+      <StyleCop.CSharp.SpacingRules>2012/10/05 11:23:44.000</StyleCop.CSharp.SpacingRules>
+      <StyleCop.CSharp.SpacingRules.FilesHashCode>0</StyleCop.CSharp.SpacingRules.FilesHashCode>
+    </timestamps>
+    <violations>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>687</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>726</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.LayoutRules" rule="ClosingCurlyBracketMustBeFollowedByBlankLine" ruleCheckId="SA1513">
+        <context>Statements or elements wrapped in curly brackets must be followed by a blank line.</context>
+        <line>777</line>
+        <warning>False</warning>
+      </violation>
+    </violations>
+  </sourcecode>
   <sourcecode name="LevelManager.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2012/10/05 11:23:44.000</styleCop>
       <settingsFile>2012/09/27 22:03:32.000</settingsFile>
-      <sourceFile>2012/11/25 13:36:33.073</sourceFile>
+      <sourceFile>2012/11/25 14:41:38.518</sourceFile>
       <parser>2012/10/05 11:23:44.000</parser>
       <StyleCop.CSharp.DocumentationRules>2012/10/05 11:23:44.000</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>496436618</StyleCop.CSharp.DocumentationRules.FilesHashCode>

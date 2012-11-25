@@ -101,6 +101,8 @@
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
     <Compile Include="Game\Entities\InteractiveEntity.cs" />
+    <Compile Include="Game\Entities\InteractiveEntityType.cs" />
+    <Compile Include="Game\Entities\InteractiveEntityUserData.cs" />
     <Compile Include="Game\Entities\Platform.cs" />
     <Compile Include="Game\Entities\PlayerState.cs" />
     <Compile Include="Game\Entities\EntityConstants.cs" />

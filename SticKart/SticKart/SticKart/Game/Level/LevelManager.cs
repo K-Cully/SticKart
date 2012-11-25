@@ -130,15 +130,20 @@ namespace SticKart.Game.Level
             this.platforms = new List<Platform>();
             this.interactiveEntities = new List<InteractiveEntity>();
             this.stickman = null;
-            this.Score = 0;
         }
 
         #region public_accessors
 
         /// <summary>
-        /// Gets the current level score.
+        /// Gets the current player's score.
         /// </summary>
-        public int Score { get; private set; }
+        public int PlayerScore 
+        { 
+            get
+            {
+                return this.stickman.Score;
+            }
+        }
 
         /// <summary>
         /// Gets the player's remaining health percentage.
@@ -197,7 +202,6 @@ namespace SticKart.Game.Level
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, this.spriteBatch, this.contentManager);
             this.stickman.Reset(this.levelLoader.StartPosition);
-            this.Score = 0;
 
             // TODO: this.exit = new Exit(this.levelLoader.EndPosition);
         }

@@ -201,7 +201,7 @@ namespace SticKart
         {
             this.levelManager.Update(gameTime, this.inputManager.Commands);
             this.headsUpDisplay.HealthPercentage = this.levelManager.PlayerHealthPercentage;
-            this.headsUpDisplay.Score = this.levelManager.Score;
+            this.headsUpDisplay.Score = this.levelManager.PlayerScore;
             this.headsUpDisplay.ActivePowerUp = this.levelManager.PlayerPowerUp;
 
             if (this.inputManager.Update())

@@ -215,7 +215,7 @@ namespace SticKart.Display
             }
 
             this.score.SetText(this.Score.ToString("D8"));
-            this.health.SetText(this.HealthPercentage.ToString("N") + "%");
+            this.health.SetText(this.HealthPercentage.ToString("N0") + "%");
             RenderableText.Draw(this.scoreText, this.scoreTextPosition, 0.0f, Color.Black);
             RenderableText.Draw(this.score, this.scorePosition, 0.0f, Color.Black);
             RenderableText.Draw(this.healthText, this.healthTextPosition, 0.0f, Color.Black);

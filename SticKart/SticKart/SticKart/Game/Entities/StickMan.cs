@@ -33,6 +33,11 @@ namespace SticKart.Game.Entities
         private const float MaxWheelDisabledTime = 1.0f;
 
         /// <summary>
+        /// The amount to augment the player's jump with the jump power up.
+        /// </summary>
+        private const float JumpPowerModifier = 2.0f;
+
+        /// <summary>
         /// The physics body representing the standing stickman.
         /// </summary>
         private Body fullBody;
@@ -94,6 +99,21 @@ namespace SticKart.Game.Entities
         private float maximumHorizontalVelocity;
 
         /// <summary>
+        /// The maximum velocity at which the stickman can move horizontally under normal circumstances.
+        /// </summary>
+        private float standardHorizontalVelocity;
+
+        /// <summary>
+        /// The maximum velocity at which the stickman can move horizontally while the speed power up is active.
+        /// </summary>
+        private float speedHorizontalVelocity;
+
+        /// <summary>
+        /// The maximum velocity at which the stickman can move horizontally while on the floor.
+        /// </summary>
+        private float floorHorizontalVelocity;
+
+        /// <summary>
         /// The ideal velocity at which the stickman is moving horizontally.
         /// </summary>
         private float idealHorizontalVelocity;
@@ -106,17 +126,17 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The minimum health the stickman can have.
         /// </summary>
-        private int minimumHealth;
+        private float minimumHealth;
 
         /// <summary>
         /// The maximum health the stickman can have.
         /// </summary>
-        private int maximumHealth;
+        private float maximumHealth;
 
         /// <summary>
         /// The current health the stickman has.
         /// </summary>
-        private int health;
+        private float health;
 
         /// <summary>
         /// The impulse applied to the stickman when they jump.
@@ -158,6 +178,16 @@ namespace SticKart.Game.Entities
         /// </summary>
         private PowerUpType activePowerUp;
 
+        /// <summary>
+        /// The power up timer.
+        /// </summary>
+        private float powerUpTimer;
+
+        /// <summary>
+        /// The length of time the current power up should be active for.
+        /// </summary>
+        private float powerUpLength;
+
         #endregion
 
         /// <summary>
@@ -169,13 +199,19 @@ namespace SticKart.Game.Entities
         /// <param name="jumpImpulse">The impulse to apply to the stickman when jumping.</param>
         /// <param name="spriteBatch">The sprite batch to use for rendering the stickman.</param>
         /// <param name="contentManager">The content manager to use in loading sprites.</param>
-        public StickMan(ref World physicsWorld, float maximumHorizontalSpeed, int maximumHealth, float jumpImpulse, SpriteBatch spriteBatch, ContentManager contentManager)
+        public StickMan(ref World physicsWorld, float maximumHorizontalSpeed, float maximumHealth, float jumpImpulse, SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.activePowerUp = PowerUpType.None;
+            this.powerUpTimer = 0.0f;
+            this.powerUpLength = 0.0f;
             this.minimumHorizontalVelocity = 0.0f;
             this.idealHorizontalVelocity = 0.0f;
+            this.standardHorizontalVelocity = maximumHorizontalSpeed;
+            this.floorHorizontalVelocity = maximumHorizontalSpeed * 0.5f;
+            this.speedHorizontalVelocity = maximumHorizontalSpeed * 1.25f;
             this.maximumHorizontalVelocity = maximumHorizontalSpeed;
-            this.minimumHealth = 0;
+            this.minimumHealth = 0.0f;
+            this.Score = 0;
             this.health = maximumHealth;
             this.maximumHealth = maximumHealth;
             this.jumpImpulse = jumpImpulse;
@@ -199,6 +235,11 @@ namespace SticKart.Game.Entities
         }
 
         #region accessors
+
+        /// <summary>
+        /// Gets the player's score.
+        /// </summary>
+        public int Score { get; private set; }
 
         /// <summary>
         /// Gets the stick man's display coordinates.
@@ -233,7 +274,7 @@ namespace SticKart.Game.Entities
                 }
                 else
                 {
-                    return 100.0f * ((float)this.health / (float)this.maximumHealth);
+                    return 100.0f * (this.health / this.maximumHealth);
                 }
             }
         }
@@ -257,7 +298,11 @@ namespace SticKart.Game.Entities
         /// <param name="gameTime">The game time.</param>
         public void Update(GameTime gameTime)
         {
-            // TODO: implement fully
+            if (this.activePowerUp != PowerUpType.None)
+            {
+                this.UpdatePowerUp(gameTime);
+            }
+
             if (this.wheelCollisionDisabled)
             {
                 this.wheelDisabledTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -430,6 +475,7 @@ namespace SticKart.Game.Entities
         public void Reset(Vector2 position)
         {
             this.activePowerUp = PowerUpType.None;
+            this.powerUpTimer = 0.0f;
             this.fullBody.Position = ConvertUnits.ToSimUnits(position + this.fullBodyOffset);
             this.smallBody.Position = ConvertUnits.ToSimUnits(position + this.smallBodyOffset);
             this.smallBody.CollidesWith = Category.None;
@@ -447,6 +493,7 @@ namespace SticKart.Game.Entities
             this.wheelBody.LinearVelocity = Vector2.Zero;
             this.wheelCollisionDisabled = false;
             this.wheelDisabledTimer = 0.0f;
+            this.Score = 0;
         }
 
         #region initialization
@@ -506,6 +553,98 @@ namespace SticKart.Game.Entities
         #endregion
 
         /// <summary>
+        /// Updates the state of the active power up.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdatePowerUp(GameTime gameTime)
+        {
+            this.powerUpTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            switch (this.activePowerUp)
+            {
+                case PowerUpType.Health:
+                    if (this.health < this.maximumHealth)
+                    {
+                        this.health += 0.02f;
+                    }
+
+                    break;
+                case PowerUpType.Speed:
+                    if (this.onFloor)
+                    {
+                        this.maximumHorizontalVelocity = 0.5f * (this.speedHorizontalVelocity + this.floorHorizontalVelocity);
+                    }
+                    else
+                    {
+                        this.maximumHorizontalVelocity = this.speedHorizontalVelocity;
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+
+            if (this.powerUpTimer > this.powerUpLength)
+            {
+                this.activePowerUp = PowerUpType.None;
+                this.powerUpTimer = 0.0f;
+                if (this.onFloor)
+                {
+                    this.maximumHorizontalVelocity = this.floorHorizontalVelocity;
+                }
+                else
+                {
+                    this.maximumHorizontalVelocity = this.standardHorizontalVelocity;
+                }
+
+                this.jumpImpulse /= StickMan.JumpPowerModifier;
+            }
+        }
+
+        /// <summary>
+        /// Performs collision response with an interactive entity.
+        /// </summary>
+        /// <param name="entityData">The interactive entity's user data.</param>
+        /// <returns>A value indicating whether the collision response should be computed by the physics engine or not.</returns>
+        private bool CollideWithInteractiveEntity(InteractiveEntityUserData entityData)
+        {
+            bool collided = true;
+            switch (entityData.EntityType)
+            {
+                case InteractiveEntityType.Obstacle:
+                    if (this.activePowerUp == PowerUpType.Invincibility)
+                    {
+                        collided = false;
+                    }
+                    else
+                    {
+                        this.health -= (int)entityData.Value;
+                        collided = true;
+                    }
+
+                    break;
+                case InteractiveEntityType.PowerUp:
+                    if (entityData.PowerUpType == PowerUpType.Jump && entityData.PowerUpType != this.activePowerUp)
+                    {
+                        this.jumpImpulse *= StickMan.JumpPowerModifier;
+                    }
+
+                    this.activePowerUp = entityData.PowerUpType;
+                    this.powerUpTimer = 0.0f;
+                    this.powerUpLength = entityData.Value;
+                    collided = false;
+                    break;
+                case InteractiveEntityType.Bonus:
+                    this.Score += (int)entityData.Value;
+                    collided = false;
+                    break;
+                default:
+                    break;
+            }
+
+            return collided;
+        }
+
+        /// <summary>
         /// Collision event handler for the stick man's wheel.
         /// </summary>
         /// <param name="fixtureOne">The first colliding fixture.</param>
@@ -514,9 +653,7 @@ namespace SticKart.Game.Entities
         /// <returns>Whether the collision was accepted or not.</returns>
         private bool CollisionHandlerWheel(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
-            bool collided = true;
-
-            // TODO: implement fully            
+            bool collided = true;        
             switch (fixtureTwo.CollisionCategories)
             {
                 case EntityConstants.PlatformCategory:
@@ -524,23 +661,38 @@ namespace SticKart.Game.Entities
                     if (this.wheelCollisionDisabled != true && this.state != PlayerState.jumping && fixtureOne.Body.Position.Y < fixtureTwo.Body.Position.Y)
                     {
                         this.Land();
+                        this.maximumHorizontalVelocity = this.standardHorizontalVelocity;
+                        this.onFloor = false;
                         collided = true;
                     }
 
                     break;
                 case EntityConstants.FloorCategory:
                     this.Land();
-
-                    // TODO: set max speed
+                    this.maximumHorizontalVelocity = this.floorHorizontalVelocity;
                     this.onFloor = true;
                     collided = true;
+                    break;
+                case EntityConstants.InteractiveEntityCategory:
+                    InteractiveEntityUserData entityData = (InteractiveEntityUserData)fixtureTwo.Body.UserData;
+                    if (entityData.IsActive)
+                    {
+                        collided = this.CollideWithInteractiveEntity(entityData);
+                        entityData.IsActive = false;
+                        fixtureTwo.Body.UserData = entityData;
+                    }
+                    else
+                    {
+                        collided = false;
+                    }
+
                     break;
                 default:
                     collided = true;
                     break;
             }
 
-            return collided; // TODO: return false if collisions disabled
+            return collided;
         }
 
         /// <summary>
@@ -553,8 +705,6 @@ namespace SticKart.Game.Entities
         private bool CollisionHandlerSmallBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
-
-            // TODO: add interactive entity category
             if (this.state != PlayerState.crouching)
             {
                 collided = false;
@@ -563,11 +713,19 @@ namespace SticKart.Game.Entities
             {
                 switch (fixtureTwo.CollisionCategories)
                 {
-                    case EntityConstants.PlatformCategory:
-                        collided = true;
-                        break;
-                    case EntityConstants.FloorCategory:
-                        collided = true;
+                    case EntityConstants.InteractiveEntityCategory:
+                        InteractiveEntityUserData entityData = (InteractiveEntityUserData)fixtureTwo.Body.UserData;
+                        if (entityData.IsActive)
+                        {
+                            collided = this.CollideWithInteractiveEntity(entityData);
+                            entityData.IsActive = false;
+                            fixtureTwo.Body.UserData = entityData;
+                        }
+                        else
+                        {
+                            collided = false;
+                        }
+
                         break;
                     default:
                         collided = true;
@@ -588,8 +746,6 @@ namespace SticKart.Game.Entities
         private bool CollisionHandlerFullBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
-
-            // TODO: implement fully
             if (this.state == PlayerState.crouching)
             {
                 collided = false;
@@ -609,8 +765,19 @@ namespace SticKart.Game.Entities
                         }
 
                         break;
-                    case EntityConstants.FloorCategory:
-                        collided = true;
+                    case EntityConstants.InteractiveEntityCategory:
+                        InteractiveEntityUserData entityData = (InteractiveEntityUserData)fixtureTwo.Body.UserData;
+                        if (entityData.IsActive)
+                        {
+                            collided = this.CollideWithInteractiveEntity(entityData);
+                            entityData.IsActive = false;
+                            fixtureTwo.Body.UserData = entityData;
+                        }
+                        else
+                        {
+                            collided = false;
+                        }
+
                         break;
                     default:
                         collided = true;
