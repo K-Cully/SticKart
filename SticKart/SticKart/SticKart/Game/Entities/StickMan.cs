@@ -153,6 +153,9 @@ namespace SticKart.Game.Entities
         /// </summary>
         private float wheelDisabledTimer;
         
+        /// <summary>
+        /// The player's active power up.
+        /// </summary>
         private PowerUpType activePowerUp;
 
         #endregion
@@ -214,6 +217,35 @@ namespace SticKart.Game.Entities
                     pos.Y -= this.standingSprite.Height / 4.0f;
                     return pos;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Gets the player's remaining health as a percentage of its maximum.
+        /// </summary>
+        public float PercentHealth
+        {
+            get
+            {
+                if (this.health <= 0)
+                {
+                    return 0.0f;
+                }
+                else
+                {
+                    return 100.0f * ((float)this.health / (float)this.maximumHealth);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the player's active power up.
+        /// </summary>
+        public PowerUpType ActivePowerUp
+        {
+            get
+            {
+                return this.activePowerUp;
             }
         }
 

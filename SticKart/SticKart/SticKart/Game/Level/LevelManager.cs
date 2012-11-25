@@ -24,9 +24,6 @@ namespace SticKart.Game.Level
     /// </summary>
     public class LevelManager
     {
-        // TODO: remove/change to scrolling death once floor is implemented.
-        private Body boundry;
-
         #region level_settings
 
         /// <summary>
@@ -112,21 +109,7 @@ namespace SticKart.Game.Level
         private StickMan stickman;
 
         #endregion
-
-        // TODO: Remove this boundry or scroll.
-        public Vertices GetBounds()
-        {
-            float height = ConvertUnits.ToSimUnits(this.gameDisplayResolution.Y);
-            float width = ConvertUnits.ToSimUnits(this.gameDisplayResolution.X * 2.0f);
-
-            Vertices bounds = new Vertices(4);
-            bounds.Add(new Vector2(0.0f, 0.0f));
-            bounds.Add(new Vector2(width, 0.0f));
-            bounds.Add(new Vector2(width, height));
-            bounds.Add(new Vector2(0.0f, height));
-            return bounds;
-        }
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelManager"/> class.
         /// </summary>
@@ -147,7 +130,39 @@ namespace SticKart.Game.Level
             this.platforms = new List<Platform>();
             this.interactiveEntities = new List<InteractiveEntity>();
             this.stickman = null;
+            this.Score = 0;
         }
+
+        #region public_accessors
+
+        /// <summary>
+        /// Gets the current level score.
+        /// </summary>
+        public int Score { get; private set; }
+
+        /// <summary>
+        /// Gets the player's remaining health percentage.
+        /// </summary>
+        public float PlayerHealthPercentage
+        {
+            get
+            {
+                return this.stickman.PercentHealth;
+            }
+        }
+
+        /// <summary>
+        /// Gets the player's active power up.
+        /// </summary>
+        public PowerUpType PlayerPowerUp
+        {
+            get
+            {
+                return this.stickman.ActivePowerUp;
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// Loads the content used by entities in a level.
@@ -157,16 +172,9 @@ namespace SticKart.Game.Level
         public void LoadContent(ContentManager contentManager, SpriteBatch spriteBatch)
         {
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
-
-            this.boundry = BodyFactory.CreateLoopShape(this.physicsWorld, this.GetBounds());
-            this.boundry.Friction = float.MaxValue;
-            this.boundry.CollisionCategories = Category.All;
-            this.boundry.CollidesWith = Category.All;
-
             this.contentManager = contentManager;
             this.spriteBatch = spriteBatch;
             this.InitializeAndLoadSprites(this.spriteBatch, this.contentManager);
-
             this.levelLoader = new LevelLoader(this.contentManager);        
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
         }
@@ -189,6 +197,7 @@ namespace SticKart.Game.Level
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, this.spriteBatch, this.contentManager);
             this.stickman.Reset(this.levelLoader.StartPosition);
+            this.Score = 0;
 
             // TODO: this.exit = new Exit(this.levelLoader.EndPosition);
         }
