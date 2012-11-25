@@ -585,18 +585,29 @@ namespace SticKart.Game.Entities
 
             if (this.powerUpTimer > this.powerUpLength)
             {
+                this.ResetPowerUpModifiers();
                 this.activePowerUp = PowerUpType.None;
                 this.powerUpTimer = 0.0f;
-                if (this.onFloor)
-                {
-                    this.maximumHorizontalVelocity = this.floorHorizontalVelocity;
-                }
-                else
-                {
-                    this.maximumHorizontalVelocity = this.standardHorizontalVelocity;
-                }
+            }
+        }
 
+        /// <summary>
+        /// resets any values which are actively modified by power ups.
+        /// </summary>
+        private void ResetPowerUpModifiers()
+        {
+            if (this.activePowerUp == PowerUpType.Jump)
+            {
                 this.jumpImpulse /= StickMan.JumpPowerModifier;
+            }
+
+            if (this.onFloor)
+            {
+                this.maximumHorizontalVelocity = this.floorHorizontalVelocity;
+            }
+            else
+            {
+                this.maximumHorizontalVelocity = this.standardHorizontalVelocity;
             }
         }
 
@@ -623,7 +634,8 @@ namespace SticKart.Game.Entities
 
                     break;
                 case InteractiveEntityType.PowerUp:
-                    if (entityData.PowerUpType == PowerUpType.Jump && entityData.PowerUpType != this.activePowerUp)
+                    this.ResetPowerUpModifiers();
+                    if (entityData.PowerUpType == PowerUpType.Jump)
                     {
                         this.jumpImpulse *= StickMan.JumpPowerModifier;
                     }
