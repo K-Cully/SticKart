@@ -7,6 +7,7 @@
 namespace SticKart.Game.Entities
 {
     using Display;
+    using FarseerPhysics.Collision;
     using FarseerPhysics.Collision.Shapes;
     using FarseerPhysics.Common;
     using FarseerPhysics.Dynamics;
@@ -32,26 +33,24 @@ namespace SticKart.Game.Entities
         private const float MaxWheelDisabledTime = 1.0f;
 
         /// <summary>
-        /// The physics body at the top of the stickman.
-        /// This is used for detecting collisions when standing.
+        /// The physics body representing the standing stickman.
         /// </summary>
-        private Body topBody;
+        private Body fullBody;
 
         /// <summary>
-        /// The offset from the center of the stickman to the top body, in display space.
+        /// The offset from the center of the stickman to the full body, in display space.
         /// </summary>
-        private Vector2 topBodyOffset;
+        private Vector2 fullBodyOffset;
 
         /// <summary>
-        /// The physics body in the middle of the stickman.
-        /// This is used for detecting collisions when crouching or standing.
+        /// The physics body representing the crouching stickman.
         /// </summary>
-        private Body middleBody;
+        private Body smallBody;
 
         /// <summary>
-        /// The offset from the center of the stickman to the middle body, in display space.
+        /// The offset from the center of the stickman to the small body, in display space.
         /// </summary>
-        private Vector2 middleBodyOffset;
+        private Vector2 smallBodyOffset;
 
         /// <summary>
         /// The physics body at the bottom of the stickman.
@@ -65,12 +64,12 @@ namespace SticKart.Game.Entities
         private Vector2 wheelBodyOffset;
 
         /// <summary>
-        /// A joint connecting the <see cref="topBody"/> to the <see cref="middleBody"/>.
+        /// A joint connecting the <see cref="fullBody"/> to the <see cref="smallBody"/>.
         /// </summary>
-        private WeldJoint upperBodyJoint;
+        private WeldJoint bodyJoint;
 
         /// <summary>
-        /// A motor joint connecting the <see cref="middleBody"/> to the <see cref="wheelBody"/>.
+        /// A motor joint connecting the <see cref="smallBody"/> to the <see cref="wheelBody"/>.
         /// </summary>
         private RevoluteJoint motorJoint;
 
@@ -184,15 +183,15 @@ namespace SticKart.Game.Entities
             this.wheelDisabledTimer = 0.0f;
             this.standingSprite = new Sprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
-            this.topBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 4.0f);
-            this.middleBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
+            this.fullBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 8.0f);
+            this.smallBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
             this.acceleration = 9.0f;
 
             this.wheelBody.OnCollision += this.CollisionHandlerWheel;
-            this.middleBody.OnCollision += this.CollisionHandlerMiddleBody;
-            this.topBody.OnCollision += this.CollisionHandlerUpperBody;
+            this.smallBody.OnCollision += this.CollisionHandlerSmallBody;
+            this.fullBody.OnCollision += this.CollisionHandlerFullBody;
         }
 
         #region accessors
@@ -239,22 +238,22 @@ namespace SticKart.Game.Entities
             {
                 this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.95f;
 
-                if (this.middleBody.LinearVelocity.X > this.idealHorizontalVelocity)
+                if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                 {
                     this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
-                else if (this.middleBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
+                else if (this.smallBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
                 {
                     this.motorJoint.MotorSpeed += this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
                 }
 
-                if (this.idealHorizontalVelocity == 0.0f && this.middleBody.LinearVelocity.X < 1.0f)
+                if (this.idealHorizontalVelocity == 0.0f && this.smallBody.LinearVelocity.X < 1.0f)
                 {
                     this.motorJoint.MotorSpeed = 0.0f;
                     this.state = PlayerState.standing;
                 }
             }
-            else if (this.state == PlayerState.jumping && this.middleBody.LinearVelocity.Y >= 0.0f)
+            else if (this.state == PlayerState.jumping && this.smallBody.LinearVelocity.Y >= 0.0f)
             {
                 this.state = PlayerState.falling;
             }
@@ -267,6 +266,8 @@ namespace SticKart.Game.Entities
         {
             if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
+                this.fullBody.CollidesWith = Category.All;
+                this.smallBody.CollidesWith = Category.None;
                 this.idealHorizontalVelocity += 5.0f; // TODO: set
                 if (this.idealHorizontalVelocity > this.maximumHorizontalVelocity)
                 {
@@ -285,6 +286,8 @@ namespace SticKart.Game.Entities
             if (this.state == PlayerState.crouching)
             {
                 this.state = PlayerState.standing;
+                this.fullBody.CollidesWith = Category.All;
+                this.smallBody.CollidesWith = Category.None;
             }
         }
 
@@ -296,12 +299,14 @@ namespace SticKart.Game.Entities
             if (this.state != PlayerState.crouching && this.inCart)
             {
                 this.state = PlayerState.crouching;
+                this.smallBody.CollidesWith = Category.All;
+                this.fullBody.CollidesWith = Category.None;
 
                 // TODO: test collisions with top box
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
             {
-                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse / 8.0f));
+                this.smallBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse / 8.0f));
                 this.state = PlayerState.falling;
                 this.wheelCollisionDisabled = true;
                 this.wheelDisabledTimer = 0.0f;
@@ -316,7 +321,9 @@ namespace SticKart.Game.Entities
         {
             if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
-                this.middleBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
+                this.fullBody.CollidesWith = Category.All;
+                this.smallBody.CollidesWith = Category.None;
+                this.smallBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
                 this.state = PlayerState.jumping;
 
                 if (this.motorJoint.MotorSpeed > 1.0f)
@@ -355,24 +362,24 @@ namespace SticKart.Game.Entities
             switch (this.state)
             {
                 case PlayerState.standing:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
                     break;
                 case PlayerState.crouching:
 
                     // TODO
                     break;
                 case PlayerState.jumping:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
 
                     // TODO
                     break;
                 case PlayerState.running:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
 
                     // TODO
                     break;
                 case PlayerState.falling:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.middleBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
                     break;
                 case PlayerState.dead:
 
@@ -389,19 +396,20 @@ namespace SticKart.Game.Entities
         /// <param name="position">The display coordinate to place the player at.</param>
         public void Reset(Vector2 position)
         {
-            this.topBody.Position = ConvertUnits.ToSimUnits(position + this.topBodyOffset);
-            this.middleBody.Position = ConvertUnits.ToSimUnits(position + this.middleBodyOffset);
+            this.fullBody.Position = ConvertUnits.ToSimUnits(position + this.fullBodyOffset);
+            this.smallBody.Position = ConvertUnits.ToSimUnits(position + this.smallBodyOffset);
+            this.smallBody.CollidesWith = Category.None;
             this.wheelBody.Position = ConvertUnits.ToSimUnits(position + this.wheelBodyOffset);
             this.state = PlayerState.standing;
             this.idealHorizontalVelocity = 0.0f;
             this.inCart = false;
             this.onFloor = false;
             this.motorJoint.MotorSpeed = 0.0f;
-            this.middleBody.Rotation = 0.0f;
-            this.topBody.Rotation = 0.0f;
+            this.smallBody.Rotation = 0.0f;
+            this.fullBody.Rotation = 0.0f;
             this.wheelBody.Rotation = 0.0f;
-            this.middleBody.LinearVelocity = Vector2.Zero;
-            this.topBody.LinearVelocity = Vector2.Zero;
+            this.smallBody.LinearVelocity = Vector2.Zero;
+            this.fullBody.LinearVelocity = Vector2.Zero;
             this.wheelBody.LinearVelocity = Vector2.Zero;
             this.wheelCollisionDisabled = false;
             this.wheelDisabledTimer = 0.0f;
@@ -426,35 +434,36 @@ namespace SticKart.Game.Entities
         /// <param name="physicsWorld">The physics world to set the objects up in.</param>
         private void SetUpPhysicsObjects(ref World physicsWorld)
         {
-            float density = 1.25f;
+            float density = 1.1f;
             float restitution = 0.125f;
 
             // Upper body for standing
-            this.topBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height / 2.0f), density, ConvertUnits.ToSimUnits(this.topBodyOffset));
-            this.topBody.BodyType = BodyType.Dynamic;
-            this.topBody.Restitution = restitution;
-            this.topBody.CollisionCategories = EntityConstants.StickManCategory;
+            this.fullBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height * 0.75f), density, ConvertUnits.ToSimUnits(this.fullBodyOffset));
+            this.fullBody.BodyType = BodyType.Dynamic;
+            this.fullBody.Restitution = restitution;
+            this.fullBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Middle body for crouching
-            this.middleBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f), density, ConvertUnits.ToSimUnits(this.middleBodyOffset));
-            this.middleBody.BodyType = BodyType.Dynamic;
-            this.middleBody.IgnoreCollisionWith(this.topBody);
-            this.middleBody.Restitution = restitution;
-            this.middleBody.CollisionCategories = EntityConstants.StickManCategory;
+            this.smallBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height * 0.25f), density, ConvertUnits.ToSimUnits(this.smallBodyOffset));
+            this.smallBody.BodyType = BodyType.Dynamic;
+            this.smallBody.IgnoreCollisionWith(this.fullBody);
+            this.smallBody.Restitution = restitution;
+            this.smallBody.CollisionCategories = EntityConstants.StickManCategory;
+            this.smallBody.CollidesWith = Category.None;
 
             // Wheel for movement
             this.wheelBody = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelBodyOffset));
             this.wheelBody.BodyType = BodyType.Dynamic;
-            this.wheelBody.IgnoreCollisionWith(this.middleBody);
-            this.wheelBody.IgnoreCollisionWith(this.topBody);
+            this.wheelBody.IgnoreCollisionWith(this.smallBody);
+            this.wheelBody.IgnoreCollisionWith(this.fullBody);
             this.wheelBody.Restitution = restitution;
             this.wheelBody.Friction = float.MaxValue;
             this.wheelBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Joints to connect the bodies.
-            this.upperBodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.topBody, this.middleBody, this.middleBody.Position);
-            this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.middleBody);
-            this.motorJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.middleBody, this.wheelBody, Vector2.Zero);
+            this.bodyJoint = JointFactory.CreateWeldJoint(physicsWorld, this.fullBody, this.smallBody, this.smallBody.Position);
+            this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.smallBody);
+            this.motorJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.smallBody, this.wheelBody, Vector2.Zero);
             this.motorJoint.MotorSpeed = 0.0f;
             this.motorJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
             this.motorJoint.MotorEnabled = true;
@@ -477,21 +486,11 @@ namespace SticKart.Game.Entities
             switch (fixtureTwo.CollisionCategories)
             {
                 case EntityConstants.PlatformCategory:
-                    if (this.wheelCollisionDisabled)
+                    collided = false;
+                    if (this.wheelCollisionDisabled != true && this.state != PlayerState.jumping && fixtureOne.Body.Position.Y < fixtureTwo.Body.Position.Y)
                     {
-                        collided = false;
-                    }
-                    else
-                    {
-                        if (this.state == PlayerState.jumping)
-                        {
-                            collided = false;
-                        }
-                        else
-                        {
-                            this.Land();
-                            collided = true;
-                        }
+                        this.Land();
+                        collided = true;
                     }
 
                     break;
@@ -511,49 +510,48 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
-        /// Collision event handler for the stick man's middle body.
+        /// Collision event handler for the crouching representation of the stick man's body.
         /// </summary>
         /// <param name="fixtureOne">The first colliding fixture.</param>
         /// <param name="fixtureTwo">The second colliding fixture.</param>
         /// <param name="contact">The contact object.</param>
         /// <returns>Whether the collision was accepted or not.</returns>
-        private bool CollisionHandlerMiddleBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        private bool CollisionHandlerSmallBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
 
-            // TODO: implement fully
-            switch (fixtureTwo.CollisionCategories)
+            // TODO: add interactive entity category
+            if (this.state != PlayerState.crouching)
             {
-                case EntityConstants.PlatformCategory:
-                    if (this.state == PlayerState.jumping || this.jumpingDown)
-                    {
-                        collided = false;
-                    }
-                    else
-                    {
+                collided = false;
+            }
+            else
+            {
+                switch (fixtureTwo.CollisionCategories)
+                {
+                    case EntityConstants.PlatformCategory:
                         collided = true;
-                    }
-
-                    break;
-                case EntityConstants.FloorCategory:
-                    collided = true;
-                    break;
-                default:
-                    collided = true;
-                    break;
+                        break;
+                    case EntityConstants.FloorCategory:
+                        collided = true;
+                        break;
+                    default:
+                        collided = true;
+                        break;
+                }
             }
 
             return collided;
         }
 
         /// <summary>
-        /// Collision event handler for the stick man's upper body.
+        /// Collision event handler for the standing stick man's body.
         /// </summary>
         /// <param name="fixtureOne">The first colliding fixture.</param>
         /// <param name="fixtureTwo">The second colliding fixture.</param>
         /// <param name="contact">The contact object.</param>
         /// <returns>Whether the collision was accepted or not.</returns>
-        private bool CollisionHandlerUpperBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        private bool CollisionHandlerFullBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
 

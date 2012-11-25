@@ -121,7 +121,7 @@ namespace SticKart.Input.Gestures
         }
 
         /// <summary>
-        /// gets the position of the active shoulder.
+        /// Gets the position of the active shoulder.
         /// </summary>
         public SkeletonPoint ShoulderPosition
         {
