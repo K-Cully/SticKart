@@ -33,13 +33,10 @@ namespace SticKart.Game.Entities
         /// Initializes a new instance of the <see cref="InteractiveEntity"/> class.
         /// </summary>
         /// <param name="physicsWorld">The physics world.</param>
-        /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
-        /// <param name="contentManager">The game's content manager.</param>
         /// <param name="description">The description of the entity.</param>
-        public InteractiveEntity(ref World physicsWorld, SpriteBatch spriteBatch, ContentManager contentManager, InteractiveEntityDescription description)
+        public InteractiveEntity(ref World physicsWorld, InteractiveEntityDescription description)
         {
             this.sprite = new Sprite();
-            this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.SetUpPhysics(ref physicsWorld, description);
         }
 
