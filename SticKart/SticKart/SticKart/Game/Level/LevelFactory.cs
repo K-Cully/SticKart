@@ -36,8 +36,8 @@ namespace SticKart.Game.Level
                 {
                     if (EntityConstants.PowerUpNames.Contains(description.Name))
                     {
-                        // TODO: create power up once the class is implemented
-                        EntitySettingsLoader.GetPowerUpSettings(description.Name);
+                        // TODO: create power up once the class is implemented                        
+                        interactiveEntities.Add(new PowerUp(ref physicsWorld, spriteBatch, contentManager, description, EntitySettingsLoader.GetPowerUpSettings(description.Name)));
                     }
                     else
                     {

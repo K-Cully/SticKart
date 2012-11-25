@@ -265,6 +265,11 @@ namespace SticKart.Game.Level
                 Camera2D.Draw(this.floorSprite, edge.Position, edge.Angle);
             }
 
+            foreach (InteractiveEntity entity in this.interactiveEntities)
+            {
+                entity.Draw();
+            }
+
             this.stickman.Draw();
         }
 
