@@ -294,7 +294,7 @@ namespace SticKart.LevelEditor
             if (this.interactiveEntityDescriptions.Count > 0)
             {
                 this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
-                if (this.interactiveEntityDescriptions[this.interactiveEntityDescriptions.Count - 1].Name == EntityConstants.CartBody)
+                if (this.interactiveEntityDescriptions.Count > 0 && this.interactiveEntityDescriptions[this.interactiveEntityDescriptions.Count - 1].Name == EntityConstants.CartBody)
                 {
                     this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
                 }

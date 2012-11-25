@@ -75,5 +75,20 @@ namespace SticKart.LevelEditor
         /// A switch entity.
         /// </summary>
         Switch,
+
+        /// <summary>
+        /// A coin bonus.
+        /// </summary>
+        Coin,
+
+        /// <summary>
+        /// A ruby bonus.
+        /// </summary>
+        Ruby,
+
+        /// <summary>
+        /// A diamond bonus.
+        /// </summary>
+        Diamond
     }
 }

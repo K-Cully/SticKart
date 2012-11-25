@@ -310,6 +310,15 @@ namespace SticKart.LevelEditor
                     this.EntitySelected = ModifiableEntity.Cart;
                     this.levelToEdit.AddInteractiveEntity(EntityConstants.Switch, this.cursorPosition, new Vector2(this.switchSprite.Width, this.switchSprite.Height));
                     break;
+                case ModifiableEntity.Coin:
+                    this.levelToEdit.AddInteractiveEntity(EntityConstants.CoinName, this.cursorPosition, new Vector2(this.coinSprite.Width, this.coinSprite.Height));
+                    break;
+                case ModifiableEntity.Ruby:
+                    this.levelToEdit.AddInteractiveEntity(EntityConstants.RubyName, this.cursorPosition, new Vector2(this.rubySprite.Width, this.rubySprite.Height));
+                    break;
+                case ModifiableEntity.Diamond:
+                    this.levelToEdit.AddInteractiveEntity(EntityConstants.DiamondName, this.cursorPosition, new Vector2(this.diamondSprite.Width, this.diamondSprite.Height));
+                    break;
                 default:
                     break;
             }
@@ -335,35 +344,12 @@ namespace SticKart.LevelEditor
                 case ModifiableEntity.Platform:
                     this.levelToEdit.RemoveLastPlatform();
                     break;
-                case ModifiableEntity.Invincible:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
-                case ModifiableEntity.Speed:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
-                case ModifiableEntity.Jump:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
-                case ModifiableEntity.Health:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
-                case ModifiableEntity.Fire:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
-                case ModifiableEntity.Rock:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
-                case ModifiableEntity.Spike:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
-                case ModifiableEntity.Cart:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
-                    break;
                 case ModifiableEntity.Switch:
                     this.levelToEdit.RemoveLastInteractiveEntity();
                     this.EntitySelected = ModifiableEntity.Cart;
                     break;
                 default:
+                    this.levelToEdit.RemoveLastInteractiveEntity();
                     break;
             }
         }
@@ -409,6 +395,15 @@ namespace SticKart.LevelEditor
                     this.EntitySelected = ModifiableEntity.Cart;
                     break;
                 case ModifiableEntity.Cart:
+                    this.EntitySelected = ModifiableEntity.Coin;
+                    break;
+                case ModifiableEntity.Coin:
+                    this.EntitySelected = ModifiableEntity.Ruby;                    
+                    break;
+                case ModifiableEntity.Ruby:
+                    this.EntitySelected = ModifiableEntity.Diamond;
+                    break;
+                case ModifiableEntity.Diamond:
                     this.EntitySelected = ModifiableEntity.Floor;
                     break;
                 default:
@@ -557,6 +552,15 @@ namespace SticKart.LevelEditor
                     break;
                 case ModifiableEntity.Switch:
                     Camera2D.Draw(this.switchSprite, this.cursorPosition, 0.0f);
+                    break;
+                case ModifiableEntity.Coin:
+                    Camera2D.Draw(this.coinSprite, this.cursorPosition, 0.0f);
+                    break;
+                case ModifiableEntity.Ruby:
+                    Camera2D.Draw(this.rubySprite, this.cursorPosition, 0.0f);
+                    break;
+                case ModifiableEntity.Diamond:
+                    Camera2D.Draw(this.diamondSprite, this.cursorPosition, 0.0f);
                     break;
                 default:
                     break;
