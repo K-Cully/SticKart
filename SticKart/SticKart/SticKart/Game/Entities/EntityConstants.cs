@@ -180,7 +180,14 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const Category InteractiveEntityCategory = Category.Cat3;
 
+        /// <summary>
+        /// The collision category of the scrolling death entity.
+        /// </summary>
+        public const Category ScrollingDeathCategory = Category.Cat4;
+
         #endregion
+
+        #region lists
 
         /// <summary>
         /// Gets the list of power up names.
@@ -227,5 +234,7 @@ namespace SticKart.Game.Entities
                 return names;
             }
         }
+
+        #endregion
     }
 }

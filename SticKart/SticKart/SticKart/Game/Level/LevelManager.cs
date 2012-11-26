@@ -108,6 +108,11 @@ namespace SticKart.Game.Level
         /// </summary>
         private StickMan stickman;
 
+        /// <summary>
+        /// The scrolling death entity.
+        /// </summary>
+        private ScrollingDeath scrollingDeath;
+
         #endregion
         
         /// <summary>
@@ -130,6 +135,7 @@ namespace SticKart.Game.Level
             this.platforms = new List<Platform>();
             this.interactiveEntities = new List<InteractiveEntity>();
             this.stickman = null;
+            this.scrollingDeath = null;
         }
 
         #region public_accessors
@@ -182,6 +188,7 @@ namespace SticKart.Game.Level
             this.InitializeAndLoadSprites(this.spriteBatch, this.contentManager);
             this.levelLoader = new LevelLoader(this.contentManager);        
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
+            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate);
         }
 
         /// <summary>
@@ -193,6 +200,10 @@ namespace SticKart.Game.Level
         {
             this.currentLevel = levelNumber > 0 ? levelNumber : 1;
             this.currentLevelCustom = isCustom;
+
+            // TODO: Add countdown
+            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate);
+            this.scrollingDeath.Activate();
 
             // TODO: Implement logic to allow for custom levels.
             this.physicsWorld.ClearForces();
@@ -214,7 +225,7 @@ namespace SticKart.Game.Level
             LevelFactory.DisposeOfPlatforms(ref this.physicsWorld, ref this.platforms);
             LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities);
             LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges);
-
+            this.scrollingDeath.Dispose(ref this.physicsWorld);
             // TODO: this.exit.Dispose();
         }
    
@@ -226,27 +237,34 @@ namespace SticKart.Game.Level
         public void Update(GameTime gameTime, List<InputCommand> commands)
         {
             // TODO
-            this.stickman.Update(gameTime);
-
-            foreach (InputCommand command in commands)
+            if (this.stickman.IsDead)
             {
-                switch (command)
-                {
-                    case InputCommand.Jump:
-                        this.stickman.Jump();
-                        break;
-                    case InputCommand.Crouch:
-                        this.stickman.CrouchOrJumpDown();
-                        break;
-                    case InputCommand.Run:
-                        this.stickman.Run();
-                        break;
-                    default:
-                        break;
-                }
             }
+            else
+            {
+                this.stickman.Update(gameTime);
+                this.scrollingDeath.Update(gameTime);
 
-            this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, this.frameTime));                    
+                foreach (InputCommand command in commands)
+                {
+                    switch (command)
+                    {
+                        case InputCommand.Jump:
+                            this.stickman.Jump();
+                            break;
+                        case InputCommand.Crouch:
+                            this.stickman.CrouchOrJumpDown();
+                            break;
+                        case InputCommand.Run:
+                            this.stickman.Run();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, this.frameTime));
+            } 
         }
 
         /// <summary>

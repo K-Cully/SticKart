@@ -183,8 +183,6 @@ namespace SticKart
                     break;
                 case GameState.InGame:
                     this.UpdateGame(gameTime);
-
-                    Camera2D.Update(new Vector2(20.0f, 0.0f), gameTime);
                     break;
                 default:
                     break;

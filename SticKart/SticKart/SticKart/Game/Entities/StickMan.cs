@@ -290,6 +290,17 @@ namespace SticKart.Game.Entities
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the player is dead or not.
+        /// </summary>
+        public bool IsDead
+        {
+            get
+            {
+                return this.state == PlayerState.dead;
+            }
+        }
+
         #endregion
         
         /// <summary>
@@ -629,6 +640,11 @@ namespace SticKart.Game.Entities
                     else
                     {
                         this.health -= (int)entityData.Value;
+                        if (this.health <= this.minimumHealth)
+                        {
+                            this.state = PlayerState.dead;
+                        }
+
                         collided = true;
                     }
 
@@ -699,6 +715,11 @@ namespace SticKart.Game.Entities
                     }
 
                     break;
+                case EntityConstants.ScrollingDeathCategory:
+                    collided = true;
+                    this.health = this.minimumHealth;
+                    this.state = PlayerState.dead;
+                    break;
                 default:
                     collided = true;
                     break;
@@ -738,6 +759,11 @@ namespace SticKart.Game.Entities
                             collided = false;
                         }
 
+                        break;
+                    case EntityConstants.ScrollingDeathCategory:
+                        collided = true;
+                        this.health = this.minimumHealth;
+                        this.state = PlayerState.dead;
                         break;
                     default:
                         collided = true;
@@ -790,6 +816,11 @@ namespace SticKart.Game.Entities
                             collided = false;
                         }
 
+                        break;
+                    case EntityConstants.ScrollingDeathCategory:
+                        collided = true;
+                        this.health = this.minimumHealth;
+                        this.state = PlayerState.dead;
                         break;
                     default:
                         collided = true;
