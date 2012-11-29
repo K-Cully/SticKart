@@ -12,24 +12,34 @@ namespace SticKart.Game.Level
     public class LevelConstants
     {
         /// <summary>
+        /// The delay at the start of a level before the scrolling death entity activates.
+        /// </summary>
+        public const float ScrollStartDelay = 3.0f;
+
+        /// <summary>
         /// The minimum screen scroll rate.
         /// </summary>
-        public const float MinimumScrollRate = 10.0f;
+        public const float MinimumScrollRate = 2.0f;
 
         /// <summary>
         /// The normal screen scroll rate.
         /// </summary>
-        public const float ScrollRate = 40.0f;
+        public const float ScrollRate = 3.0f;
 
         /// <summary>
         /// The maximum screen scroll rate.
         /// </summary>
-        public const float MaximumScrollRate = 100.0f;
+        public const float MaximumScrollRate = 50.0f;
 
         /// <summary>
         /// The acceleration of the screen scroll rate.
         /// </summary>
-        public const float ScrollAcceleration = 2.0f;
+        public const float ScrollAcceleration = 80.0f;
+
+        /// <summary>
+        /// The deceleration of the screen scroll rate.
+        /// </summary>
+        public const float ScrollDeceleration = -80.0f;
 
         /// <summary>
         /// The file path to the levels folder.

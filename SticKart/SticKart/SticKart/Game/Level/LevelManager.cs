@@ -41,6 +41,11 @@ namespace SticKart.Game.Level
         /// </summary>
         private World physicsWorld;
 
+        /// <summary>
+        /// A timer to control the activation of the scrolling death entity.
+        /// </summary>
+        private float scrollStartTimer;
+
         #endregion
 
         #region game_settings
@@ -136,6 +141,7 @@ namespace SticKart.Game.Level
             this.interactiveEntities = new List<InteractiveEntity>();
             this.stickman = null;
             this.scrollingDeath = null;
+            this.scrollStartTimer = 0.0f;
         }
 
         #region public_accessors
@@ -188,7 +194,7 @@ namespace SticKart.Game.Level
             this.InitializeAndLoadSprites(this.spriteBatch, this.contentManager);
             this.levelLoader = new LevelLoader(this.contentManager);        
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
-            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate);
+            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
         }
 
         /// <summary>
@@ -201,9 +207,8 @@ namespace SticKart.Game.Level
             this.currentLevel = levelNumber > 0 ? levelNumber : 1;
             this.currentLevelCustom = isCustom;
 
-            // TODO: Add countdown
-            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate);
-            this.scrollingDeath.Activate();
+            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
+            this.scrollStartTimer = 0.0f;
 
             // TODO: Implement logic to allow for custom levels.
             this.physicsWorld.ClearForces();
@@ -243,7 +248,8 @@ namespace SticKart.Game.Level
             else
             {
                 this.stickman.Update(gameTime);
-                this.scrollingDeath.Update(gameTime);
+                this.UpdateScrollingDeath(gameTime);
+                Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y * 0.5f);
 
                 foreach (InputCommand command in commands)
                 {
@@ -299,6 +305,39 @@ namespace SticKart.Game.Level
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.floorSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
+        }
+
+        /// <summary>
+        /// Updates the scrolling death entity.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateScrollingDeath(GameTime gameTime)
+        {
+            if (this.scrollingDeath.Active)
+            {
+                this.scrollingDeath.Update(gameTime);
+                float distanceAheadOfCamera = this.stickman.Position.X - Camera2D.OffsetPosition.X;
+                if (distanceAheadOfCamera < this.gameDisplayResolution.X / 4.0f)
+                {
+                    this.scrollingDeath.GoToSlowScrollRate();
+                }
+                else if (distanceAheadOfCamera > 3.0f * (this.gameDisplayResolution.X / 4.0f))
+                {
+                    this.scrollingDeath.GoToFastScrollRate();
+                }
+                else
+                {
+                    this.scrollingDeath.GoToNormalScrollRate();
+                }
+            }
+            else
+            {
+                this.scrollStartTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (this.scrollStartTimer > LevelConstants.ScrollStartDelay)
+                {
+                    this.scrollingDeath.Activate();
+                }
+            }  
         }
     }
 }

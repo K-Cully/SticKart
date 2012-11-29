@@ -207,7 +207,7 @@ namespace SticKart.Game.Entities
             this.minimumHorizontalVelocity = 0.0f;
             this.idealHorizontalVelocity = 0.0f;
             this.standardHorizontalVelocity = maximumHorizontalSpeed;
-            this.floorHorizontalVelocity = maximumHorizontalSpeed * 0.5f;
+            this.floorHorizontalVelocity = maximumHorizontalSpeed * 0.25f;
             this.speedHorizontalVelocity = maximumHorizontalSpeed * 1.25f;
             this.maximumHorizontalVelocity = maximumHorizontalSpeed;
             this.minimumHealth = 0.0f;
@@ -228,7 +228,6 @@ namespace SticKart.Game.Entities
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
             this.acceleration = 9.0f;
-
             this.wheelBody.OnCollision += this.CollisionHandlerWheel;
             this.smallBody.OnCollision += this.CollisionHandlerSmallBody;
             this.fullBody.OnCollision += this.CollisionHandlerFullBody;
@@ -326,10 +325,16 @@ namespace SticKart.Game.Entities
             if (this.state == PlayerState.running)
             {
                 this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.95f;
-
                 if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                 {
-                    this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (this.motorJoint.MotorSpeed > 1.0f)
+                    {
+                        this.motorJoint.MotorSpeed *= 0.875f;
+                    }
+                    else
+                    {
+                        this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }
                 }
                 else if (this.smallBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
                 {
@@ -417,7 +422,7 @@ namespace SticKart.Game.Entities
 
                 if (this.motorJoint.MotorSpeed > 1.0f)
                 {
-                    this.motorJoint.MotorSpeed = this.motorJoint.MotorSpeed / 2.0f;
+                    this.motorJoint.MotorSpeed = this.motorJoint.MotorSpeed * 0.75f;
                 }
                 else
                 {

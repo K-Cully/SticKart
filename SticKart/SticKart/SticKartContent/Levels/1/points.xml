@@ -2,7 +2,7 @@
 <XnaContent>
   <!--Note: The first two positions are the start and end positions. (1280, 720)-->
   <Asset Type="Microsoft.Xna.Framework.Vector2[]">
-    100 658
+    100 400
     1200 620
     0 700
     140 690
@@ -13,6 +13,6 @@
     840 660
     960 680
     1216 680
-    1280 680
+    5000 680
   </Asset>
 </XnaContent>

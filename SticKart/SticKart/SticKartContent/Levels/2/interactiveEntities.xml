@@ -3,47 +3,27 @@
   <Asset Type="SticKart.InteractiveEntityDescription[]">
     <Item>
       <Name>invincible</Name>
-      <Position>296 416</Position>
+      <Position>1032 208</Position>
       <Dimensions>48 48</Dimensions>
     </Item>
     <Item>
       <Name>speed</Name>
-      <Position>376 416</Position>
+      <Position>120 432</Position>
       <Dimensions>48 48</Dimensions>
-    </Item>
-    <Item>
-      <Name>jump</Name>
-      <Position>448 416</Position>
-      <Dimensions>48 48</Dimensions>
-    </Item>
-    <Item>
-      <Name>health</Name>
-      <Position>504 416</Position>
-      <Dimensions>48 48</Dimensions>
-    </Item>
-    <Item>
-      <Name>fire</Name>
-      <Position>288 480</Position>
-      <Dimensions>32 32</Dimensions>
     </Item>
     <Item>
       <Name>rock</Name>
-      <Position>368 488</Position>
+      <Position>720 384</Position>
       <Dimensions>32 32</Dimensions>
     </Item>
     <Item>
-      <Name>spike</Name>
-      <Position>440 480</Position>
-      <Dimensions>32 64</Dimensions>
-    </Item>
-    <Item>
       <Name>cart</Name>
-      <Position>600 600</Position>
+      <Position>152 552</Position>
       <Dimensions>64 43</Dimensions>
     </Item>
     <Item>
       <Name>switch</Name>
-      <Position>600 488</Position>
+      <Position>200 424</Position>
       <Dimensions>64 64</Dimensions>
     </Item>
   </Asset>
