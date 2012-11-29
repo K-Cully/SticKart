@@ -14,17 +14,22 @@ namespace SticKart.Game.Level
         /// <summary>
         /// The minimum screen scroll rate.
         /// </summary>
-        public const float MinimumScrollRate = 5.0f;
+        public const float MinimumScrollRate = 10.0f;
 
         /// <summary>
         /// The normal screen scroll rate.
         /// </summary>
-        public const float ScrollRate = 20.0f;
+        public const float ScrollRate = 40.0f;
 
         /// <summary>
         /// The maximum screen scroll rate.
         /// </summary>
-        public const float MaximumScrollRate = 50.0f;
+        public const float MaximumScrollRate = 100.0f;
+
+        /// <summary>
+        /// The acceleration of the screen scroll rate.
+        /// </summary>
+        public const float ScrollAcceleration = 2.0f;
 
         /// <summary>
         /// The file path to the levels folder.
