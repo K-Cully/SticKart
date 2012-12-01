@@ -38,6 +38,16 @@ namespace SticKart.Game.Entities
         private Body wheelBodyRight;
 
         /// <summary>
+        /// The physics body of the cart's left stabilizer.
+        /// </summary>
+        private Body stabilizerBodyLeft;
+
+        /// <summary>
+        /// The physics body of the cart's right stabilizer.
+        /// </summary>
+        private Body stabilizerBodyRight;
+
+        /// <summary>
         /// The physics joint connecting the chassis of the cart to the left wheel.
         /// </summary>
         private RevoluteJoint wheelJointLeft;
@@ -46,6 +56,16 @@ namespace SticKart.Game.Entities
         /// The physics joint connecting the chassis of the cart to the right wheel.
         /// </summary>
         private RevoluteJoint wheelJointRight;
+
+        /// <summary>
+        /// The physics joint connecting the chassis of the cart to the left stabilizer.
+        /// </summary>
+        private RevoluteJoint stabilizerJointLeft;
+
+        /// <summary>
+        /// The physics joint connecting the chassis of the cart to the right stabilizer.
+        /// </summary>
+        private RevoluteJoint stabilizerJointRight;
 
         /// <summary>
         /// The offset of the cart chassis from the centre of the entity.
@@ -61,6 +81,16 @@ namespace SticKart.Game.Entities
         /// The offset of the right wheel from the centre of the entity.
         /// </summary>
         private Vector2 wheelRightOffset;
+
+        /// <summary>
+        /// The offset of the left stabilizer wheel from the centre of the entity.
+        /// </summary>
+        private Vector2 stabilizerLeftOffset;
+
+        /// <summary>
+        /// The offset of the right stabilizer wheel from the centre of the entity.
+        /// </summary>
+        private Vector2 stabilizerRightOffset;
 
         /// <summary>
         /// The minimum horizontal speed, in physics units, of a cart entity.
@@ -126,6 +156,8 @@ namespace SticKart.Game.Entities
             this.wheelLeftOffset = new Vector2(-16.0f, 14.0f);
             this.wheelRightOffset = new Vector2(16.0f, 14.0f);
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
+            this.stabilizerLeftOffset = new Vector2(-this.cartSprite.Width, -this.cartSprite.Height / 2.0f);
+            this.stabilizerRightOffset = new Vector2(this.cartSprite.Width, -this.cartSprite.Height / 2.0f);
             this.SetUpPhysics(ref physicsWorld);
             this.SetPosition(position);
             this.moving = false;
@@ -200,8 +232,12 @@ namespace SticKart.Game.Entities
         {
             if (physicsWorld != null)
             {
+                physicsWorld.RemoveJoint(this.stabilizerJointRight);
+                physicsWorld.RemoveJoint(this.stabilizerJointLeft);
                 physicsWorld.RemoveJoint(this.wheelJointRight);
                 physicsWorld.RemoveJoint(this.wheelJointLeft);
+                physicsWorld.RemoveBody(this.stabilizerBodyRight);
+                physicsWorld.RemoveBody(this.stabilizerBodyLeft);
                 physicsWorld.RemoveBody(this.wheelBodyRight);
                 physicsWorld.RemoveBody(this.wheelBodyLeft);
                 physicsWorld.RemoveBody(this.cartBody);
@@ -217,6 +253,8 @@ namespace SticKart.Game.Entities
             this.cartBody.Position = ConvertUnits.ToSimUnits(position + this.cartOffset);
             this.wheelBodyLeft.Position = ConvertUnits.ToSimUnits(position + this.wheelLeftOffset);
             this.wheelBodyRight.Position = ConvertUnits.ToSimUnits(position + this.wheelRightOffset);
+            this.stabilizerBodyLeft.Position = ConvertUnits.ToSimUnits(position + this.stabilizerLeftOffset);
+            this.stabilizerBodyRight.Position = ConvertUnits.ToSimUnits(position + this.stabilizerRightOffset);
         }
 
         /// <summary>
@@ -251,7 +289,6 @@ namespace SticKart.Game.Entities
             this.wheelBodyLeft.BodyType = BodyType.Dynamic;
             this.wheelBodyLeft.Restitution = restitution;
             this.wheelBodyLeft.Friction = 1.0f;
-            this.wheelBodyLeft.IgnoreCollisionWith(this.cartBody);
             this.wheelBodyLeft.CollisionCategories = EntityConstants.MineCartCategory;
             this.wheelBodyLeft.CollidesWith = EntityConstants.FloorCategory;
 
@@ -260,13 +297,33 @@ namespace SticKart.Game.Entities
             this.wheelBodyRight.BodyType = BodyType.Dynamic;
             this.wheelBodyRight.Restitution = restitution;
             this.wheelBodyRight.Friction = 1.0f;
-            this.wheelBodyRight.IgnoreCollisionWith(this.cartBody);
             this.wheelBodyRight.CollisionCategories = EntityConstants.MineCartCategory;
             this.wheelBodyRight.CollidesWith = EntityConstants.FloorCategory;
+
+            // Left stabilizer
+            this.stabilizerBodyLeft = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.stabilizerLeftOffset));
+            this.stabilizerBodyLeft.BodyType = BodyType.Dynamic;
+            this.stabilizerBodyLeft.Restitution = restitution;
+            this.stabilizerBodyLeft.Friction = 1.0f;
+            this.stabilizerBodyLeft.CollisionCategories = EntityConstants.MineCartCategory;
+            this.stabilizerBodyLeft.CollidesWith = EntityConstants.FloorCategory;
+
+            // Right stabilizer
+            this.stabilizerBodyRight = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.stabilizerRightOffset));
+            this.stabilizerBodyRight.BodyType = BodyType.Dynamic;
+            this.stabilizerBodyRight.Restitution = restitution;
+            this.stabilizerBodyRight.Friction = 1.0f;
+            this.stabilizerBodyRight.CollisionCategories = EntityConstants.MineCartCategory;
+            this.stabilizerBodyRight.CollidesWith = EntityConstants.FloorCategory;
+
 
             // Wheel joints
             this.wheelJointLeft = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.wheelBodyLeft, Vector2.Zero);
             this.wheelJointRight = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.wheelBodyRight, Vector2.Zero);
+
+            // Stabilizer joints
+            this.stabilizerJointLeft = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.stabilizerBodyLeft, Vector2.Zero);
+            this.stabilizerJointRight = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.stabilizerBodyRight, Vector2.Zero);
         }
     }
 }
