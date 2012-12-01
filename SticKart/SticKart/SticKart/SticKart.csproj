@@ -103,6 +103,7 @@
     <Compile Include="Game\Entities\InteractiveEntity.cs" />
     <Compile Include="Game\Entities\InteractiveEntityType.cs" />
     <Compile Include="Game\Entities\InteractiveEntityUserData.cs" />
+    <Compile Include="Game\Entities\MineCart.cs" />
     <Compile Include="Game\Entities\Platform.cs" />
     <Compile Include="Game\Entities\PlayerState.cs" />
     <Compile Include="Game\Entities\EntityConstants.cs" />
@@ -203,12 +204,12 @@
   <ItemGroup>
     <PublishFile Include="Microsoft.Speech">
       <Visible>False</Visible>
+      <PublishState>Include</PublishState>
+      <IncludeHash>True</IncludeHash>
       <Group>
       </Group>
       <TargetPath>
       </TargetPath>
-      <PublishState>Include</PublishState>
-      <IncludeHash>True</IncludeHash>
       <FileType>Assembly</FileType>
     </PublishFile>
   </ItemGroup>

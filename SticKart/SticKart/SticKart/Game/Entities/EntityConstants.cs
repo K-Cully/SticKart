@@ -185,6 +185,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const Category ScrollingDeathCategory = Category.Cat4;
 
+        /// <summary>
+        /// The collision category of a mining cart entity.
+        /// </summary>
+        public const Category MineCartCategory = Category.Cat5;
+
         #endregion
 
         #region lists
