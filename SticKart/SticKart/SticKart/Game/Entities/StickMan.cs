@@ -25,8 +25,6 @@ namespace SticKart.Game.Entities
     /// </summary>
     public class StickMan
     {
-        #region members
-
         /// <summary>
         /// The max length of time which wheel collisions should be disabled for.
         /// </summary>
@@ -36,6 +34,13 @@ namespace SticKart.Game.Entities
         /// The amount to augment the player's jump with the jump power up.
         /// </summary>
         private const float JumpPowerModifier = 2.0f;
+
+        #region physics
+
+        /// <summary>
+        /// The game's physics world.
+        /// </summary>
+        private World physicsWorld;
 
         /// <summary>
         /// The physics body representing the standing stickman.
@@ -84,10 +89,10 @@ namespace SticKart.Game.Entities
         private FixedAngleJoint angleUprightJoint;
 
         /// <summary>
-        /// The sprite which represents the stickman's standing pose.
+        /// A joint used to tie the stickman to a mine cart.
         /// </summary>
-        private Sprite standingSprite; // TODO: add animated sprite class and other sprites
-        
+        private RevoluteJoint cartJoint;
+
         /// <summary>
         /// The minimum velocity at which the stickman can move horizontally.
         /// </summary>
@@ -123,6 +128,19 @@ namespace SticKart.Game.Entities
         /// </summary>
         private float acceleration;
 
+        #endregion
+
+        #region sprites
+
+        /// <summary>
+        /// The sprite which represents the stickman's standing pose.
+        /// </summary>
+        private Sprite standingSprite; // TODO: add animated sprite class and other sprites
+        
+        #endregion
+
+        #region state_managment
+
         /// <summary>
         /// The minimum health the stickman can have.
         /// </summary>
@@ -142,11 +160,6 @@ namespace SticKart.Game.Entities
         /// The impulse applied to the stickman when they jump.
         /// </summary>
         private float jumpImpulse;
-
-        /// <summary>
-        /// Whether the player is in the mining cart or not.
-        /// </summary>
-        private bool inCart;
 
         /// <summary>
         /// The current state the stickman is in.
@@ -201,6 +214,7 @@ namespace SticKart.Game.Entities
         /// <param name="contentManager">The content manager to use in loading sprites.</param>
         public StickMan(ref World physicsWorld, float maximumHorizontalSpeed, float maximumHealth, float jumpImpulse, SpriteBatch spriteBatch, ContentManager contentManager)
         {
+            this.physicsWorld = physicsWorld;
             this.activePowerUp = PowerUpType.None;
             this.powerUpTimer = 0.0f;
             this.powerUpLength = 0.0f;
@@ -215,7 +229,7 @@ namespace SticKart.Game.Entities
             this.health = maximumHealth;
             this.maximumHealth = maximumHealth;
             this.jumpImpulse = jumpImpulse;
-            this.inCart = false;
+            this.InCart = false;
             this.state = PlayerState.standing;
             this.onFloor = false;
             this.jumpingDown = false;
@@ -227,6 +241,7 @@ namespace SticKart.Game.Entities
             this.smallBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
+            this.cartJoint = null;
             this.acceleration = 9.0f;
             this.wheelBody.OnCollision += this.CollisionHandlerWheel;
             this.smallBody.OnCollision += this.CollisionHandlerSmallBody;
@@ -239,6 +254,11 @@ namespace SticKart.Game.Entities
         /// Gets the player's score.
         /// </summary>
         public int Score { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the player is in the mining cart or not.
+        /// </summary>
+        public bool InCart { get; private set; }
 
         /// <summary>
         /// Gets the stick man's display coordinates.
@@ -353,34 +373,37 @@ namespace SticKart.Game.Entities
                 }
             }
 
-            if (this.state == PlayerState.running)
+            if (!this.InCart)
             {
-                this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.95f;
-                if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
+                if (this.state == PlayerState.running)
                 {
-                    if (this.motorJoint.MotorSpeed > 1.0f)
+                    this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.95f;
+                    if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                     {
-                        this.motorJoint.MotorSpeed *= 0.875f;
+                        if (this.motorJoint.MotorSpeed > 1.0f)
+                        {
+                            this.motorJoint.MotorSpeed *= 0.875f;
+                        }
+                        else
+                        {
+                            this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        }
                     }
-                    else
+                    else if (this.smallBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
                     {
-                        this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        this.motorJoint.MotorSpeed += this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
                     }
-                }
-                else if (this.smallBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
-                {
-                    this.motorJoint.MotorSpeed += this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                }
 
-                if (this.idealHorizontalVelocity == 0.0f && this.smallBody.LinearVelocity.X < 1.0f)
-                {
-                    this.motorJoint.MotorSpeed = 0.0f;
-                    this.state = PlayerState.standing;
+                    if (this.idealHorizontalVelocity == 0.0f && this.smallBody.LinearVelocity.X < 1.0f)
+                    {
+                        this.motorJoint.MotorSpeed = 0.0f;
+                        this.state = PlayerState.standing;
+                    }
                 }
-            }
-            else if (this.state == PlayerState.jumping && this.smallBody.LinearVelocity.Y >= 0.0f)
-            {
-                this.state = PlayerState.falling;
+                else if (this.state == PlayerState.jumping && this.smallBody.LinearVelocity.Y >= 0.0f)
+                {
+                    this.state = PlayerState.falling;
+                }
             }
         }
 
@@ -389,11 +412,9 @@ namespace SticKart.Game.Entities
         /// </summary>
         public void Run()
         {
-            if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
+            if (!this.InCart && this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
-                this.fullBody.CollidesWith = Category.All;
-                this.smallBody.CollidesWith = Category.None;
-                this.idealHorizontalVelocity += 5.0f; // TODO: set
+                this.idealHorizontalVelocity += 5.0f;
                 if (this.idealHorizontalVelocity > this.maximumHorizontalVelocity)
                 {
                     this.idealHorizontalVelocity = this.maximumHorizontalVelocity;
@@ -411,8 +432,6 @@ namespace SticKart.Game.Entities
             if (this.state == PlayerState.crouching)
             {
                 this.state = PlayerState.standing;
-                this.fullBody.CollidesWith = Category.All;
-                this.smallBody.CollidesWith = Category.None;
             }
         }
 
@@ -421,12 +440,9 @@ namespace SticKart.Game.Entities
         /// </summary>
         public void CrouchOrJumpDown()
         {
-            if (this.state != PlayerState.crouching && this.inCart)
+            if (this.state != PlayerState.crouching && this.InCart)
             {
                 this.state = PlayerState.crouching;
-                this.smallBody.CollidesWith = Category.All;
-                this.fullBody.CollidesWith = Category.None;
-
                 // TODO: test collisions with top box
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
@@ -446,11 +462,15 @@ namespace SticKart.Game.Entities
         {
             if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
-                this.fullBody.CollidesWith = Category.All;
-                this.smallBody.CollidesWith = Category.None;
+                if (this.InCart && this.cartJoint != null)
+                {
+                    this.InCart = false;
+                    this.physicsWorld.RemoveJoint(this.cartJoint);
+                    this.cartJoint = null;
+                }
+
                 this.smallBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
                 this.state = PlayerState.jumping;
-
                 if (this.motorJoint.MotorSpeed > 1.0f)
                 {
                     this.motorJoint.MotorSpeed = this.motorJoint.MotorSpeed * 0.75f;
@@ -459,23 +479,6 @@ namespace SticKart.Game.Entities
                 {
                     this.motorJoint.MotorSpeed = 0.0f;
                 }
-            }
-        }
-
-        /// <summary>
-        /// Sets the stick man's state to standing.
-        /// This should be called on collision with anything.
-        /// </summary>
-        public void Land()
-        {
-            this.jumpingDown = false;
-            if (this.motorJoint.MotorSpeed > 0.0f)
-            {
-                this.state = PlayerState.running;
-            }
-            else
-            {
-                this.state = PlayerState.standing;
             }
         }
 
@@ -521,15 +524,20 @@ namespace SticKart.Game.Entities
         /// <param name="position">The display coordinate to place the player at.</param>
         public void Reset(Vector2 position)
         {
+            if (this.cartJoint != null)
+            {
+                this.physicsWorld.RemoveJoint(this.cartJoint);
+                this.cartJoint = null;
+            }
+
             this.activePowerUp = PowerUpType.None;
             this.powerUpTimer = 0.0f;
             this.fullBody.Position = ConvertUnits.ToSimUnits(position + this.fullBodyOffset);
             this.smallBody.Position = ConvertUnits.ToSimUnits(position + this.smallBodyOffset);
-            this.smallBody.CollidesWith = Category.None;
             this.wheelBody.Position = ConvertUnits.ToSimUnits(position + this.wheelBodyOffset);
             this.state = PlayerState.standing;
             this.idealHorizontalVelocity = 0.0f;
-            this.inCart = false;
+            this.InCart = false;
             this.onFloor = false;
             this.motorJoint.MotorSpeed = 0.0f;
             this.smallBody.Rotation = 0.0f;
@@ -577,7 +585,6 @@ namespace SticKart.Game.Entities
             this.smallBody.IgnoreCollisionWith(this.fullBody);
             this.smallBody.Restitution = restitution;
             this.smallBody.CollisionCategories = EntityConstants.StickManCategory;
-            this.smallBody.CollidesWith = Category.None;
 
             // Wheel for movement
             this.wheelBody = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelBodyOffset));
@@ -659,6 +666,42 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
+        /// Sets the stick man's state to standing.
+        /// This should be called on collision between the wheel and anything except the cart.
+        /// </summary>
+        private void Land()
+        {
+            this.jumpingDown = false;
+            if (this.motorJoint.MotorSpeed > 0.0f)
+            {
+                this.state = PlayerState.running;
+            }
+            else
+            {
+                this.state = PlayerState.standing;
+            }
+        }
+
+        /// <summary>
+        /// Attaches the player to the cart with a joint.
+        /// </summary>
+        /// <param name="cartBody">The cart body.</param>
+        private void LandInCart(Body cartBody)
+        {
+            this.InCart = true;
+            this.state = PlayerState.standing;
+            this.motorJoint.MotorSpeed = 0.0f;
+            Vector2 cartTopPosition = cartBody.Position + ConvertUnits.ToSimUnits(-24.0f * Vector2.UnitY);
+            this.fullBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.fullBodyOffset);
+            this.smallBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.smallBodyOffset);
+            this.wheelBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.wheelBodyOffset);
+            if (this.cartJoint == null)
+            {
+                this.cartJoint = JointFactory.CreateRevoluteJoint(this.physicsWorld, this.fullBody, cartBody, Vector2.Zero);
+            }
+        }
+
+        /// <summary>
         /// Performs collision response with an interactive entity.
         /// </summary>
         /// <param name="entityData">The interactive entity's user data.</param>
@@ -717,48 +760,63 @@ namespace SticKart.Game.Entities
         /// <returns>Whether the collision was accepted or not.</returns>
         private bool CollisionHandlerWheel(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
-            bool collided = true;        
-            switch (fixtureTwo.CollisionCategories)
+            bool collided = true;
+            if (this.InCart)
             {
-                case EntityConstants.PlatformCategory:
-                    collided = false;
-                    if (this.wheelCollisionDisabled != true && this.state != PlayerState.jumping && fixtureOne.Body.Position.Y < fixtureTwo.Body.Position.Y)
-                    {
-                        this.Land();
-                        this.maximumHorizontalVelocity = this.standardHorizontalVelocity;
-                        this.onFloor = false;
-                        collided = true;
-                    }
-
-                    break;
-                case EntityConstants.FloorCategory:
-                    this.Land();
-                    this.maximumHorizontalVelocity = this.floorHorizontalVelocity;
-                    this.onFloor = true;
-                    collided = true;
-                    break;
-                case EntityConstants.InteractiveEntityCategory:
-                    InteractiveEntityUserData entityData = (InteractiveEntityUserData)fixtureTwo.Body.UserData;
-                    if (entityData.IsActive)
-                    {
-                        collided = this.CollideWithInteractiveEntity(entityData);
-                        entityData.IsActive = false;
-                        fixtureTwo.Body.UserData = entityData;
-                    }
-                    else
-                    {
+                collided = false;
+            }
+            else
+            {
+                switch (fixtureTwo.CollisionCategories)
+                {
+                    case EntityConstants.PlatformCategory:
                         collided = false;
-                    }
+                        if (this.wheelCollisionDisabled != true && this.state != PlayerState.jumping && fixtureOne.Body.Position.Y < fixtureTwo.Body.Position.Y)
+                        {
+                            this.Land();
+                            this.maximumHorizontalVelocity = this.standardHorizontalVelocity;
+                            this.onFloor = false;
+                            collided = true;
+                        }
 
-                    break;
-                case EntityConstants.ScrollingDeathCategory:
-                    collided = true;
-                    this.health = this.minimumHealth;
-                    this.state = PlayerState.dead;
-                    break;
-                default:
-                    collided = true;
-                    break;
+                        break;
+                    case EntityConstants.FloorCategory:
+                        this.Land();
+                        this.maximumHorizontalVelocity = this.floorHorizontalVelocity;
+                        this.onFloor = true;
+                        collided = true;
+                        break;
+                    case EntityConstants.InteractiveEntityCategory:
+                        InteractiveEntityUserData entityData = (InteractiveEntityUserData)fixtureTwo.Body.UserData;
+                        if (entityData.IsActive)
+                        {
+                            collided = this.CollideWithInteractiveEntity(entityData);
+                            entityData.IsActive = false;
+                            fixtureTwo.Body.UserData = entityData;
+                        }
+                        else
+                        {
+                            collided = false;
+                        }
+
+                        break;
+                    case EntityConstants.ScrollingDeathCategory:
+                        collided = true;
+                        this.health = this.minimumHealth;
+                        this.state = PlayerState.dead;
+                        break;
+                    case EntityConstants.MineCartCategory:
+                        if (this.state != PlayerState.jumping)
+                        {
+                            this.LandInCart(fixtureTwo.Body);
+                        }
+
+                        collided = false;
+                        break;
+                    default:
+                        collided = true;
+                        break;
+                }
             }
 
             return collided;
@@ -857,6 +915,14 @@ namespace SticKart.Game.Entities
                         collided = true;
                         this.health = this.minimumHealth;
                         this.state = PlayerState.dead;
+                        break;
+                    case EntityConstants.MineCartCategory:
+                        if (!this.InCart && this.state != PlayerState.jumping)
+                        {
+                            this.LandInCart(fixtureTwo.Body);
+                        }
+
+                        collided = false;
                         break;
                     default:
                         collided = true;

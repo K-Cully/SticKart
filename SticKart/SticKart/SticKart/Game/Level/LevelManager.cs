@@ -255,7 +255,7 @@ namespace SticKart.Game.Level
             else
             {
                 this.stickman.Update(gameTime);
-                this.mineCart.Update(gameTime, this.stickman.PhysicsPosition, this.stickman.HorizontalSpeed);
+                this.mineCart.Update(gameTime, this.stickman.PhysicsPosition, this.stickman.HorizontalSpeed, this.stickman.InCart);
                 this.UpdateScrollingDeath(gameTime);
                 Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y * 0.5f);
 
@@ -301,10 +301,9 @@ namespace SticKart.Game.Level
             {
                 entity.Draw();
             }
-
-            this.mineCart.Draw();
-
+            
             this.stickman.Draw();
+            this.mineCart.Draw();
         }
 
         /// <summary>

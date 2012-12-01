@@ -137,11 +137,19 @@ namespace SticKart.Game.Entities
         /// <param name="gameTime">The game time.</param>
         /// <param name="playerPosition">The player's position in physics units.</param>
         /// <param name="horizontalPlayerSpeed">The player's horizontal speed in physics units.</param>
-        public void Update(GameTime gameTime, Vector2 playerPosition, float horizontalPlayerSpeed)
+        /// <param name="containsPlayer">A value indicating if whether the cart contains a player or not.</param>
+        public void Update(GameTime gameTime, Vector2 playerPosition, float horizontalPlayerSpeed, bool containsPlayer)
         {
             if (this.moving)
             {
-                if (playerPosition.X > this.cartBody.Position.X)
+                if (containsPlayer)
+                {
+                    if (this.cartBody.LinearVelocity.X < this.maximumHorizontalSpeed)
+                    {
+                        this.cartBody.ApplyForce(new Vector2(this.acceleration, 0.0f));
+                    }
+                }
+                else if (playerPosition.X > this.cartBody.Position.X)
                 {
                     if (this.cartBody.LinearVelocity.X > this.maximumHorizontalSpeed)
                     {
@@ -236,22 +244,25 @@ namespace SticKart.Game.Entities
             this.cartBody.BodyType = BodyType.Dynamic;
             this.cartBody.Restitution = restitution;
             this.cartBody.CollisionCategories = EntityConstants.MineCartCategory;
+            this.cartBody.CollidesWith = EntityConstants.StickManCategory;
 
             // Left wheel
             this.wheelBodyLeft = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelLeftOffset));
             this.wheelBodyLeft.BodyType = BodyType.Dynamic;
             this.wheelBodyLeft.Restitution = restitution;
-            this.wheelBodyLeft.Friction = float.MaxValue;
+            this.wheelBodyLeft.Friction = 1.0f;
             this.wheelBodyLeft.IgnoreCollisionWith(this.cartBody);
             this.wheelBodyLeft.CollisionCategories = EntityConstants.MineCartCategory;
+            this.wheelBodyLeft.CollidesWith = EntityConstants.FloorCategory;
 
             // Right wheel
             this.wheelBodyRight = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelRightOffset));
             this.wheelBodyRight.BodyType = BodyType.Dynamic;
             this.wheelBodyRight.Restitution = restitution;
-            this.wheelBodyRight.Friction = float.MaxValue;
+            this.wheelBodyRight.Friction = 1.0f;
             this.wheelBodyRight.IgnoreCollisionWith(this.cartBody);
             this.wheelBodyRight.CollisionCategories = EntityConstants.MineCartCategory;
+            this.wheelBodyRight.CollidesWith = EntityConstants.FloorCategory;
 
             // Wheel joints
             this.wheelJointLeft = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.wheelBodyLeft, Vector2.Zero);
