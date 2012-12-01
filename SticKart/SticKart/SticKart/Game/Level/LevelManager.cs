@@ -118,6 +118,11 @@ namespace SticKart.Game.Level
         /// </summary>
         private ScrollingDeath scrollingDeath;
 
+        /// <summary>
+        /// The mine cart entity.
+        /// </summary>
+        private MineCart mineCart;
+
         #endregion
         
         /// <summary>
@@ -141,6 +146,7 @@ namespace SticKart.Game.Level
             this.interactiveEntities = new List<InteractiveEntity>();
             this.stickman = null;
             this.scrollingDeath = null;
+            this.mineCart = null;
             this.scrollStartTimer = 0.0f;
         }
 
@@ -216,9 +222,10 @@ namespace SticKart.Game.Level
 
             LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges, this.gameDisplayResolution.Y);
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
-            LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, this.spriteBatch, this.contentManager);
+            LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart, this.spriteBatch, this.contentManager);
             this.stickman.Reset(this.levelLoader.StartPosition);
-
+            this.mineCart.Activate(); // TODO: place in switch once implemented
+            
             // TODO: this.exit = new Exit(this.levelLoader.EndPosition);
         }
 
@@ -228,7 +235,7 @@ namespace SticKart.Game.Level
         public void EndLevel() // TODO: Call once level end added.
         {
             LevelFactory.DisposeOfPlatforms(ref this.physicsWorld, ref this.platforms);
-            LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities);
+            LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart);
             LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges);
             this.scrollingDeath.Dispose(ref this.physicsWorld);
             // TODO: this.exit.Dispose();
@@ -248,6 +255,7 @@ namespace SticKart.Game.Level
             else
             {
                 this.stickman.Update(gameTime);
+                this.mineCart.Update(gameTime, this.stickman.PhysicsPosition, this.stickman.HorizontalSpeed);
                 this.UpdateScrollingDeath(gameTime);
                 Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y * 0.5f);
 
@@ -293,6 +301,8 @@ namespace SticKart.Game.Level
             {
                 entity.Draw();
             }
+
+            this.mineCart.Draw();
 
             this.stickman.Draw();
         }

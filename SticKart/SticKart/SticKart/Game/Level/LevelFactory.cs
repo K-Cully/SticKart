@@ -26,23 +26,27 @@ namespace SticKart.Game.Level
         /// <param name="interactiveEntityDescriptions">A list of interactive entity descriptions.</param>
         /// <param name="physicsWorld">The physics world to create the entities in.</param>
         /// <param name="interactiveEntities">An empty list to store the interactive entities in.</param>
+        /// <param name="mineCart">The mine cart entity.</param>
         /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
         /// <param name="contentManager">The game's content manager.</param>
-        public static void CreateInteractiveEntities(List<InteractiveEntityDescription> interactiveEntityDescriptions, ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, SpriteBatch spriteBatch, ContentManager contentManager)
+        public static void CreateInteractiveEntities(List<InteractiveEntityDescription> interactiveEntityDescriptions, ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, ref MineCart mineCart, SpriteBatch spriteBatch, ContentManager contentManager)
         {
             if (interactiveEntities.Count == 0)
             {
                 foreach (InteractiveEntityDescription description in interactiveEntityDescriptions)
                 {
                     if (EntityConstants.PowerUpNames.Contains(description.Name))
-                    {
-                        // TODO: create power up once the class is implemented                        
+                    {                       
                         interactiveEntities.Add(new PowerUp(ref physicsWorld, spriteBatch, contentManager, description, EntitySettingsLoader.GetPowerUpSettings(description.Name)));
                     }
-                    else
+                    else if (EntityConstants.BonusNames.Contains(description.Name) || EntityConstants.ObstacleNames.Contains(description.Name))
                     {
                         // TODO: Create obstacle or bonus once the class is implemented
                         EntitySettingsLoader.GetObstacleOrBonusSetting(description.Name);
+                    }
+                    else if (description.Name == EntityConstants.CartBody)
+                    {
+                        mineCart = new MineCart(spriteBatch, contentManager, ref physicsWorld, description.Position, 200.0f, 400.0f, 80.0f, -80.0f);
                     }
                 }
             }
@@ -119,8 +123,14 @@ namespace SticKart.Game.Level
         /// </summary>
         /// <param name="physicsWorld">The physics world containing the entities' bodies.</param>
         /// <param name="interactiveEntities">the list of interactive entities.</param>
-        public static void DisposeOfInteractiveEntities(ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities)
+        /// <param name="mineCart">The mine cart.</param>
+        public static void DisposeOfInteractiveEntities(ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, ref MineCart mineCart)
         {
+            if (mineCart != null)
+            {
+                mineCart.Dispose(ref physicsWorld);
+            }
+
             foreach (InteractiveEntity entity in interactiveEntities)
             {
                 entity.Dispose(ref physicsWorld);

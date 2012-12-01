@@ -261,6 +261,37 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
+        /// Gets the stickman's position in physics world coordinates.
+        /// </summary>
+        public Vector2 PhysicsPosition
+        {
+            get
+            {
+                if (this.state == PlayerState.crouching)
+                {
+                    return this.wheelBody.Position;
+                }
+                else
+                {
+                    Vector2 pos = this.wheelBody.Position;
+                    pos.Y -= ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f);
+                    return pos;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the stickman's horizontal speed in physics units. 
+        /// </summary>
+        public float HorizontalSpeed
+        {
+            get
+            {
+                return this.fullBody.LinearVelocity.X;
+            }
+        }
+
+        /// <summary>
         /// Gets the player's remaining health as a percentage of its maximum.
         /// </summary>
         public float PercentHealth

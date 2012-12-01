@@ -116,6 +116,8 @@ namespace SticKart.Game.Entities
         /// <param name="deceleration">The deceleration of the mine cart, in display units.</param>
         public MineCart(SpriteBatch spriteBatch, ContentManager contentManager, ref World physicsWorld, Vector2 position, float minimumHorizontalSpeed, float maximumHorizontalSpeed, float acceleration, float deceleration)
         {
+            this.cartSprite = new Sprite();
+            this.wheelSprite = new Sprite();
             this.minimumHorizontalSpeed = ConvertUnits.ToSimUnits(minimumHorizontalSpeed);
             this.maximumHorizontalSpeed = ConvertUnits.ToSimUnits(maximumHorizontalSpeed);
             this.acceleration = ConvertUnits.ToSimUnits(acceleration);
@@ -127,7 +129,6 @@ namespace SticKart.Game.Entities
             this.SetUpPhysics(ref physicsWorld);
             this.SetPosition(position);
             this.moving = false;
-            this.cartBody.BodyType = BodyType.Static; // TODO: test
         }
 
         /// <summary>
@@ -146,7 +147,7 @@ namespace SticKart.Game.Entities
                     {
                         this.cartBody.ApplyForce(new Vector2(this.deceleration, 0.0f));
                     }
-                    else if (this.cartBody.LinearVelocity.X < horizontalPlayerSpeed)
+                    else if (this.cartBody.LinearVelocity.X < horizontalPlayerSpeed || this.cartBody.LinearVelocity.X < this.maximumHorizontalSpeed)
                     {
                         this.cartBody.ApplyForce(new Vector2(this.acceleration, 0.0f));
                     }
@@ -181,7 +182,6 @@ namespace SticKart.Game.Entities
         public void Activate()
         {
             this.moving = true;
-            this.cartBody.BodyType = BodyType.Dynamic; // TODO: test
         }
 
         /// <summary>
@@ -219,7 +219,7 @@ namespace SticKart.Game.Entities
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.cartSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartBody);
-            this.cartSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartWheel);
+            this.wheelSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartWheel);
         }
 
         /// <summary>
