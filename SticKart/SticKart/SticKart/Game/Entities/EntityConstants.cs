@@ -195,6 +195,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const Category SwitchCategory = Category.Cat6;
 
+        /// <summary>
+        /// The collision category of an exit entity.
+        /// </summary>
+        public const Category ExitCategory = Category.Cat7;
+
         #endregion
 
         #region lists

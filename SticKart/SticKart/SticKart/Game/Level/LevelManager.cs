@@ -254,7 +254,6 @@ namespace SticKart.Game.Level
         /// <param name="commands">A list of input commands.</param>
         public void Update(GameTime gameTime, List<InputCommand> commands)
         {
-            // TODO
             if (this.stickman.IsDead)
             {
             }
@@ -297,7 +296,6 @@ namespace SticKart.Game.Level
         /// </summary>
         public void Draw()
         {
-            // TODO
             foreach (Platform platform in this.platforms)
             {
                 platform.Draw();
