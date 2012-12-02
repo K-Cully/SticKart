@@ -38,6 +38,7 @@ namespace SticKart.Game.Entities
         /// <param name="position">The position of the exit.</param>
         public Exit(SpriteBatch spriteBatch, ContentManager contentManager, ref World physicsWorld, Vector2 position)
         {
+            this.sprite = new Sprite();
             this.Triggered = false;
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.SetUpPhysics(ref physicsWorld, position);
@@ -101,7 +102,7 @@ namespace SticKart.Game.Entities
         {
             float density = 1.1f;
             float restitution = 0.0f;
-            this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.sprite.Width * 0.5f), ConvertUnits.ToSimUnits(this.sprite.Height), density, ConvertUnits.ToSimUnits(position));
+            this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.sprite.Width * 0.2f), ConvertUnits.ToSimUnits(this.sprite.Height), density, ConvertUnits.ToSimUnits(position));
             this.physicsBody.BodyType = BodyType.Static;
             this.physicsBody.Restitution = restitution;
             this.physicsBody.CollisionCategories = EntityConstants.ExitCategory;
