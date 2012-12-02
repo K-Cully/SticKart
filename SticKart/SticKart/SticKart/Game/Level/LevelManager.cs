@@ -194,7 +194,7 @@ namespace SticKart.Game.Level
         }
 
         /// <summary>
-        /// Gets a value indicating if the level is complete or not.
+        /// Gets a value indicating whether the level is complete or not.
         /// </summary>
         public bool Complete { get; private set; }
 
