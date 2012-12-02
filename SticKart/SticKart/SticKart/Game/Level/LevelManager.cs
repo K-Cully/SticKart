@@ -230,7 +230,6 @@ namespace SticKart.Game.Level
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart, ref this.cartSwitch, this.spriteBatch, this.contentManager);
             this.stickman.Reset(this.levelLoader.StartPosition);
-            //this.mineCart.Activate(); // TODO: place in switch once implemented
             
             // TODO: this.exit = new Exit(this.levelLoader.EndPosition);
         }
@@ -244,6 +243,7 @@ namespace SticKart.Game.Level
             LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart, ref this.cartSwitch);
             LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges);
             this.scrollingDeath.Dispose(ref this.physicsWorld);
+
             // TODO: this.exit.Dispose();
         }
    
@@ -314,7 +314,9 @@ namespace SticKart.Game.Level
             }
             
             this.stickman.Draw();
-            if (mineCart != null) // TODO: Remove once propper levels created.
+
+            // TODO: Remove once propper levels created.
+            if (this.mineCart != null) 
             {
                 this.mineCart.Draw();
                 this.cartSwitch.Draw();

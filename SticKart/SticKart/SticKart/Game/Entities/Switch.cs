@@ -8,13 +8,12 @@ namespace SticKart.Game.Entities
 {
     using Display;
     using FarseerPhysics.Dynamics;
-    using Microsoft.Xna.Framework.Graphics;
-    using Microsoft.Xna.Framework.Content;
-    using FarseerPhysics.SamplesFramework;
     using FarseerPhysics.Factories;
+    using FarseerPhysics.SamplesFramework;
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
     
-
     /// <summary>
     /// Defines a switch which activates a mine cart.
     /// </summary>
@@ -58,7 +57,7 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
-        /// Updates a switch enity.
+        /// Updates a switch entity.
         /// </summary>
         public void Update()
         {
