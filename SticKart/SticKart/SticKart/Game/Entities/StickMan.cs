@@ -609,6 +609,8 @@ namespace SticKart.Game.Entities
 
         #endregion
 
+        #region power_up_state_managment
+
         /// <summary>
         /// Updates the state of the active power up.
         /// </summary>
@@ -668,6 +670,10 @@ namespace SticKart.Game.Entities
             }
         }
 
+        #endregion
+
+        #region collision_response
+
         /// <summary>
         /// Sets the stick man's state to standing.
         /// This should be called on collision between the wheel and anything except the cart.
@@ -691,6 +697,7 @@ namespace SticKart.Game.Entities
         /// <param name="cartBody">The cart body.</param>
         private void LandInCart(Body cartBody)
         {
+            this.jumpingDown = false;
             this.InCart = true;
             this.state = PlayerState.standing;
             Vector2 cartTopPosition = cartBody.Position + ConvertUnits.ToSimUnits(-24.0f * Vector2.UnitY);
@@ -752,6 +759,10 @@ namespace SticKart.Game.Entities
 
             return collided;
         }
+
+        #endregion
+
+        #region collision_handlers
 
         /// <summary>
         /// Collision event handler for the stick man's wheel.
@@ -819,6 +830,10 @@ namespace SticKart.Game.Entities
                         fixtureTwo.Body.UserData = true;
                         collided = false;
                         break;
+                    case EntityConstants.ExitCategory:
+                        fixtureTwo.Body.UserData = true;
+                        collided = false;
+                        break;
                     default:
                         collided = true;
                         break;
@@ -866,6 +881,10 @@ namespace SticKart.Game.Entities
                         this.state = PlayerState.dead;
                         break;
                     case EntityConstants.MineCartCategory:
+                        collided = false;
+                        break;
+                    case EntityConstants.ExitCategory:
+                        fixtureTwo.Body.UserData = true;
                         collided = false;
                         break;
                     default:
@@ -937,6 +956,10 @@ namespace SticKart.Game.Entities
                         fixtureTwo.Body.UserData = true;
                         collided = false;
                         break;
+                    case EntityConstants.ExitCategory:
+                        fixtureTwo.Body.UserData = true;
+                        collided = false;
+                        break;
                     default:
                         collided = true;
                         break;
@@ -945,5 +968,7 @@ namespace SticKart.Game.Entities
 
             return collided;
         }
+
+        #endregion
     }
 }

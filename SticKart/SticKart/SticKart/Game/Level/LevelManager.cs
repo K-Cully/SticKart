@@ -236,7 +236,7 @@ namespace SticKart.Game.Level
             LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges, this.gameDisplayResolution.Y);
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart, ref this.cartSwitch, this.spriteBatch, this.contentManager);
-            this.exit = new Exit(spriteBatch, contentManager, ref this.physicsWorld, this.levelLoader.EndPosition); 
+            this.exit = new Exit(this.spriteBatch, this.contentManager, ref this.physicsWorld, this.levelLoader.EndPosition); 
             this.stickman.Reset(this.levelLoader.StartPosition);
         }
 
