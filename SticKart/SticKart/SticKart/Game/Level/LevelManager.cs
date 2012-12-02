@@ -27,11 +27,6 @@ namespace SticKart.Game.Level
         #region level_settings
 
         /// <summary>
-        /// The current level number.
-        /// </summary>
-        private int currentLevel;
-
-        /// <summary>
         /// Whether the current level is a custom level or not.
         /// </summary>
         private bool currentLevelCustom;
@@ -142,6 +137,7 @@ namespace SticKart.Game.Level
         /// <param name="frameTime">The frame time set for the game.</param>
         public LevelManager(Vector2 gameDisplayResolution, float frameTime)
         {
+            this.Complete = false;
             this.physicsWorld = null;
             this.gameDisplayResolution = gameDisplayResolution;
             this.frameTime = frameTime;
@@ -197,6 +193,16 @@ namespace SticKart.Game.Level
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating if the level is complete or not.
+        /// </summary>
+        public bool Complete { get; private set; }
+
+        /// <summary>
+        /// Gets The current level number.
+        /// </summary>
+        public int CurrentLevel { get; private set; }
+
         #endregion
 
         /// <summary>
@@ -223,7 +229,8 @@ namespace SticKart.Game.Level
         /// <param name="isCustom">Whether the level is a custom level or not.</param>
         public void BeginLevel(int levelNumber, bool isCustom)
         {
-            this.currentLevel = levelNumber > 0 ? levelNumber : 1;
+            this.Complete = false;
+            this.CurrentLevel = levelNumber > 0 ? levelNumber : 1;
             this.currentLevelCustom = isCustom;
 
             this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
@@ -231,7 +238,7 @@ namespace SticKart.Game.Level
 
             // TODO: Implement logic to allow for custom levels.
             this.physicsWorld.ClearForces();
-            this.levelLoader.LoadLevel(this.currentLevel, this.currentLevelCustom);
+            this.levelLoader.LoadLevel(this.CurrentLevel, this.currentLevelCustom);
 
             LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges, this.gameDisplayResolution.Y);
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
@@ -243,7 +250,7 @@ namespace SticKart.Game.Level
         /// <summary>
         /// Cleans up after a level.
         /// </summary>
-        public void EndLevel() // TODO: Call once level end added.
+        public void EndLevel()
         {
             LevelFactory.DisposeOfPlatforms(ref this.physicsWorld, ref this.platforms);
             LevelFactory.DisposeOfInteractiveEntities(ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart, ref this.cartSwitch);
@@ -261,10 +268,13 @@ namespace SticKart.Game.Level
         {
             if (this.stickman.IsDead)
             {
+                Camera2D.Reset();
+                this.EndLevel();
+                this.BeginLevel(this.CurrentLevel, this.currentLevelCustom);
             }
             else if (this.exit.Triggered)
             {
-                // TODO: go to next level.
+                this.Complete = true;
             }
             else
             {

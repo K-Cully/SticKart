@@ -135,7 +135,9 @@ namespace SticKart.Game.Level
             if (mineCart != null)
             {
                 mineCart.Dispose(ref physicsWorld);
+                mineCart = null;
                 cartSwitch.Dispose(ref physicsWorld);
+                cartSwitch = null;
             }
 
             foreach (InteractiveEntity entity in interactiveEntities)

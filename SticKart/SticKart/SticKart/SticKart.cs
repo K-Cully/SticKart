@@ -198,36 +198,53 @@ namespace SticKart
         protected void UpdateGame(GameTime gameTime)
         {
             this.levelManager.Update(gameTime, this.inputManager.Commands);
-            this.headsUpDisplay.HealthPercentage = this.levelManager.PlayerHealthPercentage;
-            this.headsUpDisplay.Score = this.levelManager.PlayerScore;
-            this.headsUpDisplay.ActivePowerUp = this.levelManager.PlayerPowerUp;
-
-            if (this.inputManager.Update())
+            if (this.levelManager.Complete)
             {
-                // Commands are available.
-                foreach (InputCommand command in this.inputManager.Commands)
+                this.levelManager.EndLevel();
+                if (this.levelManager.CurrentLevel >= this.gameSettings.TotalLevels)
                 {
-                    switch (command)
+                    // TODO: game complete
+                    this.PauseGame();
+                }
+                else
+                {
+                    this.gameSettings.LevelsUnlocked += this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked ? 1 : 0;
+                    this.BeginLevel(this.levelManager.CurrentLevel + 1);
+                }
+            }
+            else
+            {
+                this.headsUpDisplay.HealthPercentage = this.levelManager.PlayerHealthPercentage;
+                this.headsUpDisplay.Score = this.levelManager.PlayerScore;
+                this.headsUpDisplay.ActivePowerUp = this.levelManager.PlayerPowerUp;
+
+                if (this.inputManager.Update())
+                {
+                    // Commands are available.
+                    foreach (InputCommand command in this.inputManager.Commands)
                     {
-                        case InputCommand.Pause:
-                            this.PauseGame();
-                            break;
-                        case InputCommand.Exit:
-                            this.PauseGame();
-                            break;
-                        default:
-                            break;
+                        switch (command)
+                        {
+                            case InputCommand.Pause:
+                                this.PauseGame();
+                                break;
+                            case InputCommand.Exit:
+                                this.PauseGame();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+
+                if (this.inputManager.VoiceCommandAvailable)
+                {
+                    if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == SelectableNames.PauseCommandName)
+                    {
+                        this.PauseGame();
                     }
                 }
             }
-            
-            if (this.inputManager.VoiceCommandAvailable)
-            {
-                if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == SelectableNames.PauseCommandName)
-                {
-                    this.PauseGame();
-                }
-            } 
         }
 
         /// <summary>
@@ -295,7 +312,6 @@ namespace SticKart
         protected void BeginLevel(int value)
         {
             // TODO: refine.
-            this.levelManager.EndLevel();
             Camera2D.Reset();
             this.gameState = GameState.InGame;
             this.levelManager.BeginLevel(value, false);
