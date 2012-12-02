@@ -27,9 +27,10 @@ namespace SticKart.Game.Level
         /// <param name="physicsWorld">The physics world to create the entities in.</param>
         /// <param name="interactiveEntities">An empty list to store the interactive entities in.</param>
         /// <param name="mineCart">The mine cart entity.</param>
+        /// <param name="cartSwitch">The switch entity.</param>
         /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
         /// <param name="contentManager">The game's content manager.</param>
-        public static void CreateInteractiveEntities(List<InteractiveEntityDescription> interactiveEntityDescriptions, ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, ref MineCart mineCart, SpriteBatch spriteBatch, ContentManager contentManager)
+        public static void CreateInteractiveEntities(List<InteractiveEntityDescription> interactiveEntityDescriptions, ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, ref MineCart mineCart, ref Switch cartSwitch, SpriteBatch spriteBatch, ContentManager contentManager)
         {
             if (interactiveEntities.Count == 0)
             {
@@ -47,6 +48,10 @@ namespace SticKart.Game.Level
                     else if (description.Name == EntityConstants.CartBody)
                     {
                         mineCart = new MineCart(spriteBatch, contentManager, ref physicsWorld, description.Position, 200.0f, 350.0f, 80.0f, -80.0f);
+                    }
+                    else if (description.Name == EntityConstants.Switch)
+                    {
+                        cartSwitch = new Switch(spriteBatch, contentManager, ref physicsWorld, description.Position, mineCart);
                     }
                 }
             }
@@ -124,11 +129,13 @@ namespace SticKart.Game.Level
         /// <param name="physicsWorld">The physics world containing the entities' bodies.</param>
         /// <param name="interactiveEntities">the list of interactive entities.</param>
         /// <param name="mineCart">The mine cart.</param>
-        public static void DisposeOfInteractiveEntities(ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, ref MineCart mineCart)
+        /// <param name="cartSwitch">The switch entity.</param>
+        public static void DisposeOfInteractiveEntities(ref World physicsWorld, ref List<InteractiveEntity> interactiveEntities, ref MineCart mineCart, ref Switch cartSwitch)
         {
             if (mineCart != null)
             {
                 mineCart.Dispose(ref physicsWorld);
+                cartSwitch.Dispose(ref physicsWorld);
             }
 
             foreach (InteractiveEntity entity in interactiveEntities)

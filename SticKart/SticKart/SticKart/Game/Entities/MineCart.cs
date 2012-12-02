@@ -23,6 +23,11 @@ namespace SticKart.Game.Entities
         #region physics
 
         /// <summary>
+        /// The physics world.
+        /// </summary>
+        private World physicsWorld;
+
+        /// <summary>
         /// The physics body representing the chassis of the cart.
         /// </summary>
         private Body cartBody;
@@ -48,6 +53,11 @@ namespace SticKart.Game.Entities
         private Body stabilizerBodyRight;
 
         /// <summary>
+        /// The physics body to anchor the mine cart to before activation.
+        /// </summary>
+        private Body anchorBody;
+
+        /// <summary>
         /// The physics joint connecting the chassis of the cart to the left wheel.
         /// </summary>
         private RevoluteJoint wheelJointLeft;
@@ -66,6 +76,11 @@ namespace SticKart.Game.Entities
         /// The physics joint connecting the chassis of the cart to the right stabilizer.
         /// </summary>
         private RevoluteJoint stabilizerJointRight;
+
+        /// <summary>
+        /// The physics joint connecting the chassis to the anchor body. 
+        /// </summary>
+        private RevoluteJoint anchorJoint;
 
         /// <summary>
         /// The offset of the cart chassis from the centre of the entity.
@@ -146,6 +161,7 @@ namespace SticKart.Game.Entities
         /// <param name="deceleration">The deceleration of the mine cart, in display units.</param>
         public MineCart(SpriteBatch spriteBatch, ContentManager contentManager, ref World physicsWorld, Vector2 position, float minimumHorizontalSpeed, float maximumHorizontalSpeed, float acceleration, float deceleration)
         {
+            this.physicsWorld = physicsWorld;
             this.cartSprite = new Sprite();
             this.wheelSprite = new Sprite();
             this.minimumHorizontalSpeed = ConvertUnits.ToSimUnits(minimumHorizontalSpeed);
@@ -158,8 +174,7 @@ namespace SticKart.Game.Entities
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.stabilizerLeftOffset = new Vector2(-this.cartSprite.Width, -this.cartSprite.Height / 2.0f);
             this.stabilizerRightOffset = new Vector2(this.cartSprite.Width, -this.cartSprite.Height / 2.0f);
-            this.SetUpPhysics(ref physicsWorld);
-            this.SetPosition(position);
+            this.SetUpPhysics(ref physicsWorld, position);
             this.moving = false;
         }
 
@@ -221,6 +236,8 @@ namespace SticKart.Game.Entities
         /// </summary>
         public void Activate()
         {
+            this.physicsWorld.RemoveJoint(this.anchorJoint);
+            this.physicsWorld.RemoveBody(this.anchorBody);
             this.moving = true;
         }
 
@@ -232,6 +249,12 @@ namespace SticKart.Game.Entities
         {
             if (physicsWorld != null)
             {
+                if (this.moving == false)
+                {
+                    this.physicsWorld.RemoveJoint(this.anchorJoint);
+                    this.physicsWorld.RemoveBody(this.anchorBody);
+                }
+
                 physicsWorld.RemoveJoint(this.stabilizerJointRight);
                 physicsWorld.RemoveJoint(this.stabilizerJointLeft);
                 physicsWorld.RemoveJoint(this.wheelJointRight);
@@ -243,20 +266,7 @@ namespace SticKart.Game.Entities
                 physicsWorld.RemoveBody(this.cartBody);
             }
         }
-
-        /// <summary>
-        /// Sets the position of the physics bodies.
-        /// </summary>
-        /// <param name="position">The centre position of the cart entity.</param>
-        private void SetPosition(Vector2 position)
-        {
-            this.cartBody.Position = ConvertUnits.ToSimUnits(position + this.cartOffset);
-            this.wheelBodyLeft.Position = ConvertUnits.ToSimUnits(position + this.wheelLeftOffset);
-            this.wheelBodyRight.Position = ConvertUnits.ToSimUnits(position + this.wheelRightOffset);
-            this.stabilizerBodyLeft.Position = ConvertUnits.ToSimUnits(position + this.stabilizerLeftOffset);
-            this.stabilizerBodyRight.Position = ConvertUnits.ToSimUnits(position + this.stabilizerRightOffset);
-        }
-
+        
         /// <summary>
         /// Initializes and loads the textures for all of the sprites in a <see cref="MineCart"/> object.
         /// </summary>
@@ -272,20 +282,26 @@ namespace SticKart.Game.Entities
         /// Sets up the physics bodies and joints used by the entity.
         /// </summary>
         /// <param name="physicsWorld">The physics world.</param>
-        private void SetUpPhysics(ref World physicsWorld)
+        /// <param name="position">The position of the entity in display units.</param>
+        private void SetUpPhysics(ref World physicsWorld, Vector2 position)
         {
             float density = 1.1f;
             float restitution = 0.0f;
 
             // Main chassis
-            this.cartBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.cartSprite.Width), ConvertUnits.ToSimUnits(this.cartSprite.Height), density, ConvertUnits.ToSimUnits(this.cartOffset));
+            this.cartBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.cartSprite.Width), ConvertUnits.ToSimUnits(this.cartSprite.Height), density, ConvertUnits.ToSimUnits(position + this.cartOffset));
             this.cartBody.BodyType = BodyType.Dynamic;
             this.cartBody.Restitution = restitution;
             this.cartBody.CollisionCategories = EntityConstants.MineCartCategory;
             this.cartBody.CollidesWith = EntityConstants.StickManCategory;
 
+            // Anchor
+            this.anchorBody = BodyFactory.CreateBody(physicsWorld, ConvertUnits.ToSimUnits(position));
+            this.anchorBody.BodyType = BodyType.Static;
+            this.anchorBody.CollidesWith = Category.None;
+
             // Left wheel
-            this.wheelBodyLeft = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelLeftOffset));
+            this.wheelBodyLeft = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(position + this.wheelLeftOffset));
             this.wheelBodyLeft.BodyType = BodyType.Dynamic;
             this.wheelBodyLeft.Restitution = restitution;
             this.wheelBodyLeft.Friction = 1.0f;
@@ -293,7 +309,7 @@ namespace SticKart.Game.Entities
             this.wheelBodyLeft.CollidesWith = EntityConstants.FloorCategory;
 
             // Right wheel
-            this.wheelBodyRight = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelRightOffset));
+            this.wheelBodyRight = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(position + this.wheelRightOffset));
             this.wheelBodyRight.BodyType = BodyType.Dynamic;
             this.wheelBodyRight.Restitution = restitution;
             this.wheelBodyRight.Friction = 1.0f;
@@ -301,7 +317,7 @@ namespace SticKart.Game.Entities
             this.wheelBodyRight.CollidesWith = EntityConstants.FloorCategory;
 
             // Left stabilizer
-            this.stabilizerBodyLeft = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.stabilizerLeftOffset));
+            this.stabilizerBodyLeft = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(position + this.stabilizerLeftOffset));
             this.stabilizerBodyLeft.BodyType = BodyType.Dynamic;
             this.stabilizerBodyLeft.Restitution = restitution;
             this.stabilizerBodyLeft.Friction = 1.0f;
@@ -309,13 +325,15 @@ namespace SticKart.Game.Entities
             this.stabilizerBodyLeft.CollidesWith = EntityConstants.FloorCategory;
 
             // Right stabilizer
-            this.stabilizerBodyRight = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.stabilizerRightOffset));
+            this.stabilizerBodyRight = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(position + this.stabilizerRightOffset));
             this.stabilizerBodyRight.BodyType = BodyType.Dynamic;
             this.stabilizerBodyRight.Restitution = restitution;
             this.stabilizerBodyRight.Friction = 1.0f;
             this.stabilizerBodyRight.CollisionCategories = EntityConstants.MineCartCategory;
             this.stabilizerBodyRight.CollidesWith = EntityConstants.FloorCategory;
 
+            // Anchor joint
+            this.anchorJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.anchorBody, this.cartBody, Vector2.Zero);
 
             // Wheel joints
             this.wheelJointLeft = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.wheelBodyLeft, Vector2.Zero);

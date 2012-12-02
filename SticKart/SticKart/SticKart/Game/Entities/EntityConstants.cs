@@ -190,6 +190,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const Category MineCartCategory = Category.Cat5;
 
+        /// <summary>
+        /// The collision category of a switch entity.
+        /// </summary>
+        public const Category SwitchCategory = Category.Cat6;
+
         #endregion
 
         #region lists

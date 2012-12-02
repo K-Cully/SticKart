@@ -443,7 +443,6 @@ namespace SticKart.Game.Entities
             if (this.state != PlayerState.crouching && this.InCart)
             {
                 this.state = PlayerState.crouching;
-                // TODO: test collisions with top box
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
             {
@@ -460,7 +459,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public void Jump()
         {
-            if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
+            if (this.state == PlayerState.crouching)
+            {
+                this.state = PlayerState.standing;
+            }
+            else if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
                 if (this.InCart && this.cartJoint != null)
                 {
@@ -600,7 +603,7 @@ namespace SticKart.Game.Entities
             this.angleUprightJoint = JointFactory.CreateFixedAngleJoint(physicsWorld, this.smallBody);
             this.motorJoint = JointFactory.CreateRevoluteJoint(physicsWorld, this.smallBody, this.wheelBody, Vector2.Zero);
             this.motorJoint.MotorSpeed = 0.0f;
-            this.motorJoint.MaxMotorTorque = 1000.0f; // TODO: set correctly.
+            this.motorJoint.MaxMotorTorque = 1000.0f;
             this.motorJoint.MotorEnabled = true;
         }
 
@@ -690,7 +693,6 @@ namespace SticKart.Game.Entities
         {
             this.InCart = true;
             this.state = PlayerState.standing;
-            this.motorJoint.MotorSpeed = 0.0f;
             Vector2 cartTopPosition = cartBody.Position + ConvertUnits.ToSimUnits(-24.0f * Vector2.UnitY);
             this.fullBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.fullBodyOffset);
             this.smallBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.smallBodyOffset);
@@ -813,6 +815,10 @@ namespace SticKart.Game.Entities
 
                         collided = false;
                         break;
+                    case EntityConstants.SwitchCategory:
+                        fixtureTwo.Body.UserData = true;
+                        collided = false;
+                        break;
                     default:
                         collided = true;
                         break;
@@ -858,6 +864,9 @@ namespace SticKart.Game.Entities
                         collided = true;
                         this.health = this.minimumHealth;
                         this.state = PlayerState.dead;
+                        break;
+                    case EntityConstants.MineCartCategory:
+                        collided = false;
                         break;
                     default:
                         collided = true;
@@ -922,6 +931,10 @@ namespace SticKart.Game.Entities
                             this.LandInCart(fixtureTwo.Body);
                         }
 
+                        collided = false;
+                        break;
+                    case EntityConstants.SwitchCategory:
+                        fixtureTwo.Body.UserData = true;
                         collided = false;
                         break;
                     default:
