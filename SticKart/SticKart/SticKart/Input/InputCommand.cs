@@ -42,6 +42,11 @@ namespace SticKart.Input
         Jump,
 
         /// <summary>
+        /// Player stand command.
+        /// </summary>
+        Stand,
+
+        /// <summary>
         /// Player crouch command.
         /// </summary>
         Crouch,

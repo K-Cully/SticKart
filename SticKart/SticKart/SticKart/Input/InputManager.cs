@@ -279,14 +279,15 @@ namespace SticKart.Input
         /// Checks for user input this frame.
         /// </summary>
         /// <returns>Whether any new commands have been picked up or not.</returns>
-        public bool Update()
+        /// <param name="gameTime">The game time.</param>
+        public bool Update(GameTime gameTime)
         {
             this.selectionPosition = Vector2.Zero;
             this.commands.Clear();
             switch (this.controlDevice)
             {
                 case ControlDevice.Kinect:
-                    this.GetKinectInput();
+                    this.GetKinectInput(gameTime);
                     break;
                 case ControlDevice.Keyboard:
                     this.GetKeyboardInput();
@@ -362,7 +363,8 @@ namespace SticKart.Input
         /// <summary>
         /// Adds commands to the command list based on Kinect input. 
         /// </summary>
-        private void GetKinectInput()
+        /// <param name="gameTime">The game time.</param>
+        private void GetKinectInput(GameTime gameTime)
         {
             if (this.ReadSkeletonFrame())
             {
@@ -376,7 +378,7 @@ namespace SticKart.Input
                         case SkeletonTrackingState.PositionOnly:
                             break;
                         case SkeletonTrackingState.Tracked:
-                            this.gestureManager.Update(skeleton);
+                            this.gestureManager.Update(skeleton, gameTime);
                             skeletonLogged = true;
                             break;
                         default:
@@ -410,6 +412,9 @@ namespace SticKart.Input
                         break;
                     case Gestures.GestureType.Jump:
                         this.commands.Add(InputCommand.Jump);
+                        break;
+                    case Gestures.GestureType.Stand:
+                        this.commands.Add(InputCommand.Stand);
                         break;
                     case Gestures.GestureType.Push:
                         this.commands.Add(InputCommand.SelectAt);

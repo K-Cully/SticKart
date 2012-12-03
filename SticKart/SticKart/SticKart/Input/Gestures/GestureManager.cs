@@ -43,19 +43,19 @@ namespace SticKart.Input.Gestures
         private JointType activeShoulder;
 
         /// <summary>
-        /// The time limit between leg lifts to count as running in milliseconds.
+        /// The time limit between leg lifts to count as running in seconds.
         /// </summary>
-        private int runTimeLimit;
+        private double runTimeLimit;
 
         /// <summary>
-        /// The time limit between leg lifts to count as jumping in milliseconds.
+        /// The time limit between leg lifts to count as jumping in seconds.
         /// </summary>
-        private int jumpTimeLimit;
+        private double jumpTimeLimit;
 
         /// <summary>
-        /// The last time the player lifted their leg.
+        /// The time, in seconds, since the player last lifted a leg.
         /// </summary>
-        private DateTime lastLegLiftTime;
+        private double lastLegLiftCounter;
 
         /// <summary>
         /// The last leg lifted.
@@ -68,9 +68,9 @@ namespace SticKart.Input.Gestures
         /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
-            this.runTimeLimit = 800;
-            this.jumpTimeLimit = 90;
-            this.lastLegLiftTime = DateTime.UtcNow;
+            this.runTimeLimit = 1.1;
+            this.jumpTimeLimit = 0.05;
+            this.lastLegLiftCounter = 0.0;
             this.lastLegLifted = JointType.Spine;
             this.activeHand = primaryHand;
             if (this.activeHand == JointType.HandRight)
@@ -94,7 +94,7 @@ namespace SticKart.Input.Gestures
             this.gestureDetectors.Add(rightLegSwipeGestureDetector);
             VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 100, 0.035f, 0.3f, 100, 2000, true, false);
             this.gestureDetectors.Add(leftLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 1200, 0.35f, 0.2f, 400, 1800);
+            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.35f, 0.2f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);
         }
         
@@ -162,8 +162,14 @@ namespace SticKart.Input.Gestures
         /// Updates all the gesture detectors based on the skeleton passed in.
         /// </summary>
         /// <param name="skeleton">The skeleton being tracked.</param>
-        public void Update(Skeleton skeleton)
+        /// <param name="gameTime">The game time.</param>
+        public void Update(Skeleton skeleton, GameTime gameTime)
         {
+            if (this.lastLegLiftCounter < this.runTimeLimit)
+            {
+                this.lastLegLiftCounter += gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
             this.skeletonJoints = skeleton.Joints;
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
             {
@@ -204,22 +210,21 @@ namespace SticKart.Input.Gestures
         /// <param name="jointTracked">The joint used for the gesture.</param>
         private void ProcessLegGesture(JointType jointTracked)
         {
-            double timeSinceLastGesture = (int)DateTime.UtcNow.Subtract(this.lastLegLiftTime).TotalMilliseconds;
             if ((this.lastLegLifted == JointType.AnkleLeft && jointTracked == JointType.AnkleRight) ||
                 (this.lastLegLifted == JointType.AnkleRight && jointTracked == JointType.AnkleLeft))
             {
-                if (timeSinceLastGesture < this.jumpTimeLimit)
+                if (this.lastLegLiftCounter < this.jumpTimeLimit)
                 {
                     this.detectedGestures.Enqueue(GestureType.Jump);
                 }
-                else if (timeSinceLastGesture < this.runTimeLimit)
+                else if (this.lastLegLiftCounter < this.runTimeLimit)
                 {
                     this.detectedGestures.Enqueue(GestureType.Run);
                 }
             }
 
+            this.lastLegLiftCounter = 0.0; //TODO: should this be here? (Need to account for two detections on the same leg before other picked up)
             this.lastLegLifted = jointTracked;
-            this.lastLegLiftTime = DateTime.UtcNow;
         }
     }
 }

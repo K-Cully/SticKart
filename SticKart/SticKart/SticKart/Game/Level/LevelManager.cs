@@ -293,6 +293,9 @@ namespace SticKart.Game.Level
                 {
                     switch (command)
                     {
+                        case InputCommand.Stand:
+                            this.stickman.Stand();
+                            break;
                         case InputCommand.Jump:
                             this.stickman.Jump();
                             break;
