@@ -6,6 +6,7 @@
 
 namespace SticKart.Game.Entities
 {
+    using System.Collections.Generic;
     using Display;
     using FarseerPhysics.Collision;
     using FarseerPhysics.Collision.Shapes;
@@ -428,10 +429,27 @@ namespace SticKart.Game.Entities
         /// Makes the stick man stand if it is crouching.
         /// </summary>
         public void Stand()
-        {
+        {            
             if (this.state == PlayerState.crouching)
             {
-                this.state = PlayerState.standing;
+                bool canStand = true;
+                Fixture fixtureAbove = null;
+                Vector2 startTestPoint = this.Position - new Vector2(0.0f, this.standingSprite.Height * 0.25f);
+                Vector2 testPointOffset = new Vector2(0.0f, -this.standingSprite.Height * 0.125f);
+                for (int count = 0; count < 5; count++)
+                {
+                    fixtureAbove = this.physicsWorld.TestPoint(ConvertUnits.ToSimUnits(startTestPoint + (count * testPointOffset)));
+                    if (fixtureAbove != null && fixtureAbove.CollisionCategories != EntityConstants.StickManCategory && fixtureAbove.CollisionCategories != EntityConstants.MineCartCategory)
+                    {
+                        canStand = false;
+                        break;
+                    }
+                }
+                
+                if (canStand)
+                {
+                    this.state = PlayerState.standing;
+                }
             }
         }
 
@@ -461,7 +479,7 @@ namespace SticKart.Game.Entities
         {
             if (this.state == PlayerState.crouching)
             {
-                this.state = PlayerState.standing;
+                this.Stand();
             }
             else if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
@@ -552,6 +570,7 @@ namespace SticKart.Game.Entities
             this.wheelCollisionDisabled = false;
             this.wheelDisabledTimer = 0.0f;
             this.Score = 0;
+            this.health = this.maximumHealth;
         }
 
         #region initialization
