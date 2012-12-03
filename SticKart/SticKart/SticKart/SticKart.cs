@@ -200,10 +200,10 @@ namespace SticKart
             this.levelManager.Update(gameTime, this.inputManager.Commands);
             if (this.levelManager.Complete)
             {
-                this.levelManager.EndLevel();
                 if (this.levelManager.CurrentLevel >= this.gameSettings.TotalLevels)
                 {
                     // TODO: game complete
+                    this.levelManager.EndLevel();
                     this.PauseGame();
                 }
                 else
@@ -312,6 +312,7 @@ namespace SticKart
         protected void BeginLevel(int value)
         {
             // TODO: refine.
+            this.levelManager.EndLevel();
             Camera2D.Reset();
             this.gameState = GameState.InGame;
             this.levelManager.BeginLevel(value, false);
