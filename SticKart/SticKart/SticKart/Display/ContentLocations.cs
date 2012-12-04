@@ -62,6 +62,11 @@ namespace SticKart.Display
         /// </summary>
         public const string SpeedIcon = "speed";
 
+        /// <summary>
+        /// The name of the white pixel asset.
+        /// </summary>
+        public const string WhitePixel = "whitePixel";
+
         #endregion
 
         #region menu

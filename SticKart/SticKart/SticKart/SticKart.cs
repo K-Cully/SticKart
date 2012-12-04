@@ -116,7 +116,7 @@ namespace SticKart
         private float notificationTimer;
 
         /// <summary>
-        /// Thecurrent notification text.
+        /// The current notification text.
         /// </summary>
         private RenderableText notificationText;
 
@@ -129,7 +129,7 @@ namespace SticKart
         {
             this.notificationText = new RenderableText();
             this.notificationActive = false;
-            this.maxNotificationTime = 1.0f;
+            this.maxNotificationTime = 0.25f;
             this.notificationTimer = 0.00f; // TODO: put in notification system.
             this.gameState = GameState.InMenu;
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
@@ -176,6 +176,7 @@ namespace SticKart
             this.gameSettings = GameSettings.Load();
             this.notificationText.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.SegoeUIFontLarge, " ");
 
+            PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 4.0f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.inputManager.InitializeSpeechEngine(this.menuManager.GetAllSelectableNames());
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
@@ -403,6 +404,11 @@ namespace SticKart
                     break;
                 default:
                     break;
+            }
+
+            if (this.inputManager.PlayerFloorPosition != Vector2.Zero)
+            {
+                PositionInformer.Draw(this.spriteBatch, this.inputManager.PlayerFloorPosition.Y, -1.25f + (this.inputManager.PlayerFloorPosition.X * 0.75f));
             }
 
             if (this.notificationActive)
