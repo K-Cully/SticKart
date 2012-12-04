@@ -69,7 +69,7 @@ namespace SticKart.Input.Gestures
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
             this.runTimeLimit = 1.1;
-            this.jumpTimeLimit = 0.05;
+            this.jumpTimeLimit = 0.02;
             this.lastLegLiftCounter = 0.0;
             this.lastLegLifted = JointType.Spine;
             this.activeHand = primaryHand;
@@ -221,9 +221,10 @@ namespace SticKart.Input.Gestures
                 {
                     this.detectedGestures.Enqueue(GestureType.Run);
                 }
+
+                this.lastLegLiftCounter = 0.0;
             }
 
-            this.lastLegLiftCounter = 0.0; //TODO: should this be here? (Need to account for two detections on the same leg before other picked up)
             this.lastLegLifted = jointTracked;
         }
     }

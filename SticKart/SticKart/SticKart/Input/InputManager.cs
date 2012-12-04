@@ -66,6 +66,16 @@ namespace SticKart.Input
         /// </summary>
         private GestureManager gestureManager;
 
+        /// <summary>
+        /// The minimum distance the player must be at to play.
+        /// </summary>
+        private float minimumPlayerDistance;
+
+        /// <summary>
+        /// The position of the player on a plane horizontal to the Kinect sensor.
+        /// </summary>
+        private Vector2 playerFloorPosition;
+
         #endregion
 
         #region kinect_speech_variables
@@ -142,6 +152,8 @@ namespace SticKart.Input
             this.kinectSensor = null;
             this.coordinateMapper = null;
             this.gestureManager = null;
+            this.minimumPlayerDistance = 2.4f;
+            this.playerFloorPosition = Vector2.Zero;
             this.selectedWord = null;
             this.touchGesture = new GestureSample();
             this.keyboardState = new KeyboardState();
@@ -368,7 +380,7 @@ namespace SticKart.Input
         {
             if (this.ReadSkeletonFrame())
             {
-                bool skeletonLogged = false;
+                Skeleton closestSkeleton = null;
                 foreach (Skeleton skeleton in this.skeletonData)
                 {
                     switch (skeleton.TrackingState)
@@ -378,52 +390,32 @@ namespace SticKart.Input
                         case SkeletonTrackingState.PositionOnly:
                             break;
                         case SkeletonTrackingState.Tracked:
-                            this.gestureManager.Update(skeleton, gameTime);
-                            skeletonLogged = true;
+                            if (closestSkeleton == null || skeleton.Position.Z < closestSkeleton.Position.Z)
+                            {
+                                closestSkeleton = skeleton;
+                            }
+
                             break;
                         default:
                             break;
                     }
+                }
 
-                    if (skeletonLogged)
+                if (closestSkeleton != null)
+                {
+                    if (closestSkeleton.Position.Z > this.minimumPlayerDistance)
                     {
-                        break;
+                        this.gestureManager.Update(closestSkeleton, gameTime);
+                        this.playerFloorPosition = Vector2.Zero;
+                        this.ApplyKinectGestures();
+                    }
+                    else
+                    {
+                        this.commands.Add(InputCommand.MoveBack);
+                        this.playerFloorPosition = new Vector2(closestSkeleton.Position.Z, closestSkeleton.Position.X);
                     }
                 }
-            }
-
-            Gestures.GestureType gestureToApply;
-            do
-            {
-                gestureToApply = this.gestureManager.GetNextDetectedGesture();
-                switch (gestureToApply)
-                {
-                    case Gestures.GestureType.SwipeLeft:
-                        this.commands.Add(InputCommand.NextPage);
-                        break;
-                    case Gestures.GestureType.SwipeRight:
-                        this.commands.Add(InputCommand.PreviousPage);
-                        break;
-                    case Gestures.GestureType.Crouch:
-                        this.commands.Add(InputCommand.Crouch);
-                        break;
-                    case Gestures.GestureType.Run:
-                        this.commands.Add(InputCommand.Run);
-                        break;
-                    case Gestures.GestureType.Jump:
-                        this.commands.Add(InputCommand.Jump);
-                        break;
-                    case Gestures.GestureType.Stand:
-                        this.commands.Add(InputCommand.Stand);
-                        break;
-                    case Gestures.GestureType.Push:
-                        this.commands.Add(InputCommand.SelectAt);
-                        break;
-                    default:
-                        break;
-                }
-            }
-            while (gestureToApply != Gestures.GestureType.None);
+            }         
         }
 
         /// <summary>
@@ -665,6 +657,45 @@ namespace SticKart.Input
                 this.skeletonFrame.CopySkeletonDataTo(this.skeletonData);
                 return true;
             }
+        }
+
+        /// <summary>
+        /// Turns detected gestures into standard input commands.
+        /// </summary>
+        private void ApplyKinectGestures()
+        {
+            Gestures.GestureType gestureToApply;
+            do
+            {
+                gestureToApply = this.gestureManager.GetNextDetectedGesture();
+                switch (gestureToApply)
+                {
+                    case Gestures.GestureType.SwipeLeft:
+                        this.commands.Add(InputCommand.NextPage);
+                        break;
+                    case Gestures.GestureType.SwipeRight:
+                        this.commands.Add(InputCommand.PreviousPage);
+                        break;
+                    case Gestures.GestureType.Crouch:
+                        this.commands.Add(InputCommand.Crouch);
+                        break;
+                    case Gestures.GestureType.Run:
+                        this.commands.Add(InputCommand.Run);
+                        break;
+                    case Gestures.GestureType.Jump:
+                        this.commands.Add(InputCommand.Jump);
+                        break;
+                    case Gestures.GestureType.Stand:
+                        this.commands.Add(InputCommand.Stand);
+                        break;
+                    case Gestures.GestureType.Push:
+                        this.commands.Add(InputCommand.SelectAt);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            while (gestureToApply != Gestures.GestureType.None);
         }
 
         /// <summary>
