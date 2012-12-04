@@ -71,11 +71,6 @@ namespace SticKart.Input
         /// </summary>
         private float minimumPlayerDistance;
 
-        /// <summary>
-        /// The position of the player on a plane horizontal to the Kinect sensor.
-        /// </summary>
-        private Vector2 playerFloorPosition;
-
         #endregion
 
         #region kinect_speech_variables
@@ -152,8 +147,8 @@ namespace SticKart.Input
             this.kinectSensor = null;
             this.coordinateMapper = null;
             this.gestureManager = null;
-            this.minimumPlayerDistance = 2.4f;
-            this.playerFloorPosition = Vector2.Zero;
+            this.minimumPlayerDistance = 2.3f;
+            this.PlayerFloorPosition = Vector2.Zero;
             this.selectedWord = null;
             this.touchGesture = new GestureSample();
             this.keyboardState = new KeyboardState();
@@ -259,6 +254,11 @@ namespace SticKart.Input
                 }
             }
         }
+
+        /// <summary>
+        /// Gets the position of the player on a plane horizontal to the Kinect sensor.
+        /// </summary>
+        public Vector2 PlayerFloorPosition { get; private set; }
 
         #endregion
 
@@ -406,13 +406,13 @@ namespace SticKart.Input
                     if (closestSkeleton.Position.Z > this.minimumPlayerDistance)
                     {
                         this.gestureManager.Update(closestSkeleton, gameTime);
-                        this.playerFloorPosition = Vector2.Zero;
+                        this.PlayerFloorPosition = Vector2.Zero;
                         this.ApplyKinectGestures();
                     }
                     else
                     {
                         this.commands.Add(InputCommand.MoveBack);
-                        this.playerFloorPosition = new Vector2(closestSkeleton.Position.Z, closestSkeleton.Position.X);
+                        this.PlayerFloorPosition = new Vector2(closestSkeleton.Position.Z, closestSkeleton.Position.X);
                     }
                 }
             }         

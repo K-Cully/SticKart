@@ -100,6 +100,26 @@ namespace SticKart
         /// </summary>
         private LevelManager levelManager;
 
+        /// <summary>
+        /// A value indicating if a notification is active or not.
+        /// </summary>
+        private bool notificationActive;
+
+        /// <summary>
+        /// The max length a notification should appear for.
+        /// </summary>
+        private float maxNotificationTime;
+
+        /// <summary>
+        /// A timer for notification displays.
+        /// </summary>
+        private float notificationTimer;
+
+        /// <summary>
+        /// Thecurrent notification text.
+        /// </summary>
+        private RenderableText notificationText;
+
         #endregion
 
         /// <summary>
@@ -107,6 +127,10 @@ namespace SticKart
         /// </summary>
         public SticKart()
         {
+            this.notificationText = new RenderableText();
+            this.notificationActive = false;
+            this.maxNotificationTime = 1.0f;
+            this.notificationTimer = 0.00f; // TODO: put in notification system.
             this.gameState = GameState.InMenu;
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1280.0f, 720.0f);
@@ -150,6 +174,7 @@ namespace SticKart
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             this.gameSettings = GameSettings.Load();
+            this.notificationText.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.SegoeUIFontLarge, " ");
 
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.inputManager.InitializeSpeechEngine(this.menuManager.GetAllSelectableNames());
@@ -176,17 +201,28 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            switch (this.gameState)
+            if (this.notificationActive)
             {
-                case GameState.InMenu:
-                    this.UpdateMenu(gameTime);
-                    break;
-                case GameState.InGame:
-                    this.UpdateGame(gameTime);
-                    break;
-                default:
-                    break;
-            }            
+                this.notificationTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (this.notificationTimer > this.maxNotificationTime)
+                {
+                    this.notificationActive = false;
+                }
+            }
+            else
+            {
+                switch (this.gameState)
+                {
+                    case GameState.InMenu:
+                        this.UpdateMenu(gameTime);
+                        break;
+                    case GameState.InGame:
+                        this.UpdateGame(gameTime);
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             base.Update(gameTime);
         }
@@ -231,6 +267,11 @@ namespace SticKart
                             case InputCommand.Exit:
                                 this.PauseGame();
                                 break;
+                            case InputCommand.MoveBack:
+                                this.notificationText.SetText("Step back!");
+                                this.notificationActive = true;
+                                this.notificationTimer = 0.00f;
+                                break;
                             default:
                                 break;
                         }
@@ -268,7 +309,12 @@ namespace SticKart
                 foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)
-                    {                 
+                    {
+                        case InputCommand.MoveBack:
+                            this.notificationText.SetText("Step back!");
+                            this.notificationActive = true;
+                            this.notificationTimer = 0.00f;
+                            break;
                         case InputCommand.Select:
                             this.menuManager.Update(this.menuManager.HighlightedPosition, null, this.gameSettings);
                             break;
@@ -357,6 +403,11 @@ namespace SticKart
                     break;
                 default:
                     break;
+            }
+
+            if (this.notificationActive)
+            {
+                RenderableText.Draw(this.notificationText, this.screenDimensions * 0.5f, 0.0f, Color.Red);
             }
 
             this.spriteBatch.End();
