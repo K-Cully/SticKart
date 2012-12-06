@@ -62,6 +62,16 @@ namespace SticKart.Input
         private SkeletonFrame skeletonFrame;
 
         /// <summary>
+        /// A value indicating whether the angle of the Kinect sensor has been adjusted to the player or not.
+        /// </summary>
+        private bool kinectAngleSet;
+
+        /// <summary>
+        /// The maximum angle allowed between the Kinect sensor and the player's torso.
+        /// </summary>
+        private float thresholdAngleToBody;
+
+        /// <summary>
         /// The gesture manager to use for monitoring gestures.
         /// </summary>
         private GestureManager gestureManager;
@@ -154,6 +164,8 @@ namespace SticKart.Input
             this.keyboardState = new KeyboardState();
             this.gamePadstate = new GamePadState();
             this.lastKeyPressTime = DateTime.UtcNow;
+            this.kinectAngleSet = false;
+            this.thresholdAngleToBody = 2.0f;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -405,9 +417,16 @@ namespace SticKart.Input
                 {
                     if (closestSkeleton.Position.Z > this.minimumPlayerDistance)
                     {
-                        this.gestureManager.Update(closestSkeleton, gameTime);
-                        this.PlayerFloorPosition = Vector2.Zero;
-                        this.ApplyKinectGestures();
+                        if (this.kinectAngleSet)
+                        {
+                            this.gestureManager.Update(closestSkeleton, gameTime);
+                            this.PlayerFloorPosition = Vector2.Zero;
+                            this.ApplyKinectGestures();
+                        }
+                        else
+                        {
+                            this.AdjustSensorAngle(closestSkeleton);
+                        }
                     }
                     else
                     {
@@ -631,6 +650,33 @@ namespace SticKart.Input
             {
                 this.speechEngine.SpeechRecognized -= this.SpeechRecognized;
                 this.speechEngine.RecognizeAsyncStop();
+            }
+        }
+
+        /// <summary>
+        /// Adjusts the angle of the Kinect sensor so that the player is in the sensor's field of view. 
+        /// </summary>
+        /// <param name="skeleton">The player's skeleton.</param>
+        private void AdjustSensorAngle(Skeleton skeleton)
+        {
+            if (skeleton.Joints[JointType.Spine].TrackingState == JointTrackingState.Tracked)
+            {
+                Vector2 jointMapping = Vector2.Normalize(new Vector2(skeleton.Joints[JointType.Spine].Position.Z, skeleton.Joints[JointType.Spine].Position.Y));
+                float angle = MathHelper.ToDegrees((float)Math.Asin(jointMapping.Y));
+                if (angle > this.thresholdAngleToBody || -angle > this.thresholdAngleToBody)
+                {
+                    this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle + (int)angle);
+                }
+
+                this.kinectAngleSet = true;
+            }
+            else if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
+            {
+                this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle - 4);
+            }
+            else if (skeleton.Joints[JointType.FootLeft].TrackingState == JointTrackingState.Tracked)
+            {
+                this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle + 4);
             }
         }
 
