@@ -240,7 +240,6 @@ namespace SticKart
                 if (this.levelManager.CurrentLevel >= this.gameSettings.TotalLevels)
                 {
                     // TODO: game complete
-                    this.levelManager.EndLevel();
                     this.PauseGame();
                 }
                 else
