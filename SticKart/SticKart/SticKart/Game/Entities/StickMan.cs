@@ -492,14 +492,7 @@ namespace SticKart.Game.Entities
 
                 this.smallBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
                 this.state = PlayerState.jumping;
-                if (this.motorJoint.MotorSpeed > 1.0f)
-                {
-                    this.motorJoint.MotorSpeed = this.motorJoint.MotorSpeed * 0.75f;
-                }
-                else
-                {
-                    this.motorJoint.MotorSpeed = 0.0f;
-                }
+                this.motorJoint.MotorSpeed = this.smallBody.LinearVelocity.X * 7.0f;
             }
         }
 
