@@ -408,6 +408,8 @@ namespace SticKart.Game.Entities
             }
         }
 
+        #region actions
+
         /// <summary>
         /// Makes the the stick man run if it is not jumping.
         /// </summary>
@@ -495,6 +497,8 @@ namespace SticKart.Game.Entities
                 this.motorJoint.MotorSpeed = this.smallBody.LinearVelocity.X * 7.0f;
             }
         }
+
+        #endregion
 
         /// <summary>
         /// Draws the stick man to the screen.
@@ -710,8 +714,16 @@ namespace SticKart.Game.Entities
         private void LandInCart(Body cartBody)
         {
             this.jumpingDown = false;
+            if (this.motorJoint.MotorSpeed > 0.0f)
+            {
+                this.state = PlayerState.running;
+            }
+            else
+            {
+                this.state = PlayerState.standing;
+            }
+
             this.InCart = true;
-            this.state = PlayerState.standing;
             Vector2 cartTopPosition = cartBody.Position + ConvertUnits.ToSimUnits(-24.0f * Vector2.UnitY);
             this.fullBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.fullBodyOffset);
             this.smallBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.smallBodyOffset);
