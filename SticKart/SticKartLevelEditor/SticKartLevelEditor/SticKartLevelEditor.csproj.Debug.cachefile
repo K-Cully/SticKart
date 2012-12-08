@@ -30,6 +30,7 @@ Content\Sprites\Hud\invincible.xnb
 Content\Sprites\Hud\jump.xnb
 Content\Sprites\Hud\powerUpBox.xnb
 Content\Sprites\Hud\whitePixel.xnb
+Content\Sprites\Entities\Stick_man\StickManCrouching.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -81,6 +82,7 @@ Content\Sprites\Hud\invincible.xnb
 Content\Sprites\Hud\jump.xnb
 Content\Sprites\Hud\powerUpBox.xnb
 Content\Sprites\Hud\whitePixel.xnb
+Content\Sprites\Entities\Stick_man\StickManCrouching.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb

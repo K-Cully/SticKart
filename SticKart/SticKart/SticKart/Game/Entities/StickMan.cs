@@ -137,6 +137,11 @@ namespace SticKart.Game.Entities
         /// The sprite which represents the stickman's standing pose.
         /// </summary>
         private Sprite standingSprite; // TODO: add animated sprite class and other sprites
+
+        /// <summary>
+        /// The sprite which represents the stickman's crouching pose.
+        /// </summary>
+        private Sprite crouchingSprite;
         
         #endregion
 
@@ -237,6 +242,7 @@ namespace SticKart.Game.Entities
             this.wheelCollisionDisabled = false;
             this.wheelDisabledTimer = 0.0f;
             this.standingSprite = new Sprite();
+            this.crouchingSprite = new Sprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.fullBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 8.0f);
             this.smallBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
@@ -462,6 +468,11 @@ namespace SticKart.Game.Entities
         {
             if (this.state != PlayerState.crouching && this.InCart)
             {
+                if (this.fullBody.Rotation < -0.1f || this.fullBody.Rotation > 0.1f)
+                {
+                    this.fullBody.ApplyForce(new Vector2(-50.0f, 0.0f));
+                }
+
                 this.state = PlayerState.crouching;
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
@@ -508,24 +519,23 @@ namespace SticKart.Game.Entities
             switch (this.state)
             {
                 case PlayerState.standing:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
                     break;
                 case PlayerState.crouching:
-
-                    // TODO
+                    Camera2D.Draw(this.crouchingSprite, this.Position, this.smallBody.Rotation);
                     break;
                 case PlayerState.jumping:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
 
                     // TODO
                     break;
                 case PlayerState.running:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
 
                     // TODO
                     break;
                 case PlayerState.falling:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.smallBody.Rotation);
+                    Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
                     break;
                 case PlayerState.dead:
 
@@ -580,6 +590,7 @@ namespace SticKart.Game.Entities
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             // TODO: rest of sprites
+            this.crouchingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManCrouching);
             this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
         }
 
