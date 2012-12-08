@@ -39,7 +39,7 @@ namespace SticKart.Game.Level
         /// <summary>
         /// The deceleration of the screen scroll rate.
         /// </summary>
-        public const float ScrollDeceleration = -80.0f;
+        public const float ScrollDeceleration = -120.0f;
 
         /// <summary>
         /// The file path to the levels folder.

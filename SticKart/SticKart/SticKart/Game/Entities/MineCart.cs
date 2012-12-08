@@ -191,7 +191,11 @@ namespace SticKart.Game.Entities
             {
                 if (containsPlayer)
                 {
-                    if (this.cartBody.LinearVelocity.X < this.maximumHorizontalSpeed)
+                    if (this.cartBody.LinearVelocity.X < this.minimumHorizontalSpeed)
+                    {
+                        this.cartBody.ApplyForce(new Vector2(this.acceleration * 3.0f, 0.0f));
+                    }
+                    else if (this.cartBody.LinearVelocity.X < this.maximumHorizontalSpeed)
                     {
                         this.cartBody.ApplyForce(new Vector2(this.acceleration, 0.0f));
                     }

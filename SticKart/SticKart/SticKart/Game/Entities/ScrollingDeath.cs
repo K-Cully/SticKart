@@ -102,7 +102,6 @@ namespace SticKart.Game.Entities
         public void Update(GameTime gameTime)
         {
             float currentXVelocity = this.physicsBody.LinearVelocity.X;
-
             if (currentXVelocity < this.idealVelocity.X)
             {
                 this.physicsBody.ApplyForce(ConvertUnits.ToSimUnits(this.acceleration));

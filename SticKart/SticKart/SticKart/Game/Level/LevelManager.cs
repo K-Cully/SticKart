@@ -369,7 +369,7 @@ namespace SticKart.Game.Level
                 {
                     this.scrollingDeath.GoToSlowScrollRate();
                 }
-                else if (distanceAheadOfCamera > 3.0f * (this.gameDisplayResolution.X / 4.0f))
+                else if (distanceAheadOfCamera > 2.0f * (this.gameDisplayResolution.X / 3.0f))
                 {
                     this.scrollingDeath.GoToFastScrollRate();
                 }
