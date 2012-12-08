@@ -129,7 +129,19 @@ namespace SticKart.Game.Level
         private Switch cartSwitch;
 
         #endregion
-        
+
+        #region graphics
+
+        private RenderableText tutorialText; // TODO: remove once notification system in place.
+        private float tutorialTimer;
+
+        /// <summary>
+        /// The text to illustrate the countdown to the player.
+        /// </summary>
+        private RenderableText countDownText;
+
+        #endregion
+
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelManager"/> class.
         /// </summary>
@@ -137,6 +149,8 @@ namespace SticKart.Game.Level
         /// <param name="frameTime">The frame time set for the game.</param>
         public LevelManager(Vector2 gameDisplayResolution, float frameTime)
         {
+            this.tutorialText = new RenderableText();
+            this.countDownText = new RenderableText();
             this.Complete = false;
             this.physicsWorld = null;
             this.gameDisplayResolution = gameDisplayResolution;
@@ -156,6 +170,7 @@ namespace SticKart.Game.Level
             this.mineCart = null;
             this.cartSwitch = null;
             this.scrollStartTimer = 0.0f;
+            this.tutorialTimer = 15.0f;
         }
 
         #region public_accessors
@@ -215,6 +230,9 @@ namespace SticKart.Game.Level
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.contentManager = contentManager;
             this.spriteBatch = spriteBatch;
+            this.tutorialText.InitializeAndLoad(spriteBatch, this.contentManager, ContentLocations.SegoeUIFont, "Keep ahead of the scrolling screen.\nPick up coins & jewels for score.\nAvoid obstacles.\n\nControls:\nNot In Cart:\n      Run to run.\n      Jump to jump.\n      Crouch to jump down.\n\nIn Cart:\n      Jump to jump.\n      Crouch to crouch.\n      Stand to stand.");
+            this.countDownText.InitializeAndLoad(spriteBatch, this.contentManager, ContentLocations.SegoeUIFontLarge, "3");
+
             this.InitializeAndLoadSprites(this.spriteBatch, this.contentManager);
             this.levelLoader = new LevelLoader(this.contentManager);        
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
@@ -235,6 +253,12 @@ namespace SticKart.Game.Level
 
             this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
             this.scrollStartTimer = 0.0f;
+
+            // TODO: Remove
+            if (this.CurrentLevel == 1)
+            {
+                this.tutorialTimer = 15.0f;
+            }
 
             // TODO: Implement logic to allow for custom levels.
             this.physicsWorld.ClearForces();
@@ -266,52 +290,60 @@ namespace SticKart.Game.Level
         /// <param name="commands">A list of input commands.</param>
         public void Update(GameTime gameTime, List<InputCommand> commands)
         {
-            if (this.stickman.IsDead)
+            if (this.tutorialTimer > 0.0f)
             {
-                Camera2D.Reset();
-                this.EndLevel();
-                this.BeginLevel(this.CurrentLevel, this.currentLevelCustom);
-            }
-            else if (this.exit.Triggered)
-            {
-                this.Complete = true;
+                this.tutorialTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                this.countDownText.SetText(((int)this.tutorialTimer).ToString());
             }
             else
             {
-                this.stickman.Update(gameTime);
-                this.exit.Update();
-                if (this.mineCart != null)
+                if (this.stickman.IsDead)
                 {
-                    this.cartSwitch.Update();
-                    this.mineCart.Update(gameTime, this.stickman.PhysicsPosition, this.stickman.HorizontalSpeed, this.stickman.InCart);
+                    Camera2D.Reset();
+                    this.EndLevel();
+                    this.BeginLevel(this.CurrentLevel, this.currentLevelCustom);
                 }
-
-                this.UpdateScrollingDeath(gameTime);
-                Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y * 0.5f);
-
-                foreach (InputCommand command in commands)
+                else if (this.exit.Triggered)
                 {
-                    switch (command)
+                    this.Complete = true;
+                }
+                else
+                {
+                    this.stickman.Update(gameTime);
+                    this.exit.Update();
+                    if (this.mineCart != null)
                     {
-                        case InputCommand.Stand:
-                            this.stickman.Stand();
-                            break;
-                        case InputCommand.Jump:
-                            this.stickman.Jump();
-                            break;
-                        case InputCommand.Crouch:
-                            this.stickman.CrouchOrJumpDown();
-                            break;
-                        case InputCommand.Run:
-                            this.stickman.Run();
-                            break;
-                        default:
-                            break;
+                        this.cartSwitch.Update();
+                        this.mineCart.Update(gameTime, this.stickman.PhysicsPosition, this.stickman.HorizontalSpeed, this.stickman.InCart);
                     }
-                }
 
-                this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, this.frameTime));
-            } 
+                    this.UpdateScrollingDeath(gameTime);
+                    Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y * 0.5f);
+
+                    foreach (InputCommand command in commands)
+                    {
+                        switch (command)
+                        {
+                            case InputCommand.Stand:
+                                this.stickman.Stand();
+                                break;
+                            case InputCommand.Jump:
+                                this.stickman.Jump();
+                                break;
+                            case InputCommand.Crouch:
+                                this.stickman.CrouchOrJumpDown();
+                                break;
+                            case InputCommand.Run:
+                                this.stickman.Run();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    this.physicsWorld.Step(MathHelper.Min((float)gameTime.ElapsedGameTime.TotalSeconds, this.frameTime));
+                }
+            }
         }
 
         /// <summary>
@@ -319,27 +351,35 @@ namespace SticKart.Game.Level
         /// </summary>
         public void Draw()
         {
-            foreach (Platform platform in this.platforms)
+            if (this.tutorialTimer > 0.0f)
             {
-                platform.Draw();
+                RenderableText.Draw(this.tutorialText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);
+                RenderableText.Draw(this.countDownText, this.gameDisplayResolution / 8.0f, 0.0f, Color.Black);
             }
-
-            foreach (VisualEdge edge in this.visualFloorEdges)
+            else
             {
-                Camera2D.Draw(this.floorSprite, edge.Position, edge.Angle);
-            }
+                if (!this.scrollingDeath.Active)
+                {
+                    RenderableText.Draw(this.countDownText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);
+                }
 
-            foreach (InteractiveEntity entity in this.interactiveEntities)
-            {
-                entity.Draw();
-            }
+                foreach (Platform platform in this.platforms)
+                {
+                    platform.Draw();
+                }
 
-            this.exit.Draw();
-            this.stickman.Draw();
+                foreach (VisualEdge edge in this.visualFloorEdges)
+                {
+                    Camera2D.Draw(this.floorSprite, edge.Position, edge.Angle);
+                }
 
-            // TODO: Remove once propper levels created.
-            if (this.mineCart != null) 
-            {
+                foreach (InteractiveEntity entity in this.interactiveEntities)
+                {
+                    entity.Draw();
+                }
+
+                this.exit.Draw();
+                this.stickman.Draw();
                 this.mineCart.Draw();
                 this.cartSwitch.Draw();
             }
@@ -380,6 +420,7 @@ namespace SticKart.Game.Level
             }
             else
             {
+                this.countDownText.SetText(((int)LevelConstants.ScrollStartDelay - (int)this.scrollStartTimer).ToString());
                 this.scrollStartTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (this.scrollStartTimer > LevelConstants.ScrollStartDelay)
                 {
