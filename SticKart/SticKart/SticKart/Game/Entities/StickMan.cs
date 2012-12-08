@@ -34,7 +34,7 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The amount to augment the player's jump with the jump power up.
         /// </summary>
-        private const float JumpPowerModifier = 2.0f;
+        private const float JumpPowerModifier = 1.2f;
 
         #region physics
 
@@ -249,7 +249,7 @@ namespace SticKart.Game.Entities
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
             this.cartJoint = null;
-            this.acceleration = 9.0f;
+            this.acceleration = 10.0f;
             this.wheelBody.OnCollision += this.CollisionHandlerWheel;
             this.smallBody.OnCollision += this.CollisionHandlerSmallBody;
             this.fullBody.OnCollision += this.CollisionHandlerFullBody;
@@ -384,7 +384,7 @@ namespace SticKart.Game.Entities
             {
                 if (this.state == PlayerState.running)
                 {
-                    this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.95f;
+                    this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.975f;
                     if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                     {
                         if (this.motorJoint.MotorSpeed > 1.0f)

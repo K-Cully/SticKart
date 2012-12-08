@@ -34,7 +34,7 @@ namespace SticKart.Menu
         /// <summary>
         /// The name of the back button.
         /// </summary>
-        public const string PauseCommandName = "PAUSE";
+        public const string PauseCommandName = "PAUSE GAME";
 
         /// <summary>
         /// The name of the pause command.
