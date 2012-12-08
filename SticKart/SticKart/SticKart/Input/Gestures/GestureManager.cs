@@ -68,7 +68,7 @@ namespace SticKart.Input.Gestures
         /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
-            this.runTimeLimit = 1.1;
+            this.runTimeLimit = 1.5;
             this.jumpTimeLimit = 0.02;
             this.lastLegLiftCounter = 0.0;
             this.lastLegLifted = JointType.Spine;
@@ -90,11 +90,11 @@ namespace SticKart.Input.Gestures
             this.gestureDetectors.Add(swipeGestureDetector);
             PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30);
             this.gestureDetectors.Add(pushGestureDetector);
-            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleRight, 60, 100, 0.035f, 0.3f, 100, 2000, true, false);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleRight, 60, 100, 0.035f, 0.175f, 100, 2000, true, false);
             this.gestureDetectors.Add(rightLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 100, 0.035f, 0.3f, 100, 2000, true, false);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 100, 0.035f, 0.175f, 100, 2000, true, false);
             this.gestureDetectors.Add(leftLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.35f, 0.2f, 400, 1800);
+            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.45f, 0.4f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);
         }
         
@@ -155,6 +155,19 @@ namespace SticKart.Input.Gestures
             else
             {
                 return GestureType.None;
+            }
+        }
+
+        /// <summary>
+        /// Resets all gesture detectors.
+        /// </summary>
+        public void Reset()
+        {
+            this.lastLegLiftCounter = 0.0;
+            this.lastLegLifted = JointType.Spine;
+            foreach (GestureDetector gestureDetector in this.gestureDetectors)
+            {
+                gestureDetector.Reset();
             }
         }
 

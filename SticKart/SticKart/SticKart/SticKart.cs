@@ -360,6 +360,7 @@ namespace SticKart
             // TODO: refine.
             this.levelManager.EndLevel();
             Camera2D.Reset();
+            this.inputManager.Reset();
             this.gameState = GameState.InGame;
             this.levelManager.BeginLevel(value, false);
         }

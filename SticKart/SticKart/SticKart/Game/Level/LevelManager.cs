@@ -230,7 +230,7 @@ namespace SticKart.Game.Level
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.contentManager = contentManager;
             this.spriteBatch = spriteBatch;
-            this.tutorialText.InitializeAndLoad(spriteBatch, this.contentManager, ContentLocations.SegoeUIFont, "Keep ahead of the scrolling screen.\nPick up coins & jewels for score.\nAvoid obstacles.\n\nControls:\nNot In Cart:\n      Run to run.\n      Jump to jump.\n      Crouch to jump down.\n\nIn Cart:\n      Jump to jump.\n      Crouch to crouch.\n      Stand to stand.");
+            this.tutorialText.InitializeAndLoad(spriteBatch, this.contentManager, ContentLocations.SegoeUIFont, "Keep ahead of the scrolling screen.\nHit the switch to activate the cart.\nLanding on the floor will slow you down.\nPick up coins & jewels for score.\nAvoid obstacles.\n\nControls:\nNot In Cart:\n      Jog or march to run.\n      Jump to jump.\n      Crouch to jump down.\n\nIn Cart:\n      Jump to jump.\n      Crouch to crouch.\n      Stand to stand.");
             this.countDownText.InitializeAndLoad(spriteBatch, this.contentManager, ContentLocations.SegoeUIFontLarge, "3");
 
             this.InitializeAndLoadSprites(this.spriteBatch, this.contentManager);
@@ -420,7 +420,7 @@ namespace SticKart.Game.Level
             }
             else
             {
-                this.countDownText.SetText(((int)LevelConstants.ScrollStartDelay - (int)this.scrollStartTimer).ToString());
+                this.countDownText.SetText("Go!");
                 this.scrollStartTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (this.scrollStartTimer > LevelConstants.ScrollStartDelay)
                 {

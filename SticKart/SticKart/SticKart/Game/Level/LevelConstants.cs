@@ -14,7 +14,7 @@ namespace SticKart.Game.Level
         /// <summary>
         /// The delay at the start of a level before the scrolling death entity activates.
         /// </summary>
-        public const float ScrollStartDelay = 3.0f;
+        public const float ScrollStartDelay = 4.5f;
 
         /// <summary>
         /// The minimum screen scroll rate.

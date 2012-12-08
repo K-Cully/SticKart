@@ -43,12 +43,17 @@ namespace SticKart.Game.Entities
         private Vector2 idealVelocity;
 
         /// <summary>
-        /// The acceleration of the entity, in display units
+        /// The acceleration of the entity, in display units.
         /// </summary>
         private Vector2 acceleration;
 
         /// <summary>
-        /// The deceleration of the entity, in display units
+        /// The minimum acceleration of the entity, in display units.
+        /// </summary>
+        private Vector2 minimumAcceleration;
+
+        /// <summary>
+        /// The deceleration of the entity, in display units.
         /// </summary>
         private Vector2 deceleration;
 
@@ -77,6 +82,7 @@ namespace SticKart.Game.Entities
             this.minimumVelocity = new Vector2(minimumScrollSpeed, 0.0f);
             this.maximumVelocity = new Vector2(maximumScrollSpeed, 0.0f);
             this.idealVelocity = this.minimumVelocity;
+            this.minimumAcceleration = new Vector2(acceleration, 0.0f);
             this.acceleration = new Vector2(acceleration, 0.0f);
             this.deceleration = new Vector2(deceleration, 0.0f);
         }
@@ -123,6 +129,7 @@ namespace SticKart.Game.Entities
         public void GoToNormalScrollRate()
         {
             this.idealVelocity = this.normalVelocity;
+            this.acceleration = this.minimumAcceleration;
         }
 
         /// <summary>
@@ -131,6 +138,7 @@ namespace SticKart.Game.Entities
         public void GoToSlowScrollRate()
         {
             this.idealVelocity = this.minimumVelocity;
+            this.acceleration = this.minimumAcceleration;
         }
 
         /// <summary>
@@ -139,6 +147,7 @@ namespace SticKart.Game.Entities
         public void GoToFastScrollRate()
         {
             this.idealVelocity = this.maximumVelocity;
+            this.acceleration = 2.0f * this.minimumAcceleration;
         }
 
         /// <summary>

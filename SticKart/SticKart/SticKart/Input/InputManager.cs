@@ -329,6 +329,18 @@ namespace SticKart.Input
             return this.commands.Count > 0;
         }
 
+        /// <summary>
+        /// Flushes the input manager.
+        /// Should be called at the start of each level.
+        /// </summary>
+        public void Reset()
+        {
+            if (this.gestureManager != null)
+            {
+                this.gestureManager.Reset();
+            }
+        }
+
         #endregion
 
         #region input_methods
@@ -419,7 +431,7 @@ namespace SticKart.Input
                     {
                         if (this.kinectAngleSet)
                         {
-                            this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked && closestSkeleton.Joints[JointType.KneeLeft].TrackingState == JointTrackingState.Tracked;
+                            this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState != JointTrackingState.NotTracked && closestSkeleton.Joints[JointType.KneeLeft].TrackingState != JointTrackingState.NotTracked;
                             this.gestureManager.Update(closestSkeleton, gameTime);
                             this.PlayerFloorPosition = Vector2.Zero;
                             this.ApplyKinectGestures();                            
