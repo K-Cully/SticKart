@@ -159,11 +159,7 @@ namespace SticKart
                     }
                     else if (temp.IsKeyDown(Keys.S))
                     {
-                        this.levelEditor.SaveLevel(true);
-                        this.keyTimer = 0.0f;
-                    }
-                    else if (temp.IsKeyDown(Keys.A))
-                    {
+                        this.levelEditor.SaveLevel(true); // TODO: Remove in release
                         this.levelEditor.SaveLevel(false);
                         this.keyTimer = 0.0f;
                     }
