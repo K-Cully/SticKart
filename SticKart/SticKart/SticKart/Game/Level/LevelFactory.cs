@@ -42,8 +42,7 @@ namespace SticKart.Game.Level
                     }
                     else if (EntityConstants.BonusNames.Contains(description.Name) || EntityConstants.ObstacleNames.Contains(description.Name))
                     {
-                        // TODO: Create obstacle or bonus once the class is implemented
-                        EntitySettingsLoader.GetObstacleOrBonusSetting(description.Name);
+                        interactiveEntities.Add(new BonusOrObstacle(ref physicsWorld, spriteBatch, contentManager, description, EntitySettingsLoader.GetObstacleOrBonusSetting(description.Name)));  
                     }
                     else if (description.Name == EntityConstants.CartBody)
                     {

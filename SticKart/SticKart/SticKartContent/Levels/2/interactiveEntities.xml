@@ -13,7 +13,7 @@
     </Item>
     <Item>
       <Name>rock</Name>
-      <Position>584 624</Position>
+      <Position>584 592</Position>
       <Dimensions>32 32</Dimensions>
     </Item>
     <Item>
@@ -563,12 +563,7 @@
     </Item>
     <Item>
       <Name>diamond</Name>
-      <Position>584 568</Position>
-      <Dimensions>32 32</Dimensions>
-    </Item>
-    <Item>
-      <Name>fire</Name>
-      <Position>768 696</Position>
+      <Position>584 532</Position>
       <Dimensions>32 32</Dimensions>
     </Item>
   </Asset>

@@ -54,7 +54,13 @@ namespace SticKart.Game.Entities
         /// </summary>
         public virtual void Draw()
         {
-            Camera2D.Draw(this.sprite, ConvertUnits.ToDisplayUnits(this.physicsBody.Position), this.physicsBody.Rotation);
+            if (this.physicsBody.UserData == null || ((InteractiveEntityUserData)this.physicsBody.UserData).IsActive != true)
+            {
+            }
+            else
+            {
+                Camera2D.Draw(this.sprite, ConvertUnits.ToDisplayUnits(this.physicsBody.Position), this.physicsBody.Rotation);
+            }
         }
 
         /// <summary>

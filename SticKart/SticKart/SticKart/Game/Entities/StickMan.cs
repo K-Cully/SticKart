@@ -768,7 +768,8 @@ namespace SticKart.Game.Entities
                             this.state = PlayerState.dead;
                         }
 
-                        collided = true;
+                        this.fullBody.ApplyForce(new Vector2(-70.0f, 0.0f));
+                        collided = false;
                     }
 
                     break;

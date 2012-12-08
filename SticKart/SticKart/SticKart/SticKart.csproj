@@ -110,6 +110,7 @@
     <Compile Include="Game\Entities\PlayerState.cs" />
     <Compile Include="Game\Entities\EntityConstants.cs" />
     <Compile Include="Game\Entities\EntitySettingsLoader.cs" />
+    <Compile Include="Game\Entities\BonusOrObstacle.cs" />
     <Compile Include="Game\Entities\PowerUp.cs" />
     <Compile Include="Game\Entities\PowerUpType.cs" />
     <Compile Include="Game\Entities\ScrollingDeath.cs" />

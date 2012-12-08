@@ -358,11 +358,6 @@ namespace SticKart.Game.Level
             }
             else
             {
-                if (!this.scrollingDeath.Active)
-                {
-                    RenderableText.Draw(this.countDownText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);
-                }
-
                 foreach (Platform platform in this.platforms)
                 {
                     platform.Draw();
@@ -382,6 +377,10 @@ namespace SticKart.Game.Level
                 this.stickman.Draw();
                 this.mineCart.Draw();
                 this.cartSwitch.Draw();
+                if (!this.scrollingDeath.Active)
+                {
+                    RenderableText.Draw(this.countDownText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);
+                }
             }
         }
 
