@@ -44,7 +44,7 @@ namespace SticKart
             this.graphics = new GraphicsDeviceManager(this);
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = false;
+            this.graphics.IsFullScreen = true;
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             Camera2D.Initialize(this.screenDimensions);
@@ -96,7 +96,7 @@ namespace SticKart
             this.clickTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             MouseState mouseState = Mouse.GetState();
