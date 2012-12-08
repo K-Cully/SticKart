@@ -120,8 +120,7 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The name of the stick man crouching sprite.
         /// </summary>
-        public const string StickManCrouching = "StickManCrouching";        
-
+        public const string StickManCrouching = "StickManCrouching";
 
         #endregion
 
