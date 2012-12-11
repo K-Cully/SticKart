@@ -50,6 +50,7 @@ Content\Levels\1\points.xnb
 Content\Levels\2\interactiveEntities.xnb
 Content\Levels\2\platforms.xnb
 Content\Levels\2\points.xnb
+Content\Effects\KinectColorVisualizer.xnb
 Content\Sprites\Entities\Stick_man\StickManStanding.xnb
 Content\Sprites\Menu\Hand.xnb
 Content\Sprites\Menu\Button_large.xnb
@@ -102,3 +103,4 @@ Content\Levels\1\points.xnb
 Content\Levels\2\interactiveEntities.xnb
 Content\Levels\2\platforms.xnb
 Content\Levels\2\points.xnb
+Content\Effects\KinectColorVisualizer.xnb

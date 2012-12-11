@@ -66,7 +66,7 @@ namespace SticKart.Display
         /// The name of the white pixel asset.
         /// </summary>
         public const string WhitePixel = "whitePixel";
-
+        
         #endregion
 
         #region menu
@@ -105,6 +105,15 @@ namespace SticKart.Display
         /// The location of the large leaderboard icon texture asset.
         /// </summary>
         public const string LargeLeaderboardIcon = "Sprites/Menu/Leaderboard_icon_large";
+
+        #endregion
+
+        #region effects
+
+        /// <summary>
+        /// The path to the Kinect colour visualizer effect.
+        /// </summary>
+        public const string KinectColourEffect = "Effects/KinectColorVisualizer";
 
         #endregion
     }

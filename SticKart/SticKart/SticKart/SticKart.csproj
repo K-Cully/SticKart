@@ -95,6 +95,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Display\Camera2D.cs" />
+    <Compile Include="Display\ColourStreamRenderer.cs" />
     <Compile Include="Display\ContentLocations.cs" />
     <Compile Include="Display\HeadsUpDisplay.cs" />
     <Compile Include="Display\PositionInformer.cs" />

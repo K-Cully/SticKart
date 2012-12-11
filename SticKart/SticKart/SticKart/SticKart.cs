@@ -47,6 +47,11 @@ namespace SticKart
         private const float FrameTime = 1.0f / 60.0f;
 
         /// <summary>
+        /// A vlue indicating whether to display the colour stream on screen or not. 
+        /// </summary>
+        private const bool DisplayColourStream = true;
+
+        /// <summary>
         /// The dimensions of the viewport.
         /// </summary>
         private Vector2 screenDimensions;
@@ -70,6 +75,16 @@ namespace SticKart
         /// The sprite to display the user's hand position.
         /// </summary>
         private Sprite handSprite;
+
+        /// <summary>
+        /// The colour stream renderer.
+        /// </summary>
+        private ColourStreamRenderer colourStreamRenderer;
+
+        /// <summary>
+        /// The rectangle to display the colour stream in.
+        /// </summary>
+        private Rectangle colourStreamDisplayArea;
 
         #endregion
         
@@ -143,7 +158,7 @@ namespace SticKart
             Camera2D.Initialize(this.screenDimensions);
             this.headsUpDisplay = new HeadsUpDisplay(this.screenDimensions);
             this.Content.RootDirectory = "Content";
-            this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect);
+            this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect, SticKart.DisplayColourStream);
             this.levelManager = new LevelManager(this.screenDimensions, SticKart.FrameTime);
 
             // TODO: add other menu event handlers.
@@ -183,6 +198,12 @@ namespace SticKart
             this.headsUpDisplay.InitializeAndLoad(this.spriteBatch, this.Content);
             EntitySettingsLoader.LoadEntitySettings(this.Content);
             this.levelManager.LoadContent(this.Content, this.spriteBatch);
+
+            if (SticKart.DisplayColourStream)
+            {
+                this.colourStreamRenderer = new ColourStreamRenderer(this.Content, this.GraphicsDevice);
+                this.colourStreamDisplayArea = new Rectangle(2 * ((int)this.screenDimensions.X / 3), 2 * ((int)this.screenDimensions.Y / 3), (int)this.screenDimensions.X / 3, (int)this.screenDimensions.Y / 3);
+            }
         }
 
         /// <summary>
@@ -223,6 +244,11 @@ namespace SticKart
                     default:
                         break;
                 }
+            }
+
+            if (SticKart.DisplayColourStream)
+            {
+                this.colourStreamRenderer.Update(this.inputManager.ColourData, this.inputManager.ColourFrameSize);
             }
 
             base.Update(gameTime);
@@ -417,6 +443,11 @@ namespace SticKart
             }
 
             this.spriteBatch.End();
+            if (SticKart.DisplayColourStream)
+            {
+                this.colourStreamRenderer.Draw(this.spriteBatch, this.colourStreamDisplayArea);
+            }
+
             base.Draw(gameTime);
         }
     }

@@ -62,6 +62,21 @@ namespace SticKart.Input
         private SkeletonFrame skeletonFrame;
 
         /// <summary>
+        /// A value indicating whether the colour stream should be read or not.
+        /// </summary>
+        private bool colourStreamEnabled;
+
+        /// <summary>
+        /// The current colour frame coming from the Kinect.
+        /// </summary>
+        private ColorImageFrame colourFrame;
+
+        /// <summary>
+        /// The last frame's colour data.
+        /// </summary>
+        private byte[] colourData;
+
+        /// <summary>
         /// A value indicating whether the angle of the Kinect sensor has been adjusted to the player or not.
         /// </summary>
         private bool kinectAngleSet;
@@ -148,8 +163,10 @@ namespace SticKart.Input
         /// </summary>
         /// <param name="screenDimensions">The dimensions of the graphics viewport.</param>
         /// <param name="controlDevice">The type of device to take input from.</param>
-        public InputManager(Vector2 screenDimensions, ControlDevice controlDevice)
+        /// <param name="enableColourStream">A value indicating whether to enable the colour stream or not.</param>
+        public InputManager(Vector2 screenDimensions, ControlDevice controlDevice, bool enableColourStream = false)
         {
+            this.ColourFrameSize = Vector2.Zero;
             this.selectionPosition = Vector2.Zero;
             this.screenDimensions = screenDimensions;
             this.controlDevice = controlDevice;
@@ -166,9 +183,11 @@ namespace SticKart.Input
             this.lastKeyPressTime = DateTime.UtcNow;
             this.kinectAngleSet = false;
             this.thresholdAngleToBody = 2.0f;
+            this.colourStreamEnabled = false;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
+                this.colourStreamEnabled = enableColourStream;
                 this.InitializeKinect();
             }
         }        
@@ -187,6 +206,29 @@ namespace SticKart.Input
                 return this.commands;
             }
         }
+
+        /// <summary>
+        /// Gets the data from the last colour frame read from the Kinect sensor.
+        /// </summary>
+        public byte[] ColourData
+        {
+            get
+            {
+                if (this.colourStreamEnabled)
+                {
+                    return this.colourData;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the size of the colour frame read in from the Kinect sensor.
+        /// </summary>
+        public Vector2 ColourFrameSize { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether there is a word available or not.
@@ -402,6 +444,11 @@ namespace SticKart.Input
         /// <param name="gameTime">The game time.</param>
         private void GetKinectInput(GameTime gameTime)
         {
+            if (this.colourStreamEnabled)
+            {
+                this.ReadColourFrame();
+            }
+
             if (this.ReadSkeletonFrame())
             {
                 Skeleton closestSkeleton = null;
@@ -560,6 +607,7 @@ namespace SticKart.Input
         {
             if (!this.TryStartKinect())
             {
+                this.colourStreamEnabled = false;
                 this.kinectSensor = null;
                 this.controlDevice = ControlDevice.Keyboard;
             }
@@ -618,6 +666,11 @@ namespace SticKart.Input
                 this.kinectSensor = KinectSensor.KinectSensors[0];
                 if (this.kinectSensor.Status == KinectStatus.Connected)
                 {
+                    if (this.colourStreamEnabled)
+                    {
+                        this.kinectSensor.ColorStream.Enable(ColorImageFormat.RgbResolution640x480Fps30);
+                    }
+
                     this.kinectSensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
                     TransformSmoothParameters smoothing = new TransformSmoothParameters();
                     smoothing.Smoothing = 0.6f;
@@ -714,6 +767,30 @@ namespace SticKart.Input
                 }
 
                 this.skeletonFrame.CopySkeletonDataTo(this.skeletonData);
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Reads the current colour frame from the colour stream of the kinect sensor.
+        /// </summary>
+        /// <returns>Whether a frame was read or not.</returns>
+        private bool ReadColourFrame()
+        {
+            using (this.colourFrame = this.kinectSensor.ColorStream.OpenNextFrame(0))
+            {
+                if (null == this.colourFrame)
+                {
+                    return false;
+                }
+
+                if (null == this.colourData || this.colourData.Length != this.colourFrame.PixelDataLength)
+                {
+                    this.colourData = new byte[this.colourFrame.PixelDataLength];
+                }
+
+                this.ColourFrameSize = new Vector2(this.colourFrame.Width, this.colourFrame.Height);
+                this.colourFrame.CopyPixelDataTo(this.colourData);
                 return true;
             }
         }
