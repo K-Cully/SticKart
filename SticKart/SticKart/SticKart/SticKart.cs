@@ -202,7 +202,7 @@ namespace SticKart
             if (SticKart.DisplayColourStream)
             {
                 this.colourStreamRenderer = new ColourStreamRenderer(this.Content, this.GraphicsDevice);
-                this.colourStreamDisplayArea = new Rectangle(2 * ((int)this.screenDimensions.X / 3), 2 * ((int)this.screenDimensions.Y / 3), (int)this.screenDimensions.X / 3, (int)this.screenDimensions.Y / 3);
+                this.colourStreamDisplayArea = new Rectangle(5 * ((int)this.screenDimensions.X / 6), 2 * ((int)this.screenDimensions.Y / 3), (int)this.screenDimensions.X / 6, (int)this.screenDimensions.Y / 3);
             }
         }
 
@@ -445,7 +445,7 @@ namespace SticKart
             this.spriteBatch.End();
             if (SticKart.DisplayColourStream)
             {
-                this.colourStreamRenderer.Draw(this.spriteBatch, this.colourStreamDisplayArea);
+                this.colourStreamRenderer.Draw(this.spriteBatch, this.colourStreamDisplayArea, 50.0f);
             }
 
             base.Draw(gameTime);

@@ -67,12 +67,15 @@ namespace SticKart.Display
         /// </summary>
         /// <param name="spriteBatch">The sprite</param>
         /// <param name="targetRectangle">The area to draw the colour stream to.</param>
-        public void Draw(SpriteBatch spriteBatch, Rectangle targetRectangle)
+        /// <param name="percentWidthToDraw">The percentage of the width of the frame to draw.</param>
+        public void Draw(SpriteBatch spriteBatch, Rectangle targetRectangle, float percentWidthToDraw)
         {
             if (this.colourTexture != null)
             {
+                percentWidthToDraw = percentWidthToDraw > 10.0f ? percentWidthToDraw < 100.0f ? percentWidthToDraw : 100.0f : 10.0f;
+                Rectangle sourceRectangle = new Rectangle((int)((this.colourTexture.Width * 0.5f) * (percentWidthToDraw / 100.0f)), 0, (int)(this.colourTexture.Width * (percentWidthToDraw / 100.0f)), this.colourTexture.Height);
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, null, null, null, this.spriteEffect);
-                spriteBatch.Draw(this.colourTexture, targetRectangle, null, Color.White);
+                spriteBatch.Draw(this.colourTexture, targetRectangle, sourceRectangle, Color.White);
                 spriteBatch.End();
             }
         }
