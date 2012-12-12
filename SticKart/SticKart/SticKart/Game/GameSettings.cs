@@ -26,7 +26,7 @@ namespace SticKart.Game
         private GameSettings()
         {
             this.LevelsUnlocked = 1;
-            this.TotalLevels = 32;
+            this.TotalLevels = 2;
         }
 
         /// <summary>

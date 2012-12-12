@@ -725,7 +725,7 @@ namespace SticKart.Input
         /// <param name="skeleton">The player's skeleton.</param>
         private void AdjustSensorAngle(Skeleton skeleton)
         {
-            if (skeleton.Joints[JointType.HipCenter].TrackingState == JointTrackingState.Tracked)
+            if (skeleton.Joints[JointType.HipCenter].TrackingState == JointTrackingState.Tracked && skeleton.Joints[JointType.Spine].TrackingState == JointTrackingState.Tracked)
             {
                 Vector2 spinePoint = Vector2.Normalize(new Vector2(skeleton.Joints[JointType.Spine].Position.Z, skeleton.Joints[JointType.Spine].Position.Y));
                 Vector2 hipPoint = Vector2.Normalize(new Vector2(skeleton.Joints[JointType.HipCenter].Position.Z, skeleton.Joints[JointType.HipCenter].Position.Y));

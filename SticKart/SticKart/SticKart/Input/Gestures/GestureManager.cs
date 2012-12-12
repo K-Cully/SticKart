@@ -69,7 +69,7 @@ namespace SticKart.Input.Gestures
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
             this.runTimeLimit = 1.5;
-            this.jumpTimeLimit = 0.02;
+            this.jumpTimeLimit = 0.025;
             this.lastLegLiftCounter = 0.0;
             this.lastLegLifted = JointType.Spine;
             this.activeHand = primaryHand;
@@ -90,9 +90,9 @@ namespace SticKart.Input.Gestures
             this.gestureDetectors.Add(swipeGestureDetector);
             PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30);
             this.gestureDetectors.Add(pushGestureDetector);
-            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleRight, 60, 100, 0.035f, 0.175f, 100, 2000, true, false);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleRight, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
             this.gestureDetectors.Add(rightLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 100, 0.035f, 0.175f, 100, 2000, true, false);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
             this.gestureDetectors.Add(leftLegSwipeGestureDetector);
             VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.45f, 0.4f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);

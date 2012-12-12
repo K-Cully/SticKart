@@ -392,6 +392,7 @@
       <Name>interactiveEntities</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
     <Compile Include="Levels\2\platforms.xml">
       <Name>platforms</Name>

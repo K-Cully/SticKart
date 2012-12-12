@@ -47,7 +47,7 @@ namespace SticKart
         private const float FrameTime = 1.0f / 60.0f;
 
         /// <summary>
-        /// A vlue indicating whether to display the colour stream on screen or not. 
+        /// A value indicating whether to display the colour stream on screen or not. 
         /// </summary>
         private const bool DisplayColourStream = true;
 
@@ -153,7 +153,7 @@ namespace SticKart
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = false; // TODO: set to true for release 
+            this.graphics.IsFullScreen = true; // TODO: set to true for release 
 
             Camera2D.Initialize(this.screenDimensions);
             this.headsUpDisplay = new HeadsUpDisplay(this.screenDimensions);
