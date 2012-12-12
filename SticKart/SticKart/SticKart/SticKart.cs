@@ -148,7 +148,7 @@ namespace SticKart
             this.notificationTimer = 0.00f; // TODO: put in notification system.
             this.gameState = GameState.InMenu;
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
-            this.screenDimensions = new Vector2(1280.0f, 720.0f);
+            this.screenDimensions = new Vector2(1360.0f, 768.0f);
             this.graphics = new GraphicsDeviceManager(this);
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;

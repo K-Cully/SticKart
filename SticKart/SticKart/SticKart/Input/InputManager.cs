@@ -82,9 +82,9 @@ namespace SticKart.Input
         private bool kinectAngleSet;
 
         /// <summary>
-        /// The maximum angle allowed between the Kinect sensor and the player's torso.
+        /// The maximum angle allowed between the Kinect sensor and the main tracking point on the player.
         /// </summary>
-        private float thresholdAngleToBody;
+        private float thresholdAngleToTrackingPoint;
 
         /// <summary>
         /// The gesture manager to use for monitoring gestures.
@@ -182,7 +182,7 @@ namespace SticKart.Input
             this.gamePadstate = new GamePadState();
             this.lastKeyPressTime = DateTime.UtcNow;
             this.kinectAngleSet = false;
-            this.thresholdAngleToBody = 2.0f;
+            this.thresholdAngleToTrackingPoint = 0.5f;
             this.colourStreamEnabled = false;
 
             if (this.controlDevice == ControlDevice.Kinect)
@@ -725,11 +725,13 @@ namespace SticKart.Input
         /// <param name="skeleton">The player's skeleton.</param>
         private void AdjustSensorAngle(Skeleton skeleton)
         {
-            if (skeleton.Joints[JointType.Spine].TrackingState == JointTrackingState.Tracked)
+            if (skeleton.Joints[JointType.HipCenter].TrackingState == JointTrackingState.Tracked)
             {
-                Vector2 jointMapping = Vector2.Normalize(new Vector2(skeleton.Joints[JointType.Spine].Position.Z, skeleton.Joints[JointType.Spine].Position.Y));
-                float angle = MathHelper.ToDegrees((float)Math.Asin(jointMapping.Y));
-                if (angle > this.thresholdAngleToBody || -angle > this.thresholdAngleToBody)
+                Vector2 spinePoint = Vector2.Normalize(new Vector2(skeleton.Joints[JointType.Spine].Position.Z, skeleton.Joints[JointType.Spine].Position.Y));
+                Vector2 hipPoint = Vector2.Normalize(new Vector2(skeleton.Joints[JointType.HipCenter].Position.Z, skeleton.Joints[JointType.HipCenter].Position.Y));
+                Vector2 trackingPoint = hipPoint - (spinePoint - hipPoint);
+                float angle = MathHelper.ToDegrees((float)Math.Asin(trackingPoint.Y));
+                if (angle > this.thresholdAngleToTrackingPoint || -angle > this.thresholdAngleToTrackingPoint)
                 {
                     this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle + (int)angle);
                 }
