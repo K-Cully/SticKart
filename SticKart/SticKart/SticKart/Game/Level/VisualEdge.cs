@@ -21,6 +21,8 @@ namespace SticKart.Game.Level
         /// <param name="endPoint">The end point of the edge.</param>
         public VisualEdge(Vector2 startPoint, Vector2 endPoint)
         {
+            this.StartPoint = startPoint;
+            this.EndPoint = endPoint;
             this.Position = (startPoint + endPoint) / 2.0f;
             Vector2 direction = endPoint - startPoint;
             direction.Normalize();
@@ -40,5 +42,15 @@ namespace SticKart.Game.Level
         /// Gets the angle of the edge.
         /// </summary>
         public float Angle { get; private set; }
+
+        /// <summary>
+        /// Gets the start position of the edge.
+        /// </summary>
+        public Vector2 StartPoint { get; private set; }
+
+        /// <summary>
+        /// Gets the end position of the edge.
+        /// </summary>
+        public Vector2 EndPoint { get; private set; }
     }
 }

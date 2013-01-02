@@ -100,6 +100,7 @@
     <Compile Include="Display\HeadsUpDisplay.cs" />
     <Compile Include="Display\PositionInformer.cs" />
     <Compile Include="Display\RenderableText.cs" />
+    <Compile Include="Display\SceneryRenderer.cs" />
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
     <Compile Include="Game\Entities\Exit.cs" />

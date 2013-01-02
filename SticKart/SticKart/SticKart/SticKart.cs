@@ -153,7 +153,7 @@ namespace SticKart
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = true; // TODO: set to true for release 
+            this.graphics.IsFullScreen = false; // TODO: set to true for release 
 
             Camera2D.Initialize(this.screenDimensions);
             this.headsUpDisplay = new HeadsUpDisplay(this.screenDimensions);

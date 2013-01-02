@@ -116,5 +116,19 @@ namespace SticKart.Display
         public const string KinectColourEffect = "Effects/KinectColorVisualizer";
 
         #endregion
+
+        #region scenery
+
+        /// <summary>
+        /// The location of the scenery sprite assets.
+        /// </summary>
+        public const string Scenery = "Sprites/Scenery/";
+
+        /// <summary>
+        /// The name of the rock terrain texture asset.
+        /// </summary>
+        public const string RockyTerrain = "RockyTexture";
+
+        #endregion
     }
 }

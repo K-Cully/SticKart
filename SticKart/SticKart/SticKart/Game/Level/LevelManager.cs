@@ -140,6 +140,11 @@ namespace SticKart.Game.Level
         /// </summary>
         private RenderableText countDownText;
 
+        /// <summary>
+        /// A texture to apply to rocky terrain.
+        /// </summary>
+        private Texture2D rockyTerrain;
+
         #endregion
 
         /// <summary>
@@ -170,7 +175,7 @@ namespace SticKart.Game.Level
             this.mineCart = null;
             this.cartSwitch = null;
             this.scrollStartTimer = 0.0f;
-            this.tutorialTimer = 15.0f;
+            this.tutorialTimer = 1.0f;
         }
 
         #region public_accessors
@@ -238,6 +243,7 @@ namespace SticKart.Game.Level
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
             this.exit = new Exit(spriteBatch, contentManager, ref this.physicsWorld, this.levelLoader.EndPosition); 
             this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
+            this.rockyTerrain = contentManager.Load<Texture2D>(ContentLocations.Scenery + ContentLocations.RockyTerrain);
         }
 
         /// <summary>
@@ -257,7 +263,7 @@ namespace SticKart.Game.Level
             // TODO: Remove
             if (this.CurrentLevel == 1)
             {
-                this.tutorialTimer = 15.0f;
+                this.tutorialTimer = 1.0f;
             }
 
             // TODO: Implement logic to allow for custom levels.
@@ -362,6 +368,8 @@ namespace SticKart.Game.Level
                 {
                     platform.Draw();
                 }
+
+                SceneryRenderer.DrawTerrain(this.spriteBatch, this.rockyTerrain, this.visualFloorEdges, this.gameDisplayResolution.Y * 1.5f);
 
                 foreach (VisualEdge edge in this.visualFloorEdges)
                 {
