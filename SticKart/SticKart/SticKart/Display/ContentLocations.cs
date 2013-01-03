@@ -129,6 +129,11 @@ namespace SticKart.Display
         /// </summary>
         public const string RockyTerrain = "RockyTexture";
 
+        /// <summary>
+        /// The name of the rock background texture asset.
+        /// </summary>
+        public const string RockyBackGround = "BackgroundRocky";
+
         #endregion
     }
 }

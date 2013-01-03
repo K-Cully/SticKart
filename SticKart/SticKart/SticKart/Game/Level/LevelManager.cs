@@ -145,6 +145,11 @@ namespace SticKart.Game.Level
         /// </summary>
         private Texture2D rockyTerrain;
 
+        /// <summary>
+        /// The background to display in a level.
+        /// </summary>
+        private Background background;
+
         #endregion
 
         /// <summary>
@@ -176,6 +181,7 @@ namespace SticKart.Game.Level
             this.cartSwitch = null;
             this.scrollStartTimer = 0.0f;
             this.tutorialTimer = 1.0f;
+            this.background = new Background(this.gameDisplayResolution, 0.8f);
         }
 
         #region public_accessors
@@ -244,6 +250,7 @@ namespace SticKart.Game.Level
             this.exit = new Exit(spriteBatch, contentManager, ref this.physicsWorld, this.levelLoader.EndPosition); 
             this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
             this.rockyTerrain = contentManager.Load<Texture2D>(ContentLocations.Scenery + ContentLocations.RockyTerrain);
+            this.background.InitializeAndLoad(this.spriteBatch, this.contentManager, ContentLocations.RockyBackGround);
         }
 
         /// <summary>
@@ -275,6 +282,10 @@ namespace SticKart.Game.Level
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart, ref this.cartSwitch, this.spriteBatch, this.contentManager);
             this.exit = new Exit(this.spriteBatch, this.contentManager, ref this.physicsWorld, this.levelLoader.EndPosition); 
             this.stickman.Reset(this.levelLoader.StartPosition);
+            float startX = this.visualFloorEdges[this.visualFloorEdges.Count - 1].EndPoint.X;
+            float y = this.visualFloorEdges[this.visualFloorEdges.Count - 1].EndPoint.Y - this.gameDisplayResolution.Y;
+            this.visualFloorEdges.Add(new VisualEdge(new Vector2(startX, y), new Vector2(startX + this.gameDisplayResolution.X, y)));
+            this.background.Reset();
         }
 
         /// <summary>
@@ -306,6 +317,7 @@ namespace SticKart.Game.Level
                 if (this.stickman.IsDead)
                 {
                     Camera2D.Reset();
+                    this.background.Reset();
                     this.EndLevel();
                     this.BeginLevel(this.CurrentLevel, this.currentLevelCustom);
                 }
@@ -325,6 +337,7 @@ namespace SticKart.Game.Level
 
                     this.UpdateScrollingDeath(gameTime);
                     Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y * 0.5f);
+                    this.background.Update();
 
                     foreach (InputCommand command in commands)
                     {
@@ -364,18 +377,14 @@ namespace SticKart.Game.Level
             }
             else
             {
+                this.background.Draw();
+
                 foreach (Platform platform in this.platforms)
                 {
                     platform.Draw();
                 }
 
                 SceneryRenderer.DrawTerrain(this.spriteBatch, this.rockyTerrain, this.visualFloorEdges, this.gameDisplayResolution.Y * 1.5f);
-
-                foreach (VisualEdge edge in this.visualFloorEdges)
-                {
-                    Camera2D.Draw(this.floorSprite, edge.Position, edge.Angle);
-                }
-
                 foreach (InteractiveEntity entity in this.interactiveEntities)
                 {
                     entity.Draw();

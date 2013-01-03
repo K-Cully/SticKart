@@ -118,6 +118,7 @@
     <Compile Include="Game\Entities\ScrollingDeath.cs" />
     <Compile Include="Game\Entities\Switch.cs" />
     <Compile Include="Game\GameSettings.cs" />
+    <Compile Include="Game\Level\Background.cs" />
     <Compile Include="Game\Level\LevelConstants.cs" />
     <Compile Include="Game\Level\LevelManager.cs" />
     <Compile Include="Game\Level\LevelLoader.cs" />
