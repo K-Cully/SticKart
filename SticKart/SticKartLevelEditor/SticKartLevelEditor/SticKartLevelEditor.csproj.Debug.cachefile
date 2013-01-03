@@ -32,6 +32,7 @@ Content\Sprites\Hud\powerUpBox.xnb
 Content\Sprites\Hud\whitePixel.xnb
 Content\Sprites\Entities\Stick_man\StickManCrouching.xnb
 Content\Sprites\Scenery\RockyTexture.xnb
+Content\Sprites\Scenery\BackgroundRocky.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -52,7 +53,6 @@ Content\Levels\2\interactiveEntities.xnb
 Content\Levels\2\platforms.xnb
 Content\Levels\2\points.xnb
 Content\Effects\KinectColorVisualizer.xnb
-Content\Sprites\Scenery\BackgroundRocky.xnb
 Content\Sprites\Entities\Stick_man\StickManStanding.xnb
 Content\Sprites\Menu\Hand.xnb
 Content\Sprites\Menu\Button_large.xnb
@@ -87,6 +87,7 @@ Content\Sprites\Hud\powerUpBox.xnb
 Content\Sprites\Hud\whitePixel.xnb
 Content\Sprites\Entities\Stick_man\StickManCrouching.xnb
 Content\Sprites\Scenery\RockyTexture.xnb
+Content\Sprites\Scenery\BackgroundRocky.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -107,4 +108,3 @@ Content\Levels\2\interactiveEntities.xnb
 Content\Levels\2\platforms.xnb
 Content\Levels\2\points.xnb
 Content\Effects\KinectColorVisualizer.xnb
-Content\Sprites\Scenery\BackgroundRocky.xnb
