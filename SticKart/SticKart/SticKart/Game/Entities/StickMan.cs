@@ -227,7 +227,7 @@ namespace SticKart.Game.Entities
             this.minimumHorizontalVelocity = 0.0f;
             this.idealHorizontalVelocity = 0.0f;
             this.standardHorizontalVelocity = maximumHorizontalSpeed;
-            this.floorHorizontalVelocity = maximumHorizontalSpeed * 0.25f;
+            this.floorHorizontalVelocity = maximumHorizontalSpeed * 0.55f;
             this.speedHorizontalVelocity = maximumHorizontalSpeed * 1.25f;
             this.maximumHorizontalVelocity = maximumHorizontalSpeed;
             this.minimumHealth = 0.0f;

@@ -425,7 +425,7 @@ namespace SticKart.Game.Level
                 {
                     this.scrollingDeath.GoToSlowScrollRate();
                 }
-                else if (distanceAheadOfCamera > 2.0f * (this.gameDisplayResolution.X / 3.0f))
+                else if (distanceAheadOfCamera > this.gameDisplayResolution.X / 1.875f)
                 {
                     this.scrollingDeath.GoToFastScrollRate();
                 }
@@ -437,7 +437,15 @@ namespace SticKart.Game.Level
             else
             {
                 this.countDownText.SetText("Go!");
-                this.scrollStartTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (this.stickman.Position.X > this.gameDisplayResolution.X / 3.0f)
+                {
+                    this.scrollStartTimer = LevelConstants.ScrollStartDelay + (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+                else
+                {
+                    this.scrollStartTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                }
+
                 if (this.scrollStartTimer > LevelConstants.ScrollStartDelay)
                 {
                     this.scrollingDeath.Activate();
