@@ -40,15 +40,15 @@ namespace SticKart
         public SticKartLevelEditor()
         {
             this.TargetElapsedTime = TimeSpan.FromSeconds(1.0 / 30.0);
-            this.screenDimensions = new Vector2(1280.0f, 720.0f);
+            this.screenDimensions = new Vector2(1360.0f, 768.0f);
             this.graphics = new GraphicsDeviceManager(this);
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = true;
+            this.graphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
             this.IsMouseVisible = true;
             Camera2D.Initialize(this.screenDimensions);
-            this.levelEditor = new LevelEditor.LevelEditor();
+            this.levelEditor = new LevelEditor.LevelEditor(this.screenDimensions);
             this.maxTimeBetweenKeys = 0.2f;
             this.keyTimer = this.maxTimeBetweenKeys;
             this.maxTimeBetweenClicks = 0.2f;
@@ -120,9 +120,9 @@ namespace SticKart
                 }
 
                 KeyboardState temp = Keyboard.GetState();
-                if (mouseState.X > this.screenDimensions.X * 0.9f)
+                if (mouseState.X > this.screenDimensions.X * 0.85f)
                 {
-                    Camera2D.Update(new Vector2(50.0f, 0.0f), gameTime);
+                    Camera2D.Update(new Vector2(120.0f, 0.0f), gameTime);
                 }                
                 else if (temp.IsKeyDown(Keys.Right))
                 {
@@ -130,9 +130,9 @@ namespace SticKart
                 }
                 else if (Camera2D.OffsetPosition.X > 0.0f)
                 {
-                    if (mouseState.X < this.screenDimensions.X * 0.1f)
+                    if (mouseState.X < this.screenDimensions.X * 0.15f)
                     {
-                        Camera2D.Update(new Vector2(-50.0f, 0.0f), gameTime);
+                        Camera2D.Update(new Vector2(-120.0f, 0.0f), gameTime);
                     }
                     else if (temp.IsKeyDown(Keys.Left))
                     {

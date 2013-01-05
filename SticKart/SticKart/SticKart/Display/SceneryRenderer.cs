@@ -34,6 +34,29 @@ namespace SticKart.Display
         }
 
         /// <summary>
+        /// Draws the edge based terrain to the screen.
+        /// The sprite batch's <code>Begin()</code> method must be called before this.
+        /// </summary>
+        /// <param name="spriteBatch">The sprite batch to render with.</param>
+        /// <param name="texture">The texture to apply to the terrain.</param>
+        /// <param name="terrainPoints">The list of terrain points.</param>
+        /// <param name="terrainBottomY">The y coordinate of the bottom of the rendered terrain.</param>
+        public static void DrawTerrain(SpriteBatch spriteBatch, Texture2D texture, List<Vector2> terrainPoints, float terrainBottomY)
+        {
+            int textureMapXOffset = 0;
+            Vector2 startPoint = Vector2.Zero;
+            foreach (Vector2 point in terrainPoints)
+            {
+                if (startPoint != Vector2.Zero)
+                {
+                    SceneryRenderer.DrawTerrainSegment(spriteBatch, texture, ref textureMapXOffset, startPoint, point, -Camera2D.OffsetPosition.Y + terrainBottomY);
+                }
+
+                startPoint = point;
+            }
+        }
+
+        /// <summary>
         /// Draws a single segment of terrain below an edge.
         /// The sprite batch's <code>Begin()</code> method must be called before this.
         /// </summary>

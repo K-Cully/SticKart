@@ -22,7 +22,12 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// The maximum angle change between two floor edges.
         /// </summary>
-        private const float MaxFloorAngleDeviation = 0.1f; 
+        private const float MaxFloorAngleDeviation = 0.1f;
+
+        /// <summary>
+        /// The maximum angle of any floor edge.
+        /// </summary>
+        private const float MaxFloorAngle = 0.85f; 
  
         #region sprites
 
@@ -157,7 +162,8 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelEditor"/> class.
         /// </summary>
-        public LevelEditor()
+        /// <param name="screenDimensions">The dimensions of the game area.</param>
+        public LevelEditor(Vector2 screenDimensions)
         {
             this.levelsCreated = 0;
             this.currentLevelNumber = 1;
@@ -166,7 +172,7 @@ namespace SticKart.LevelEditor
             this.currentFloorPoint = Vector2.Zero;
             this.lastFloorAngle = 0.0f;
             this.EntitySelected = ModifiableEntity.Floor;
-            this.levelToEdit = new Level();
+            this.levelToEdit = new Level(screenDimensions);
             this.platformSprite = new Sprite();
             this.edgeSprite = new Sprite();
             this.startSprite = new Sprite();
@@ -486,7 +492,6 @@ namespace SticKart.LevelEditor
                         direction.Normalize();
                         float edgeAngle = (float)Math.Asin(direction.Y);
                         float difference = edgeAngle - this.lastFloorAngle;
-
                         if (difference < -LevelEditor.MaxFloorAngleDeviation)
                         {
                             float newAngle = this.lastFloorAngle - LevelEditor.MaxFloorAngleDeviation;
@@ -496,6 +501,16 @@ namespace SticKart.LevelEditor
                         {
                             float newAngle = this.lastFloorAngle + LevelEditor.MaxFloorAngleDeviation;
                             direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                        }
+
+                        edgeAngle = (float)Math.Asin(direction.Y);
+                        if (edgeAngle > LevelEditor.MaxFloorAngle)
+                        {
+                            direction = new Vector2((float)Math.Cos(LevelEditor.MaxFloorAngle), (float)Math.Sin(LevelEditor.MaxFloorAngle));
+                        }
+                        else if (edgeAngle < -LevelEditor.MaxFloorAngle)
+                        {
+                            direction = new Vector2((float)Math.Cos(-LevelEditor.MaxFloorAngle), (float)Math.Sin(-LevelEditor.MaxFloorAngle));
                         }
                     }
 

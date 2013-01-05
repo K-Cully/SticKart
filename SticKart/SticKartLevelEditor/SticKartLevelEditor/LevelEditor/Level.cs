@@ -24,7 +24,12 @@ namespace SticKart.LevelEditor
     /// </summary>
     public class Level
     {
-        #region sprites
+        #region graphics
+
+        /// <summary>
+        /// The sprite batch to render with.
+        /// </summary>
+        private SpriteBatch spriteBatch;
 
         /// <summary>
         /// A cart sprite.
@@ -106,10 +111,25 @@ namespace SticKart.LevelEditor
         /// </summary>
         private Sprite diamondSprite;
 
+        /// <summary>
+        /// A texture to apply to rocky terrain.
+        /// </summary>
+        private Texture2D rockyTerrain;
+
+        /// <summary>
+        /// The background to display in a level.
+        /// </summary>
+        private Background background;
+
         #endregion
 
         #region private_entities
-        
+
+        /// <summary>
+        /// The size of the game display area.
+        /// </summary>
+        private Vector2 screenDimensions;
+
         /// <summary>
         /// A list of platform descriptions.
         /// </summary>
@@ -132,7 +152,8 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// Initializes a new instance of the <see cref="Level"/> class.
         /// </summary>
-        public Level()
+        /// <param name="screenDimensions">The dimensions of the game area.</param>
+        public Level(Vector2 screenDimensions)
         {
             this.StartPosition = Vector2.Zero;
             this.ExitPosition = Vector2.Zero;
@@ -155,6 +176,8 @@ namespace SticKart.LevelEditor
             this.coinSprite = new Sprite();
             this.diamondSprite = new Sprite();
             this.rubySprite = new Sprite();
+            this.background = new Background(screenDimensions, 0.8f);
+            this.screenDimensions = screenDimensions;
         }
 
         #endregion
@@ -200,6 +223,7 @@ namespace SticKart.LevelEditor
         /// <param name="contentManager">The game's content manager.</param>
         public void LoadContent(SpriteBatch spriteBatch, ContentManager contentManager)
         {
+            this.spriteBatch = spriteBatch;
             this.cartSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartFull);
             this.switchSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Switch);
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
@@ -216,6 +240,8 @@ namespace SticKart.LevelEditor
             this.coinSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.CoinName);
             this.diamondSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.DiamondName);
             this.rubySprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath + EntityConstants.RubyName);
+            this.rockyTerrain = contentManager.Load<Texture2D>(ContentLocations.Scenery + ContentLocations.RockyTerrain);
+            this.background.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.RockyBackGround);
         }
 
         #endregion
@@ -273,6 +299,7 @@ namespace SticKart.LevelEditor
             this.platformDescriptions.Clear();
             this.interactiveEntityDescriptions.Clear();
             this.floorEdgePoints.Clear();
+            this.background.Reset();
         }
 
         /// <summary>
@@ -406,6 +433,8 @@ namespace SticKart.LevelEditor
         /// </summary>
         public void Draw()
         {
+            this.background.Update();
+            this.background.Draw();
             if (this.StartPosition != Vector2.Zero)
             {
                 Camera2D.Draw(this.startSprite, this.StartPosition, 0.0f);
@@ -416,7 +445,7 @@ namespace SticKart.LevelEditor
                 Camera2D.Draw(this.exitSprite, this.ExitPosition, 0.0f);
             }
 
-            this.DrawFloor();
+            SceneryRenderer.DrawTerrain(this.spriteBatch, this.rockyTerrain, this.floorEdgePoints, this.screenDimensions.Y * 1.5f);
             foreach (PlatformDescription platformDescription in this.platformDescriptions)
             {
                 this.DrawPlatform(platformDescription);
@@ -444,7 +473,7 @@ namespace SticKart.LevelEditor
                 }
 
                 startPoint = point;
-            }
+            }                
         }
 
         /// <summary>

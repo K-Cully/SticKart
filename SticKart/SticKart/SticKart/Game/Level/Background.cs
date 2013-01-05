@@ -105,6 +105,10 @@ namespace SticKart.Game.Level
                 {
                     this.tilePositions[count] += new Vector2(this.tileSprite.Width * this.tiledColumns, 0.0f);
                 }
+                else if (this.tilePositions[count].X - this.tileSprite.Width > ((1.0f / this.layerDepth) * Camera2D.OffsetPosition.X) + this.screenDimensions.X)
+                {
+                    this.tilePositions[count] -= new Vector2(this.tileSprite.Width * this.tiledColumns, 0.0f);
+                }
 
                 if (this.tilePositions[count].Y + this.tileSprite.Height < (1.0f / this.layerDepth) * Camera2D.OffsetPosition.Y)
                 {
