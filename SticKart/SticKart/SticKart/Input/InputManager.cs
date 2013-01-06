@@ -478,10 +478,10 @@ namespace SticKart.Input
                     {
                         if (this.kinectAngleSet)
                         {
-                            this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState != JointTrackingState.NotTracked && closestSkeleton.Joints[JointType.KneeLeft].TrackingState != JointTrackingState.NotTracked;
+                            this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState != JointTrackingState.NotTracked && closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked;
                             this.gestureManager.Update(closestSkeleton, gameTime);
                             this.PlayerFloorPosition = Vector2.Zero;
-                            this.ApplyKinectGestures();                            
+                            this.ApplyKinectGestures();
                         }
                         else
                         {
@@ -493,6 +493,10 @@ namespace SticKart.Input
                         this.commands.Add(InputCommand.MoveBack);
                         this.PlayerFloorPosition = new Vector2(closestSkeleton.Position.Z, closestSkeleton.Position.X);
                     }
+                }
+                else
+                {
+                    this.kinectAngleSet = false;
                 }
             }         
         }
