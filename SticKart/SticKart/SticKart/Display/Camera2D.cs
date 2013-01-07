@@ -119,6 +119,38 @@ namespace SticKart.Display
         }
 
         /// <summary>
+        /// Draws an abimated sprite offset by the camera's position.
+        /// </summary>
+        /// <param name="sprite">The animated sprite to draw.</param>
+        /// <param name="position">The position of the sprite.</param>
+        /// <param name="rotation">The rotation of the sprite.</param>
+        /// <param name="colour">The colour to draw the sprite in.</param>
+        /// <param name="scale">The scale of the sprite.</param>
+        /// <param name="effect">The effect to apply to the sprite before drawing.</param>
+        /// <param name="layerDepth">The layer depth of the sprite.</param>
+        public static void Draw(AnimatedSprite sprite, Vector2 position, float rotation, Color colour, float scale = 1.0f, SpriteEffects effect = SpriteEffects.None, float layerDepth = 1.0f)
+        {
+            if (layerDepth > 1.0f || Camera2D.drawSpace.Contains((int)position.X, (int)position.Y))
+            {
+                AnimatedSprite.Draw(sprite, position - ((1.0f / layerDepth) * Camera2D.offset), rotation, colour, scale, effect, 1.0f);
+            }
+        }
+
+        /// <summary>
+        /// Draws an animated sprite offset by the camera's position.
+        /// </summary>
+        /// <param name="sprite">The animated sprite to draw.</param>
+        /// <param name="position">The position of the sprite.</param>
+        /// <param name="rotation">The rotation of the sprite.</param>
+        public static void Draw(AnimatedSprite sprite, Vector2 position, float rotation)
+        {
+            if (Camera2D.drawSpace.Contains((int)position.X, (int)position.Y))
+            {
+                AnimatedSprite.Draw(sprite, position - Camera2D.offset, rotation);
+            }
+        }
+
+        /// <summary>
         /// Draws a sprite offset by the camera's position.
         /// </summary>
         /// <param name="sprite">The sprite to draw.</param>

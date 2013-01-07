@@ -34,9 +34,9 @@ namespace SticKart.Display
         public SpriteBatch SpriteBatch { get; private set; }
 
         /// <summary>
-        /// Gets the origin to use for the sprite.
+        /// Gets or sets the origin to use for the sprite.
         /// </summary>
-        public Vector2 Origin { get; private set; }
+        public Vector2 Origin { get; set; }
 
         /// <summary>
         /// Gets or sets the colour of the sprite.

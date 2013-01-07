@@ -136,7 +136,12 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The sprite which represents the stickman's standing pose.
         /// </summary>
-        private Sprite standingSprite; // TODO: add animated sprite class and other sprites
+        private Sprite standingSprite; // TODO: add other sprites
+
+        /// <summary>
+        /// The animated sprite which represents the stickman's running pose.
+        /// </summary>
+        private AnimatedSprite runningSprite;
 
         /// <summary>
         /// The sprite which represents the stickman's crouching pose.
@@ -243,6 +248,7 @@ namespace SticKart.Game.Entities
             this.wheelDisabledTimer = 0.0f;
             this.standingSprite = new Sprite();
             this.crouchingSprite = new Sprite();
+            this.runningSprite = new AnimatedSprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.fullBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 8.0f);
             this.smallBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
@@ -384,6 +390,7 @@ namespace SticKart.Game.Entities
             {
                 if (this.state == PlayerState.running)
                 {
+                    this.runningSprite.Update(gameTime);
                     this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.975f;
                     if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                     {
@@ -423,6 +430,11 @@ namespace SticKart.Game.Entities
         {
             if (!this.InCart && this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
+                if (this.state != PlayerState.running)
+                {
+                    this.runningSprite.Reset();
+                }
+
                 this.idealHorizontalVelocity += 5.0f;
                 if (this.idealHorizontalVelocity > this.maximumHorizontalVelocity)
                 {
@@ -530,9 +542,7 @@ namespace SticKart.Game.Entities
                     // TODO
                     break;
                 case PlayerState.running:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
-
-                    // TODO
+                    Camera2D.Draw(this.runningSprite, this.Position, this.fullBody.Rotation);
                     break;
                 case PlayerState.falling:
                     Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
@@ -578,6 +588,7 @@ namespace SticKart.Game.Entities
             this.wheelDisabledTimer = 0.0f;
             this.Score = 0;
             this.health = this.maximumHealth;
+            this.runningSprite.Reset(); // TODO: reset all animated sprites.
         }
 
         #region initialization
@@ -592,6 +603,7 @@ namespace SticKart.Game.Entities
             // TODO: rest of sprites
             this.crouchingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManCrouching);
             this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
+            this.runningSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManRunning, 8, 0.05f, true);
         }
 
         /// <summary>
@@ -710,6 +722,11 @@ namespace SticKart.Game.Entities
             this.jumpingDown = false;
             if (this.motorJoint.MotorSpeed > 0.0f)
             {
+                if (this.state != PlayerState.running)
+                {
+                    this.runningSprite.Reset();
+                }
+
                 this.state = PlayerState.running;
             }
             else
@@ -728,6 +745,7 @@ namespace SticKart.Game.Entities
             if (this.motorJoint.MotorSpeed > 0.0f)
             {
                 this.state = PlayerState.running;
+                this.runningSprite.Reset();
             }
             else
             {

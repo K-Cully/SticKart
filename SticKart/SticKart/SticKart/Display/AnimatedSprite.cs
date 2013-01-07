@@ -134,7 +134,7 @@ namespace SticKart.Display
                     this.frameNumber = this.loop ? 0 : this.numberOfFrames - 1;
                 }
 
-                this.sourceFrame = new Rectangle((int)this.FrameWidth * this.frameNumber, 0, (int)this.FrameWidth, (int)this.Height);
+                this.sourceFrame = new Rectangle((int)(this.FrameWidth * (float)this.frameNumber), 0, (int)this.FrameWidth, (int)this.Height);
             }
         }
 
@@ -151,6 +151,7 @@ namespace SticKart.Display
         {
             base.InitializeAndLoad(spriteBatch, contentManager, pathToImage);
             this.numberOfFrames = numberOfFrames;
+            this.Origin = this.Origin - new Vector2((this.Width - this.FrameWidth) / 2.0f, 0.0f);
             this.sourceFrame = new Rectangle(0, 0, (int)(this.Width / this.numberOfFrames), (int)this.Height);
             this.timeBetweenFrames = timeBetweenFrames;
             this.loop = loop;
@@ -172,6 +173,7 @@ namespace SticKart.Display
         {
             base.InitializeAndLoad(spriteBatch, contentManager, pathToImage, origin);
             this.numberOfFrames = numberOfFrames;
+            this.Origin = this.Origin - new Vector2((this.Width - this.FrameWidth) / 2.0f, 0.0f);
             this.sourceFrame = new Rectangle(0, 0, (int)(this.Width / this.numberOfFrames), (int)this.Height);
             this.timeBetweenFrames = timeBetweenFrames;
             this.loop = loop;
