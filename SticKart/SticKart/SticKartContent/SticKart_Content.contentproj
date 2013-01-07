@@ -45,13 +45,6 @@
     <Reference Include="Microsoft.Xna.Framework.Content.Pipeline.VideoImporters, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Entities\Stick_man\StickManStanding.png">
-      <Name>StickManStanding</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sprites\Menu\Hand.png">
       <Name>Hand</Name>
       <Importer>TextureImporter</Importer>
@@ -314,8 +307,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Entities\switch.png">
-      <Name>switch</Name>
+    <Compile Include="Sprites\Entities\switchOld.png">
+      <Name>switchOld</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -406,8 +399,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Entities\Stick_man\StickManCrouching.png">
-      <Name>StickManCrouching</Name>
+    <Compile Include="Sprites\Entities\Stick_man\crouching.png">
+      <Name>crouching</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -451,8 +444,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Entities\switchNew.png">
-      <Name>switchNew</Name>
+    <Compile Include="Sprites\Entities\switch.png">
+      <Name>switch</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

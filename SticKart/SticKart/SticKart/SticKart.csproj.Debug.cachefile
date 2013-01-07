@@ -1,4 +1,3 @@
-Content\Sprites\Entities\Stick_man\StickManStanding.xnb
 Content\Sprites\Menu\Hand.xnb
 Content\Sprites\Menu\Button_large.xnb
 Content\Sprites\Menu\Play_icon_large.xnb
@@ -30,13 +29,12 @@ Content\Sprites\Hud\invincible.xnb
 Content\Sprites\Hud\jump.xnb
 Content\Sprites\Hud\powerUpBox.xnb
 Content\Sprites\Hud\whitePixel.xnb
-Content\Sprites\Entities\Stick_man\StickManCrouching.xnb
+Content\Sprites\Entities\Stick_man\crouching.xnb
 Content\Sprites\Scenery\RockyTexture.xnb
 Content\Sprites\Scenery\BackgroundRocky.xnb
 Content\Sprites\Entities\Stick_man\jumping.xnb
 Content\Sprites\Entities\Stick_man\running.xnb
 Content\Sprites\Entities\Stick_man\standing.xnb
-Content\Sprites\Entities\switchNew.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -67,6 +65,7 @@ Content\SFX\ScrollStart.xnb
 Content\SFX\Switch.xnb
 Content\SFX\Switch2.xnb
 Content\Music\AssaultOnMistCastle.xnb
+Content\Sprites\Entities\switchOld.xnb
 Content\SFX\Collect.wma
 Content\SFX\Die.wma
 Content\SFX\Fire.wma

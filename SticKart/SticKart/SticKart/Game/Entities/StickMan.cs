@@ -136,12 +136,17 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The sprite which represents the stickman's standing pose.
         /// </summary>
-        private Sprite standingSprite; // TODO: add other sprites
+        private Sprite standingSprite;
 
         /// <summary>
-        /// The animated sprite which represents the stickman's running pose.
+        /// The animated sprite which represents the stickman running.
         /// </summary>
         private AnimatedSprite runningSprite;
+
+        /// <summary>
+        /// The animated sprite which represents the stickman jumping.
+        /// </summary>
+        private AnimatedSprite jumpingSprite;
 
         /// <summary>
         /// The sprite which represents the stickman's crouching pose.
@@ -249,6 +254,7 @@ namespace SticKart.Game.Entities
             this.standingSprite = new Sprite();
             this.crouchingSprite = new Sprite();
             this.runningSprite = new AnimatedSprite();
+            this.jumpingSprite = new AnimatedSprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.fullBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 8.0f);
             this.smallBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
@@ -414,9 +420,16 @@ namespace SticKart.Game.Entities
                         this.state = PlayerState.standing;
                     }
                 }
-                else if (this.state == PlayerState.jumping && this.smallBody.LinearVelocity.Y >= 0.0f)
+                else if (this.state == PlayerState.jumping)
                 {
-                    this.state = PlayerState.falling;
+                    if (this.smallBody.LinearVelocity.Y >= 0.0f)
+                    {
+                        this.state = PlayerState.falling;
+                    }
+                    else
+                    {
+                        this.jumpingSprite.Update(gameTime);
+                    }
                 }
             }
         }
@@ -518,6 +531,7 @@ namespace SticKart.Game.Entities
                 this.smallBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse));
                 this.state = PlayerState.jumping;
                 this.motorJoint.MotorSpeed = this.smallBody.LinearVelocity.X * 7.0f;
+                this.jumpingSprite.Reset();
             }
         }
 
@@ -537,15 +551,13 @@ namespace SticKart.Game.Entities
                     Camera2D.Draw(this.crouchingSprite, this.Position, this.smallBody.Rotation);
                     break;
                 case PlayerState.jumping:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
-
-                    // TODO
+                    Camera2D.Draw(this.jumpingSprite, this.Position, this.fullBody.Rotation);
                     break;
                 case PlayerState.running:
                     Camera2D.Draw(this.runningSprite, this.Position, this.fullBody.Rotation);
                     break;
                 case PlayerState.falling:
-                    Camera2D.Draw(this.standingSprite, this.Position, this.fullBody.Rotation);
+                    Camera2D.Draw(this.jumpingSprite, this.Position, this.fullBody.Rotation);
                     break;
                 case PlayerState.dead:
 
@@ -588,7 +600,8 @@ namespace SticKart.Game.Entities
             this.wheelDisabledTimer = 0.0f;
             this.Score = 0;
             this.health = this.maximumHealth;
-            this.runningSprite.Reset(); // TODO: reset all animated sprites.
+            this.runningSprite.Reset();
+            this.jumpingSprite.Reset();
         }
 
         #region initialization
@@ -600,10 +613,10 @@ namespace SticKart.Game.Entities
         /// <param name="contentManager">The content manager to use for loading the sprites.</param>
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
-            // TODO: rest of sprites
             this.crouchingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManCrouching);
             this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
             this.runningSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManRunning, 8, 0.05f, true);
+            this.jumpingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManJumping, 5, 0.075f, false);
         }
 
         /// <summary>
@@ -616,20 +629,20 @@ namespace SticKart.Game.Entities
             float restitution = 0.125f;
 
             // Upper body for standing
-            this.fullBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height * 0.75f), density, ConvertUnits.ToSimUnits(this.fullBodyOffset));
+            this.fullBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Height / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height * 0.75f), density, ConvertUnits.ToSimUnits(this.fullBodyOffset));
             this.fullBody.BodyType = BodyType.Dynamic;
             this.fullBody.Restitution = restitution;
             this.fullBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Middle body for crouching
-            this.smallBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width), ConvertUnits.ToSimUnits(this.standingSprite.Height * 0.25f), density, ConvertUnits.ToSimUnits(this.smallBodyOffset));
+            this.smallBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Height / 2.0f), ConvertUnits.ToSimUnits(this.standingSprite.Height * 0.25f), density, ConvertUnits.ToSimUnits(this.smallBodyOffset));
             this.smallBody.BodyType = BodyType.Dynamic;
             this.smallBody.IgnoreCollisionWith(this.fullBody);
             this.smallBody.Restitution = restitution;
             this.smallBody.CollisionCategories = EntityConstants.StickManCategory;
 
             // Wheel for movement
-            this.wheelBody = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(this.wheelBodyOffset));
+            this.wheelBody = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.standingSprite.Height / 4.0f), density, ConvertUnits.ToSimUnits(this.wheelBodyOffset));
             this.wheelBody.BodyType = BodyType.Dynamic;
             this.wheelBody.IgnoreCollisionWith(this.smallBody);
             this.wheelBody.IgnoreCollisionWith(this.fullBody);
@@ -741,17 +754,11 @@ namespace SticKart.Game.Entities
         /// <param name="cartBody">The cart body.</param>
         private void LandInCart(Body cartBody)
         {
+            this.smallBody.LinearVelocity = cartBody.LinearVelocity;
+            this.fullBody.LinearVelocity = cartBody.LinearVelocity;
+            this.wheelBody.LinearVelocity = cartBody.LinearVelocity;
             this.jumpingDown = false;
-            if (this.motorJoint.MotorSpeed > 0.0f)
-            {
-                this.state = PlayerState.running;
-                this.runningSprite.Reset();
-            }
-            else
-            {
-                this.state = PlayerState.standing;
-            }
-
+            this.state = PlayerState.standing;
             this.InCart = true;
             Vector2 cartTopPosition = cartBody.Position + ConvertUnits.ToSimUnits(-24.0f * Vector2.UnitY);
             this.fullBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.fullBodyOffset);
@@ -759,7 +766,7 @@ namespace SticKart.Game.Entities
             this.wheelBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.wheelBodyOffset);
             if (this.cartJoint == null)
             {
-                this.cartJoint = JointFactory.CreateRevoluteJoint(this.physicsWorld, this.fullBody, cartBody, Vector2.Zero);
+                this.cartJoint = JointFactory.CreateRevoluteJoint(this.physicsWorld, this.smallBody, cartBody, Vector2.Zero);
             }
         }
 

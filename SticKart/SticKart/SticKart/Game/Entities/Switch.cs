@@ -25,9 +25,9 @@ namespace SticKart.Game.Entities
         private Body physicsBody;
 
         /// <summary>
-        /// The sprite to render for a switch.
+        /// The animated sprite to render for a switch.
         /// </summary>
-        private Sprite sprite;
+        private AnimatedSprite sprite;
 
         /// <summary>
         /// The mine cart that a switch should activate.
@@ -49,7 +49,7 @@ namespace SticKart.Game.Entities
         /// <param name="mineCart">The mine cart to activate.</param>
         public Switch(SpriteBatch spriteBatch, ContentManager contentManager, ref World physicsWorld, Vector2 position, MineCart mineCart)
         {
-            this.sprite = new Sprite();
+            this.sprite = new AnimatedSprite();
             this.activated = false;
             this.mineCart = mineCart;
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
@@ -59,7 +59,8 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// Updates a switch entity.
         /// </summary>
-        public void Update()
+        /// <param name="gameTime">The game time.</param>
+        public void Update(GameTime gameTime)
         {
             if (!this.activated)
             {
@@ -68,6 +69,10 @@ namespace SticKart.Game.Entities
                     this.activated = true;
                     this.mineCart.Activate();
                 }
+            }
+            else
+            {
+                this.sprite.Update(gameTime);
             }
         }
 
@@ -99,7 +104,7 @@ namespace SticKart.Game.Entities
         /// <param name="contentManager">The content manager to use for loading the sprites.</param>
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
-            this.sprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Switch);
+            this.sprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Switch, 7, 0.03f, false);
         }
 
         /// <summary>
@@ -111,7 +116,7 @@ namespace SticKart.Game.Entities
         {
             float density = 1.1f;
             float restitution = 0.0f;
-            this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.sprite.Width), ConvertUnits.ToSimUnits(this.sprite.Height), density, ConvertUnits.ToSimUnits(position));
+            this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(this.sprite.FrameWidth), ConvertUnits.ToSimUnits(this.sprite.FrameHeight), density, ConvertUnits.ToSimUnits(position));
             this.physicsBody.BodyType = BodyType.Static;
             this.physicsBody.Restitution = restitution;
             this.physicsBody.CollisionCategories = EntityConstants.SwitchCategory;

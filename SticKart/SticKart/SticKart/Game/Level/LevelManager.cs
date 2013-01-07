@@ -331,7 +331,7 @@ namespace SticKart.Game.Level
                     this.exit.Update();
                     if (this.mineCart != null)
                     {
-                        this.cartSwitch.Update();
+                        this.cartSwitch.Update(gameTime);
                         this.mineCart.Update(gameTime, this.stickman.PhysicsPosition, this.stickman.HorizontalSpeed, this.stickman.InCart);
                     }
 
