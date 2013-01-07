@@ -16,27 +16,27 @@ namespace SticKart.Display
     public class Sprite
     {
         /// <summary>
-        /// The origin to use for the sprite.
-        /// </summary>
-        private Vector2 origin;
-
-        /// <summary>
-        /// The texture to use for the sprite.
-        /// </summary>
-        private Texture2D texture;
-
-        /// <summary>
-        /// The sprite batch to use for drawing the sprite.
-        /// </summary>
-        private SpriteBatch spriteBatch;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="Sprite"/> class.
         /// </summary>
         public Sprite()
         {
             this.Colour = Color.White;
         }
+
+        /// <summary>
+        /// Gets the texture to use for the sprite.
+        /// </summary>
+        public Texture2D Texture { get; private set; }
+
+        /// <summary>
+        /// Gets the sprite batch to use for drawing the sprite.
+        /// </summary>
+        public SpriteBatch SpriteBatch { get; private set; }
+
+        /// <summary>
+        /// Gets the origin to use for the sprite.
+        /// </summary>
+        public Vector2 Origin { get; private set; }
 
         /// <summary>
         /// Gets or sets the colour of the sprite.
@@ -50,7 +50,7 @@ namespace SticKart.Display
         {
             get
             {
-                return this.texture.Width;
+                return this.Texture.Width;
             }
         }
 
@@ -61,7 +61,7 @@ namespace SticKart.Display
         {
             get
             {
-                return this.texture.Height;
+                return this.Texture.Height;
             }
         }
 
@@ -77,7 +77,7 @@ namespace SticKart.Display
         /// <param name="layerDepth">The layer depth of the sprite.</param>
         public static void Draw(Sprite sprite, Vector2 position, float rotation, Color colour, float scale = 1.0f, SpriteEffects effect = SpriteEffects.None, float layerDepth = 1.0f)
         {
-            sprite.spriteBatch.Draw(sprite.texture, position, null, colour, rotation, sprite.origin, scale, effect, layerDepth);
+            sprite.SpriteBatch.Draw(sprite.Texture, position, null, colour, rotation, sprite.Origin, scale, effect, layerDepth);
         }
 
         /// <summary>
@@ -88,7 +88,7 @@ namespace SticKart.Display
         /// <param name="rotation">The rotation of the sprite.</param>
         public static void Draw(Sprite sprite, Vector2 position, float rotation)
         {
-            sprite.spriteBatch.Draw(sprite.texture, position, null, sprite.Colour, rotation, sprite.origin, 1.0f, SpriteEffects.None, 1.0f);
+            sprite.SpriteBatch.Draw(sprite.Texture, position, null, sprite.Colour, rotation, sprite.Origin, 1.0f, SpriteEffects.None, 1.0f);
         }
 
         /// <summary>
@@ -99,9 +99,9 @@ namespace SticKart.Display
         /// <param name="pathToImage">The relative path to the texture asset.</param>
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage)
         {
-            this.spriteBatch = spriteBatch;
-            this.texture = contentManager.Load<Texture2D>(pathToImage);
-            this.origin = new Vector2(this.texture.Width / 2.0f, this.texture.Height / 2.0f);
+            this.SpriteBatch = spriteBatch;
+            this.Texture = contentManager.Load<Texture2D>(pathToImage);
+            this.Origin = new Vector2(this.Texture.Width / 2.0f, this.Texture.Height / 2.0f);
         }
         
         /// <summary>
@@ -113,9 +113,9 @@ namespace SticKart.Display
         /// <param name="origin">The origin to use for the sprite.</param>
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, string pathToImage, Vector2 origin)
         {
-            this.spriteBatch = spriteBatch;
-            this.texture = contentManager.Load<Texture2D>(pathToImage);
-            this.origin = origin;
+            this.SpriteBatch = spriteBatch;
+            this.Texture = contentManager.Load<Texture2D>(pathToImage);
+            this.Origin = origin;
         }
     }
 }

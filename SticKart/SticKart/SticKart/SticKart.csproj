@@ -94,6 +94,7 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Display\AnimatedSprite.cs" />
     <Compile Include="Display\Camera2D.cs" />
     <Compile Include="Display\ColourStreamRenderer.cs" />
     <Compile Include="Display\ContentLocations.cs" />

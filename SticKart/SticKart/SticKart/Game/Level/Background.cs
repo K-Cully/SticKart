@@ -48,7 +48,7 @@ namespace SticKart.Game.Level
         private Collection<Vector2> tilePositions;
         
         /// <summary>
-        /// Initializes a new instance of the <see cref=">Background"/> class.
+        /// Initializes a new instance of the <see cref="Background"/> class.
         /// </summary>
         /// <param name="screenDimensions">The dimensions of the display area.</param>
         /// <param name="scrollRate">The rate at which the background should scroll, relative to the game play layer.</param>
