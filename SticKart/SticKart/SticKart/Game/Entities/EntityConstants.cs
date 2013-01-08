@@ -132,6 +132,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const string StickManRunning = "running";
 
+        /// <summary>
+        /// The name of the stick man dying sprite.
+        /// </summary>
+        public const string StickManDying = "dying";
+
         #endregion
 
         #region other_entity_assets

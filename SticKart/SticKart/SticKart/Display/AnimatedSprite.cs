@@ -60,6 +60,17 @@ namespace SticKart.Display
         }
 
         /// <summary>
+        /// Gets a value indicating if the animation is finished playing or not.
+        /// </summary>
+        public bool Finished
+        {
+            get
+            {
+                return !this.loop && this.frameNumber == (this.numberOfFrames - 1);
+            }
+        }
+
+        /// <summary>
         /// Gets the width of an individual frame.
         /// </summary>
         public float FrameWidth

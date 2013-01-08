@@ -36,6 +36,7 @@ Content\Sprites\Entities\Stick_man\jumping.xnb
 Content\Sprites\Entities\Stick_man\running.xnb
 Content\Sprites\Entities\Stick_man\standing.xnb
 Content\Sprites\Entities\switch.xnb
+Content\Sprites\Entities\Stick_man\dying.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -114,6 +115,7 @@ Content\Sprites\Entities\Stick_man\jumping.xnb
 Content\Sprites\Entities\Stick_man\running.xnb
 Content\Sprites\Entities\Stick_man\standing.xnb
 Content\Sprites\Entities\switch.xnb
+Content\Sprites\Entities\Stick_man\dying.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb

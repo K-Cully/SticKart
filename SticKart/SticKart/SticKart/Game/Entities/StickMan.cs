@@ -149,6 +149,11 @@ namespace SticKart.Game.Entities
         private AnimatedSprite jumpingSprite;
 
         /// <summary>
+        /// The animated sprite which represents the stickman dying.
+        /// </summary>
+        private AnimatedSprite dyingSprite;
+
+        /// <summary>
         /// The sprite which represents the stickman's crouching pose.
         /// </summary>
         private Sprite crouchingSprite;
@@ -255,6 +260,7 @@ namespace SticKart.Game.Entities
             this.crouchingSprite = new Sprite();
             this.runningSprite = new AnimatedSprite();
             this.jumpingSprite = new AnimatedSprite();
+            this.dyingSprite = new AnimatedSprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
             this.fullBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 8.0f);
             this.smallBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
@@ -366,7 +372,7 @@ namespace SticKart.Game.Entities
         {
             get
             {
-                return this.state == PlayerState.dead;
+                return this.state == PlayerState.dead && this.dyingSprite.Finished;
             }
         }
 
@@ -378,57 +384,70 @@ namespace SticKart.Game.Entities
         /// <param name="gameTime">The game time.</param>
         public void Update(GameTime gameTime)
         {
-            if (this.activePowerUp != PowerUpType.None)
+            if (this.state == PlayerState.dead)
             {
-                this.UpdatePowerUp(gameTime);
-            }
-
-            if (this.wheelCollisionDisabled)
-            {
-                this.wheelDisabledTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (this.wheelDisabledTimer > StickMan.MaxWheelDisabledTime)
+                this.dyingSprite.Update(gameTime);
+                if (!this.InCart)
                 {
-                    this.wheelCollisionDisabled = false;
+                    this.fullBody.LinearVelocity = new Vector2(0.0f, this.fullBody.LinearVelocity.Y);
+                    this.smallBody.LinearVelocity = this.fullBody.LinearVelocity;
+                    this.wheelBody.LinearVelocity = this.fullBody.LinearVelocity;
                 }
             }
-
-            if (!this.InCart)
+            else
             {
-                if (this.state == PlayerState.running)
+                if (this.activePowerUp != PowerUpType.None)
                 {
-                    this.runningSprite.Update(gameTime);
-                    this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.975f;
-                    if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
+                    this.UpdatePowerUp(gameTime);
+                }
+
+                if (this.wheelCollisionDisabled)
+                {
+                    this.wheelDisabledTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    if (this.wheelDisabledTimer > StickMan.MaxWheelDisabledTime)
                     {
-                        if (this.motorJoint.MotorSpeed > 1.0f)
+                        this.wheelCollisionDisabled = false;
+                    }
+                }
+
+                if (!this.InCart)
+                {
+                    if (this.state == PlayerState.running)
+                    {
+                        this.runningSprite.Update(gameTime);
+                        this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.975f;
+                        if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                         {
-                            this.motorJoint.MotorSpeed *= 0.875f;
+                            if (this.motorJoint.MotorSpeed > 1.0f)
+                            {
+                                this.motorJoint.MotorSpeed *= 0.875f;
+                            }
+                            else
+                            {
+                                this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            }
+                        }
+                        else if (this.smallBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
+                        {
+                            this.motorJoint.MotorSpeed += this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                        }
+
+                        if (this.idealHorizontalVelocity == 0.0f && this.smallBody.LinearVelocity.X < 1.0f)
+                        {
+                            this.motorJoint.MotorSpeed = 0.0f;
+                            this.state = PlayerState.standing;
+                        }
+                    }
+                    else if (this.state == PlayerState.jumping)
+                    {
+                        if (this.smallBody.LinearVelocity.Y >= 0.0f)
+                        {
+                            this.state = PlayerState.falling;
                         }
                         else
                         {
-                            this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                            this.jumpingSprite.Update(gameTime);
                         }
-                    }
-                    else if (this.smallBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
-                    {
-                        this.motorJoint.MotorSpeed += this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
-                    }
-
-                    if (this.idealHorizontalVelocity == 0.0f && this.smallBody.LinearVelocity.X < 1.0f)
-                    {
-                        this.motorJoint.MotorSpeed = 0.0f;
-                        this.state = PlayerState.standing;
-                    }
-                }
-                else if (this.state == PlayerState.jumping)
-                {
-                    if (this.smallBody.LinearVelocity.Y >= 0.0f)
-                    {
-                        this.state = PlayerState.falling;
-                    }
-                    else
-                    {
-                        this.jumpingSprite.Update(gameTime);
                     }
                 }
             }
@@ -441,7 +460,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public void Run()
         {
-            if (!this.InCart && this.state != PlayerState.jumping && this.state != PlayerState.falling)
+            if (this.state == PlayerState.dead)
+            {
+                return;
+            }
+            else if (!this.InCart && this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
                 if (this.state != PlayerState.running)
                 {
@@ -462,8 +485,12 @@ namespace SticKart.Game.Entities
         /// Makes the stick man stand if it is crouching.
         /// </summary>
         public void Stand()
-        {            
-            if (this.state == PlayerState.crouching)
+        {
+            if (this.state == PlayerState.dead)
+            {
+                return;
+            }
+            else if (this.state == PlayerState.crouching)
             {
                 bool canStand = true;
                 Fixture fixtureAbove = null;
@@ -491,7 +518,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public void CrouchOrJumpDown()
         {
-            if (this.state != PlayerState.crouching && this.InCart)
+            if (this.state == PlayerState.dead)
+            {
+                return;
+            }
+            else if (this.state != PlayerState.crouching && this.InCart)
             {
                 if (this.fullBody.Rotation < -0.1f || this.fullBody.Rotation > 0.1f)
                 {
@@ -515,10 +546,14 @@ namespace SticKart.Game.Entities
         /// </summary>
         public void Jump()
         {
-            if (this.state == PlayerState.crouching)
+            if (this.state == PlayerState.dead)
             {
-                this.Stand();
+                return;
             }
+            //else if (this.state == PlayerState.crouching)
+            //{
+            //    this.Stand();
+            //}
             else if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
                 if (this.InCart && this.cartJoint != null)
@@ -560,8 +595,7 @@ namespace SticKart.Game.Entities
                     Camera2D.Draw(this.jumpingSprite, this.Position, this.fullBody.Rotation);
                     break;
                 case PlayerState.dead:
-
-                    // TODO
+                    Camera2D.Draw(this.dyingSprite, this.Position, 0.0f);
                     break;
                 default:
                     break;
@@ -602,6 +636,7 @@ namespace SticKart.Game.Entities
             this.health = this.maximumHealth;
             this.runningSprite.Reset();
             this.jumpingSprite.Reset();
+            this.dyingSprite.Reset();
         }
 
         #region initialization
@@ -617,6 +652,7 @@ namespace SticKart.Game.Entities
             this.standingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManStanding);
             this.runningSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManRunning, 8, 0.05f, true);
             this.jumpingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManJumping, 5, 0.075f, false);
+            this.dyingSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.StickManSubPath + EntityConstants.StickManDying, 7, 0.05f, false);
         }
 
         /// <summary>
@@ -732,19 +768,26 @@ namespace SticKart.Game.Entities
         /// </summary>
         private void Land()
         {
-            this.jumpingDown = false;
-            if (this.motorJoint.MotorSpeed > 0.0f)
+            if (this.state == PlayerState.dead)
             {
-                if (this.state != PlayerState.running)
-                {
-                    this.runningSprite.Reset();
-                }
-
-                this.state = PlayerState.running;
+                return;
             }
             else
             {
-                this.state = PlayerState.standing;
+                this.jumpingDown = false;
+                if (this.motorJoint.MotorSpeed > 0.0f)
+                {
+                    if (this.state != PlayerState.running)
+                    {
+                        this.runningSprite.Reset();
+                    }
+
+                    this.state = PlayerState.running;
+                }
+                else
+                {
+                    this.state = PlayerState.standing;
+                }
             }
         }
 
@@ -754,19 +797,26 @@ namespace SticKart.Game.Entities
         /// <param name="cartBody">The cart body.</param>
         private void LandInCart(Body cartBody)
         {
-            this.smallBody.LinearVelocity = cartBody.LinearVelocity;
-            this.fullBody.LinearVelocity = cartBody.LinearVelocity;
-            this.wheelBody.LinearVelocity = cartBody.LinearVelocity;
-            this.jumpingDown = false;
-            this.state = PlayerState.standing;
-            this.InCart = true;
-            Vector2 cartTopPosition = cartBody.Position + ConvertUnits.ToSimUnits(-24.0f * Vector2.UnitY);
-            this.fullBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.fullBodyOffset);
-            this.smallBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.smallBodyOffset);
-            this.wheelBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.wheelBodyOffset);
-            if (this.cartJoint == null)
+            if (this.state == PlayerState.dead)
             {
-                this.cartJoint = JointFactory.CreateRevoluteJoint(this.physicsWorld, this.smallBody, cartBody, Vector2.Zero);
+                return;
+            }
+            else
+            {
+                this.smallBody.LinearVelocity = cartBody.LinearVelocity;
+                this.fullBody.LinearVelocity = cartBody.LinearVelocity;
+                this.wheelBody.LinearVelocity = cartBody.LinearVelocity;
+                this.jumpingDown = false;
+                this.state = PlayerState.standing;
+                this.InCart = true;
+                Vector2 cartTopPosition = cartBody.Position + ConvertUnits.ToSimUnits(-24.0f * Vector2.UnitY);
+                this.fullBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.fullBodyOffset);
+                this.smallBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.smallBodyOffset);
+                this.wheelBody.Position = cartTopPosition + ConvertUnits.ToSimUnits(this.wheelBodyOffset);
+                if (this.cartJoint == null)
+                {
+                    this.cartJoint = JointFactory.CreateRevoluteJoint(this.physicsWorld, this.smallBody, cartBody, Vector2.Zero);
+                }
             }
         }
 
