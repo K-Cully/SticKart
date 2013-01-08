@@ -174,7 +174,7 @@ namespace SticKart.Input
             this.kinectSensor = null;
             this.coordinateMapper = null;
             this.gestureManager = null;
-            this.minimumPlayerDistance = 2.3f;
+            this.minimumPlayerDistance = 2.375f;
             this.PlayerFloorPosition = Vector2.Zero;
             this.selectedWord = null;
             this.touchGesture = new GestureSample();

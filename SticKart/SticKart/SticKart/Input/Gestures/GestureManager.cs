@@ -70,8 +70,8 @@ namespace SticKart.Input.Gestures
         {
             this.runTimeLimit = 1.5;
             this.jumpTimeLimit = 0.025;
-            this.lastLegLiftCounter = 0.0;
-            this.lastLegLifted = JointType.Spine;
+            this.lastLegLiftCounter = this.jumpTimeLimit;
+            this.lastLegLifted = JointType.FootLeft;
             this.activeHand = primaryHand;
             if (this.activeHand == JointType.HandRight)
             {
@@ -90,9 +90,9 @@ namespace SticKart.Input.Gestures
             this.gestureDetectors.Add(swipeGestureDetector);
             PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30);
             this.gestureDetectors.Add(pushGestureDetector);
-            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleRight, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
             this.gestureDetectors.Add(rightLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.AnkleLeft, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
             this.gestureDetectors.Add(leftLegSwipeGestureDetector);
             VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.45f, 0.4f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);
@@ -163,8 +163,8 @@ namespace SticKart.Input.Gestures
         /// </summary>
         public void Reset()
         {
-            this.lastLegLiftCounter = 0.0;
-            this.lastLegLifted = JointType.Spine;
+            this.lastLegLiftCounter = this.jumpTimeLimit;
+            this.lastLegLifted = JointType.FootLeft;
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
             {
                 gestureDetector.Reset();
@@ -191,7 +191,7 @@ namespace SticKart.Input.Gestures
                     gestureDetector.Add(this.skeletonJoints[gestureDetector.JointToTrack].Position);
                     if (gestureDetector.GestureDetected != GestureType.None)
                     {
-                        if (gestureDetector.JointToTrack == JointType.AnkleLeft || gestureDetector.JointToTrack == JointType.AnkleRight)
+                        if (gestureDetector.JointToTrack == JointType.FootLeft || gestureDetector.JointToTrack == JointType.FootRight)
                         {
                             this.ProcessLegGesture(gestureDetector.JointToTrack);
                         }
@@ -223,8 +223,8 @@ namespace SticKart.Input.Gestures
         /// <param name="jointTracked">The joint used for the gesture.</param>
         private void ProcessLegGesture(JointType jointTracked)
         {
-            if ((this.lastLegLifted == JointType.AnkleLeft && jointTracked == JointType.AnkleRight) ||
-                (this.lastLegLifted == JointType.AnkleRight && jointTracked == JointType.AnkleLeft))
+            if ((this.lastLegLifted == JointType.FootLeft && jointTracked == JointType.FootRight) ||
+                (this.lastLegLifted == JointType.FootRight && jointTracked == JointType.FootLeft))
             {
                 if (this.lastLegLiftCounter < this.jumpTimeLimit)
                 {
@@ -236,9 +236,8 @@ namespace SticKart.Input.Gestures
                 }
 
                 this.lastLegLiftCounter = 0.0;
+                this.lastLegLifted = jointTracked;
             }
-
-            this.lastLegLifted = jointTracked;
         }
     }
 }
