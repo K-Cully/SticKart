@@ -182,7 +182,7 @@ namespace SticKart.Input
             this.gamePadstate = new GamePadState();
             this.lastKeyPressTime = DateTime.UtcNow;
             this.kinectAngleSet = false;
-            this.thresholdAngleToTrackingPoint = 0.5f;
+            this.thresholdAngleToTrackingPoint = 0.1f;
             this.colourStreamEnabled = false;
 
             if (this.controlDevice == ControlDevice.Kinect)
@@ -478,7 +478,7 @@ namespace SticKart.Input
                     {
                         if (this.kinectAngleSet)
                         {
-                            this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState != JointTrackingState.NotTracked && closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked;
+                            this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked && (closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked || closestSkeleton.Joints[JointType.FootRight].TrackingState != JointTrackingState.NotTracked);
                             this.gestureManager.Update(closestSkeleton, gameTime);
                             this.PlayerFloorPosition = Vector2.Zero;
                             this.ApplyKinectGestures();
@@ -737,7 +737,7 @@ namespace SticKart.Input
                 float angle = MathHelper.ToDegrees((float)Math.Asin(trackingPoint.Y));
                 if (angle > this.thresholdAngleToTrackingPoint || -angle > this.thresholdAngleToTrackingPoint)
                 {
-                    this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle + (int)angle);
+                    this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle + (int)Math.Round(angle));
                 }
 
                 this.kinectAngleSet = true;
