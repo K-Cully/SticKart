@@ -189,13 +189,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Entities\Platform.png">
-      <Name>Platform</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sprites\Entities\Floor.png">
       <Name>Floor</Name>
       <Importer>TextureImporter</Importer>
@@ -507,6 +500,13 @@
   <ItemGroup>
     <Compile Include="Sprites\Entities\Stick_man\dying.png">
       <Name>dying</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Entities\Platform.png">
+      <Name>Platform</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

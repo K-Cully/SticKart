@@ -7,7 +7,6 @@ Content\Sprites\Menu\Leaderboard_icon_large.xnb
 Content\Sprites\Menu\Back_icon_large.xnb
 Content\Sprites\Menu\Restart_icon_large.xnb
 Content\Sprites\Entities\exit.xnb
-Content\Sprites\Entities\Platform.xnb
 Content\Sprites\Entities\Floor.xnb
 Content\Sprites\Entities\Bonuses\coin.xnb
 Content\Sprites\Entities\Bonuses\diamond.xnb
@@ -37,6 +36,7 @@ Content\Sprites\Entities\Stick_man\running.xnb
 Content\Sprites\Entities\Stick_man\standing.xnb
 Content\Sprites\Entities\switch.xnb
 Content\Sprites\Entities\Stick_man\dying.xnb
+Content\Sprites\Entities\Platform.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
