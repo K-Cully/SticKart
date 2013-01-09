@@ -119,7 +119,7 @@ namespace SticKart.Display
         }
 
         /// <summary>
-        /// Draws an abimated sprite offset by the camera's position.
+        /// Draws an animated sprite offset by the camera's position.
         /// </summary>
         /// <param name="sprite">The animated sprite to draw.</param>
         /// <param name="position">The position of the sprite.</param>

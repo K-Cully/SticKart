@@ -60,7 +60,7 @@ namespace SticKart.Display
         }
 
         /// <summary>
-        /// Gets a value indicating if the animation is finished playing or not.
+        /// Gets a value indicating whether the animation is finished playing or not.
         /// </summary>
         public bool Finished
         {

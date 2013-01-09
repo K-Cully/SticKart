@@ -66,7 +66,9 @@ Content\SFX\Rock2.xnb
 Content\SFX\ScrollStart.xnb
 Content\SFX\Switch.xnb
 Content\SFX\Switch2.xnb
-Content\Music\AssaultOnMistCastle.xnb
+Content\Music\Game\AssaultOnMistCastle.xnb
+Content\Music\Game\Tanner Helland - Crossroads.xnb
+Content\Music\Menu\Tanner Helland - DragonFyre's White Knights (Remix).xnb
 Content\SFX\Collect.wma
 Content\SFX\Die.wma
 Content\SFX\Fire.wma
@@ -76,4 +78,6 @@ Content\SFX\Rock2.wma
 Content\SFX\ScrollStart.wma
 Content\SFX\Switch.wma
 Content\SFX\Switch2.wma
-Content\Music\AssaultOnMistCastle.wma
+Content\Music\Game\AssaultOnMistCastle.wma
+Content\Music\Game\Tanner Helland - Crossroads.wma
+Content\Music\Menu\Tanner Helland - DragonFyre's White Knights (Remix).wma
