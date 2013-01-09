@@ -8,6 +8,7 @@ namespace SticKart.Game.Level
 {
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Audio;
     using Display;
     using Entities;
     using FarseerPhysics.Common;
@@ -286,6 +287,7 @@ namespace SticKart.Game.Level
             float y = this.visualFloorEdges[this.visualFloorEdges.Count - 1].EndPoint.Y - this.gameDisplayResolution.Y;
             this.visualFloorEdges.Add(new VisualEdge(new Vector2(startX, y), new Vector2(startX + this.gameDisplayResolution.X, y)));
             this.background.Reset();
+            AudioManager.PlayBackgroundMusic(true);
         }
 
         /// <summary>
@@ -298,6 +300,7 @@ namespace SticKart.Game.Level
             LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges);
             this.scrollingDeath.Dispose(ref this.physicsWorld);
             this.exit.Dispose(ref this.physicsWorld);
+            AudioManager.StopBackgroundMusic();
         }
    
         /// <summary>

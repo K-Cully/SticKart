@@ -8,6 +8,7 @@ namespace SticKart
 {
     using System;
     using System.Collections.Generic;
+    using Audio;
     using Display;
     using Game;
     using Game.Entities;
@@ -191,6 +192,7 @@ namespace SticKart
             this.gameSettings = GameSettings.Load();
             this.notificationText.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.SegoeUIFontLarge, " ");
 
+            AudioManager.InitializeAndLoad(this.Content);
             PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 4.0f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.inputManager.InitializeSpeechEngine(this.menuManager.GetAllSelectableNames());
@@ -204,6 +206,8 @@ namespace SticKart
                 this.colourStreamRenderer = new ColourStreamRenderer(this.Content, this.GraphicsDevice);
                 this.colourStreamDisplayArea = new Rectangle(5 * ((int)this.screenDimensions.X / 6), 2 * ((int)this.screenDimensions.Y / 3), (int)this.screenDimensions.X / 6, (int)this.screenDimensions.Y / 3);
             }
+
+            AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
         }
 
         /// <summary>
@@ -319,8 +323,10 @@ namespace SticKart
         /// </summary>
         protected void PauseGame()
         {
+            AudioManager.PauseBackgroundMusic();
             this.gameState = GameState.InMenu;
             this.menuManager.ActiveMenu = MenuType.Main; // TODO: Add a resume button or pause menu.
+            AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
         }
 
         /// <summary>
@@ -398,6 +404,7 @@ namespace SticKart
         protected void QuitGame(bool value)
         {
             // TODO: refine.
+            AudioManager.StopBackgroundMusic();
             this.Exit();
         }
 

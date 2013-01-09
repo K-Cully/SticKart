@@ -6,6 +6,7 @@
 
 namespace SticKart.Audio
 {
+    using System;
     using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Media;
@@ -33,7 +34,7 @@ namespace SticKart.Audio
         /// <summary>
         /// The volume to play music at.
         /// </summary>
-        private static float musicVolume = 1.0f;
+        private static float musicVolume = 0.7f;
 
         /// <summary>
         /// A manager for music loading.

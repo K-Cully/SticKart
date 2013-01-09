@@ -89,7 +89,7 @@ namespace SticKart.Audio
             {
                 if (count <= this.numberOfMenuSongs)
                 {
-                    this.gameSongs.Add(contentManager.Load<Song>(MusicManager.MenuMusicLocation + count.ToString()));
+                    this.menuSongs.Add(contentManager.Load<Song>(MusicManager.MenuMusicLocation + count.ToString()));
                 }
 
                 if (count <= this.numberOfGameSongs)
@@ -122,7 +122,7 @@ namespace SticKart.Audio
         /// <summary>
         /// Retrieves the last song played.
         /// </summary>
-        /// <param name="inGame">A vlaue indicating whether to retrieve game-play music or not (menu music).</param>
+        /// <param name="inGame">A value indicating whether to retrieve game-play music or not (menu music).</param>
         /// <returns>The last song played if the game-play state has not changed.</returns>
         public Song GetLast(bool inGame)
         {
