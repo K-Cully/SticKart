@@ -36,6 +36,11 @@ namespace SticKart.Audio
         private static float musicVolume = 1.0f;
 
         /// <summary>
+        /// A manager for music loading.
+        /// </summary>
+        private static MusicManager musicManager;
+
+        /// <summary>
         /// Sets the sound effect volume.
         /// Values should be in the range 0 to 10, inclusive.
         /// </summary>
@@ -114,19 +119,34 @@ namespace SticKart.Audio
         }
 
         /// <summary>
+        /// Initializes the audio manager.
+        /// </summary>
+        /// <param name="contentManager">The game's content manager.</param>
+        public static void InitializeAndLoad(ContentManager contentManager)
+        {
+            AudioManager.musicManager = new MusicManager(3, 2);
+            AudioManager.musicManager.InitializeAndLoad(contentManager);
+        }
+
+        /// <summary>
         /// Plays a random background track.
         /// </summary>
         /// <param name="inGame">A value indicating if the player is currently in the game or not (in the menu).</param>
         public static void PlayBackgroundMusic(bool inGame)
         {
-            // TODO: add multiple tracks support
             if (AudioManager.musicEnabled)
             {
                 try
                 {
-                    // TODO: check media player state and resume at position if paused
                     MediaPlayer.Volume = AudioManager.musicVolume;
-                    //MediaPlayer.Play(m_backMusic1);
+                    if (MediaPlayer.State == MediaState.Paused && AudioManager.musicManager.GetLast(inGame) != null)
+                    {
+                        MediaPlayer.Play(AudioManager.musicManager.GetLast(inGame));
+                    }
+                    else
+                    {
+                        MediaPlayer.Play(AudioManager.musicManager.GetNext(inGame));
+                    }
                 }
                 catch
                 {

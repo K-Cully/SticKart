@@ -33,6 +33,16 @@ namespace SticKart.Audio
         private Random randomGenerator;
 
         /// <summary>
+        /// The index of the last song played.
+        /// </summary>
+        private int lastSongNumber;
+
+        /// <summary>
+        /// A value indicating whether the last song was a game-play song or not.
+        /// </summary>
+        private bool lastSongInGame;
+
+        /// <summary>
         /// The number of game-play songs.
         /// </summary>
         private int numberOfGameSongs;
@@ -59,6 +69,8 @@ namespace SticKart.Audio
         /// <param name="numberOfMenuSongs">The total number of menu songs.</param>
         public MusicManager(uint numberOfGameSongs, uint numberOfMenuSongs)
         {
+            this.lastSongInGame = false;
+            this.lastSongNumber = 0;
             this.randomGenerator = new Random();
             this.numberOfGameSongs = (int)numberOfGameSongs;
             this.numberOfMenuSongs = (int)numberOfMenuSongs;
@@ -70,7 +82,7 @@ namespace SticKart.Audio
         /// Initializes and loads all songs in the music manager.
         /// </summary>
         /// <param name="contentManager">The game's content manager.</param>
-        private void InitializeAndLoad(ContentManager contentManager)
+        public void InitializeAndLoad(ContentManager contentManager)
         {
             int length = this.numberOfMenuSongs > this.numberOfGameSongs ? this.numberOfMenuSongs : this.numberOfGameSongs;
             for (int count = 1; count <= length; count++)
@@ -92,16 +104,40 @@ namespace SticKart.Audio
         /// </summary>
         /// <param name="inGame">A value indicating if the player is in the game or not (in menu).</param>
         /// <returns>A randomly selected song.</returns>
-        private Song GetNext(bool inGame)
+        public Song GetNext(bool inGame)
         {
+            this.lastSongInGame = inGame;
             if (inGame)
             {
-                return this.gameSongs[this.randomGenerator.Next(this.numberOfGameSongs)];
+                this.lastSongNumber = this.randomGenerator.Next(this.numberOfGameSongs);
+                return this.gameSongs[this.lastSongNumber];
             }
             else
             {
-                return this.menuSongs[this.randomGenerator.Next(this.numberOfMenuSongs)];
+                this.lastSongNumber = this.randomGenerator.Next(this.numberOfMenuSongs);
+                return this.menuSongs[this.lastSongNumber];
             }
-        }        
+        }
+
+        /// <summary>
+        /// Retrieves the last song played.
+        /// </summary>
+        /// <param name="inGame">A vlaue indicating whether to retrieve game-play music or not (menu music).</param>
+        /// <returns>The last song played if the game-play state has not changed.</returns>
+        public Song GetLast(bool inGame)
+        {
+            if (inGame && this.lastSongInGame)
+            {
+                return this.gameSongs[this.lastSongNumber];
+            }
+            else if (!lastSongInGame)
+            {
+                return this.menuSongs[this.lastSongNumber];
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }
