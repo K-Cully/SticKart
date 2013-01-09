@@ -120,6 +120,17 @@ namespace SticKart.Audio
         }
 
         /// <summary>
+        /// Gets a value indicating whether there is music playing or not.
+        /// </summary>
+        public static bool MusicPlaying
+        {
+            get
+            {
+                return MediaPlayer.State == MediaState.Stopped;
+            }
+        }
+
+        /// <summary>
         /// Initializes the audio manager.
         /// </summary>
         /// <param name="contentManager">The game's content manager.</param>
@@ -139,10 +150,11 @@ namespace SticKart.Audio
             {
                 try
                 {
-                    MediaPlayer.Volume = AudioManager.musicVolume;
+                    MediaPlayer.IsRepeating = true;
+                    MediaPlayer.Volume = inGame ? AudioManager.musicVolume : AudioManager.musicVolume * 0.5f;
                     if (MediaPlayer.State == MediaState.Paused && AudioManager.musicManager.GetLast(inGame) != null)
                     {
-                        MediaPlayer.Play(AudioManager.musicManager.GetLast(inGame));
+                        MediaPlayer.Resume();
                     }
                     else
                     {
