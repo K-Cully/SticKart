@@ -6,6 +6,7 @@
 
 namespace SticKart.Game.Entities
 {
+    using Audio;
     using Display;
     using FarseerPhysics.Dynamics;
     using FarseerPhysics.Factories;
@@ -13,6 +14,7 @@ namespace SticKart.Game.Entities
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
+    using Microsoft.Xna.Framework.Audio;
     
     /// <summary>
     /// Defines a switch which activates a mine cart.
@@ -28,6 +30,11 @@ namespace SticKart.Game.Entities
         /// The animated sprite to render for a switch.
         /// </summary>
         private AnimatedSprite sprite;
+
+        /// <summary>
+        /// The sound to play when the switch is tripped.
+        /// </summary>
+        private SoundEffect sound;
 
         /// <summary>
         /// The mine cart that a switch should activate.
@@ -66,6 +73,7 @@ namespace SticKart.Game.Entities
             {
                 if ((bool)this.physicsBody.UserData == true)
                 {
+                    AudioManager.PlayEffect(this.sound);
                     this.activated = true;
                     this.mineCart.Activate();
                 }
@@ -105,6 +113,7 @@ namespace SticKart.Game.Entities
         private void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.sprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Switch, 7, 0.03f, false);
+            this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.Switch);
         }
 
         /// <summary>

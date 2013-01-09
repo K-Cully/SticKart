@@ -7,6 +7,7 @@
 namespace SticKart.Game.Entities
 {
     using System.Collections.Generic;
+    using Audio;
     using Display;
     using FarseerPhysics.Collision;
     using FarseerPhysics.Collision.Shapes;
@@ -18,6 +19,7 @@ namespace SticKart.Game.Entities
     using FarseerPhysics.SamplesFramework;
     using Input;
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
     
@@ -160,6 +162,20 @@ namespace SticKart.Game.Entities
         
         #endregion
 
+        #region sounds
+
+        /// <summary>
+        /// The sound to play when colliding with a cart.
+        /// </summary>
+        SoundEffect enterCart;
+
+        /// <summary>
+        /// The sound to play when dying.
+        /// </summary>
+        SoundEffect die;
+
+        #endregion
+
         #region state_managment
 
         /// <summary>
@@ -262,6 +278,7 @@ namespace SticKart.Game.Entities
             this.jumpingSprite = new AnimatedSprite();
             this.dyingSprite = new AnimatedSprite();
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
+            this.InitializeAndLoadSoundEffects(contentManager);
             this.fullBodyOffset = new Vector2(0.0f, -this.standingSprite.Height / 8.0f);
             this.smallBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 8.0f);
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
@@ -656,6 +673,16 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
+        /// Initializes and loads the sound effects used by a StickMan object.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use for loading the sound effects.</param>
+        private void InitializeAndLoadSoundEffects(ContentManager contentManager)
+        {
+            this.enterCart = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.CartBody);
+            this.die = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.StickManDying);
+        }
+
+        /// <summary>
         /// Sets up all the physical properties of the StickMan object.
         /// </summary>
         /// <param name="physicsWorld">The physics world to set the objects up in.</param>
@@ -803,6 +830,7 @@ namespace SticKart.Game.Entities
             }
             else
             {
+                AudioManager.PlayEffect(this.enterCart);
                 this.smallBody.LinearVelocity = cartBody.LinearVelocity;
                 this.fullBody.LinearVelocity = cartBody.LinearVelocity;
                 this.wheelBody.LinearVelocity = cartBody.LinearVelocity;
@@ -831,7 +859,7 @@ namespace SticKart.Game.Entities
             switch (entityData.EntityType)
             {
                 case InteractiveEntityType.Obstacle:
-                    if (this.activePowerUp == PowerUpType.Invincibility)
+                    if (this.activePowerUp == PowerUpType.Invincibility || this.state == PlayerState.dead)
                     {
                         collided = false;
                     }
@@ -841,6 +869,7 @@ namespace SticKart.Game.Entities
                         if (this.health <= this.minimumHealth)
                         {
                             this.state = PlayerState.dead;
+                            AudioManager.PlayEffect(this.die);
                         }
 
                         this.fullBody.ApplyForce(new Vector2(-70.0f, 0.0f));
@@ -926,8 +955,12 @@ namespace SticKart.Game.Entities
                         break;
                     case EntityConstants.ScrollingDeathCategory:
                         collided = true;
-                        this.health = this.minimumHealth;
-                        this.state = PlayerState.dead;
+                        if (this.state != PlayerState.dead)
+                        {
+                            this.health = this.minimumHealth;
+                            this.state = PlayerState.dead;
+                            AudioManager.PlayEffect(this.die);
+                        }
                         break;
                     case EntityConstants.MineCartCategory:
                         if (this.state != PlayerState.jumping)
@@ -988,8 +1021,12 @@ namespace SticKart.Game.Entities
                         break;
                     case EntityConstants.ScrollingDeathCategory:
                         collided = true;
-                        this.health = this.minimumHealth;
-                        this.state = PlayerState.dead;
+                        if (this.state == PlayerState.dead)
+                        {
+                            this.health = this.minimumHealth;
+                            this.state = PlayerState.dead;
+                            AudioManager.PlayEffect(this.die);
+                        }
                         break;
                     case EntityConstants.MineCartCategory:
                         collided = false;
@@ -1052,8 +1089,12 @@ namespace SticKart.Game.Entities
                         break;
                     case EntityConstants.ScrollingDeathCategory:
                         collided = true;
-                        this.health = this.minimumHealth;
-                        this.state = PlayerState.dead;
+                        if (this.state == PlayerState.dead)
+                        {
+                            this.health = this.minimumHealth;
+                            this.state = PlayerState.dead;
+                            AudioManager.PlayEffect(this.die);
+                        }
                         break;
                     case EntityConstants.MineCartCategory:
                         if (!this.InCart && this.state != PlayerState.jumping)

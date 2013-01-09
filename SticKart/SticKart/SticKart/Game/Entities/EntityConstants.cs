@@ -17,9 +17,14 @@ namespace SticKart.Game.Entities
         #region paths
 
         /// <summary>
-        /// The path to the entity settings folder.
+        /// The path to the entity sprites folder.
         /// </summary>
         public const string SpritesFolderPath = "Sprites/Entities/";
+
+        /// <summary>
+        /// The path to the entity sound effects folder.
+        /// </summary>
+        public const string SoundEffectsFolderPath = "SFX/";
 
         /// <summary>
         /// The sub-folder of the stick man asset folder.
