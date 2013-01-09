@@ -249,7 +249,7 @@ namespace SticKart.Game.Level
             this.levelLoader = new LevelLoader(this.contentManager);        
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
             this.exit = new Exit(spriteBatch, contentManager, ref this.physicsWorld, this.levelLoader.EndPosition); 
-            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
+            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration, this.contentManager);
             this.rockyTerrain = contentManager.Load<Texture2D>(ContentLocations.Scenery + ContentLocations.RockyTerrain);
             this.background.InitializeAndLoad(this.spriteBatch, this.contentManager, ContentLocations.RockyBackGround);
         }
@@ -265,7 +265,7 @@ namespace SticKart.Game.Level
             this.CurrentLevel = levelNumber > 0 ? levelNumber : 1;
             this.currentLevelCustom = isCustom;
 
-            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration);
+            this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration, this.contentManager);
             this.scrollStartTimer = 0.0f;
 
             // TODO: Remove

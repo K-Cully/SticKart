@@ -167,12 +167,22 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The sound to play when colliding with a cart.
         /// </summary>
-        SoundEffect enterCart;
+        SoundEffect enterCartSound;
 
         /// <summary>
         /// The sound to play when dying.
         /// </summary>
-        SoundEffect die;
+        SoundEffect dieSound;
+
+        /// <summary>
+        /// The sound effect to play when jumping.
+        /// </summary>
+        SoundEffect jumpSound;
+
+        /// <summary>
+        /// The sound effect to play when landing on platforms or the ground.
+        /// </summary>
+        SoundEffect landSound;
 
         #endregion
 
@@ -550,6 +560,7 @@ namespace SticKart.Game.Entities
             }
             else if (this.state == PlayerState.running || this.state == PlayerState.standing)
             {
+                AudioManager.PlayEffect(this.jumpSound);
                 this.smallBody.ApplyLinearImpulse(new Vector2(0.0f, this.jumpImpulse / 8.0f));
                 this.state = PlayerState.falling;
                 this.wheelCollisionDisabled = true;
@@ -573,6 +584,7 @@ namespace SticKart.Game.Entities
             //}
             else if (this.state != PlayerState.jumping && this.state != PlayerState.falling)
             {
+                AudioManager.PlayEffect(this.jumpSound);
                 if (this.InCart && this.cartJoint != null)
                 {
                     this.InCart = false;
@@ -678,8 +690,10 @@ namespace SticKart.Game.Entities
         /// <param name="contentManager">The content manager to use for loading the sound effects.</param>
         private void InitializeAndLoadSoundEffects(ContentManager contentManager)
         {
-            this.enterCart = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.CartBody);
-            this.die = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.StickManDying);
+            this.enterCartSound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.CartBody);
+            this.dieSound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.StickManDying);
+            this.jumpSound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.StickManJumping);
+            this.landSound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.StickManLanding);
         }
 
         /// <summary>
@@ -802,18 +816,22 @@ namespace SticKart.Game.Entities
             else
             {
                 this.jumpingDown = false;
-                if (this.motorJoint.MotorSpeed > 0.0f)
+                if (this.state == PlayerState.falling)
                 {
-                    if (this.state != PlayerState.running)
+                    AudioManager.PlayEffect(this.landSound);
+                    if (this.motorJoint.MotorSpeed > 0.0f)
                     {
-                        this.runningSprite.Reset();
-                    }
+                        if (this.state != PlayerState.running)
+                        {
+                            this.runningSprite.Reset();
+                        }
 
-                    this.state = PlayerState.running;
-                }
-                else
-                {
-                    this.state = PlayerState.standing;
+                        this.state = PlayerState.running;
+                    }
+                    else
+                    {
+                        this.state = PlayerState.standing;
+                    }
                 }
             }
         }
@@ -830,7 +848,7 @@ namespace SticKart.Game.Entities
             }
             else
             {
-                AudioManager.PlayEffect(this.enterCart);
+                AudioManager.PlayEffect(this.enterCartSound);
                 this.smallBody.LinearVelocity = cartBody.LinearVelocity;
                 this.fullBody.LinearVelocity = cartBody.LinearVelocity;
                 this.wheelBody.LinearVelocity = cartBody.LinearVelocity;
@@ -869,7 +887,7 @@ namespace SticKart.Game.Entities
                         if (this.health <= this.minimumHealth)
                         {
                             this.state = PlayerState.dead;
-                            AudioManager.PlayEffect(this.die);
+                            AudioManager.PlayEffect(this.dieSound);
                         }
 
                         this.fullBody.ApplyForce(new Vector2(-70.0f, 0.0f));
@@ -959,7 +977,7 @@ namespace SticKart.Game.Entities
                         {
                             this.health = this.minimumHealth;
                             this.state = PlayerState.dead;
-                            AudioManager.PlayEffect(this.die);
+                            AudioManager.PlayEffect(this.dieSound);
                         }
                         break;
                     case EntityConstants.MineCartCategory:
@@ -1025,7 +1043,7 @@ namespace SticKart.Game.Entities
                         {
                             this.health = this.minimumHealth;
                             this.state = PlayerState.dead;
-                            AudioManager.PlayEffect(this.die);
+                            AudioManager.PlayEffect(this.dieSound);
                         }
                         break;
                     case EntityConstants.MineCartCategory:
@@ -1093,7 +1111,7 @@ namespace SticKart.Game.Entities
                         {
                             this.health = this.minimumHealth;
                             this.state = PlayerState.dead;
-                            AudioManager.PlayEffect(this.die);
+                            AudioManager.PlayEffect(this.dieSound);
                         }
                         break;
                     case EntityConstants.MineCartCategory:

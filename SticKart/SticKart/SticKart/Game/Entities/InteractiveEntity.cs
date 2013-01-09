@@ -6,11 +6,13 @@
 
 namespace SticKart.Game.Entities
 {
+    using Audio;
     using Display;
     using FarseerPhysics.Dynamics;
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -27,7 +29,17 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The sprite to render.
         /// </summary>
-        protected Sprite sprite; 
+        protected Sprite sprite;
+
+        /// <summary>
+        /// The sound effect to play on the entity's destruction.
+        /// </summary>
+        protected SoundEffect sound;
+
+        /// <summary>
+        /// A value indicating whether the entity is destroyed or not.
+        /// </summary>
+        private bool destroyed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="InteractiveEntity"/> class.
@@ -36,6 +48,8 @@ namespace SticKart.Game.Entities
         /// <param name="description">The description of the entity.</param>
         public InteractiveEntity(ref World physicsWorld, InteractiveEntityDescription description)
         {
+            this.destroyed = false;
+            this.sound = null;
             this.sprite = new Sprite();
             this.SetUpPhysics(ref physicsWorld, description);
         }
@@ -56,6 +70,11 @@ namespace SticKart.Game.Entities
         {
             if (this.physicsBody.UserData == null || ((InteractiveEntityUserData)this.physicsBody.UserData).IsActive != true)
             {
+                if (!this.destroyed)
+                {
+                    this.destroyed = true;
+                    AudioManager.PlayEffect(this.sound);
+                }
             }
             else
             {
@@ -64,11 +83,11 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
-        /// Initializes and loads the textures for the sprites in an InteractiveEntity object.
+        /// Initializes and loads the textures  and sound effects used by an InteractiveEntity object.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
         /// <param name="contentManager">The content manager to use for loading the sprites.</param>
-        protected abstract void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager);
+        protected abstract void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager);
 
         /// <summary>
         /// Sets up the physics body for an interactive entity.

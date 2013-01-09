@@ -70,6 +70,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const string DiamondName = "diamond";
 
+        /// <summary>
+        /// The name othe bonus sound effect.
+        /// </summary>
+        public const string BonusSound = "bonus";
+
         #endregion
 
         #region obstacle_names
@@ -113,6 +118,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const string JumpName = "jump";
 
+        /// <summary>
+        /// The name of the power up sound effect.
+        /// </summary>
+        public const string PowerUpSound = "powerUp";
+
         #endregion
 
         #region stick_man_assets
@@ -142,9 +152,19 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const string StickManDying = "dying";
 
+        /// <summary>
+        /// The name of the stick man landing assets.
+        /// </summary>
+        public const string StickManLanding = "landing";
+
         #endregion
 
         #region other_entity_assets
+
+        /// <summary>
+        /// The name of the scroll sound asset.
+        /// </summary>
+        public const string ScrollSound = "scroll";
 
         /// <summary>
         /// The name of the switch asset.

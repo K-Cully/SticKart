@@ -7,6 +7,7 @@
 namespace SticKart.Game.Entities
 {
     using FarseerPhysics.Dynamics;
+    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -45,24 +46,26 @@ namespace SticKart.Game.Entities
             this.name = setting.Name;
             this.value = setting.Value;
             this.physicsBody.UserData = new InteractiveEntityUserData(this.type, this.value);
-            this.InitializeAndLoadSprites(spriteBatch, contentManager);
+            this.InitializeAndLoad(spriteBatch, contentManager);
         }
 
         /// <summary>
-        /// Initializes and loads any sprites used by the entity.
+        /// Initializes and loads any assets used by the entity.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
         /// <param name="contentManager">The game's content manager.</param>
-        protected override void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
+        protected override void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             string path = string.Empty;
             if (this.type == InteractiveEntityType.Bonus)
             {
                 path = EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath;
+                this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.BonusSound);
             }
             else
             {
                 path = EntityConstants.SpritesFolderPath + EntityConstants.ObstacleFolderSubPath;
+                this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + this.name);
             }
 
             this.sprite.InitializeAndLoad(spriteBatch, contentManager, path + this.name);

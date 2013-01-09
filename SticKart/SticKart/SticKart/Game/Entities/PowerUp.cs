@@ -7,6 +7,7 @@
 namespace SticKart.Game.Entities
 {
     using FarseerPhysics.Dynamics;
+    using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -64,17 +65,18 @@ namespace SticKart.Game.Entities
             }
 
             this.physicsBody.UserData = new InteractiveEntityUserData(InteractiveEntityType.PowerUp, this.timeOfEffect, this.type);
-            this.InitializeAndLoadSprites(spriteBatch, contentManager);
+            this.InitializeAndLoad(spriteBatch, contentManager);
         }
 
         /// <summary>
-        /// Initializes and loads any sprites used by the power up.
+        /// Initializes and loads any assets used by the power up.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use for rendering.</param>
         /// <param name="contentManager">The game's content manager.</param>
-        protected override void InitializeAndLoadSprites(SpriteBatch spriteBatch, ContentManager contentManager)
+        protected override void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             this.sprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + this.name);
+            this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.PowerUpSound);
         }
     }
 }
