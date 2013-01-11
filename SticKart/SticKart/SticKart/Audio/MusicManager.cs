@@ -130,7 +130,7 @@ namespace SticKart.Audio
             {
                 return this.gameSongs[this.lastSongNumber];
             }
-            else if (!lastSongInGame)
+            else if (!this.lastSongInGame)
             {
                 return this.menuSongs[this.lastSongNumber];
             }

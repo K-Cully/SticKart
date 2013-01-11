@@ -167,22 +167,22 @@ namespace SticKart.Game.Entities
         /// <summary>
         /// The sound to play when colliding with a cart.
         /// </summary>
-        SoundEffect enterCartSound;
+        private SoundEffect enterCartSound;
 
         /// <summary>
         /// The sound to play when dying.
         /// </summary>
-        SoundEffect dieSound;
+        private SoundEffect dieSound;
 
         /// <summary>
         /// The sound effect to play when jumping.
         /// </summary>
-        SoundEffect jumpSound;
+        private SoundEffect jumpSound;
 
         /// <summary>
         /// The sound effect to play when landing on platforms or the ground.
         /// </summary>
-        SoundEffect landSound;
+        private SoundEffect landSound;
 
         #endregion
 
@@ -979,6 +979,7 @@ namespace SticKart.Game.Entities
                             this.state = PlayerState.dead;
                             AudioManager.PlayEffect(this.dieSound);
                         }
+
                         break;
                     case EntityConstants.MineCartCategory:
                         if (this.state != PlayerState.jumping)
@@ -1045,6 +1046,7 @@ namespace SticKart.Game.Entities
                             this.state = PlayerState.dead;
                             AudioManager.PlayEffect(this.dieSound);
                         }
+
                         break;
                     case EntityConstants.MineCartCategory:
                         collided = false;
@@ -1113,6 +1115,7 @@ namespace SticKart.Game.Entities
                             this.state = PlayerState.dead;
                             AudioManager.PlayEffect(this.dieSound);
                         }
+
                         break;
                     case EntityConstants.MineCartCategory:
                         if (!this.InCart && this.state != PlayerState.jumping)

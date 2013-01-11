@@ -71,7 +71,7 @@ namespace SticKart.Game.Entities
         public const string DiamondName = "diamond";
 
         /// <summary>
-        /// The name othe bonus sound effect.
+        /// The name other bonus sound effect.
         /// </summary>
         public const string BonusSound = "bonus";
 
