@@ -57,12 +57,13 @@ namespace SticKart.Display.Notification
                 case NotificationType.None:
                     break;
                 case NotificationType.StepBack:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, "Step Back", ContentLocations.SegoeUIFontMedium, string.Empty, 0, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, NotificationStrings.StepBack, ContentLocations.SegoeUIFontMedium, string.Empty, 0, 0.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.PushGesture:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, "To select an item:\nDraw your hand back to your\nshoulder then push gently\ntowards a tile.", ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Push, 7, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 7.5f, NotificationStrings.Push, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Push, 7, 0.2f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.SwipeGesture:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 7.5f, NotificationStrings.Swipe, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Swipe, 7, 0.2f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.VoiceCommand:
                     break;

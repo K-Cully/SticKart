@@ -47,6 +47,11 @@ namespace SticKart.Display
         /// </summary>
         public const string Push = "push";
 
+        /// <summary>
+        /// The name of the swipe animated sprite asset.
+        /// </summary>
+        public const string Swipe = "swipe";
+
         #endregion
 
         #region hud
