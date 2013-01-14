@@ -41,6 +41,7 @@ Content\Sprites\Notifications\push.xnb
 Content\Sprites\Notifications\Background.xnb
 Content\Sprites\Notifications\swipe.xnb
 Content\Sprites\Notifications\run.xnb
+Content\Sprites\Notifications\jump.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -125,6 +126,7 @@ Content\Sprites\Notifications\push.xnb
 Content\Sprites\Notifications\Background.xnb
 Content\Sprites\Notifications\swipe.xnb
 Content\Sprites\Notifications\run.xnb
+Content\Sprites\Notifications\jump.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb

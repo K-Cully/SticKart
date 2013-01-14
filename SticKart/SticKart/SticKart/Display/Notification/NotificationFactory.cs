@@ -71,6 +71,7 @@ namespace SticKart.Display.Notification
                     notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Run, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Run, 8, 0.06f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.JumpUp:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Jump, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.JumpIcon, 8, 0.06f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.JumpDown:
                     break;
