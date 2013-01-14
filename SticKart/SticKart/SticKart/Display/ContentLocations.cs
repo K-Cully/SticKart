@@ -41,6 +41,11 @@ namespace SticKart.Display
         /// The name of the background sprite asset.
         /// </summary>
         public const string Background = "Background";
+        
+        /// <summary>
+        /// The name of the push animated sprite asset.
+        /// </summary>
+        public const string Push = "push";
 
         #endregion
 

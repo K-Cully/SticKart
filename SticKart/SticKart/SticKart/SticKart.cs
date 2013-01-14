@@ -122,29 +122,6 @@ namespace SticKart
         /// </summary>
         private NotificationManager notificationManager;
 
-
-        // TODO: Remove these
-
-        /// <summary>
-        /// A value indicating if a notification is active or not.
-        /// </summary>
-        private bool notificationActive;
-
-        /// <summary>
-        /// The max length a notification should appear for.
-        /// </summary>
-        private float maxNotificationTime;
-
-        /// <summary>
-        /// A timer for notification displays.
-        /// </summary>
-        private float notificationTimer;
-
-        /// <summary>
-        /// The current notification text.
-        /// </summary>
-        private RenderableText notificationText;
-
         #endregion
 
         /// <summary>
@@ -197,6 +174,9 @@ namespace SticKart
 
             this.gameSettings = GameSettings.Load();
             this.notificationManager = NotificationManager.Initialize(this.Content, this.spriteBatch, this.screenDimensions);
+
+            // TODO: remove once testing finished.
+            NotificationManager.AddNotification(NotificationType.PushGesture);
 
             AudioManager.InitializeAndLoad(this.Content);
             PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 4.0f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);

@@ -77,7 +77,7 @@ namespace SticKart.Display.Notification
             if (pathToImage != null && pathToImage != string.Empty)
             {
                 this.image = new AnimatedSprite();
-                this.image.InitializeAndLoad(spriteBatch, contentManger, pathToImage);
+                this.image.InitializeAndLoad(spriteBatch, contentManger, pathToImage, numberOfFrames, 0.2f, true);
             }
             else
             {
@@ -125,6 +125,11 @@ namespace SticKart.Display.Notification
         /// <param name="exitDetected">A value indicating if an exit event occurred or not.</param>
         public void Update(GameTime gameTime, bool exitDetected)
         {
+            if (this.image != null)
+            {
+                this.image.Update(gameTime);
+            }
+
             this.lifeTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             this.Active = this.lifeTimer < this.timeToLive && !exitDetected;
         }
@@ -149,7 +154,7 @@ namespace SticKart.Display.Notification
                 Vector2 offset = Vector2.Zero;
                 for (int count = 0; count < this.textLines.Count; count++)
                 {
-                    offset.Y = this.textLines[count].Height * count;
+                    offset.Y = this.textLines[count].Height * 1.1f * count;
                     RenderableText.Draw(this.textLines[count], this.textPosition + offset, 0.0f);
                 }
             }
@@ -169,14 +174,14 @@ namespace SticKart.Display.Notification
             {
                 if (this.image != null)
                 {
-                    this.imagePosition.Y -= this.textLines[0].Height * this.textLines.Count;
+                    this.imagePosition.Y -= this.background.Height * 0.15f;
                 }
                 else
                 {
-                    this.imagePosition.Y -= 0.5f * (this.textLines[0].Height * (this.textLines.Count + 1));
+                    this.imagePosition.Y -= 0.55f * (this.textLines[0].Height * (this.textLines.Count + 1));
                 }
 
-                this.textPosition.Y = this.imagePosition.Y + (0.5f * imageHeight) + this.textLines[0].Height;
+                this.textPosition.Y = this.imagePosition.Y + (0.5f * imageHeight) + (this.textLines[0].Height * 1.5f);
             }
         }
     }
