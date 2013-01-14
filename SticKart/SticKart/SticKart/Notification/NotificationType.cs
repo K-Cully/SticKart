@@ -17,6 +17,11 @@ namespace SticKart.Notification
         None,
 
         /// <summary>
+        /// A notification to tell the player to step back.
+        /// </summary>
+        StepBack,
+
+        /// <summary>
         /// A notification on how to perform a push gesture.
         /// </summary>
         PushGesture,

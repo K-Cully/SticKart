@@ -6,6 +6,7 @@
 
 namespace SticKart.Notification
 {
+    using Display;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -51,7 +52,47 @@ namespace SticKart.Notification
         public Notification Create(NotificationType notificationType)
         {
             // TODO: finish this
-            return new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, string.Empty, string.Empty, string.Empty, 0, string.Empty);
+            Notification notification = null;
+
+            switch (notificationType)
+            {
+                case NotificationType.None:
+                    break;
+                case NotificationType.StepBack:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, "Step Back", ContentLocations.SegoeUIFont, string.Empty, 0, string.Empty);
+                    break;
+                case NotificationType.PushGesture:
+                    break;
+                case NotificationType.SwipeGesture:
+                    break;
+                case NotificationType.VoiceCommand:
+                    break;
+                case NotificationType.Run:
+                    break;
+                case NotificationType.JumpUp:
+                    break;
+                case NotificationType.JumpDown:
+                    break;
+                case NotificationType.Crouch:
+                    break;
+                case NotificationType.ScrollingDeath:
+                    break;
+                case NotificationType.Exit:
+                    break;
+                case NotificationType.Cart:
+                    break;
+                case NotificationType.Bonus:
+                    break;
+                case NotificationType.Obstacle:
+                    break;
+                case NotificationType.PowerUp:
+                    break;
+                default:
+                    notification =  new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, string.Empty, string.Empty, string.Empty, 0, string.Empty);
+                    break;
+            }
+
+            return notification;
         }
     }
 }

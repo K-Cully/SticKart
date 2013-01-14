@@ -79,7 +79,7 @@ namespace SticKart.Notification
         /// <param name="contentManager">The content manager to use for loading assets.</param>
         /// <param name="spriteBatch">The sprite batch used to render game sprites.</param>
         /// <param name="displayDimensions">The size of the game display area.</param>
-        public static void Initialize(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 displayDimensions)
+        public static NotificationManager Initialize(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 displayDimensions)
         {
             if (NotificationManager.managerSingleton == null)
             {
@@ -91,6 +91,8 @@ namespace SticKart.Notification
                     }
                 }
             }
+
+            return NotificationManager.managerSingleton;
         }
 
         /// <summary>
@@ -121,6 +123,20 @@ namespace SticKart.Notification
                     {
                         this.notificationQueue.Dequeue();
                     }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Draws the currently active notification.
+        /// </summary>
+        public void Draw()
+        {
+            lock (NotificationManager.mutex)
+            {
+                if (this.notificationQueue.Count > 0)
+                {
+                    this.notificationQueue.Peek().Draw();
                 }
             }
         }

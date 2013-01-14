@@ -15,6 +15,7 @@ namespace SticKart
     using Game.Level;
     using Input;
     using Menu;
+    using Notification;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 
@@ -117,6 +118,14 @@ namespace SticKart
         private LevelManager levelManager;
 
         /// <summary>
+        /// The game's notification manager.
+        /// </summary>
+        private NotificationManager notificationManager;
+
+
+        // TODO: Remove these
+
+        /// <summary>
         /// A value indicating if a notification is active or not.
         /// </summary>
         private bool notificationActive;
@@ -143,10 +152,7 @@ namespace SticKart
         /// </summary>
         public SticKart()
         {
-            this.notificationText = new RenderableText();
-            this.notificationActive = false;
-            this.maxNotificationTime = 0.25f;
-            this.notificationTimer = 0.00f; // TODO: put in notification system.
+            this.notificationManager = null;
             this.gameState = GameState.InMenu;
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1360.0f, 768.0f);
@@ -190,7 +196,7 @@ namespace SticKart
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
 
             this.gameSettings = GameSettings.Load();
-            this.notificationText.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.SegoeUIFontLarge, " ");
+            this.notificationManager = NotificationManager.Initialize(this.Content, this.spriteBatch, this.screenDimensions);
 
             AudioManager.InitializeAndLoad(this.Content);
             PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 4.0f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);
@@ -227,27 +233,17 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            if (this.notificationActive)
+            this.notificationManager.Update(gameTime, false); // TODO: Add exit.            
+            switch (this.gameState)
             {
-                this.notificationTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (this.notificationTimer > this.maxNotificationTime)
-                {
-                    this.notificationActive = false;
-                }
-            }
-            else
-            {
-                switch (this.gameState)
-                {
-                    case GameState.InMenu:
-                        this.UpdateMenu(gameTime);
-                        break;
-                    case GameState.InGame:
-                        this.UpdateGame(gameTime);
-                        break;
-                    default:
-                        break;
-                }
+                case GameState.InMenu:
+                    this.UpdateMenu(gameTime);
+                    break;
+                case GameState.InGame:
+                    this.UpdateGame(gameTime);
+                    break;
+                default:
+                    break;
             }
 
             if (SticKart.DisplayColourStream)
@@ -297,9 +293,7 @@ namespace SticKart
                                 this.PauseGame();
                                 break;
                             case InputCommand.MoveBack:
-                                this.notificationText.SetText("Step back!");
-                                this.notificationActive = true;
-                                this.notificationTimer = 0.00f;
+                                NotificationManager.AddNotification(NotificationType.StepBack); // TODO: put in input manager.
                                 break;
                             default:
                                 break;
@@ -342,9 +336,7 @@ namespace SticKart
                     switch (command)
                     {
                         case InputCommand.MoveBack:
-                            this.notificationText.SetText("Step back!");
-                            this.notificationActive = true;
-                            this.notificationTimer = 0.00f;
+                            NotificationManager.AddNotification(NotificationType.StepBack); // TODO: put in input manager.
                             break;
                         case InputCommand.Select:
                             this.menuManager.Update(this.menuManager.HighlightedPosition, null, this.gameSettings);
@@ -443,11 +435,7 @@ namespace SticKart
                 PositionInformer.Draw(this.spriteBatch, this.inputManager.PlayerFloorPosition.Y, -1.25f + (this.inputManager.PlayerFloorPosition.X * 0.75f));
             }
 
-            if (this.notificationActive)
-            {
-                RenderableText.Draw(this.notificationText, this.screenDimensions * 0.5f, 0.0f, Color.Red);
-            }
-
+            this.notificationManager.Draw();
             this.spriteBatch.End();
             if (SticKart.DisplayColourStream)
             {
