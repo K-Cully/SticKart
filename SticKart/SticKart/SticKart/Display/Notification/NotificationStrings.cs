@@ -25,5 +25,11 @@ namespace SticKart.Display.Notification
         /// The text to display for a swipe notification.
         /// </summary>
         public const string Swipe = "To move between pages:\nExtend your arm to one\nside, then swipe across\nto the other side.";
+
+        /// <summary>
+        /// The text to display for a run notification.
+        /// </summary>
+        public const string Run = "To move the player:\nRun or march,\nlifting your feet \nwhile doing so.";
+    
     }
 }

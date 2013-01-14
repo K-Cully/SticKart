@@ -52,6 +52,11 @@ namespace SticKart.Display
         /// </summary>
         public const string Swipe = "swipe";
 
+        /// <summary>
+        /// The name of the run animated sprite asset.
+        /// </summary>
+        public const string Run = "run";
+
         #endregion
 
         #region hud
