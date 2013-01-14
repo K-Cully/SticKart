@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace SticKart.Notification
+namespace SticKart.Display.Notification
 {
     /// <summary>
     /// An enumeration of notification types.

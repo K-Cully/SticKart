@@ -10,12 +10,12 @@ namespace SticKart
     using System.Collections.Generic;
     using Audio;
     using Display;
+    using Display.Notification;
     using Game;
     using Game.Entities;
     using Game.Level;
     using Input;
     using Menu;
-    using Notification;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
 

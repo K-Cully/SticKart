@@ -4,9 +4,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace SticKart.Notification
+namespace SticKart.Display.Notification
 {
-    using Display;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;

@@ -4,7 +4,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace SticKart.Notification
+namespace SticKart.Display.Notification
 {
     using System.Collections.Generic;
     using Microsoft.Xna.Framework;
