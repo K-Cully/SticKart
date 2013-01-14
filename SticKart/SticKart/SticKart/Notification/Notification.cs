@@ -13,7 +13,7 @@ namespace SticKart.Notification
     using Microsoft.Xna.Framework.Graphics;
 
     /// <summary>
-    /// TODO: Update summary.
+    /// A wrapper for displaying  a notification message. 
     /// </summary>
     public class Notification
     {
@@ -28,6 +28,11 @@ namespace SticKart.Notification
         private float lifeTimer;
 
         /// <summary>
+        /// The background of the notification.
+        /// </summary>
+        private Sprite background;
+
+        /// <summary>
         /// The animated sprite to display on the notification.
         /// </summary>
         private AnimatedSprite image;
@@ -36,6 +41,11 @@ namespace SticKart.Notification
         /// The text to display on the notification.
         /// </summary>
         private RenderableText text;
+
+        /// <summary>
+        /// The centre position of the notification.
+        /// </summary>
+        private Vector2 centrePosition;
 
         /// <summary>
         /// The position to render the notification image at.
@@ -58,7 +68,8 @@ namespace SticKart.Notification
         /// <param name="pathToFont">The location of the font to use for the notification text.</param>
         /// <param name="pathToImage">The location of the image to display on the notification.</param>
         /// <param name="numberOfFrames">The number of frames to separate the image into.</param>
-        public Notification(ContentManager contentManger, SpriteBatch spriteBatch, Vector2 centrePosition, float timeToLive, string text, string pathToFont, string pathToImage, int numberOfFrames)
+        /// <param name="pathToBackgroundImage">The location of the background image of the notification.</param>
+        public Notification(ContentManager contentManger, SpriteBatch spriteBatch, Vector2 centrePosition, float timeToLive, string text, string pathToFont, string pathToImage, int numberOfFrames, string pathToBackgroundImage)
         {
             this.Active = true;
             this.timeToLive = timeToLive;
@@ -81,6 +92,16 @@ namespace SticKart.Notification
             else
             {
                 this.text = null;
+            }
+
+            if (pathToBackgroundImage != null && pathToBackgroundImage != string.Empty)
+            {
+                this.background = new Sprite();
+                this.background.InitializeAndLoad(spriteBatch, contentManger, pathToBackgroundImage);
+            }
+            else
+            {
+                this.background = null;
             }
 
             this.SetRenderingPositions(centrePosition);
@@ -107,6 +128,11 @@ namespace SticKart.Notification
         /// </summary>
         public void Draw()
         {
+            if (this.background != null)
+            {
+                Sprite.Draw(this.background, this.centrePosition, 0.0f);
+            }
+
             if (this.image != null)
             {
                 AnimatedSprite.Draw(this.image, this.imagePosition, 0.0f);
@@ -124,8 +150,7 @@ namespace SticKart.Notification
         /// <param name="notificationCentre">The centre position of the notification.</param>
         private void SetRenderingPositions(Vector2 notificationCentre)
         {
-            this.imagePosition = new Vector2();
-            this.textPosition = new Vector2();
+            this.centrePosition = notificationCentre;
             this.imagePosition = notificationCentre;
             this.textPosition = notificationCentre;
             if (this.image != null && this.text != null)
