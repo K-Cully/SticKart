@@ -150,6 +150,9 @@
     <Compile Include="Menu\MenuType.cs" />
     <Compile Include="Menu\SelectableNames.cs" />
     <Compile Include="Notification\Notification.cs" />
+    <Compile Include="Notification\NotificationFactory.cs" />
+    <Compile Include="Notification\NotificationManager.cs" />
+    <Compile Include="Notification\NotificationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SticKart.cs" />
