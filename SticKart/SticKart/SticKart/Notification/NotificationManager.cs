@@ -8,6 +8,8 @@ namespace SticKart.Notification
 {
     using System.Collections.Generic;
     using Microsoft.Xna.Framework;
+    using Microsoft.Xna.Framework.Content;
+    using Microsoft.Xna.Framework.Graphics;
 
     /// <summary>
     /// Manages the update and display of notifications.
@@ -17,10 +19,10 @@ namespace SticKart.Notification
         /// <summary>
         /// The notification manager singleton.
         /// </summary>
-        private static volatile NotificationManager manager = null;
+        private static volatile NotificationManager managerSingleton = null;
 
         /// <summary>
-        /// An object to lock on which ensures thread-safe instanciation of the notification manager.
+        /// An object to lock on which ensures thread-safe instantiation of the notification manager.
         /// </summary>
         private static object mutex = new object();
         
@@ -30,29 +32,30 @@ namespace SticKart.Notification
         private volatile Queue<Notification> notificationQueue;
 
         /// <summary>
-        /// Prevents initialization of the <see cref="NotificationManager"/> class.
+        /// The factory to use to create notifications.
         /// </summary>
-        private NotificationManager()
+        private NotificationFactory notificationFactory;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotificationManager"/> class.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use for loading assets.</param>
+        /// <param name="spriteBatch">The sprite batch used to render game sprites.</param>
+        /// <param name="displayDimensions">The size of the game display area.</param>
+        private NotificationManager(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 displayDimensions)
         {
             this.notificationQueue = new Queue<Notification>();
+            this.notificationFactory = new NotificationFactory(contentManager, spriteBatch, displayDimensions);
         }
 
         /// <summary>
-        /// Gets the notification manager singleton.
+        /// Gets the notification manager singleton, if it has been initialized.
         /// </summary>
         public static NotificationManager Instance
         {
             get
             {
-                if (NotificationManager.manager == null)
-                {
-                    lock (NotificationManager.mutex)
-                    {
-                        NotificationManager.manager = new NotificationManager();
-                    }
-                }
-
-                return NotificationManager.manager;
+                return NotificationManager.managerSingleton;
             }
         }
 
@@ -67,6 +70,38 @@ namespace SticKart.Notification
                 {
                     return this.notificationQueue.Count > 0;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Initializes the <see cref="NotificationManager"/> singleton.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use for loading assets.</param>
+        /// <param name="spriteBatch">The sprite batch used to render game sprites.</param>
+        /// <param name="displayDimensions">The size of the game display area.</param>
+        public static void Initialize(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 displayDimensions)
+        {
+            if (NotificationManager.managerSingleton == null)
+            {
+                lock (NotificationManager.mutex)
+                {
+                    if (NotificationManager.managerSingleton == null)
+                    {
+                        NotificationManager.managerSingleton = new NotificationManager(contentManager, spriteBatch, displayDimensions);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a notification to the notification manager.
+        /// </summary>
+        /// <param name="type">The type of notification to add.</param>
+        public static void AddNotification(NotificationType type)
+        {
+            lock (NotificationManager.mutex)
+            {
+                NotificationManager.managerSingleton.notificationQueue.Enqueue(NotificationManager.managerSingleton.notificationFactory.Create(type));
             }
         }
 
