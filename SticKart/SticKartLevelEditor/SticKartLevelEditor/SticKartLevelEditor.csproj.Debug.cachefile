@@ -37,7 +37,10 @@ Content\Sprites\Entities\Stick_man\standing.xnb
 Content\Sprites\Entities\switch.xnb
 Content\Sprites\Entities\Stick_man\dying.xnb
 Content\Sprites\Entities\Platform.xnb
+Content\Sprites\Notifications\push.xnb
 Content\Sprites\Notifications\Background.xnb
+Content\Sprites\Notifications\swipe.xnb
+Content\Sprites\Notifications\run.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -74,7 +77,6 @@ Content\SFX\dying.xnb
 Content\SFX\scroll.xnb
 Content\SFX\jumping.xnb
 Content\SFX\landing.xnb
-Content\Sprites\Notifications\push.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma
@@ -119,7 +121,10 @@ Content\Sprites\Entities\Stick_man\standing.xnb
 Content\Sprites\Entities\switch.xnb
 Content\Sprites\Entities\Stick_man\dying.xnb
 Content\Sprites\Entities\Platform.xnb
+Content\Sprites\Notifications\push.xnb
 Content\Sprites\Notifications\Background.xnb
+Content\Sprites\Notifications\swipe.xnb
+Content\Sprites\Notifications\run.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -156,7 +161,6 @@ Content\SFX\dying.xnb
 Content\SFX\scroll.xnb
 Content\SFX\jumping.xnb
 Content\SFX\landing.xnb
-Content\Sprites\Notifications\push.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma
