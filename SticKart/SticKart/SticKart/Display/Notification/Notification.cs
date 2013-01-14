@@ -68,8 +68,9 @@ namespace SticKart.Display.Notification
         /// <param name="pathToFont">The location of the font to use for the notification text.</param>
         /// <param name="pathToImage">The location of the image to display on the notification.</param>
         /// <param name="numberOfFrames">The number of frames to separate the image into.</param>
+        /// <param name="frameTime">The time, in seconds, between animation frames.</param>
         /// <param name="pathToBackgroundImage">The location of the background image of the notification.</param>
-        public Notification(ContentManager contentManger, SpriteBatch spriteBatch, Vector2 centrePosition, float timeToLive, string text, string pathToFont, string pathToImage, int numberOfFrames, string pathToBackgroundImage)
+        public Notification(ContentManager contentManger, SpriteBatch spriteBatch, Vector2 centrePosition, float timeToLive, string text, string pathToFont, string pathToImage, int numberOfFrames, float frameTime, string pathToBackgroundImage)
         {
             this.Active = true;
             this.timeToLive = timeToLive;
@@ -77,7 +78,7 @@ namespace SticKart.Display.Notification
             if (pathToImage != null && pathToImage != string.Empty)
             {
                 this.image = new AnimatedSprite();
-                this.image.InitializeAndLoad(spriteBatch, contentManger, pathToImage, numberOfFrames, 0.2f, true);
+                this.image.InitializeAndLoad(spriteBatch, contentManger, pathToImage, numberOfFrames, frameTime, true);
             }
             else
             {
