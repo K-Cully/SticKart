@@ -6,6 +6,7 @@
 
 namespace SticKart.Display.Notification
 {
+    using System.Collections.ObjectModel;
     using Audio;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
@@ -37,9 +38,9 @@ namespace SticKart.Display.Notification
         private AnimatedSprite image;
 
         /// <summary>
-        /// The text to display on the notification.
+        /// The lines of text to display on the notification.
         /// </summary>
-        private RenderableText text;
+        private Collection<RenderableText> textLines;
 
         /// <summary>
         /// The centre position of the notification.
@@ -83,14 +84,20 @@ namespace SticKart.Display.Notification
                 this.image = null;
             }
 
+            this.textLines = new Collection<RenderableText>();
             if (text != null && text != string.Empty)
             {
-                this.text = new RenderableText();
-                this.text.InitializeAndLoad(spriteBatch, contentManger, pathToFont, text);
+                char[] seperator = {'\n'};
+                foreach (string line in text.Split(seperator))
+                {
+                    this.textLines.Add(new RenderableText());
+                    this.textLines[this.textLines.Count - 1].InitializeAndLoad(spriteBatch, contentManger, pathToFont, line);
+                    this.textLines[this.textLines.Count - 1].Colour = Color.Black;
+                }
             }
             else
             {
-                this.text = null;
+                this.textLines = null;
             }
 
             if (pathToBackgroundImage != null && pathToBackgroundImage != string.Empty)
@@ -137,9 +144,14 @@ namespace SticKart.Display.Notification
                 AnimatedSprite.Draw(this.image, this.imagePosition, 0.0f);
             }
 
-            if (this.text != null)
+            if (this.textLines != null)
             {
-                RenderableText.Draw(this.text, this.textPosition, 0.0f);
+                Vector2 offset = Vector2.Zero;
+                for (int count = 0; count < this.textLines.Count; count++)
+                {
+                    offset.Y = this.textLines[count].Height * count;
+                    RenderableText.Draw(this.textLines[count], this.textPosition + offset, 0.0f);
+                }
             }
         }
 
@@ -152,10 +164,19 @@ namespace SticKart.Display.Notification
             this.centrePosition = notificationCentre;
             this.imagePosition = notificationCentre;
             this.textPosition = notificationCentre;
-            if (this.image != null && this.text != null)
+            float imageHeight = this.image == null ? 0.0f : this.image.Height;
+            if (this.textLines.Count > 0)
             {
-                this.imagePosition.Y -= this.text.Height;
-                this.textPosition.Y += this.image.Height + (0.5f * this.text.Height);
+                if (this.image != null)
+                {
+                    this.imagePosition.Y -= this.textLines[0].Height * this.textLines.Count;
+                }
+                else
+                {
+                    this.imagePosition.Y -= 0.5f * (this.textLines[0].Height * (this.textLines.Count + 1));
+                }
+
+                this.textPosition.Y = this.imagePosition.Y + (0.5f * imageHeight) + this.textLines[0].Height;
             }
         }
     }

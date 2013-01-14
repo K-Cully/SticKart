@@ -30,6 +30,20 @@ namespace SticKart.Display
 
         #endregion
 
+        #region notifications
+
+        /// <summary>
+        /// The path to the directory containing sprites used by notifications.
+        /// </summary>
+        public const string NotificationsPath = "Sprites/Notifications/";
+
+        /// <summary>
+        /// The name of the background sprite asset.
+        /// </summary>
+        public const string Background = "Background";
+
+        #endregion
+
         #region hud
 
         /// <summary>
