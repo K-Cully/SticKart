@@ -101,6 +101,7 @@
     <Compile Include="Display\ColourStreamRenderer.cs" />
     <Compile Include="Display\ContentLocations.cs" />
     <Compile Include="Display\HeadsUpDisplay.cs" />
+    <Compile Include="Display\Notification\NotificationStrings.cs" />
     <Compile Include="Display\PositionInformer.cs" />
     <Compile Include="Display\RenderableText.cs" />
     <Compile Include="Display\SceneryRenderer.cs" />
