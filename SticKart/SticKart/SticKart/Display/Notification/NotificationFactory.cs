@@ -52,15 +52,15 @@ namespace SticKart.Display.Notification
         {
             // TODO: finish this
             Notification notification = null;
-
             switch (notificationType)
             {
                 case NotificationType.None:
                     break;
                 case NotificationType.StepBack:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, "Step Back", ContentLocations.SegoeUIFont, string.Empty, 0, string.Empty);
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, "Step Back", ContentLocations.SegoeUIFontMedium, string.Empty, 0, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.PushGesture:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, "To select an item:\nDraw your hand back to your\nshoulder then push gently\ntowards a tile.", ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Push, 7, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.SwipeGesture:
                     break;
