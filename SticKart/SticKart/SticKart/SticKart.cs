@@ -176,7 +176,7 @@ namespace SticKart
             this.notificationManager = NotificationManager.Initialize(this.Content, this.spriteBatch, this.screenDimensions);
 
             // TODO: remove once testing finished.
-            NotificationManager.AddNotification(NotificationType.VoiceCommand);
+            NotificationManager.AddNotification(NotificationType.PowerUp);
 
             AudioManager.InitializeAndLoad(this.Content);
             PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 4.0f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);

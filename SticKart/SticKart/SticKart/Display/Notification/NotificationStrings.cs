@@ -77,6 +77,11 @@ namespace SticKart.Display.Notification
         public const string ScrollingDeath = "Keep ahead of the camera\nor you will die.";
 
         /// <summary>
+        /// The text to display for a power up notification.
+        /// </summary>
+        public const string PowerUp = "Collect power-ups by\nrunning into boxes\nlike these.";
+
+        /// <summary>
         /// The text to display for a voice command notification.
         /// </summary>
         public const string VoiceCommand = "You can select menu\nitems by saying the word\non the item.\n \nYou can also pause the\ngame by saying:\n\"pause game\".";
