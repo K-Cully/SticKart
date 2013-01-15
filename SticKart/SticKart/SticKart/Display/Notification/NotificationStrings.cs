@@ -12,6 +12,11 @@ namespace SticKart.Display.Notification
     public class NotificationStrings
     {
         /// <summary>
+        /// The name of the notification settings file.
+        /// </summary>
+        public const string SettingsFileName = "notificationSettings.xml.";
+
+        /// <summary>
         /// The text to inform a user how to close a notification.
         /// </summary>
         public const string CloseNotification = "Press return or make a gesture to close.";
