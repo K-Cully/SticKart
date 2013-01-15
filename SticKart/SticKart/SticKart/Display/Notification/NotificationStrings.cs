@@ -29,11 +29,16 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// The text to display for a run notification.
         /// </summary>
-        public const string Run = "To make the stick man run:\nRun or march,\nlifting your feet \nwhile doing so.";
+        public const string Run = "To make the stick man run:\nRun or march,\nlifting your feet\nwhile doing so.";
 
         /// <summary>
         /// The text to display for a jump notification.
         /// </summary>
-        public const string Jump = "To make the stick man jump:\nJump high,\nlifting your feet \nwhile doing so.";
+        public const string Jump = "To make the stick man jump:\nJump high,\nlifting your feet\nwhile doing so.";
+
+        /// <summary>
+        /// The text to display for a crouch notification.
+        /// </summary>
+        public const string Crouch = "While in the mine cart,\ncrouching will make the\nstick man crouch.";
     }
 }

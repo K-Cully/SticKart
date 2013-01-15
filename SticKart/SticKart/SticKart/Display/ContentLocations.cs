@@ -57,6 +57,11 @@ namespace SticKart.Display
         /// </summary>
         public const string Run = "run";
 
+        /// <summary>
+        /// The name of the crouch animated sprite asset.
+        /// </summary>
+        public const string Crouch = "crouch";
+
         #endregion
 
         #region hud

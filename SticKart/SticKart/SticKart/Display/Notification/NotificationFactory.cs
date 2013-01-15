@@ -76,6 +76,7 @@ namespace SticKart.Display.Notification
                 case NotificationType.JumpDown:
                     break;
                 case NotificationType.Crouch:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Crouch, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Crouch, 8, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.ScrollingDeath:
                     break;
