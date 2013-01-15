@@ -47,6 +47,8 @@ Content\Sprites\Notifications\exit.xnb
 Content\Sprites\Notifications\cart.xnb
 Content\Sprites\Notifications\bonus.xnb
 Content\Sprites\Notifications\obstacle.xnb
+Content\Sprites\Notifications\death.xnb
+Content\Sprites\Notifications\powerUp.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -83,6 +85,7 @@ Content\SFX\dying.xnb
 Content\SFX\scroll.xnb
 Content\SFX\jumping.xnb
 Content\SFX\landing.xnb
+Content\Sprites\Notifications\switch.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma
