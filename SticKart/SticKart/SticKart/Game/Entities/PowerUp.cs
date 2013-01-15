@@ -6,6 +6,7 @@
 
 namespace SticKart.Game.Entities
 {
+    using System;
     using FarseerPhysics.Dynamics;
     using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
@@ -66,6 +67,15 @@ namespace SticKart.Game.Entities
 
             this.physicsBody.UserData = new InteractiveEntityUserData(InteractiveEntityType.PowerUp, this.timeOfEffect, this.type);
             this.InitializeAndLoad(spriteBatch, contentManager);
+        }
+
+        /// <summary>
+        /// Gets the object type.
+        /// </summary>
+        /// <returns>The object type.</returns>
+        public override Type ObjectType()
+        {
+            return typeof(PowerUp);
         }
 
         /// <summary>

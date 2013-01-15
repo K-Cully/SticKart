@@ -6,6 +6,7 @@
 
 namespace SticKart.Game.Entities
 {
+    using System;
     using FarseerPhysics.Dynamics;
     using Microsoft.Xna.Framework.Audio;
     using Microsoft.Xna.Framework.Content;
@@ -27,11 +28,6 @@ namespace SticKart.Game.Entities
         private float value;
 
         /// <summary>
-        /// The type of the entity.
-        /// </summary>
-        private InteractiveEntityType type;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="BonusOrObstacle"/> class.
         /// </summary>
         /// <param name="physicsWorld">The physics world.</param>
@@ -42,11 +38,25 @@ namespace SticKart.Game.Entities
         public BonusOrObstacle(ref World physicsWorld, SpriteBatch spriteBatch, ContentManager contentManager, InteractiveEntityDescription description, ObstacleOrBonusSetting setting)
             : base(ref physicsWorld, description)
         {            
-            this.type = setting.IsBonus ? InteractiveEntityType.Bonus : InteractiveEntityType.Obstacle;
+            this.Type = setting.IsBonus ? InteractiveEntityType.Bonus : InteractiveEntityType.Obstacle;
             this.name = setting.Name;
             this.value = setting.Value;
-            this.physicsBody.UserData = new InteractiveEntityUserData(this.type, this.value);
+            this.physicsBody.UserData = new InteractiveEntityUserData(this.Type, this.value);
             this.InitializeAndLoad(spriteBatch, contentManager);
+        }
+
+        /// <summary>
+        /// Gets the type of the entity.
+        /// </summary>
+        public InteractiveEntityType Type { get; private set; }
+
+        /// <summary>
+        /// Gets the object type.
+        /// </summary>
+        /// <returns>The object type.</returns>
+        public override Type ObjectType()
+        {
+            return typeof(BonusOrObstacle);
         }
 
         /// <summary>
@@ -57,7 +67,7 @@ namespace SticKart.Game.Entities
         protected override void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
         {
             string path = string.Empty;
-            if (this.type == InteractiveEntityType.Bonus)
+            if (this.Type == InteractiveEntityType.Bonus)
             {
                 path = EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath;
                 this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.BonusSound);

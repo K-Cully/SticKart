@@ -277,7 +277,7 @@ namespace SticKart.Game.Level
             AudioManager.PlayBackgroundMusic(true);
             Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y / 2.0f);
             this.background.Update();
-            // TODO: check hint manager here.
+            this.DisplayNotifications();
         }
 
         /// <summary>
@@ -427,6 +427,58 @@ namespace SticKart.Game.Level
                     this.scrollingDeath.Activate();
                 }
             }  
+        }
+
+        /// <summary>
+        /// Tells the notification manager to display the required notifications.
+        /// </summary>
+        private void DisplayNotifications()
+        {
+            NotificationManager.AddNotification(NotificationType.Run);
+            NotificationManager.AddNotification(NotificationType.JumpUp);
+            NotificationManager.AddNotification(NotificationType.Exit);
+            NotificationManager.AddNotification(NotificationType.ScrollingDeath);
+            if (this.platforms.Count > 0)
+            {
+                NotificationManager.AddNotification(NotificationType.JumpDown);
+            }
+            
+            if (this.mineCart != null)
+            {
+                NotificationManager.AddNotification(NotificationType.Cart);
+                NotificationManager.AddNotification(NotificationType.Switch);
+            }
+
+            bool bonusAdded = false;
+            bool obstacleAdded = false;
+            bool powerUpAdded = false;
+            foreach (InteractiveEntity entity in this.interactiveEntities)
+            {
+                if (typeof(BonusOrObstacle) == entity.ObjectType())
+                {
+                    if ((entity as BonusOrObstacle).Type == InteractiveEntityType.Bonus)
+                    {
+                        if (!bonusAdded)
+                        {
+                            NotificationManager.AddNotification(NotificationType.Bonus);
+                            bonusAdded = true;
+                        }
+                    }
+                    else
+                    {
+                        if (!obstacleAdded)
+                        {
+                            NotificationManager.AddNotification(NotificationType.Obstacle);
+                            obstacleAdded = true;
+                        }
+                    }
+                }
+                else if (!powerUpAdded)
+                {
+                    NotificationManager.AddNotification(NotificationType.PowerUp);
+                    powerUpAdded = true;
+                }
+            }
         }
     }
 }

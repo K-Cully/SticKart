@@ -6,6 +6,7 @@
 
 namespace SticKart.Game.Entities
 {
+    using System;
     using Audio;
     using Display;
     using FarseerPhysics.Dynamics;
@@ -83,12 +84,18 @@ namespace SticKart.Game.Entities
         }
 
         /// <summary>
+        /// Gets the sub type of a derived class.
+        /// </summary>
+        /// <returns>The object type.</returns>
+        public abstract Type ObjectType();
+
+        /// <summary>
         /// Initializes and loads the textures  and sound effects used by an InteractiveEntity object.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
         /// <param name="contentManager">The content manager to use for loading the sprites.</param>
         protected abstract void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager);
-
+        
         /// <summary>
         /// Sets up the physics body for an interactive entity.
         /// </summary>
