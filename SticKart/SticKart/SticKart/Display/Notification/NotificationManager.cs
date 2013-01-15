@@ -37,6 +37,11 @@ namespace SticKart.Display.Notification
         private NotificationFactory notificationFactory;
 
         /// <summary>
+        /// The settings for which notifications to display.
+        /// </summary>
+        private NotificationSettings notificationSettings;
+
+        /// <summary>
         /// The text to inform the user how to force-close a notification.
         /// </summary>
         private RenderableText closeInformation;
@@ -60,6 +65,8 @@ namespace SticKart.Display.Notification
             this.closeInformation.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, NotificationStrings.CloseNotification);
             this.closeInformation.Colour = Color.Gray;
             this.textPosition = new Vector2(displayDimensions.X / 2.0f, displayDimensions.Y / 8.0f);
+            NotificationSettings.Clear(); // TODO: remove in final version
+            this.notificationSettings = NotificationSettings.Load();
         }
 
         /// <summary>
@@ -118,8 +125,8 @@ namespace SticKart.Display.Notification
         {
             lock (NotificationManager.mutex)
             {
-                bool create = true;
-                if (NotificationManager.managerSingleton.notificationQueue.Count > 0)
+                bool create = NotificationManager.managerSingleton.notificationSettings.IsNotificationEnabled(type);
+                if (create && NotificationManager.managerSingleton.notificationQueue.Count > 0)
                 {
                     Notification[] notifications = NotificationManager.managerSingleton.notificationQueue.ToArray();
                     create = notifications[0].Type != type && notifications[notifications.Length - 1].Type != type;
@@ -128,6 +135,7 @@ namespace SticKart.Display.Notification
                 if (create)
                 {
                     NotificationManager.managerSingleton.notificationQueue.Enqueue(NotificationManager.managerSingleton.notificationFactory.Create(type));
+                    NotificationManager.managerSingleton.notificationSettings.DisableNotification(type);
                 }
             }
         }
@@ -164,6 +172,17 @@ namespace SticKart.Display.Notification
                     this.notificationQueue.Peek().Draw();
                     RenderableText.Draw(this.closeInformation, this.textPosition, 0.0f);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Saves the notification settings to a file.
+        /// </summary>
+        public void Save()
+        {
+            lock (NotificationManager.mutex)
+            {
+                this.notificationSettings.Save();
             }
         }
     }

@@ -9,6 +9,7 @@ namespace SticKart.Menu
     using System;
     using System.Collections.Generic;
     using Display;
+    using Display.Notification;
     using Game;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
@@ -114,6 +115,8 @@ namespace SticKart.Menu
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, GameSettings gameSettings)
         {
             this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
+            NotificationManager.AddNotification(NotificationType.PushGesture);
+            NotificationManager.AddNotification(NotificationType.VoiceCommand);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -164,7 +167,8 @@ namespace SticKart.Menu
                         switch (selectedItemName)
                         {
                             case SelectableNames.PlayButtonName:
-                                this.ActiveMenu = MenuType.LevelSelect; // TODO: Fix
+                                this.ActiveMenu = MenuType.LevelSelect;
+                                NotificationManager.AddNotification(NotificationType.SwipeGesture);
                                 this.menus[this.ActiveMenu].Reset();
                                 break;
                             case SelectableNames.OptionsButtonName:

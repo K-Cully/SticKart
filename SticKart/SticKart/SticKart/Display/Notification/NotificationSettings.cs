@@ -131,7 +131,7 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// Removes the notification settings file from persistent storage.
         /// </summary>
-        public void Clear()
+        public static void Clear()
         {
 #if WINDOWS_PHONE
             using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())

@@ -197,6 +197,7 @@ namespace SticKart
         protected override void UnloadContent()
         {
             this.gameSettings.Save();
+            this.notificationManager.Save();
             this.inputManager.Dispose();
         }
 
