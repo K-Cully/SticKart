@@ -84,6 +84,11 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// A notification about power ups.
         /// </summary>
-        PowerUp
+        PowerUp,
+
+        /// <summary>
+        /// A notification about switches.
+        /// </summary>
+        Switch
     }
 }

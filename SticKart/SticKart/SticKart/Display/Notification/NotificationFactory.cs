@@ -98,6 +98,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.PowerUp:
                     notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.PowerUp, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.PowerUp, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
+                case NotificationType.Switch:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Switch, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Switch, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    break;
                 default:
                     notification =  new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, string.Empty, string.Empty, string.Empty, 0, 0.0f, string.Empty);
                     break;
