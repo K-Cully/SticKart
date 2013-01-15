@@ -67,6 +67,11 @@ namespace SticKart.Display
         /// </summary>
         public const string Exit = "exit";
 
+        /// <summary>
+        /// The name of the cart sprite asset.
+        /// </summary>
+        public const string Cart = "cart";
+
         #endregion
 
         #region hud

@@ -12,6 +12,11 @@ namespace SticKart.Display.Notification
     public class NotificationStrings
     {
         /// <summary>
+        /// The text to inform a user how to close a notification.
+        /// </summary>
+        public const string CloseNotification = "Press return or make a gesture to close.";
+
+        /// <summary>
         /// The text to display for a step back notification.
         /// </summary>
         public const string StepBack = "You are too close.\nPlease step back.";
@@ -50,5 +55,10 @@ namespace SticKart.Display.Notification
         /// The text to display for an exit notification.
         /// </summary>
         public const string Exit = "Get to the exit\nto complete a level.";
+
+        /// <summary>
+        /// The text to display for a cart notification.
+        /// </summary>
+        public const string Cart = "You can jump in and\nout of mine carts to\ngive your legs a rest.";
     }
 }

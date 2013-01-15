@@ -37,6 +37,16 @@ namespace SticKart.Display.Notification
         private NotificationFactory notificationFactory;
 
         /// <summary>
+        /// The text to inform the user how to force-close a notification.
+        /// </summary>
+        private RenderableText closeInformation;
+
+        /// <summary>
+        /// The position to render the text at.
+        /// </summary>
+        private Vector2 textPosition;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NotificationManager"/> class.
         /// </summary>
         /// <param name="contentManager">The content manager to use for loading assets.</param>
@@ -46,6 +56,10 @@ namespace SticKart.Display.Notification
         {
             this.notificationQueue = new Queue<Notification>();
             this.notificationFactory = new NotificationFactory(contentManager, spriteBatch, displayDimensions);
+            this.closeInformation = new RenderableText();
+            this.closeInformation.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, NotificationStrings.CloseNotification);
+            this.closeInformation.Colour = Color.Gray;
+            this.textPosition = new Vector2(displayDimensions.X / 2.0f, displayDimensions.Y / 8.0f);
         }
 
         /// <summary>
@@ -137,6 +151,7 @@ namespace SticKart.Display.Notification
                 if (this.notificationQueue.Count > 0)
                 {
                     this.notificationQueue.Peek().Draw();
+                    RenderableText.Draw(this.closeInformation, this.textPosition, 0.0f);
                 }
             }
         }
