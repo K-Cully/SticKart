@@ -207,17 +207,23 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            this.notificationManager.Update(gameTime, this.inputManager.Commands.Count > 0); // TODO: test exit properlyS.            
-            switch (this.gameState)
+            if (this.notificationManager.NotificationsActive)
             {
-                case GameState.InMenu:
-                    this.UpdateMenu(gameTime);
-                    break;
-                case GameState.InGame:
-                    this.UpdateGame(gameTime);
-                    break;
-                default:
-                    break;
+                this.notificationManager.Update(gameTime, this.inputManager.Update(gameTime));
+            }
+            else
+            {
+                switch (this.gameState)
+                {
+                    case GameState.InMenu:
+                        this.UpdateMenu(gameTime);
+                        break;
+                    case GameState.InGame:
+                        this.UpdateGame(gameTime);
+                        break;
+                    default:
+                        break;
+                }
             }
 
             if (SticKart.DisplayColourStream)
@@ -226,6 +232,7 @@ namespace SticKart
             }
 
             base.Update(gameTime);
+
         }
 
         /// <summary>

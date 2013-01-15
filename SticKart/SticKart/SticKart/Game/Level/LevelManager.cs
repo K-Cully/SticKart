@@ -10,6 +10,7 @@ namespace SticKart.Game.Level
     using System.Collections.ObjectModel;
     using Audio;
     using Display;
+    using Display.Notification;
     using Entities;
     using FarseerPhysics.Common;
     using FarseerPhysics.Dynamics;
@@ -274,6 +275,9 @@ namespace SticKart.Game.Level
             this.visualFloorEdges.Add(new VisualEdge(new Vector2(startX, y), new Vector2(startX + this.gameDisplayResolution.X, y)));
             this.background.Reset();
             AudioManager.PlayBackgroundMusic(true);
+            Camera2D.Y = this.stickman.Position.Y - (this.gameDisplayResolution.Y / 2.0f);
+            this.background.Update();
+            // TODO: check hint manager here.
         }
 
         /// <summary>
