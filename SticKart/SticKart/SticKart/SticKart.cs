@@ -213,7 +213,7 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
-            this.notificationManager.Update(gameTime, false); // TODO: Add exit.            
+            this.notificationManager.Update(gameTime, this.inputManager.Commands.Count > 0); // TODO: test exit properlyS.            
             switch (this.gameState)
             {
                 case GameState.InMenu:
