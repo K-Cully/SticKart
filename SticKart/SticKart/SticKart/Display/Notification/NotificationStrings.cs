@@ -40,5 +40,10 @@ namespace SticKart.Display.Notification
         /// The text to display for a crouch notification.
         /// </summary>
         public const string Crouch = "While in the mine cart,\ncrouching will make the\nstick man crouch.";
+
+        /// <summary>
+        /// The text to display for a jump down notification.
+        /// </summary>
+        public const string JumpDown = "While on a platform,\ncrouching will make the\nstick man jump down.";
     }
 }
