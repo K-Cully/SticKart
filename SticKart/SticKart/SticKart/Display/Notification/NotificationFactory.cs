@@ -66,6 +66,7 @@ namespace SticKart.Display.Notification
                     notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Swipe, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Swipe, 9, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.VoiceCommand:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.VoiceCommand, ContentLocations.SegoeUIFontMedium, string.Empty, 0, 0.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Run:
                     notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Run, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Run, 8, 0.06f, ContentLocations.NotificationsPath + ContentLocations.Background);
