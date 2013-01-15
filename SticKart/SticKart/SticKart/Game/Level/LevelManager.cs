@@ -137,7 +137,7 @@ namespace SticKart.Game.Level
         /// <summary>
         /// The text to instruct the player to start.
         /// </summary>
-        private RenderableText goText;
+        private RenderableText startText;
 
         /// <summary>
         /// A texture to apply to rocky terrain.
@@ -158,7 +158,7 @@ namespace SticKart.Game.Level
         /// <param name="frameTime">The frame time set for the game.</param>
         public LevelManager(Vector2 gameDisplayResolution, float frameTime)
         {
-            this.goText = new RenderableText();
+            this.startText = new RenderableText();
             this.Complete = false;
             this.physicsWorld = null;
             this.gameDisplayResolution = gameDisplayResolution;
@@ -238,7 +238,7 @@ namespace SticKart.Game.Level
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.contentManager = contentManager;
             this.spriteBatch = spriteBatch;
-            this.goText.InitializeAndLoad(spriteBatch, this.contentManager, ContentLocations.SegoeUIFontLarge, EntityConstants.GoText);
+            this.startText.InitializeAndLoad(spriteBatch, this.contentManager, ContentLocations.SegoeUIFontLarge, EntityConstants.GoText);
             this.InitializeAndLoadSprites(this.spriteBatch, this.contentManager);
             this.levelLoader = new LevelLoader(this.contentManager);        
             this.stickman = new StickMan(ref this.physicsWorld, 10.0f, 100, -1.0f, this.spriteBatch, this.contentManager);
@@ -374,7 +374,7 @@ namespace SticKart.Game.Level
             this.cartSwitch.Draw();
             if (!this.scrollingDeath.Active)
             {
-                RenderableText.Draw(this.goText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);
+                RenderableText.Draw(this.startText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);
             }
         }
 

@@ -232,7 +232,6 @@ namespace SticKart
             }
 
             base.Update(gameTime);
-
         }
 
         /// <summary>

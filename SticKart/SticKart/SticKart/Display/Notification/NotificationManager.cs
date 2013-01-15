@@ -93,6 +93,7 @@ namespace SticKart.Display.Notification
         /// <param name="contentManager">The content manager to use for loading assets.</param>
         /// <param name="spriteBatch">The sprite batch used to render game sprites.</param>
         /// <param name="displayDimensions">The size of the game display area.</param>
+        /// <returns>The newly created notification manager.</returns>
         public static NotificationManager Initialize(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 displayDimensions)
         {
             if (NotificationManager.managerSingleton == null)
