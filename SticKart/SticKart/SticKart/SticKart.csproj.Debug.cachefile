@@ -42,6 +42,11 @@ Content\Sprites\Notifications\Background.xnb
 Content\Sprites\Notifications\swipe.xnb
 Content\Sprites\Notifications\run.xnb
 Content\Sprites\Notifications\jump.xnb
+Content\Sprites\Notifications\crouch.xnb
+Content\Sprites\Notifications\exit.xnb
+Content\Sprites\Notifications\cart.xnb
+Content\Sprites\Notifications\bonus.xnb
+Content\Sprites\Notifications\obstacle.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
