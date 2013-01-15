@@ -45,5 +45,10 @@ namespace SticKart.Display.Notification
         /// The text to display for a jump down notification.
         /// </summary>
         public const string JumpDown = "While on a platform,\ncrouching will make the\nstick man jump down.";
+
+        /// <summary>
+        /// The text to display for an exit notification.
+        /// </summary>
+        public const string Exit = "Get to the exit\nto complete a level.";
     }
 }

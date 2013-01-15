@@ -62,6 +62,11 @@ namespace SticKart.Display
         /// </summary>
         public const string Crouch = "crouch";
 
+        /// <summary>
+        /// The name of the exit sprite asset.
+        /// </summary>
+        public const string Exit = "exit";
+
         #endregion
 
         #region hud

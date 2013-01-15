@@ -82,6 +82,7 @@ namespace SticKart.Display.Notification
                 case NotificationType.ScrollingDeath:
                     break;
                 case NotificationType.Exit:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Exit, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Exit, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Cart:
                     break;
