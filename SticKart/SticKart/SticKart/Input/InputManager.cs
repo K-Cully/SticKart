@@ -10,6 +10,7 @@ namespace SticKart.Input
     using System.Collections.Generic;
     using System.Globalization;
     using System.IO;
+    using Display.Notification;
     using Gestures;
     using Kinect.Toolbox;
     using Menu;
@@ -490,7 +491,7 @@ namespace SticKart.Input
                     }
                     else
                     {
-                        this.commands.Add(InputCommand.MoveBack);
+                        NotificationManager.AddNotification(NotificationType.StepBack);
                         this.PlayerFloorPosition = new Vector2(closestSkeleton.Position.Z, closestSkeleton.Position.X);
                     }
                 }

@@ -41,7 +41,12 @@ namespace SticKart.Display
         /// The name of the background sprite asset.
         /// </summary>
         public const string Background = "Background";
-        
+
+        /// <summary>
+        /// The name of the step back sprite asset.
+        /// </summary>
+        public const string StepBack = "blank";
+
         /// <summary>
         /// The name of the push animated sprite asset.
         /// </summary>

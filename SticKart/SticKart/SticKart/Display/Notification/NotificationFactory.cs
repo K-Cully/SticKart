@@ -57,52 +57,52 @@ namespace SticKart.Display.Notification
                 case NotificationType.None:
                     break;
                 case NotificationType.StepBack:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, NotificationStrings.StepBack, ContentLocations.SegoeUIFontMedium, string.Empty, 0, 0.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 2.0f, NotificationStrings.StepBack, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.StepBack, 1, 3.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.PushGesture:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Push, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Push, 7, 0.2f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Push, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Push, 7, 0.2f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.SwipeGesture:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Swipe, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Swipe, 9, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Swipe, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Swipe, 9, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.VoiceCommand:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.VoiceCommand, ContentLocations.SegoeUIFontMedium, string.Empty, 0, 0.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.VoiceCommand, ContentLocations.SegoeUIFontMedium, string.Empty, 0, 0.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Run:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Run, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Run, 8, 0.06f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Run, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Run, 8, 0.06f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.JumpUp:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Jump, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.JumpIcon, 8, 0.06f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Jump, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.JumpIcon, 8, 0.06f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.JumpDown:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.JumpDown, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Crouch, 8, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.JumpDown, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Crouch, 8, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Crouch:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Crouch, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Crouch, 8, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Crouch, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Crouch, 8, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.ScrollingDeath:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.ScrollingDeath, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.ScrollingDeath, 7, 0.1f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.ScrollingDeath, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.ScrollingDeath, 7, 0.1f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Exit:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Exit, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Exit, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Exit, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Exit, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Cart:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Cart, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Cart, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Cart, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Cart, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Bonus:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Bonus, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Bonus, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Bonus, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Bonus, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Obstacle:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Obstacle, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Obstacle, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Obstacle, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Obstacle, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.PowerUp:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.PowerUp, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.PowerUp, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.PowerUp, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.PowerUp, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Switch:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Switch, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Switch, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Switch, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Switch, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 default:
-                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, string.Empty, string.Empty, string.Empty, 0, 0.0f, string.Empty);
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 5.0f, string.Empty, string.Empty, string.Empty, 0, 0.0f, string.Empty);
                     break;
             }
 

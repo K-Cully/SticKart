@@ -118,7 +118,17 @@ namespace SticKart.Display.Notification
         {
             lock (NotificationManager.mutex)
             {
-                NotificationManager.managerSingleton.notificationQueue.Enqueue(NotificationManager.managerSingleton.notificationFactory.Create(type));
+                bool create = true;
+                if (NotificationManager.managerSingleton.notificationQueue.Count > 0)
+                {
+                    Notification[] notifications = NotificationManager.managerSingleton.notificationQueue.ToArray();
+                    create = notifications[0].Type != type && notifications[notifications.Length - 1].Type != type;
+                }
+
+                if (create)
+                {
+                    NotificationManager.managerSingleton.notificationQueue.Enqueue(NotificationManager.managerSingleton.notificationFactory.Create(type));
+                }
             }
         }
 

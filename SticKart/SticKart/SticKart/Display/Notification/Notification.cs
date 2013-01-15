@@ -60,6 +60,7 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// Initializes a new instance of the <see cref="Notification"/> class.
         /// </summary>
+        /// <param name="type">The type of notification.</param>
         /// <param name="contentManger">The game's content manger.</param>
         /// <param name="spriteBatch">The sprite batch to render using.</param>
         /// <param name="centrePosition">The position to centre the notification at.</param>
@@ -70,8 +71,9 @@ namespace SticKart.Display.Notification
         /// <param name="numberOfFrames">The number of frames to separate the image into.</param>
         /// <param name="frameTime">The time, in seconds, between animation frames.</param>
         /// <param name="pathToBackgroundImage">The location of the background image of the notification.</param>
-        public Notification(ContentManager contentManger, SpriteBatch spriteBatch, Vector2 centrePosition, float timeToLive, string text, string pathToFont, string pathToImage, int numberOfFrames, float frameTime, string pathToBackgroundImage)
+        public Notification(NotificationType type, ContentManager contentManger, SpriteBatch spriteBatch, Vector2 centrePosition, float timeToLive, string text, string pathToFont, string pathToImage, int numberOfFrames, float frameTime, string pathToBackgroundImage)
         {
+            this.Type = type;
             this.Active = true;
             this.timeToLive = timeToLive;
             this.lifeTimer = 0.0f;
@@ -113,6 +115,11 @@ namespace SticKart.Display.Notification
 
             this.SetRenderingPositions(centrePosition);
         }
+
+        /// <summary>
+        /// Gets the type of the notification.
+        /// </summary>
+        public NotificationType Type { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether the notification is active or not.

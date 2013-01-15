@@ -174,7 +174,7 @@ namespace SticKart
             this.gameSettings = GameSettings.Load();
             this.notificationManager = NotificationManager.Initialize(this.Content, this.spriteBatch, this.screenDimensions);            
             AudioManager.InitializeAndLoad(this.Content);
-            PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 4.0f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);
+            PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 2.5f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
             this.inputManager.InitializeSpeechEngine(this.menuManager.GetAllSelectableNames());
             this.handSprite.InitializeAndLoad(this.spriteBatch, this.Content, ContentLocations.HandIcon);
@@ -272,9 +272,6 @@ namespace SticKart
                             case InputCommand.Exit:
                                 this.PauseGame();
                                 break;
-                            case InputCommand.MoveBack:
-                                NotificationManager.AddNotification(NotificationType.StepBack); // TODO: put in input manager.
-                                break;
                             default:
                                 break;
                         }
@@ -315,9 +312,6 @@ namespace SticKart
                 {
                     switch (command)
                     {
-                        case InputCommand.MoveBack:
-                            NotificationManager.AddNotification(NotificationType.StepBack); // TODO: put in input manager.
-                            break;
                         case InputCommand.Select:
                             this.menuManager.Update(this.menuManager.HighlightedPosition, null, this.gameSettings);
                             break;
@@ -409,13 +403,13 @@ namespace SticKart
                 default:
                     break;
             }
-
+            
+            this.notificationManager.Draw();
             if (this.inputManager.PlayerFloorPosition != Vector2.Zero)
             {
                 PositionInformer.Draw(this.spriteBatch, this.inputManager.PlayerFloorPosition.Y, -1.25f + (this.inputManager.PlayerFloorPosition.X * 0.75f));
             }
 
-            this.notificationManager.Draw();
             this.spriteBatch.End();
             if (SticKart.DisplayColourStream)
             {

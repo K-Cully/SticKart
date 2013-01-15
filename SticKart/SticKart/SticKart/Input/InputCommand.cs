@@ -84,11 +84,6 @@ namespace SticKart.Input
         /// <summary>
         /// Command to go to the last page.
         /// </summary>
-        PreviousPage,
-
-        /// <summary>
-        /// Command to state the player is too close.
-        /// </summary>
-        MoveBack
+        PreviousPage
     }
 }
