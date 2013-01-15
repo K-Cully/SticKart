@@ -28,11 +28,6 @@ namespace SticKart.Menu
         /// A lookup table of available menus.
         /// </summary>
         private Dictionary<MenuType, Menu> menus;
-
-        /// <summary>
-        /// Text to instruct the player how to use the menu.
-        /// </summary>
-        private RenderableText instructionText;
         
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuManager"/> class.
@@ -40,7 +35,6 @@ namespace SticKart.Menu
         /// <param name="screenDimensions">The current display size in pixels.</param>
         public MenuManager(Vector2 screenDimensions)
         {
-            this.instructionText = new RenderableText();
             this.menus = new Dictionary<MenuType, Menu>();
             this.menus.Add(MenuType.None, null);
             this.screenDimensions = screenDimensions;
@@ -119,7 +113,6 @@ namespace SticKart.Menu
         /// <param name="gameSettings">The game settings.</param>
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, GameSettings gameSettings)
         {
-            this.instructionText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Gently push a tile or say its name to select it");
             this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -261,11 +254,6 @@ namespace SticKart.Menu
         /// </summary>
         public void Draw()
         {
-            if (this.ActiveMenu == MenuType.Main)
-            {
-                RenderableText.Draw(this.instructionText, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 24.0f), 0.0f);
-            }
-            
             if (this.menus[this.ActiveMenu] != null)
             {
                 this.menus[this.ActiveMenu].Draw();

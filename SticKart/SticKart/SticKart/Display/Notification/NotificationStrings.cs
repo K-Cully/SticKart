@@ -65,5 +65,10 @@ namespace SticKart.Display.Notification
         /// The text to display for a bonus notification.
         /// </summary>
         public const string Bonus = "Collect coins and\njewels to gain points.";
+
+        /// <summary>
+        /// The text to display for an obstacle notification.
+        /// </summary>
+        public const string Obstacle = "Avoid obstacles.\nThey will injure you\nand slow you down.";
     }
 }

@@ -91,6 +91,7 @@ namespace SticKart.Display.Notification
                     notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Bonus, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Bonus, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Obstacle:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Obstacle, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Obstacle, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.PowerUp:
                     break;

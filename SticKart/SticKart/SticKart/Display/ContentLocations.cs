@@ -77,6 +77,11 @@ namespace SticKart.Display
         /// </summary>
         public const string Bonus = "bonus";
 
+        /// <summary>
+        /// The name of the obstacle sprite asset.
+        /// </summary>
+        public const string Obstacle = "obstacle";
+
         #endregion
 
         #region hud
