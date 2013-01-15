@@ -171,13 +171,8 @@ namespace SticKart
         protected override void LoadContent()
         {
             this.spriteBatch = new SpriteBatch(this.GraphicsDevice);
-
             this.gameSettings = GameSettings.Load();
-            this.notificationManager = NotificationManager.Initialize(this.Content, this.spriteBatch, this.screenDimensions);
-
-            // TODO: remove once testing finished.
-            NotificationManager.AddNotification(NotificationType.Switch);
-
+            this.notificationManager = NotificationManager.Initialize(this.Content, this.spriteBatch, this.screenDimensions);            
             AudioManager.InitializeAndLoad(this.Content);
             PositionInformer.Initialize(this.Content, new Vector2(this.screenDimensions.X / 2.0f, this.screenDimensions.Y / 4.0f), new Vector2(this.screenDimensions.X / 6.0f), 75, true);
             this.menuManager.InitializeAndLoad(this.spriteBatch, this.Content, this.gameSettings);
@@ -186,7 +181,6 @@ namespace SticKart
             this.headsUpDisplay.InitializeAndLoad(this.spriteBatch, this.Content);
             EntitySettingsLoader.LoadEntitySettings(this.Content);
             this.levelManager.LoadContent(this.Content, this.spriteBatch);
-
             if (SticKart.DisplayColourStream)
             {
                 this.colourStreamRenderer = new ColourStreamRenderer(this.Content, this.GraphicsDevice);

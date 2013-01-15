@@ -88,7 +88,7 @@ namespace SticKart.Display.Notification
             this.textLines = new Collection<RenderableText>();
             if (text != null && text != string.Empty)
             {
-                char[] seperator = {'\n'};
+                char[] seperator = { '\n' };
                 foreach (string line in text.Split(seperator))
                 {
                     this.textLines.Add(new RenderableText());

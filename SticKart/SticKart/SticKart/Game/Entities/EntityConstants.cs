@@ -201,6 +201,11 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const string Exit = "exit";
 
+        /// <summary>
+        /// The text to display at the start of a level.
+        /// </summary>
+        public const string GoText = "Go";
+
         #endregion
 
         #region collision_categories
