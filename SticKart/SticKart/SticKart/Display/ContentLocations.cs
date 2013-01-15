@@ -81,6 +81,11 @@ namespace SticKart.Display
         /// The name of the obstacle sprite asset.
         /// </summary>
         public const string Obstacle = "obstacle";
+        
+        /// <summary>
+        /// The name of the scrolling death animated sprite asset.
+        /// </summary>
+        public const string ScrollingDeath = "death";
 
         #endregion
 

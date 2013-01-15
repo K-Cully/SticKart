@@ -70,5 +70,10 @@ namespace SticKart.Display.Notification
         /// The text to display for an obstacle notification.
         /// </summary>
         public const string Obstacle = "Avoid obstacles.\nThey will injure you\nand slow you down.";
+
+        /// <summary>
+        /// The text to display for a scrolling death notification.
+        /// </summary>
+        public const string ScrollingDeath = "Keep ahead of the camera\nor you will die.";
     }
 }
