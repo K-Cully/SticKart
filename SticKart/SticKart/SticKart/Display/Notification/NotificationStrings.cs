@@ -60,5 +60,10 @@ namespace SticKart.Display.Notification
         /// The text to display for a cart notification.
         /// </summary>
         public const string Cart = "You can jump in and\nout of mine carts to\ngive your legs a rest.";
+
+        /// <summary>
+        /// The text to display for a bonus notification.
+        /// </summary>
+        public const string Bonus = "Collect coins and\njewels to gain points.";
     }
 }

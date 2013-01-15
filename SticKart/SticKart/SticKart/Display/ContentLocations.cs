@@ -72,6 +72,11 @@ namespace SticKart.Display
         /// </summary>
         public const string Cart = "cart";
 
+        /// <summary>
+        /// The name of the bonus sprite asset.
+        /// </summary>
+        public const string Bonus = "bonus";
+
         #endregion
 
         #region hud

@@ -88,6 +88,7 @@ namespace SticKart.Display.Notification
                     notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Cart, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Cart, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Bonus:
+                    notification = new Notification(this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Bonus, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Bonus, 1, 11.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
                 case NotificationType.Obstacle:
                     break;
