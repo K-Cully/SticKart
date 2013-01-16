@@ -63,6 +63,18 @@ namespace SticKart.Game.Level
         }
 
         /// <summary>
+        /// Overrides the default ToString behaviour.
+        /// </summary>
+        /// <returns>The score name pair as its string representation.</returns>
+        public override string ToString()
+        {
+            int finalLength = 30;
+            int stringLength = this.Name.Length + this.Score.ToString().Length;
+            int paddingLength = finalLength - stringLength > 0 ? finalLength - stringLength : 0;
+            return string.Format("{0}" + new string(' ', paddingLength) + "{1}", this.Name, this.Score);
+        }
+
+        /// <summary>
         /// Compares this instance to a specified <see cref="ScoreNamePair"/> instance.
         /// </summary>
         /// <param name="other">The other instance to compare to.</param>
