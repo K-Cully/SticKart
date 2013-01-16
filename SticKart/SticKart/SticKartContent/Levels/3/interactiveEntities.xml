@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="SticKart.InteractiveEntityDescription[]">
+    <Item>
+      <Name>cart</Name>
+      <Position>64 344</Position>
+      <Dimensions>64 43</Dimensions>
+    </Item>
+    <Item>
+      <Name>switch</Name>
+      <Position>520 232</Position>
+      <Dimensions>448 64</Dimensions>
+    </Item>
+  </Asset>
+</XnaContent>

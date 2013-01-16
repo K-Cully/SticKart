@@ -29,7 +29,7 @@ namespace SticKart.Game
         {
             this.PlayerName = "Bob";
             this.LevelsUnlocked = 1;
-            this.TotalLevels = 2;
+            this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
         }
 
@@ -41,7 +41,7 @@ namespace SticKart.Game
         {
             this.PlayerName = "Bob";
             this.LevelsUnlocked = 1;
-            this.TotalLevels = 2;
+            this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
             for (int count = 0; count < this.TotalLevels; ++count)
             {

@@ -20,7 +20,7 @@ namespace SticKart.Game.Level
         public ScoreNamePair()
         {
             this.Score = 0;
-            this.Name = "AAA";
+            this.Name = "ZZZ";
         }
 
         /// <summary>

@@ -357,35 +357,35 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\1\interactiveEntities.xml">
+    <Compile Include="Levels\4\interactiveEntities.xml">
       <Name>interactiveEntities</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
-    <Compile Include="Levels\1\platforms.xml">
+    <Compile Include="Levels\4\platforms.xml">
       <Name>platforms</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
-    <Compile Include="Levels\1\points.xml">
+    <Compile Include="Levels\4\points.xml">
       <Name>points</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Levels\2\interactiveEntities.xml">
+    <Compile Include="Levels\5\interactiveEntities.xml">
       <Name>interactiveEntities</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
-    <Compile Include="Levels\2\platforms.xml">
+    <Compile Include="Levels\5\platforms.xml">
       <Name>platforms</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
     </Compile>
-    <Compile Include="Levels\2\points.xml">
+    <Compile Include="Levels\5\points.xml">
       <Name>points</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
@@ -663,6 +663,64 @@
   <ItemGroup>
     <Compile Include="Sprites\Notifications\blank.png">
       <Name>blank</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Levels\1\interactiveEntities.xml">
+      <Name>interactiveEntities</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\1\platforms.xml">
+      <Name>platforms</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\1\points.xml">
+      <Name>points</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Levels\2\interactiveEntities.xml">
+      <Name>interactiveEntities</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\2\platforms.xml">
+      <Name>platforms</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\2\points.xml">
+      <Name>points</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Levels\3\interactiveEntities.xml">
+      <Name>interactiveEntities</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\3\platforms.xml">
+      <Name>platforms</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\3\points.xml">
+      <Name>points</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sprites\Notifications\platform.png">
+      <Name>platform</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

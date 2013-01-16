@@ -88,6 +88,11 @@ namespace SticKart.Display
         public const string Switch = "switch";
 
         /// <summary>
+        /// The name of the platform sprite asset.
+        /// </summary>
+        public const string Platform = "platform";
+
+        /// <summary>
         /// The name of the obstacle sprite asset.
         /// </summary>
         public const string Obstacle = "obstacle";

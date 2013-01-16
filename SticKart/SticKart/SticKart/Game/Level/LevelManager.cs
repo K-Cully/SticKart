@@ -377,8 +377,11 @@ namespace SticKart.Game.Level
 
             this.exit.Draw();
             this.stickman.Draw();
-            this.mineCart.Draw();
-            this.cartSwitch.Draw();
+            if (this.mineCart != null)
+            {
+                this.mineCart.Draw();
+                this.cartSwitch.Draw();
+            }
             if (!this.scrollingDeath.Active)
             {
                 RenderableText.Draw(this.startText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);
@@ -391,7 +394,7 @@ namespace SticKart.Game.Level
         /// <returns>The player's rating.</returns>
         public int GetRating()
         {   
-            if (this.PlayerScore > this.maxScore * 0.6f)
+            if (this.maxScore == 0 || this.PlayerScore > this.maxScore * 0.6f)
             {
                 return 2;
             }
@@ -467,6 +470,7 @@ namespace SticKart.Game.Level
             NotificationManager.AddNotification(NotificationType.ScrollingDeath);
             if (this.platforms.Count > 0)
             {
+                NotificationManager.AddNotification(NotificationType.Platform);
                 NotificationManager.AddNotification(NotificationType.JumpDown);
             }
             
@@ -474,6 +478,7 @@ namespace SticKart.Game.Level
             {
                 NotificationManager.AddNotification(NotificationType.Cart);
                 NotificationManager.AddNotification(NotificationType.Switch);
+                NotificationManager.AddNotification(NotificationType.Crouch);
             }
 
             bool bonusAdded = false;

@@ -92,6 +92,11 @@ namespace SticKart.Display.Notification
         public const string Switch = "Tripping a switch will\nactivate a nearby\nmine cart.";
 
         /// <summary>
+        /// The text to display for a platform notification.
+        /// </summary>
+        public const string Platform = "The stick man will move\nfaster on platforms than\non the ground.";
+
+        /// <summary>
         /// The text to display for a voice command notification.
         /// </summary>
         public const string VoiceCommand = "You can select menu\nitems by saying the word\non the item.\n \nYou can also pause the\ngame by saying:\n\"pause game\".";

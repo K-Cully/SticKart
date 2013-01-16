@@ -87,6 +87,16 @@ Content\SFX\dying.xnb
 Content\SFX\scroll.xnb
 Content\SFX\jumping.xnb
 Content\SFX\landing.xnb
+Content\Levels\4\interactiveEntities.xnb
+Content\Levels\4\platforms.xnb
+Content\Levels\4\points.xnb
+Content\Levels\5\interactiveEntities.xnb
+Content\Levels\5\platforms.xnb
+Content\Levels\5\points.xnb
+Content\Levels\3\interactiveEntities.xnb
+Content\Levels\3\platforms.xnb
+Content\Levels\3\points.xnb
+Content\Sprites\Notifications\platform.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma

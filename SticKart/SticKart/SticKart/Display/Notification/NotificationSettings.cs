@@ -95,6 +95,11 @@ namespace SticKart.Display.Notification
         /// </summary>
         public bool Switch { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the platform notification is enabled or not. 
+        /// </summary>
+        public bool Platform { get; set; }
+
         #endregion
 
         /// <summary>
@@ -219,6 +224,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.Switch:
                     this.Switch = false;
                     break;
+                case NotificationType.Platform:
+                    this.Platform = false;
+                    break;
                 default:
                     break;
             }
@@ -282,6 +290,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.Switch:
                     enabled = this.Switch;
                     break;
+                case NotificationType.Platform:
+                    enabled = this.Platform;
+                    break;
                 default:
                     enabled = false;
                     break;
@@ -308,6 +319,7 @@ namespace SticKart.Display.Notification
             this.ScrollingDeath = true;
             this.Swipe = true;
             this.Switch = true;
+            this.Platform = true;
             this.Voice = true;
         }
     }

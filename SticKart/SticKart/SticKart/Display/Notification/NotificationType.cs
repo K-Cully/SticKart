@@ -89,6 +89,11 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// A notification about switches.
         /// </summary>
-        Switch
+        Switch,
+
+        /// <summary>
+        /// A notification about platforms.
+        /// </summary>
+        Platform
     }
 }
