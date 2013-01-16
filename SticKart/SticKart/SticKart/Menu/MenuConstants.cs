@@ -59,17 +59,7 @@ namespace SticKart.Menu
         /// The level complete text.
         /// </summary>
         public const string LevelCompleteText = "Level Complete";
-
-        /// <summary>
-        /// The default high score text.
-        /// </summary>
-        public const string HighScoreText = "Congratulations, you set a high score.";
-
-        /// <summary>
-        /// The alternate high score text.
-        /// </summary>
-        public const string HighScoreAlternateText = "Unlucky, you didn't set a high score this time.";
-
+        
         /// <summary>
         /// The score heading text.
         /// </summary>
@@ -84,6 +74,16 @@ namespace SticKart.Menu
         /// The rating heading text.
         /// </summary>
         public const string RatingText = "Rating:";
+
+        /// <summary>
+        /// The default high score text.
+        /// </summary>
+        private const string HighScoreText = "Congratulations, you set a high score.";
+
+        /// <summary>
+        /// The alternate high score text.
+        /// </summary>
+        private const string HighScoreAlternateText = "Unlucky, you didn't set a high score this time.";
 
         /// <summary>
         /// The lowest rating.
@@ -119,6 +119,23 @@ namespace SticKart.Menu
                     return MenuConstants.RatingExcellent;
                 default:
                     return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the value for the high score prompt.
+        /// </summary>
+        /// <param name="setHighScore">A value indicating whether the player set a high score or not.</param>
+        /// <returns>The appropriate high score prompt text.</returns>
+        public static string GetHighScoreText(bool setHighScore)
+        {
+            if (setHighScore)
+            {
+                return MenuConstants.HighScoreText;
+            }
+            else
+            {
+                return MenuConstants.HighScoreAlternateText;
             }
         }
     }
