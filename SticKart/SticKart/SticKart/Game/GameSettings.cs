@@ -27,6 +27,7 @@ namespace SticKart.Game
         /// </summary>
         private GameSettings()
         {
+            this.PlayerName = "Bob";
             this.LevelsUnlocked = 1;
             this.TotalLevels = 2;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
@@ -40,6 +41,11 @@ namespace SticKart.Game
         /// Gets or sets the collection of level score tables.
         /// </summary>
         public Collection<LevelScoreTable> LevelScoreTables { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current player name.
+        /// </summary>
+        public string PlayerName { get; set; }
 
         /// <summary>
         /// Gets or sets the number of levels the player has unlocked.
@@ -113,6 +119,24 @@ namespace SticKart.Game
                     XmlSerializer xml = new XmlSerializer(typeof(GameSettings));
                     xml.Serialize(stream, this);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Tries to add the score to the high score table for the level specified. 
+        /// </summary>
+        /// <param name="levelNumber">The level number to add the score to.</param>
+        /// <param name="score">The score to add.</param>
+        /// <returns>A value indicating whether the score was added or not.</returns>
+        public bool AddScore(int levelNumber, int score)
+        {
+            if (levelNumber < 1 || levelNumber > this.TotalLevels)
+            {
+                return false;
+            }
+            else
+            {
+                return this.LevelScoreTables[levelNumber - 1].AddScore(new ScoreNamePair(score, this.PlayerName));
             }
         }
     }

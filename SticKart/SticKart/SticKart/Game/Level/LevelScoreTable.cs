@@ -36,5 +36,25 @@ namespace SticKart.Game.Level
         /// Gets or sets the list of scores in the table.
         /// </summary>
         public List<ScoreNamePair> Scores { get; set; }
+
+        /// <summary>
+        /// Tries to add a score name pair to the table.
+        /// </summary>
+        /// <param name="scoreNamePair">The score name pair to add.</param>
+        /// <returns>A value indicating whether the pair was added or not.</returns>
+        public bool AddScore(ScoreNamePair scoreNamePair)
+        {
+            if (scoreNamePair.CompareTo(this.Scores[this.Scores.Count - 1]) > 0)
+            {
+                this.Scores.RemoveAt(this.Scores.Count - 1);
+                this.Scores.Add(scoreNamePair);
+                this.Scores.Sort();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
