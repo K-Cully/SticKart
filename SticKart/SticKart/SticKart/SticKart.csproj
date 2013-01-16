@@ -152,7 +152,7 @@
     <Compile Include="Menu\MenuSelectableItem.cs" />
     <Compile Include="Menu\MenuText.cs" />
     <Compile Include="Menu\MenuType.cs" />
-    <Compile Include="Menu\SelectableNames.cs" />
+    <Compile Include="Menu\MenuConstants.cs" />
     <Compile Include="Display\Notification\Notification.cs" />
     <Compile Include="Display\Notification\NotificationFactory.cs" />
     <Compile Include="Display\Notification\NotificationManager.cs" />
