@@ -244,6 +244,7 @@ namespace SticKart
             this.levelManager.Update(gameTime, this.inputManager.Commands);
             if (this.levelManager.Complete)
             {
+                this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore);
                 if (this.levelManager.CurrentLevel >= this.gameSettings.TotalLevels)
                 {
                     // TODO: game complete

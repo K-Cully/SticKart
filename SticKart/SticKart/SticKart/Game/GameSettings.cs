@@ -31,9 +31,21 @@ namespace SticKart.Game
             this.LevelsUnlocked = 1;
             this.TotalLevels = 2;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GameSettings"/> class.
+        /// </summary>
+        /// <param name="createDefaults">A value indicating that the default lists should be created.</param>
+        private GameSettings(int createDefaults)
+        {
+            this.PlayerName = "Bob";
+            this.LevelsUnlocked = 1;
+            this.TotalLevels = 2;
+            this.LevelScoreTables = new Collection<LevelScoreTable>();
             for (int count = 0; count < this.TotalLevels; ++count)
             {
-                this.LevelScoreTables.Add(new LevelScoreTable());
+                this.LevelScoreTables.Add(new LevelScoreTable(1));
             }
         }
 
@@ -81,7 +93,7 @@ namespace SticKart.Game
                 }
                 else
                 {
-                    settings = new GameSettings();
+                    settings = new GameSettings(1);
                 }
 
                 return settings;

@@ -23,6 +23,14 @@ namespace SticKart.Game.Level
         /// </summary>
         public LevelScoreTable()
         {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LevelScoreTable"/> class.
+        /// </summary>
+        /// <param name="createDefaults">A value indicating that the default values should be populated.</param>
+        public LevelScoreTable(int createDefaults)
+        {
             this.Scores = new List<ScoreNamePair>(LevelScoreTable.ScoresPerLevel);
             for (int count = 0; count < LevelScoreTable.ScoresPerLevel; count++)
             {
@@ -44,7 +52,7 @@ namespace SticKart.Game.Level
         /// <returns>A value indicating whether the pair was added or not.</returns>
         public bool AddScore(ScoreNamePair scoreNamePair)
         {
-            if (scoreNamePair.CompareTo(this.Scores[this.Scores.Count - 1]) > 0)
+            if (scoreNamePair.CompareTo(this.Scores[this.Scores.Count - 1]) < 0)
             {
                 this.Scores.RemoveAt(this.Scores.Count - 1);
                 this.Scores.Add(scoreNamePair);
