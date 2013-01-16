@@ -43,6 +43,11 @@ namespace SticKart.Game.Level
         /// </summary>
         private float scrollStartTimer;
 
+        /// <summary>
+        /// The total value of all bonus items in the level.
+        /// </summary>
+        private float maxScore;
+
         #endregion
 
         #region game_settings
@@ -179,6 +184,7 @@ namespace SticKart.Game.Level
             this.cartSwitch = null;
             this.scrollStartTimer = 0.0f;
             this.background = new Background(this.gameDisplayResolution, 0.8f);
+            this.maxScore = 0.0f;
         }
 
         #region public_accessors
@@ -290,6 +296,7 @@ namespace SticKart.Game.Level
             LevelFactory.DisposeOfFloor(ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges);
             this.scrollingDeath.Dispose(ref this.physicsWorld);
             this.exit.Dispose(ref this.physicsWorld);
+            this.maxScore = 0.0f;
             AudioManager.StopBackgroundMusic();
         }
    
@@ -379,6 +386,26 @@ namespace SticKart.Game.Level
         }
 
         /// <summary>
+        /// Retrieves the player's rating for the level.
+        /// </summary>
+        /// <returns>The player's rating.</returns>
+        public int GetRating()
+        {   
+            if (this.PlayerScore > this.maxScore * 0.6f)
+            {
+                return 2;
+            }
+            else if (this.PlayerScore > this.maxScore * 0.25f)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
         /// Initializes and loads the textures for the floor sprite.
         /// </summary>
         /// <param name="spriteBatch">The sprite batch to use for rendering the sprites.</param>
@@ -458,6 +485,7 @@ namespace SticKart.Game.Level
                 {
                     if ((entity as BonusOrObstacle).Type == InteractiveEntityType.Bonus)
                     {
+                        this.maxScore += (entity as BonusOrObstacle).Value;
                         if (!bonusAdded)
                         {
                             NotificationManager.AddNotification(NotificationType.Bonus);
