@@ -243,27 +243,12 @@ namespace SticKart
         {
             this.levelManager.Update(gameTime, this.inputManager.Commands);
             if (this.levelManager.Complete)
-            {
-                this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore);
+            {                
                 this.gameState = GameState.InMenu;
                 this.menuManager.ActiveMenu = MenuType.LevelComplete;
-
-                // TODO: update menu here.
-
+                this.menuManager.SetLevelCompleteMenuText(this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore), this.levelManager.PlayerScore, this.levelManager.GetRating());
                 this.levelManager.EndLevel();
                 AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
-                // TODO: need way to pass data to menu
-
-                //if (this.levelManager.CurrentLevel >= this.gameSettings.TotalLevels)
-                //{
-                //    // TODO: game complete
-                //    this.PauseGame();
-                //}
-                //else
-                //{
-                //    this.gameSettings.LevelsUnlocked += this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked ? 1 : 0;
-                //    this.BeginLevel(this.levelManager.CurrentLevel + 1);
-                //}
             }
             else
             {
@@ -367,7 +352,7 @@ namespace SticKart
         protected void BeginLevel(int value)
         {
             // TODO: refine.
-            // this.levelManager.EndLevel();
+            // this.levelManager.EndLevel(); TODO: test this extensively (changed logic).
             Camera2D.Reset();
             this.inputManager.Reset();
             if (value == 0)
@@ -383,6 +368,10 @@ namespace SticKart
             {
                 this.gameState = GameState.InGame;
                 this.levelManager.BeginLevel(value, false);
+            }
+            else
+            {
+                // TODO: Game complete (roll credits)
             }
         }
 

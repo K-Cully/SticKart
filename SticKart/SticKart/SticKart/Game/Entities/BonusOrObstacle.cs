@@ -21,12 +21,7 @@ namespace SticKart.Game.Entities
         /// The name of the entity.
         /// </summary>
         private string name;
-
-        /// <summary>
-        /// The value of the entity.
-        /// </summary>
-        private float value;
-
+        
         /// <summary>
         /// Initializes a new instance of the <see cref="BonusOrObstacle"/> class.
         /// </summary>
@@ -40,10 +35,15 @@ namespace SticKart.Game.Entities
         {            
             this.Type = setting.IsBonus ? InteractiveEntityType.Bonus : InteractiveEntityType.Obstacle;
             this.name = setting.Name;
-            this.value = setting.Value;
-            this.physicsBody.UserData = new InteractiveEntityUserData(this.Type, this.value);
+            this.Value = setting.Value;
+            this.physicsBody.UserData = new InteractiveEntityUserData(this.Type, this.Value);
             this.InitializeAndLoad(spriteBatch, contentManager);
         }
+
+        /// <summary>
+        /// Gets the value of the entity.
+        /// </summary>
+        public float Value { get; private set; }
 
         /// <summary>
         /// Gets the type of the entity.
