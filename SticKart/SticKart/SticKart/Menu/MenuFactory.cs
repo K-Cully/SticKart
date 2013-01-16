@@ -172,15 +172,31 @@ namespace SticKart.Menu
             backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
             button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, MenuConstants.BackButtonName);
             leaderboardMenu.AddItem(button);
-                        
-            relativePos = new Vector2(0.0f, -largeButtonTile.Height - tileOffset);
+            
+            relativePos = new Vector2((-largeButtonTile.Width) * 0.5f, (-largeButtonTile.Height - tileOffset) * 0.5f);
+            for (int row = 0; row < 2; row++)
+            {
+                for (int col = 0; col < 2; col++)
+                {
+                    largeButtonTile = new Sprite();
+                    largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+                    MenuImage background = new MenuImage(relativePos, largeButtonTile);
+                    leaderboardMenu.AddItem(background);
+                    relativePos.X += largeButtonTile.Width;
+                }
+
+                relativePos.Y += largeButtonTile.Height;
+                relativePos.X = (-largeButtonTile.Width) * 0.5f;
+            }
+
+            relativePos = new Vector2(0.0f, -largeButtonTile.Height * 0.825f);
             for (int count = 0; count < 10; count++)
             {
                 RenderableText placeHolderText = new RenderableText();
                 placeHolderText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, string.Empty);
                 text = new MenuText(relativePos, placeHolderText, true);
                 leaderboardMenu.AddItem(text);
-                relativePos.Y += tileOffset;
+                relativePos.Y += tileOffset * 1.5f;
             }
 
             return leaderboardMenu;

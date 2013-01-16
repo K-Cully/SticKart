@@ -68,7 +68,7 @@ namespace SticKart.Game.Level
         /// <returns>The score name pair as its string representation.</returns>
         public override string ToString()
         {
-            int finalLength = 30;
+            int finalLength = 24;
             int stringLength = this.Name.Length + this.Score.ToString().Length;
             int paddingLength = finalLength - stringLength > 0 ? finalLength - stringLength : 0;
             return string.Format("{0}" + new string(' ', paddingLength) + "{1}", this.Name, this.Score);
