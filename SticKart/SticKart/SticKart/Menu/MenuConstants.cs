@@ -54,7 +54,12 @@ namespace SticKart.Menu
         public const string PauseCommandName = "PAUSE GAME";
 
         #endregion
-        
+
+        /// <summary>
+        /// The level complete text.
+        /// </summary>
+        public const string LevelCompleteText = "Level Complete";
+
         /// <summary>
         /// The default high score text.
         /// </summary>
@@ -66,8 +71,55 @@ namespace SticKart.Menu
         public const string HighScoreAlternateText = "Unlucky, you didn't set a high score this time.";
 
         /// <summary>
-        /// The score text.
+        /// The score heading text.
         /// </summary>
         public const string ScoreText = "Your score was:";
+
+        /// <summary>
+        /// The default score.
+        /// </summary>
+        public const string ScoreDefaultText = "0";
+
+        /// <summary>
+        /// The rating heading text.
+        /// </summary>
+        public const string RatingText = "Rating:";
+
+        /// <summary>
+        /// The lowest rating.
+        /// </summary>
+        private const string RatingGood = "Good";
+
+        /// <summary>
+        /// The medium rating.
+        /// </summary>
+        private const string RatingGreat = "Great";
+
+        /// <summary>
+        /// The best rating.
+        /// </summary>
+        private const string RatingExcellent = "Excellent";
+
+        /// <summary>
+        /// Retrieves the rating text.
+        /// </summary>
+        /// <param name="ratingLevel">The rating level.</param>
+        /// <returns>The rating text.</returns>
+        public static string GetRating(int ratingLevel)
+        {
+            ratingLevel = ratingLevel < 0 ? 0 : ratingLevel > 2 ? 2 : ratingLevel;
+
+            switch (ratingLevel)
+            {
+                case 0:
+                    return MenuConstants.RatingGood;
+                case 1:
+                    return MenuConstants.RatingGreat;
+                case 2:
+                    return MenuConstants.RatingExcellent;
+                default:
+                    return string.Empty;
+            }
+        }
     }
 }

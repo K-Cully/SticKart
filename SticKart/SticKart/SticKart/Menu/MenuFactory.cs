@@ -109,18 +109,40 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, MenuConstants.ExitButtonName);
             levelCompleteMenu.AddItem(button);
 
-            // TODO: add level complete
+            relativePos = new Vector2(0.0f, -largeButtonTile.Height * 1.1f);
+            RenderableText levelComplete = new RenderableText();
+            levelComplete.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.LevelCompleteText);
+            text = new MenuText(relativePos, levelComplete);
+            levelCompleteMenu.AddItem(text);
 
-            relativePos = new Vector2(0.0f, -largeButtonTile.Height);
+            relativePos += new Vector2(0.0f, levelComplete.Height * 1.25f);
             RenderableText highScoreText = new RenderableText();
-            highScoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.HighScoreText);
+            highScoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.HighScoreText);
             text = new MenuText(relativePos, highScoreText);
             levelCompleteMenu.AddItem(text);
 
-            relativePos += new Vector2(0.0f, highScoreText.Height * 1.1f);
+            relativePos += new Vector2(0.0f, levelComplete.Height * 1.5f);
             RenderableText scoreText = new RenderableText();
             scoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.ScoreText);
             text = new MenuText(relativePos, scoreText);
+            levelCompleteMenu.AddItem(text);
+
+            relativePos += new Vector2(0.0f, levelComplete.Height * 1.25f);
+            RenderableText score = new RenderableText();
+            score.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ScoreDefaultText);
+            text = new MenuText(relativePos, score);
+            levelCompleteMenu.AddItem(text);
+
+            relativePos += new Vector2(0.0f, levelComplete.Height * 1.5f);
+            RenderableText ratingText = new RenderableText();
+            ratingText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.RatingText);
+            text = new MenuText(relativePos, ratingText);
+            levelCompleteMenu.AddItem(text);
+
+            relativePos += new Vector2(0.0f, levelComplete.Height * 1.25f);
+            RenderableText rating = new RenderableText();
+            rating.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.GetRating(0));
+            text = new MenuText(relativePos, rating);
             levelCompleteMenu.AddItem(text);
 
             return levelCompleteMenu;
