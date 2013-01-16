@@ -114,7 +114,7 @@ namespace SticKart.Menu
         /// <param name="gameSettings">The game settings.</param>
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, GameSettings gameSettings)
         {
-            this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
+            this.ActiveMenu = MenuType.LevelComplete; // TODO: implement all menus.
             NotificationManager.AddNotification(NotificationType.PushGesture);
             NotificationManager.AddNotification(NotificationType.VoiceCommand);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -122,7 +122,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.NameInput, null);
-            this.menus.Add(MenuType.LevelComplete, null);
+            this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
         }
 
         /// <summary>
@@ -166,20 +166,20 @@ namespace SticKart.Menu
                     {
                         switch (selectedItemName)
                         {
-                            case SelectableNames.PlayButtonName:
+                            case MenuConstants.PlayButtonName:
                                 this.ActiveMenu = MenuType.LevelSelect;
                                 NotificationManager.AddNotification(NotificationType.SwipeGesture);
                                 this.menus[this.ActiveMenu].Reset();
                                 break;
-                            case SelectableNames.OptionsButtonName:
+                            case MenuConstants.OptionsButtonName:
                                 this.ActiveMenu = MenuType.Options;
                                 this.menus[this.ActiveMenu].Reset();
                                 break;
-                            case SelectableNames.LeaderboardButtonName:
+                            case MenuConstants.LeaderboardButtonName:
                                 this.ActiveMenu = MenuType.Leaderboard;
                                 this.menus[this.ActiveMenu].Reset();
                                 break;
-                            case SelectableNames.ExitButtonName:
+                            case MenuConstants.ExitButtonName:
                                 this.ActiveMenu = MenuType.None;
                                 if (this.OnQuitGameDetected != null)
                                 {
@@ -187,7 +187,7 @@ namespace SticKart.Menu
                                 }
 
                                 break;
-                            case SelectableNames.BackButtonName:
+                            case MenuConstants.BackButtonName:
                                 if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.Leaderboard)
                                 {
                                     this.ActiveMenu = MenuType.Main;
@@ -217,7 +217,7 @@ namespace SticKart.Menu
                     case MenuType.LevelSelect:
                         foreach (string name in this.menus[menuType].SelectableItemNames)
                         {
-                            if (name == SelectableNames.BackButtonName)
+                            if (name == MenuConstants.BackButtonName)
                             {
                                 selectableNames.Add(name);
                             }

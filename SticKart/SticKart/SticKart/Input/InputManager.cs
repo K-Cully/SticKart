@@ -645,7 +645,7 @@ namespace SticKart.Input
                     grammarChoices.Add(new SemanticResultValue(name.ToLower(), name));
                 }
 
-                grammarChoices.Add(new SemanticResultValue(SelectableNames.PauseCommandName.ToLower(), SelectableNames.PauseCommandName));
+                grammarChoices.Add(new SemanticResultValue(MenuConstants.PauseCommandName.ToLower(), MenuConstants.PauseCommandName));
                 GrammarBuilder grammarBuilder = new GrammarBuilder();
                 grammarBuilder.Culture = recognizerInfo.Culture;
                 grammarBuilder.Append(grammarChoices);

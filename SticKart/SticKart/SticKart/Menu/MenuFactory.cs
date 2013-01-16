@@ -36,36 +36,94 @@ namespace SticKart.Menu
             Sprite largePlayIcon = new Sprite();
             largePlayIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargePlayIcon);
             RenderableText playGameText = new RenderableText();
-            playGameText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, SelectableNames.PlayButtonName.ToLowerInvariant());
+            playGameText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.PlayButtonName.ToLowerInvariant());
             relativePos = new Vector2((-largeButtonTile.Width - gapBetweenTiles) * 0.5f, (-largeButtonTile.Height - gapBetweenTiles) * 0.5f);
-            button = new MenuButton(relativePos, largeButtonTile, largePlayIcon, playGameText, SelectableNames.PlayButtonName);
+            button = new MenuButton(relativePos, largeButtonTile, largePlayIcon, playGameText, MenuConstants.PlayButtonName);
             mainMenu.AddItem(button);
 
             Sprite largeOptionsIcon = new Sprite();
             largeOptionsIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeOptionsIcon);
             RenderableText optionsText = new RenderableText();
-            optionsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, SelectableNames.OptionsButtonName.ToLowerInvariant());
+            optionsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.OptionsButtonName.ToLowerInvariant());
             relativePos = new Vector2((largeButtonTile.Width + gapBetweenTiles) * 0.5f, (-largeButtonTile.Height - gapBetweenTiles) * 0.5f);
-            button = new MenuButton(relativePos, largeButtonTile, largeOptionsIcon, optionsText, SelectableNames.OptionsButtonName);
+            button = new MenuButton(relativePos, largeButtonTile, largeOptionsIcon, optionsText, MenuConstants.OptionsButtonName);
             mainMenu.AddItem(button);
             
             Sprite largeLeaderboardIcon = new Sprite();
             largeLeaderboardIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeLeaderboardIcon);
             RenderableText leaderboardText = new RenderableText();
-            leaderboardText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, SelectableNames.LeaderboardButtonName.ToLowerInvariant());
+            leaderboardText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.LeaderboardButtonName.ToLowerInvariant());
             relativePos = new Vector2((-largeButtonTile.Width - gapBetweenTiles) * 0.5f, (largeButtonTile.Height + gapBetweenTiles) * 0.5f);
-            button = new MenuButton(relativePos, largeButtonTile, largeLeaderboardIcon, leaderboardText, SelectableNames.LeaderboardButtonName);
+            button = new MenuButton(relativePos, largeButtonTile, largeLeaderboardIcon, leaderboardText, MenuConstants.LeaderboardButtonName);
             mainMenu.AddItem(button);
 
             Sprite largeExitIcon = new Sprite();
             largeExitIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeExitIcon);
             RenderableText exitText = new RenderableText();
-            exitText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, SelectableNames.ExitButtonName.ToLowerInvariant());
+            exitText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ExitButtonName.ToLowerInvariant());
             relativePos = new Vector2((largeButtonTile.Width + gapBetweenTiles) * 0.5f, (largeButtonTile.Height + gapBetweenTiles) * 0.5f);
-            button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, SelectableNames.ExitButtonName);
+            button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, MenuConstants.ExitButtonName);
             mainMenu.AddItem(button);
 
             return mainMenu;
+        }
+
+        /// <summary>
+        /// Creates a level complete menu.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateLevelCompleteMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu levelCompleteMenu = new Menu(position, 1, 3);
+            MenuButton button = null;
+            MenuText text = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            Vector2 relativePos = Vector2.Zero;
+            float tileSpacing = 32.0f;
+
+            relativePos = new Vector2(-largeButtonTile.Width - tileSpacing, largeButtonTile.Height * 0.75f);
+            Sprite largePlayIcon = new Sprite();
+            largePlayIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargePlayIcon);
+            RenderableText continueText = new RenderableText();
+            continueText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ContinueButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largePlayIcon, continueText, MenuConstants.ContinueButtonName);
+            levelCompleteMenu.AddItem(button);
+
+            relativePos.X = 0.0f;
+            Sprite largeRetryIcon = new Sprite();
+            largeRetryIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeRetryIcon);
+            RenderableText retryText = new RenderableText();
+            retryText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.RetryButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeRetryIcon, retryText, MenuConstants.RetryButtonName);
+            levelCompleteMenu.AddItem(button);
+
+            relativePos.X = largeButtonTile.Width + tileSpacing;
+            Sprite largeExitIcon = new Sprite();
+            largeExitIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeExitIcon);
+            RenderableText exitText = new RenderableText();
+            exitText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ExitButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, MenuConstants.ExitButtonName);
+            levelCompleteMenu.AddItem(button);
+
+            // TODO: add level complete
+
+            relativePos = new Vector2(0.0f, -largeButtonTile.Height);
+            RenderableText highScoreText = new RenderableText();
+            highScoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.HighScoreText);
+            text = new MenuText(relativePos, highScoreText);
+            levelCompleteMenu.AddItem(text);
+
+            relativePos += new Vector2(0.0f, highScoreText.Height * 1.1f);
+            RenderableText scoreText = new RenderableText();
+            scoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.ScoreText);
+            text = new MenuText(relativePos, scoreText);
+            levelCompleteMenu.AddItem(text);
+
+            return levelCompleteMenu;
         }
 
         /// <summary>
@@ -105,8 +163,8 @@ namespace SticKart.Menu
                     Sprite largeBackIcon = new Sprite();
                     largeBackIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
                     RenderableText backText = new RenderableText();
-                    backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, SelectableNames.BackButtonName.ToLowerInvariant());
-                    button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, SelectableNames.BackButtonName);
+                    backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+                    button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, MenuConstants.BackButtonName);
                     levelSelectMenu.AddItem(button);
                 }
                 else
@@ -157,8 +215,8 @@ namespace SticKart.Menu
             Sprite largeBackIcon = new Sprite();
             largeBackIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
             RenderableText backText = new RenderableText();
-            backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, SelectableNames.BackButtonName.ToLowerInvariant());
-            button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, SelectableNames.BackButtonName);
+            backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, MenuConstants.BackButtonName);
             placeHolderMenu.AddItem(button);
 
             return placeHolderMenu;
