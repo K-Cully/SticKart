@@ -128,6 +128,8 @@
     <Compile Include="Game\Level\LevelManager.cs" />
     <Compile Include="Game\Level\LevelLoader.cs" />
     <Compile Include="Game\Level\LevelFactory.cs" />
+    <Compile Include="Game\Level\LevelScoreTable.cs" />
+    <Compile Include="Game\Level\ScoreNamePair.cs" />
     <Compile Include="Game\Level\VisualEdge.cs" />
     <Compile Include="Input\ControlDevice.cs" />
     <Compile Include="Game\Entities\StickMan.cs" />
