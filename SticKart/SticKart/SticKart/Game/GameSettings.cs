@@ -6,9 +6,11 @@
 
 namespace SticKart.Game
 {
+    using System.Collections.ObjectModel;
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Xml.Serialization;
+    using Level;
 
     /// <summary>
     /// Defines a manager for saving and loading game settings.
@@ -21,12 +23,22 @@ namespace SticKart.Game
         private static string filename = "settings.xml";
 
         /// <summary>
+        /// A collection of level score tables.
+        /// </summary>
+        public Collection<LevelScoreTable> levelScoreTables;
+
+        /// <summary>
         /// Prevents a default instance of the <see cref="GameSettings"/> class from being created.
         /// </summary>
         private GameSettings()
         {
             this.LevelsUnlocked = 1;
             this.TotalLevels = 2;
+            this.levelScoreTables = new Collection<LevelScoreTable>();
+            for (int count = 0; count < this.TotalLevels; ++count)
+            {
+                this.levelScoreTables.Add(new LevelScoreTable());
+            }
         }
 
         /// <summary>
