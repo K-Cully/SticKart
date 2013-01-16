@@ -245,16 +245,25 @@ namespace SticKart
             if (this.levelManager.Complete)
             {
                 this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore);
-                if (this.levelManager.CurrentLevel >= this.gameSettings.TotalLevels)
-                {
-                    // TODO: game complete
-                    this.PauseGame();
-                }
-                else
-                {
-                    this.gameSettings.LevelsUnlocked += this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked ? 1 : 0;
-                    this.BeginLevel(this.levelManager.CurrentLevel + 1);
-                }
+                this.gameState = GameState.InMenu;
+                this.menuManager.ActiveMenu = MenuType.LevelComplete;
+
+                // TODO: update menu here.
+
+                this.levelManager.EndLevel();
+                AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
+                // TODO: need way to pass data to menu
+
+                //if (this.levelManager.CurrentLevel >= this.gameSettings.TotalLevels)
+                //{
+                //    // TODO: game complete
+                //    this.PauseGame();
+                //}
+                //else
+                //{
+                //    this.gameSettings.LevelsUnlocked += this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked ? 1 : 0;
+                //    this.BeginLevel(this.levelManager.CurrentLevel + 1);
+                //}
             }
             else
             {
@@ -282,7 +291,7 @@ namespace SticKart
 
                 if (this.inputManager.VoiceCommandAvailable)
                 {
-                    if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == SelectableNames.PauseCommandName)
+                    if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == MenuConstants.PauseCommandName)
                     {
                         this.PauseGame();
                     }
@@ -295,6 +304,7 @@ namespace SticKart
         /// </summary>
         protected void PauseGame()
         {
+            this.levelManager.EndLevel(); // TODO: change to only on exit
             AudioManager.PauseBackgroundMusic();
             this.gameState = GameState.InMenu;
             this.menuManager.ActiveMenu = MenuType.Main; // TODO: Add a resume button or pause menu.
@@ -357,11 +367,23 @@ namespace SticKart
         protected void BeginLevel(int value)
         {
             // TODO: refine.
-            this.levelManager.EndLevel();
+            // this.levelManager.EndLevel();
             Camera2D.Reset();
             this.inputManager.Reset();
-            this.gameState = GameState.InGame;
-            this.levelManager.BeginLevel(value, false);
+            if (value == 0)
+            {
+                value = this.levelManager.CurrentLevel + 1;
+            }
+            else if (value == int.MaxValue)
+            {
+                value = this.levelManager.CurrentLevel;
+            }
+
+            if (value <= this.gameSettings.TotalLevels)
+            {
+                this.gameState = GameState.InGame;
+                this.levelManager.BeginLevel(value, false);
+            }
         }
 
         /// <summary>

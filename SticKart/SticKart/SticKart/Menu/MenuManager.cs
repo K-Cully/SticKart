@@ -114,7 +114,7 @@ namespace SticKart.Menu
         /// <param name="gameSettings">The game settings.</param>
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, GameSettings gameSettings)
         {
-            this.ActiveMenu = MenuType.LevelComplete; // TODO: implement all menus.
+            this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
             NotificationManager.AddNotification(NotificationType.PushGesture);
             NotificationManager.AddNotification(NotificationType.VoiceCommand);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -180,10 +180,19 @@ namespace SticKart.Menu
                                 this.menus[this.ActiveMenu].Reset();
                                 break;
                             case MenuConstants.ExitButtonName:
-                                this.ActiveMenu = MenuType.None;
-                                if (this.OnQuitGameDetected != null)
+                                if (this.ActiveMenu == MenuType.Main)
                                 {
-                                    this.OnQuitGameDetected(true);
+                                    this.ActiveMenu = MenuType.None;
+                                    if (this.OnQuitGameDetected != null)
+                                    {
+                                        this.OnQuitGameDetected(true);
+                                    }
+                                }
+                                else
+                                {
+                                    this.menus[this.ActiveMenu].Reset();
+                                    this.ActiveMenu = MenuType.Main;
+                                    this.menus[this.ActiveMenu].Reset();
                                 }
 
                                 break;
@@ -194,6 +203,14 @@ namespace SticKart.Menu
                                     this.menus[this.ActiveMenu].Reset();
                                 }
 
+                                break;
+                            case MenuConstants.ContinueButtonName:
+                                this.menus[this.ActiveMenu].Reset();
+                                this.OnBeginLevelDetected(0);
+                                break;
+                            case MenuConstants.RetryButtonName:
+                                this.menus[this.ActiveMenu].Reset();
+                                this.OnBeginLevelDetected(int.MaxValue);
                                 break;
                             default:
                                 break;
