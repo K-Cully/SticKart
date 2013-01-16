@@ -120,6 +120,7 @@ namespace SticKart.Menu
             NotificationManager.AddNotification(NotificationType.VoiceCommand);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.LeaderboardSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.NameInput, null);
@@ -150,72 +151,15 @@ namespace SticKart.Menu
                 {
                     if (this.ActiveMenu == MenuType.LevelSelect)
                     {
-                        try
-                        {
-                            int level = int.Parse(selectedItemName);
-                            if (this.OnBeginLevelDetected != null)
-                            {
-                                this.OnBeginLevelDetected(level);
-                            }
-                        }
-                        catch
-                        {
-                            this.ActiveMenu = MenuType.Main;
-                        }
+                        this.HandleLevelSelection(selectedItemName);
+                    }
+                    else if (this.ActiveMenu == MenuType.LeaderboardSelect)
+                    {
+                        this.HandleLeaderboardSelection(selectedItemName, gameSettings);
                     }
                     else
                     {
-                        switch (selectedItemName)
-                        {
-                            case MenuConstants.PlayButtonName:
-                                this.ActiveMenu = MenuType.LevelSelect;
-                                NotificationManager.AddNotification(NotificationType.SwipeGesture);
-                                this.menus[this.ActiveMenu].Reset();
-                                break;
-                            case MenuConstants.OptionsButtonName:
-                                this.ActiveMenu = MenuType.Options;
-                                this.menus[this.ActiveMenu].Reset();
-                                break;
-                            case MenuConstants.LeaderboardButtonName:
-                                this.ActiveMenu = MenuType.Leaderboard;
-                                this.menus[this.ActiveMenu].Reset();
-                                break;
-                            case MenuConstants.ExitButtonName:
-                                if (this.ActiveMenu == MenuType.Main)
-                                {
-                                    this.ActiveMenu = MenuType.None;
-                                    if (this.OnQuitGameDetected != null)
-                                    {
-                                        this.OnQuitGameDetected(true);
-                                    }
-                                }
-                                else
-                                {
-                                    this.menus[this.ActiveMenu].Reset();
-                                    this.ActiveMenu = MenuType.Main;
-                                    this.menus[this.ActiveMenu].Reset();
-                                }
-
-                                break;
-                            case MenuConstants.BackButtonName:
-                                if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.Leaderboard)
-                                {
-                                    this.ActiveMenu = MenuType.Main;
-                                    this.menus[this.ActiveMenu].Reset();
-                                }
-
-                                break;
-                            case MenuConstants.ContinueButtonName:
-                                this.menus[this.ActiveMenu].Reset();
-                                this.OnBeginLevelDetected(0);
-                                break;
-                            case MenuConstants.RetryButtonName:
-                                this.menus[this.ActiveMenu].Reset();
-                                this.OnBeginLevelDetected(int.MaxValue);
-                                break;
-                            default:
-                                break;
-                        }
+                        this.HandleStandardSelection(selectedItemName);
                     }
                 }
             }
@@ -245,6 +189,9 @@ namespace SticKart.Menu
                             }
                         }
 
+                        break;
+                    case MenuType.LeaderboardSelect:
+                        // Names will be identical to level select.
                         break;
                     default:
                         if (this.menus[menuType] != null)
@@ -363,5 +310,117 @@ namespace SticKart.Menu
         }
 
         #endregion
+
+        /// <summary>
+        /// Manages state changes from the leaderboard select menu, based on user input.
+        /// </summary>
+        /// <param name="selectedItemName">The name of the selected item.</param>
+        /// <param name="gameSettings">The game settings.</param>
+        private void HandleLeaderboardSelection(string selectedItemName, GameSettings gameSettings)
+        {
+            try
+            {
+                int level = int.Parse(selectedItemName);
+                this.ActiveMenu = MenuType.Leaderboard;                
+                Collection<MenuItem> leaderboardItems = this.menus[MenuType.Leaderboard].MenuItems;
+                int changedCount = 0;
+                for (int count = 0; count < leaderboardItems.Count; count++)
+                {
+                    if (leaderboardItems[count].Type == typeof(MenuText) && (leaderboardItems[count] as MenuText).IsChangeable)
+                    {
+                        (leaderboardItems[count] as MenuText).SetText(gameSettings.LevelScoreTables[level].Scores[changedCount].ToString());
+                        changedCount++;
+                    }
+                }
+            }
+            catch
+            {
+                this.ActiveMenu = MenuType.Main;
+            }
+        }
+
+        /// <summary>
+        /// Manages state changes from the level select menu, based on user input.
+        /// </summary>
+        /// <param name="selectedItemName">The name of the selected item.</param>
+        private void HandleLevelSelection(string selectedItemName)
+        {
+            try
+            {
+                int level = int.Parse(selectedItemName);
+                if (this.OnBeginLevelDetected != null)
+                {
+                    this.OnBeginLevelDetected(level);
+                }
+            }
+            catch
+            {
+                this.ActiveMenu = MenuType.Main;
+            }
+        }
+
+        /// <summary>
+        /// Manages standard state changes based on menu selection.
+        /// </summary>
+        /// <param name="selectedItemName">The name of the selected menu item.</param>
+        private void HandleStandardSelection(string selectedItemName)
+        {
+            switch (selectedItemName)
+            {
+                case MenuConstants.PlayButtonName:
+                    this.ActiveMenu = MenuType.LevelSelect;
+                    NotificationManager.AddNotification(NotificationType.SwipeGesture);
+                    this.menus[this.ActiveMenu].Reset();
+                    break;
+                case MenuConstants.OptionsButtonName:
+                    this.ActiveMenu = MenuType.Options;
+                    this.menus[this.ActiveMenu].Reset();
+                    break;
+                case MenuConstants.LeaderboardButtonName:
+                    this.ActiveMenu = MenuType.LeaderboardSelect;
+                    this.menus[this.ActiveMenu].Reset();
+                    break;
+                case MenuConstants.ExitButtonName:
+                    if (this.ActiveMenu == MenuType.Main)
+                    {
+                        this.ActiveMenu = MenuType.None;
+                        if (this.OnQuitGameDetected != null)
+                        {
+                            this.OnQuitGameDetected(true);
+                        }
+                    }
+                    else
+                    {
+                        this.menus[this.ActiveMenu].Reset();
+                        this.ActiveMenu = MenuType.Main;
+                        this.menus[this.ActiveMenu].Reset();
+                    }
+
+                    break;
+                case MenuConstants.BackButtonName:
+                    if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardSelect)
+                    {
+                        this.ActiveMenu = MenuType.Main;
+                        this.menus[this.ActiveMenu].Reset();
+                    }
+                    else if (this.ActiveMenu == MenuType.Leaderboard)
+                    {
+                        this.ActiveMenu = MenuType.LeaderboardSelect;
+                        this.menus[this.ActiveMenu].Reset();
+                    }
+
+                    break;
+                case MenuConstants.ContinueButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.OnBeginLevelDetected(0);
+                    break;
+                case MenuConstants.RetryButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.OnBeginLevelDetected(int.MaxValue);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }
