@@ -28,6 +28,20 @@ namespace SticKart.Menu
         public MenuText(Vector2 relativePosition, RenderableText text)
             : base(relativePosition)
         {
+            this.IsChangeable = false;
+            this.text = text;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MenuText"/> class.
+        /// </summary>
+        /// <param name="relativePosition">The centre position of the menu item, relative to it's owner/parent.</param>
+        /// <param name="text">The text object to associate with the menu item.</param>
+        /// <param name="canChange">A value indicating whether the text is allowed to be changed or not.</param>
+        public MenuText(Vector2 relativePosition, RenderableText text, bool canChange)
+            : base(relativePosition)
+        {
+            this.IsChangeable = canChange;
             this.text = text;
         }
 
@@ -41,6 +55,11 @@ namespace SticKart.Menu
                 return typeof(MenuText);
             }
         }
+
+        /// <summary>
+        /// Gets a value indicating if the text is allowed to change.
+        /// </summary>
+        public bool IsChangeable { get; private set; }
 
         /// <summary>
         /// Sets the text stored in the menu item.

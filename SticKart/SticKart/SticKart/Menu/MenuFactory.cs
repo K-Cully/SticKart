@@ -118,7 +118,7 @@ namespace SticKart.Menu
             relativePos += new Vector2(0.0f, levelComplete.Height * 1.25f);
             RenderableText highScoreText = new RenderableText();
             highScoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.HighScoreText);
-            text = new MenuText(relativePos, highScoreText);
+            text = new MenuText(relativePos, highScoreText, true);
             levelCompleteMenu.AddItem(text);
 
             relativePos += new Vector2(0.0f, levelComplete.Height * 1.5f);
@@ -130,7 +130,7 @@ namespace SticKart.Menu
             relativePos += new Vector2(0.0f, levelComplete.Height * 1.25f);
             RenderableText score = new RenderableText();
             score.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ScoreDefaultText);
-            text = new MenuText(relativePos, score);
+            text = new MenuText(relativePos, score, true);
             levelCompleteMenu.AddItem(text);
 
             relativePos += new Vector2(0.0f, levelComplete.Height * 1.5f);
@@ -142,7 +142,7 @@ namespace SticKart.Menu
             relativePos += new Vector2(0.0f, levelComplete.Height * 1.25f);
             RenderableText rating = new RenderableText();
             rating.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.GetRating(0));
-            text = new MenuText(relativePos, rating);
+            text = new MenuText(relativePos, rating, true);
             levelCompleteMenu.AddItem(text);
 
             return levelCompleteMenu;

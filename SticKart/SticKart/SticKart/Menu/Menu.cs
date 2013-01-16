@@ -182,6 +182,22 @@ namespace SticKart.Menu
             }
         }
 
+        /// <summary>
+        /// Gets or sets the collection of menu items.
+        /// </summary>
+        public Collection<MenuItem> MenuItems
+        {
+            get
+            {
+                return this.menuItems;
+            }
+
+            set
+            {
+                this.menuItems = value;
+            }
+        }
+
         #endregion
 
         /// <summary>
