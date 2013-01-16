@@ -247,6 +247,7 @@ namespace SticKart.Menu
                             count = levelCompleteItems.Count;
                             break;
                     }
+
                     changedCount++;
                 }
             }

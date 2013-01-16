@@ -57,7 +57,7 @@ namespace SticKart.Menu
         }
 
         /// <summary>
-        /// Gets a value indicating if the text is allowed to change.
+        /// Gets a value indicating whether the text is allowed to change.
         /// </summary>
         public bool IsChangeable { get; private set; }
 
