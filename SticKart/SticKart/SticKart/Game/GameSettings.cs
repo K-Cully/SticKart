@@ -21,12 +21,7 @@ namespace SticKart.Game
         /// The name of the settings file.
         /// </summary>
         private static string filename = "settings.xml";
-
-        /// <summary>
-        /// A collection of level score tables.
-        /// </summary>
-        public Collection<LevelScoreTable> levelScoreTables;
-
+        
         /// <summary>
         /// Prevents a default instance of the <see cref="GameSettings"/> class from being created.
         /// </summary>
@@ -34,12 +29,17 @@ namespace SticKart.Game
         {
             this.LevelsUnlocked = 1;
             this.TotalLevels = 2;
-            this.levelScoreTables = new Collection<LevelScoreTable>();
+            this.LevelScoreTables = new Collection<LevelScoreTable>();
             for (int count = 0; count < this.TotalLevels; ++count)
             {
-                this.levelScoreTables.Add(new LevelScoreTable());
+                this.LevelScoreTables.Add(new LevelScoreTable());
             }
         }
+
+        /// <summary>
+        /// Gets or sets the collection of level score tables.
+        /// </summary>
+        public Collection<LevelScoreTable> LevelScoreTables { get; set; }
 
         /// <summary>
         /// Gets or sets the number of levels the player has unlocked.
