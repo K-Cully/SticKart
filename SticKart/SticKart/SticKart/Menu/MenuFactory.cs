@@ -147,6 +147,44 @@ namespace SticKart.Menu
 
             return levelCompleteMenu;
         }
+        
+        /// <summary>
+        /// Creates a level complete menu.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateLeaderboardMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu leaderboardMenu = new Menu(position, 1, 1);
+            MenuButton button = null;
+            MenuText text = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            Vector2 relativePos = Vector2.Zero;
+            float tileOffset = 32.0f;
+
+            relativePos = new Vector2((-largeButtonTile.Width - tileOffset) * 1.5f, (-largeButtonTile.Height - tileOffset) * 0.5f);
+            Sprite largeBackIcon = new Sprite();
+            largeBackIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
+            RenderableText backText = new RenderableText();
+            backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, MenuConstants.BackButtonName);
+            leaderboardMenu.AddItem(button);
+                        
+            relativePos = new Vector2(0.0f, -largeButtonTile.Height - tileOffset);
+            for (int count = 0; count < 10; count++)
+            {
+                RenderableText placeHolderText = new RenderableText();
+                placeHolderText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, string.Empty);
+                text = new MenuText(relativePos, placeHolderText, true);
+                leaderboardMenu.AddItem(text);
+                relativePos.Y += tileOffset;
+            }
+
+            return leaderboardMenu;
+        }
 
         /// <summary>
         /// Creates a level select menu.

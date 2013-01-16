@@ -121,7 +121,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LeaderboardSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
-            this.menus.Add(MenuType.Leaderboard, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.Leaderboard, MenuFactory.CreateLeaderboardMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.NameInput, null);
             this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -329,7 +329,7 @@ namespace SticKart.Menu
                 {
                     if (leaderboardItems[count].Type == typeof(MenuText) && (leaderboardItems[count] as MenuText).IsChangeable)
                     {
-                        (leaderboardItems[count] as MenuText).SetText(gameSettings.LevelScoreTables[level].Scores[changedCount].ToString());
+                        (leaderboardItems[count] as MenuText).SetText(gameSettings.LevelScoreTables[level - 1].Scores[changedCount].ToString());
                         changedCount++;
                     }
                 }
