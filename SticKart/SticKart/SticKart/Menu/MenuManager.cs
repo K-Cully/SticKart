@@ -8,6 +8,7 @@ namespace SticKart.Menu
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using Display;
     using Display.Notification;
     using Game;
@@ -267,6 +268,40 @@ namespace SticKart.Menu
             if (this.menus[this.ActiveMenu] != null)
             {
                 this.menus[this.ActiveMenu].FlipPage(right);
+            }
+        }
+
+        /// <summary>
+        /// Sets the text of the level complete menu based on the player's performance.
+        /// </summary>
+        /// <param name="setHighScore">A value indicating whether the player set ahigh score or not.</param>
+        /// <param name="score">The player's score for the level.</param>
+        /// <param name="ratingLevel">The overall rating for the level in the inclusive range 0 to 2.</param>
+        public void SetLevelCompleteMenuText(bool setHighScore, int score, int ratingLevel)
+        {
+            Collection<MenuItem> levelCompleteItems = this.menus[MenuType.LevelComplete].MenuItems;
+            int changedCount = 0;
+            for (int count = 0; count < levelCompleteItems.Count; count++)
+            {
+                if (levelCompleteItems[count].Type == typeof(MenuText) && (levelCompleteItems[count] as MenuText).IsChangeable)
+                {
+                    switch (changedCount)
+                    {
+                        case 0:
+                            (levelCompleteItems[count] as MenuText).SetText(MenuConstants.GetHighScoreText(setHighScore));
+                            break;
+                        case 1:
+                            (levelCompleteItems[count] as MenuText).SetText(score.ToString());
+                            break;
+                        case 2:
+                            (levelCompleteItems[count] as MenuText).SetText(MenuConstants.GetRating(ratingLevel));
+                            break;
+                        default:
+                            count = levelCompleteItems.Count;
+                            break;
+                    }
+                    changedCount++;
+                }
             }
         }
 
