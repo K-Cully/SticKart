@@ -274,13 +274,13 @@ namespace SticKart.Menu
         }
         
         /// <summary>
-        /// Creates a place holder for menu's which are yet to be implemented.
+        /// Creates a letter input menu.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>
         /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
         /// <param name="position">The position of the menu.</param>
         /// <returns>The new menu created.</returns>
-        public static Menu CreateNameInputMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        public static Menu CreateLetterInputMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
         {
             int rows = 4;
             int columns = 7;
@@ -293,7 +293,6 @@ namespace SticKart.Menu
             Vector2 firstTileRelativePosition = new Vector2(-3.0f * (buttonTile.Width + tileGap), -1.5f * (buttonTile.Height + tileGap));
             Vector2 currentTileOffset = Vector2.Zero;
             char letter = 'a';
-
             for (int rowCount = 0; rowCount < rows; rowCount++)
             {
                 currentTileOffset.Y = rowCount * (buttonTile.Height + tileGap);
@@ -306,10 +305,22 @@ namespace SticKart.Menu
                     textIcon = new RenderableText();
                     textIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, letter.ToString().ToUpperInvariant()); 
                     text = new RenderableText();
-                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, letter.ToString());
+                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, letter.ToString());
+                    text.Colour = Color.Black;
                     MenuButton button = new MenuButton(firstTileRelativePosition + currentTileOffset, buttonTile, textIcon, text, letter.ToString().ToUpperInvariant());
                     nameInutMenu.AddItem(button);
-                    letter += (char)1; // TODO: test and add . and _
+                    if (rowCount == rows - 1 && colCount == columns - 3)
+                    {
+                        letter = '_';
+                    }
+                    else if (rowCount == rows - 1 && colCount == columns - 2)
+                    {
+                        letter = '.';
+                    }
+                    else
+                    {
+                        letter += (char)1;
+                    }
                 }
             }
 

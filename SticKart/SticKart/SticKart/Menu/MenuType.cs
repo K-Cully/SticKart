@@ -42,9 +42,14 @@ namespace SticKart.Menu
         LevelSelect,
 
         /// <summary>
-        /// The name input menu.
+        /// The name prompt menu.
         /// </summary>
-        NameInput,
+        NamePrompt,
+
+        /// <summary>
+        /// The letter input menu.
+        /// </summary>
+        LetterInput,
 
         /// <summary>
         /// The level complete menu.

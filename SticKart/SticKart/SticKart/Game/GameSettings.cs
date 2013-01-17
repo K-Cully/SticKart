@@ -27,7 +27,7 @@ namespace SticKart.Game
         /// </summary>
         private GameSettings()
         {
-            this.PlayerName = "Bob";
+            this.PlayerName = "BOB";
             this.LevelsUnlocked = 1;
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
@@ -39,7 +39,7 @@ namespace SticKart.Game
         /// <param name="createDefaults">A value indicating that the default lists should be created.</param>
         private GameSettings(int createDefaults)
         {
-            this.PlayerName = "Bob";
+            this.PlayerName = "BOB";
             this.LevelsUnlocked = 1;
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();

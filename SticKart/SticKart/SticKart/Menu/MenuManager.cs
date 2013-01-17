@@ -115,16 +115,19 @@ namespace SticKart.Menu
         /// <param name="gameSettings">The game settings.</param>
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, GameSettings gameSettings)
         {
-            this.ActiveMenu = MenuType.Main; // TODO: implement all menus.
+            this.ActiveMenu = MenuType.NamePrompt; // TODO: implement all menus.
             NotificationManager.AddNotification(NotificationType.PushGesture);
             NotificationManager.AddNotification(NotificationType.VoiceCommand);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
-            this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f)); // TODO: change name, reset notifications, adjust sounds?
             this.menus.Add(MenuType.LeaderboardSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreateLeaderboardMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
-            this.menus.Add(MenuType.NameInput,  MenuFactory.CreateNameInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.LetterInput,  MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.NamePrompt, MenuFactory.CreateLetterNamePromptMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+
+            // TODO: change name, reset notifications, adjust sounds?
+            this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
         }
 
         /// <summary>
@@ -389,6 +392,7 @@ namespace SticKart.Menu
                     break;
                 case MenuConstants.LeaderboardButtonName:
                     this.ActiveMenu = MenuType.LeaderboardSelect;
+                    NotificationManager.AddNotification(NotificationType.SwipeGesture);
                     this.menus[this.ActiveMenu].Reset();
                     break;
                 case MenuConstants.ExitButtonName:
