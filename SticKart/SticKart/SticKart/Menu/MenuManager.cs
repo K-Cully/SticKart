@@ -141,7 +141,7 @@ namespace SticKart.Menu
         /// <param name="selectionPosition">The selection position.</param>
         /// <param name="selectionName">The selection name.</param>
         /// <param name="gameSettings">The game settings.</param>
-        public void Update(Vector2 selectionPosition, string selectionName, GameSettings gameSettings)
+        public void Update(Vector2 selectionPosition, string selectionName, ref GameSettings gameSettings)
         {
             if (this.menus[this.ActiveMenu] != null)
             {
@@ -164,6 +164,10 @@ namespace SticKart.Menu
                     else if (this.ActiveMenu == MenuType.LeaderboardSelect)
                     {
                         this.HandleLeaderboardSelection(selectedItemName, gameSettings);
+                    }
+                    else if (this.ActiveMenu == MenuType.NamePrompt || this.ActiveMenu == MenuType.LetterInput)
+                    {
+                        this.HandleNameSelection(selectedItemName, ref gameSettings);
                     }
                     else
                     {
@@ -229,7 +233,7 @@ namespace SticKart.Menu
         /// <summary>
         /// Sets the text of the level complete menu based on the player's performance.
         /// </summary>
-        /// <param name="setHighScore">A value indicating whether the player set ahigh score or not.</param>
+        /// <param name="setHighScore">A value indicating whether the player set a high score or not.</param>
         /// <param name="score">The player's score for the level.</param>
         /// <param name="ratingLevel">The overall rating for the level in the inclusive range 0 to 2.</param>
         public void SetLevelCompleteMenuText(bool setHighScore, int score, int ratingLevel)
@@ -358,6 +362,11 @@ namespace SticKart.Menu
             }
         }
 
+        /// <summary>
+        /// Handles state changes from the name prompt and letter input menus.
+        /// </summary>
+        /// <param name="selectedItemName">The selected item name.</param>
+        /// <param name="gameSettings">The game settings.</param>
         private void HandleNameSelection(string selectedItemName, ref GameSettings gameSettings)
         {
             if (this.ActiveMenu == MenuType.NamePrompt)
@@ -371,12 +380,20 @@ namespace SticKart.Menu
                 }
                 else
                 {
-                    // Letter index
+                    this.menus[this.ActiveMenu].Reset();
+                    this.nameCharacterSelected = int.Parse(selectedItemName);
+                    this.ActiveMenu = MenuType.LetterInput;
                 }
             }
             else
             {
-                // TODO: set character at index then set index to -1
+                char[] newName = gameSettings.PlayerName.ToCharArray();
+                newName[this.nameCharacterSelected] = selectedItemName.ToUpperInvariant().ToCharArray()[0];
+                gameSettings.PlayerName = new string(newName);
+                this.menus[this.ActiveMenu].Reset();
+                this.ActiveMenu = MenuType.NamePrompt;
+                (this.menus[this.ActiveMenu].MenuItems[this.nameCharacterSelected] as MenuButton).SetIconText(selectedItemName.ToUpperInvariant());
+                this.nameCharacterSelected = -1;
             }
         }
 

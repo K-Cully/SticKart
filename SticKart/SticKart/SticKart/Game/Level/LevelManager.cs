@@ -382,6 +382,7 @@ namespace SticKart.Game.Level
                 this.mineCart.Draw();
                 this.cartSwitch.Draw();
             }
+
             if (!this.scrollingDeath.Active)
             {
                 RenderableText.Draw(this.startText, this.gameDisplayResolution / 2.0f, 0.0f, Color.Black);

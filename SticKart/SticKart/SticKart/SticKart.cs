@@ -247,7 +247,7 @@ namespace SticKart
                 if (this.levelManager.CurrentLevel < this.gameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
                 {
                     this.gameSettings.LevelsUnlocked += 1;
-                    this.menuManager.UpdateLevelsUnlocked(gameSettings.LevelsUnlocked);
+                    this.menuManager.UpdateLevelsUnlocked(this.gameSettings.LevelsUnlocked);
                 }
 
                 this.gameState = GameState.InMenu;

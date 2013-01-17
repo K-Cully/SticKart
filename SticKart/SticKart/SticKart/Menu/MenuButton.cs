@@ -109,5 +109,17 @@ namespace SticKart.Menu
                 this.textIcon.Draw(parentPosition + this.RelativePosition, grayedOut);
             }
         }
+
+        /// <summary>
+        /// Sets the text displayed as the icon of the button. 
+        /// </summary>
+        /// <param name="newText">The new text to use.</param>
+        public void SetIconText(string newText)
+        {
+            if (this.textIcon != null)
+            {
+                this.textIcon.SetText(newText);
+            }
+        }
     }
 }
