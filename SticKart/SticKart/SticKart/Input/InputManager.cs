@@ -386,7 +386,7 @@ namespace SticKart.Input
         {
             if (this.gestureManager != null)
             {
-                this.gestureManager.Reset();
+                this.gestureManager.ResetGestures();
             }
         }
 
@@ -485,11 +485,18 @@ namespace SticKart.Input
                     {
                         if (this.kinectAngleSet)
                         {
-                            this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked && (closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked || closestSkeleton.Joints[JointType.FootRight].TrackingState != JointTrackingState.NotTracked);
-                            this.gestureManager.Update(closestSkeleton, gameTime, this.resetGestureManager);
-                            this.PlayerFloorPosition = Vector2.Zero;
-                            this.resetGestureManager = false;
-                            this.ApplyKinectGestures();
+                            if (this.resetGestureManager)
+                            {
+                                this.gestureManager.ResetPlayerSettings(closestSkeleton);
+                                this.resetGestureManager = false;
+                            }
+                            else
+                            {
+                                this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked && (closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked || closestSkeleton.Joints[JointType.FootRight].TrackingState != JointTrackingState.NotTracked);
+                                this.gestureManager.Update(closestSkeleton, gameTime);
+                                this.PlayerFloorPosition = Vector2.Zero;
+                                this.ApplyKinectGestures();
+                            }
                         }
                         else
                         {

@@ -18,11 +18,6 @@ namespace SticKart.Input.Gestures
     public class GestureManager
     {
         /// <summary>
-        /// The maximum player body deviation to allow in a leg action before detecting a jump.
-        /// </summary>
-        private const float JumpThreshold = 0.2f;
-
-        /// <summary>
         /// Stores the gesture detectors in use.
         /// </summary>
         private Collection<GestureDetector> gestureDetectors;
@@ -79,6 +74,11 @@ namespace SticKart.Input.Gestures
         /// </summary>
         private float standardSpineY;
 
+        /// <summary>
+        /// The player body deviation threshold before detecting a jump.
+        /// </summary>
+        private float jumpThreshold;
+
         #endregion
 
         /// <summary>
@@ -87,6 +87,7 @@ namespace SticKart.Input.Gestures
         /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
+            this.jumpThreshold = 0.2f;
             this.standardSpineY = 0.0f;
             this.runTimeLimit = 1.5;
             this.lastLegLiftCounter = 0.0f;
@@ -182,9 +183,8 @@ namespace SticKart.Input.Gestures
         /// <summary>
         /// Resets all gesture detectors.
         /// </summary>
-        public void Reset()
+        public void ResetGestures()
         {
-            this.standardSpineY = 0.0f;
             this.lastLegLiftCounter = 0.0f;
             this.lastLegLifted = JointType.FootLeft;
             this.acceptLeftLegLift = true;
@@ -196,12 +196,22 @@ namespace SticKart.Input.Gestures
         }
 
         /// <summary>
+        /// Resets the player specific settings of the gesture manager.
+        /// </summary>
+        /// <param name="skeleton">The player's skeletal representation.</param>
+        public void ResetPlayerSettings(Skeleton skeleton)
+        {
+            this.skeletonJoints = skeleton.Joints;
+            this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y; // TODO: monitor over time
+            this.ResetGestures();
+        }
+
+        /// <summary>
         /// Updates all the gesture detectors based on the skeleton passed in.
         /// </summary>
         /// <param name="skeleton">The skeleton being tracked.</param>
         /// <param name="gameTime">The game time.</param>
-        /// <param name="resetPlayerSettgs">A value indicating whether to reset all player specific settings or not.</param>
-        public void Update(Skeleton skeleton, GameTime gameTime, bool resetPlayerSettgs)
+        public void Update(Skeleton skeleton, GameTime gameTime)
         {
             if (this.lastLegLiftCounter < this.runTimeLimit)
             {
@@ -209,11 +219,6 @@ namespace SticKart.Input.Gestures
             }
 
             this.skeletonJoints = skeleton.Joints;
-            if (resetPlayerSettgs)
-            {
-                this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y; // TODO: monitor over time
-            }
-
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
             {
                 if (this.skeletonJoints[gestureDetector.JointToTrack].TrackingState != JointTrackingState.NotTracked)
@@ -261,7 +266,7 @@ namespace SticKart.Input.Gestures
                     if (this.lastLegLiftCounter < this.runTimeLimit)
                     {
                         float distance = MathHelper.Distance(this.skeletonJoints[JointType.Spine].Position.Y, this.standardSpineY);
-                        if (distance > GestureManager.JumpThreshold)
+                        if (distance > this.jumpThreshold)
                         {
                             this.detectedGestures.Enqueue(GestureType.Jump);
                         }
