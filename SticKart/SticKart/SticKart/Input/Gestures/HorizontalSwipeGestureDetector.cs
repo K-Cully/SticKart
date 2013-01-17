@@ -14,7 +14,7 @@ namespace SticKart.Input.Gestures
 
     /// <summary>
     /// A horizontal swipe gesture detector class.
-    /// The code here is mostly taken from the Kinect toolbox (http://kinecttoolbox.codeplex.com/).
+    /// The code here is mostly taken from the Kinect toolbox <see cref="http://kinecttoolbox.codeplex.com/"/>.
     /// I had to make some modifications as I had to port the entire base class to work with XNA.
     /// </summary>
     public class HorizontalSwipeGestureDetector : GestureDetector

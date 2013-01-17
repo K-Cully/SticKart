@@ -18,13 +18,10 @@ namespace SticKart.Input.Gestures
     /// </summary>
     public class GestureManager
     {
-        #region monitoring
-
+        /// <summary>
+        /// The maximum change in body size before the system resets itself.
+        /// </summary>
         private const float BodySizeThreshold = 0.22f;
-
-        private float playerBodySize;
-
-        #endregion
 
         /// <summary>
         /// Stores the gesture detectors in use.
@@ -100,7 +97,7 @@ namespace SticKart.Input.Gestures
         /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
-            this.playerBodySize = 0.0f;
+            this.PlayerBodySize = 0.0f;
             this.jumpThreshold = 0.175f;
             this.standardSpineY = 0.0f;
             this.runTimeLimit = 1.5;
@@ -133,6 +130,11 @@ namespace SticKart.Input.Gestures
             VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.45f, 0.4f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);
         }
+
+        /// <summary>
+        /// Gets the player's body size.
+        /// </summary>
+        public float PlayerBodySize { get; private set; }
         
         /// <summary>
         /// Gets position of the active hand.
@@ -195,36 +197,6 @@ namespace SticKart.Input.Gestures
         }
 
         /// <summary>
-        /// Calculates the currently tracked skeleton's body size.
-        /// </summary>
-        /// <returns>The body size.</returns>
-        private float CalculateBodySize()
-        {
-            Vector3 neckPos = Tools.ToVector3(this.skeletonJoints[JointType.ShoulderCenter].Position);
-            Vector3 hipToNeck = neckPos - Tools.ToVector3(this.skeletonJoints[JointType.HipRight].Position);
-            Vector3 neckToHead = Tools.ToVector3(this.skeletonJoints[JointType.Head].Position) - neckPos;
-            return neckToHead.Length() + hipToNeck.Length();
-        }
-
-        /// <summary>
-        /// Resets all gesture detectors based on the size of the player.
-        /// </summary>
-        private void SetGesturesToPlayer()
-        {
-            this.gestureDetectors = new Collection<GestureDetector>();
-            HorizontalSwipeGestureDetector swipeGestureDetector = new HorizontalSwipeGestureDetector(this.activeHand, 50, 1200, this.playerBodySize * 0.95f);
-            this.gestureDetectors.Add(swipeGestureDetector);
-            PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30, 1000, this.playerBodySize * 0.45f);
-            this.gestureDetectors.Add(pushGestureDetector);
-            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 10, 0.053f * this.playerBodySize, 0.3f, 200, 2000, true, true);
-            this.gestureDetectors.Add(rightLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 10, 0.053f * this.playerBodySize, 0.3f, 200, 2000, true, true);
-            this.gestureDetectors.Add(leftLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.67f * this.playerBodySize, 0.4f, 400, 1800);
-            this.gestureDetectors.Add(headSwipeGestureDetector);
-        }
-
-        /// <summary>
         /// Resets all gesture detectors.
         /// </summary>
         public void ResetGestures()
@@ -247,7 +219,7 @@ namespace SticKart.Input.Gestures
         {
             this.skeletonJoints = skeleton.Joints;
             this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y; // TODO: monitor over time
-            this.playerBodySize = this.CalculateBodySize();
+            this.PlayerBodySize = this.CalculateBodySize();
             this.SetGesturesToPlayer();
         }
 
@@ -297,7 +269,7 @@ namespace SticKart.Input.Gestures
                 }
             }
 
-            return MathHelper.Distance(this.playerBodySize, this.CalculateBodySize()) > GestureManager.BodySizeThreshold;
+            return MathHelper.Distance(this.PlayerBodySize, this.CalculateBodySize()) > GestureManager.BodySizeThreshold;
         }
 
         /// <summary>
@@ -352,6 +324,36 @@ namespace SticKart.Input.Gestures
                     this.acceptRightLegLift = true;
                 }
             }
+        }
+
+        /// <summary>
+        /// Calculates the currently tracked skeleton's body size.
+        /// </summary>
+        /// <returns>The body size.</returns>
+        private float CalculateBodySize()
+        {
+            Vector3 neckPos = Tools.ToVector3(this.skeletonJoints[JointType.ShoulderCenter].Position);
+            Vector3 hipToNeck = neckPos - Tools.ToVector3(this.skeletonJoints[JointType.HipRight].Position);
+            Vector3 neckToHead = Tools.ToVector3(this.skeletonJoints[JointType.Head].Position) - neckPos;
+            return neckToHead.Length() + hipToNeck.Length();
+        }
+
+        /// <summary>
+        /// Resets all gesture detectors based on the size of the player.
+        /// </summary>
+        private void SetGesturesToPlayer()
+        {
+            this.gestureDetectors = new Collection<GestureDetector>();
+            HorizontalSwipeGestureDetector swipeGestureDetector = new HorizontalSwipeGestureDetector(this.activeHand, 50, 1200, this.PlayerBodySize * 0.95f);
+            this.gestureDetectors.Add(swipeGestureDetector);
+            PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30, 1000, this.PlayerBodySize * 0.45f);
+            this.gestureDetectors.Add(pushGestureDetector);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 10, 0.053f * this.PlayerBodySize, 0.3f, 200, 2000, true, true);
+            this.gestureDetectors.Add(rightLegSwipeGestureDetector);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 10, 0.053f * this.PlayerBodySize, 0.3f, 200, 2000, true, true);
+            this.gestureDetectors.Add(leftLegSwipeGestureDetector);
+            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.67f * this.PlayerBodySize, 0.4f, 400, 1800);
+            this.gestureDetectors.Add(headSwipeGestureDetector);
         }
     }
 }
