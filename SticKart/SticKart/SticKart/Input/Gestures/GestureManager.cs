@@ -101,7 +101,7 @@ namespace SticKart.Input.Gestures
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
             this.playerBodySize = 0.0f;
-            this.jumpThreshold = 0.2f;
+            this.jumpThreshold = 0.175f;
             this.standardSpineY = 0.0f;
             this.runTimeLimit = 1.5;
             this.lastLegLiftCounter = 0.0f;
@@ -206,18 +206,21 @@ namespace SticKart.Input.Gestures
             return neckToHead.Length() + hipToNeck.Length();
         }
 
+        /// <summary>
+        /// Resets all gesture detectors based on the size of the player.
+        /// </summary>
         private void SetGesturesToPlayer()
         {
             this.gestureDetectors = new Collection<GestureDetector>();
-            HorizontalSwipeGestureDetector swipeGestureDetector = new HorizontalSwipeGestureDetector(this.activeHand, 50, 1200);
+            HorizontalSwipeGestureDetector swipeGestureDetector = new HorizontalSwipeGestureDetector(this.activeHand, 50, 1200, this.playerBodySize * 0.95f);
             this.gestureDetectors.Add(swipeGestureDetector);
-            PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30);
+            PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30, 1000, this.playerBodySize * 0.45f);
             this.gestureDetectors.Add(pushGestureDetector);
-            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 10, 0.035f, 0.3f, 200, 2000, true, true);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 10, 0.053f * this.playerBodySize, 0.3f, 200, 2000, true, true);
             this.gestureDetectors.Add(rightLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 10, 0.035f, 0.3f, 200, 2000, true, true);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 10, 0.053f * this.playerBodySize, 0.3f, 200, 2000, true, true);
             this.gestureDetectors.Add(leftLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.45f, 0.4f, 400, 1800);
+            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.67f * this.playerBodySize, 0.4f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);
         }
 
