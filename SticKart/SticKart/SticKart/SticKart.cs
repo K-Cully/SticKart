@@ -243,7 +243,13 @@ namespace SticKart
         {
             this.levelManager.Update(gameTime, this.inputManager.Commands);
             if (this.levelManager.Complete)
-            {                
+            {
+                if (this.levelManager.CurrentLevel < this.gameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
+                {
+                    this.gameSettings.LevelsUnlocked += 1;
+                    this.menuManager.UpdateLevelsUnlocked(gameSettings.LevelsUnlocked);
+                }
+
                 this.gameState = GameState.InMenu;
                 this.menuManager.ActiveMenu = MenuType.LevelComplete;
                 this.menuManager.SetLevelCompleteMenuText(this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore), this.levelManager.PlayerScore, this.levelManager.GetRating());

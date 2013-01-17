@@ -254,6 +254,16 @@ namespace SticKart.Menu
         }
 
         /// <summary>
+        /// Unlocks the menu entries for unlocked levels.
+        /// </summary>
+        /// <param name="levelsUnlocked">The number of unlocked levels.</param>
+        public void UpdateLevelsUnlocked(int levelsUnlocked)
+        {
+            this.menus[MenuType.LeaderboardSelect].SelectablesActive = levelsUnlocked + 1;
+            this.menus[MenuType.LevelSelect].SelectablesActive = levelsUnlocked + 1;
+        }
+
+        /// <summary>
         /// Draws the active menu.
         /// </summary>
         public void Draw()
@@ -311,7 +321,7 @@ namespace SticKart.Menu
         }
 
         #endregion
-
+        
         /// <summary>
         /// Manages state changes from the leaderboard select menu, based on user input.
         /// </summary>
