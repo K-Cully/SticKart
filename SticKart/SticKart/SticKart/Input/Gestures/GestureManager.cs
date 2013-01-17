@@ -18,6 +18,11 @@ namespace SticKart.Input.Gestures
     public class GestureManager
     {
         /// <summary>
+        /// The maximum player body deviation to allow in a leg action before detecting a jump.
+        /// </summary>
+        private const float JumpThreshold = 0.2f;
+
+        /// <summary>
         /// Stores the gesture detectors in use.
         /// </summary>
         private Collection<GestureDetector> gestureDetectors;
@@ -42,15 +47,12 @@ namespace SticKart.Input.Gestures
         /// </summary>
         private JointType activeShoulder;
 
+        #region legs
+
         /// <summary>
         /// The time limit between leg lifts to count as running in seconds.
         /// </summary>
         private double runTimeLimit;
-
-        /// <summary>
-        /// The time limit between leg lifts to count as jumping in seconds.
-        /// </summary>
-        private double jumpTimeLimit;
 
         /// <summary>
         /// The time, in seconds, since the player last lifted a leg.
@@ -63,15 +65,34 @@ namespace SticKart.Input.Gestures
         private JointType lastLegLifted;
 
         /// <summary>
+        /// A value indicating whether to accept a left leg lift gesture or not.
+        /// </summary>
+        private bool acceptLeftLegLift;
+
+        /// <summary>
+        /// A value indicating whether to accept a right leg lift gesture or not.
+        /// </summary>
+        private bool acceptRightLegLift;
+
+        /// <summary>
+        /// The standard y position of the player's spine joint.
+        /// </summary>
+        private float standardSpineY;
+
+        #endregion
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GestureManager"/> class.
         /// </summary>
         /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
+            this.standardSpineY = 0.0f;
             this.runTimeLimit = 1.5;
-            this.jumpTimeLimit = 0.025;
-            this.lastLegLiftCounter = this.jumpTimeLimit;
+            this.lastLegLiftCounter = 0.0f;
             this.lastLegLifted = JointType.FootLeft;
+            this.acceptLeftLegLift = true;
+            this.acceptRightLegLift = true;
             this.activeHand = primaryHand;
             if (this.activeHand == JointType.HandRight)
             {
@@ -90,9 +111,9 @@ namespace SticKart.Input.Gestures
             this.gestureDetectors.Add(swipeGestureDetector);
             PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30);
             this.gestureDetectors.Add(pushGestureDetector);
-            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 10, 0.035f, 0.3f, 200, 2000, true, true);
             this.gestureDetectors.Add(rightLegSwipeGestureDetector);
-            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 200, 0.035f, 0.2f, 200, 2000, true, false);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 10, 0.035f, 0.3f, 200, 2000, true, true);
             this.gestureDetectors.Add(leftLegSwipeGestureDetector);
             VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.45f, 0.4f, 400, 1800);
             this.gestureDetectors.Add(headSwipeGestureDetector);
@@ -163,8 +184,11 @@ namespace SticKart.Input.Gestures
         /// </summary>
         public void Reset()
         {
-            this.lastLegLiftCounter = this.jumpTimeLimit;
+            this.standardSpineY = 0.0f;
+            this.lastLegLiftCounter = 0.0f;
             this.lastLegLifted = JointType.FootLeft;
+            this.acceptLeftLegLift = true;
+            this.acceptRightLegLift = true;
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
             {
                 gestureDetector.Reset();
@@ -176,7 +200,8 @@ namespace SticKart.Input.Gestures
         /// </summary>
         /// <param name="skeleton">The skeleton being tracked.</param>
         /// <param name="gameTime">The game time.</param>
-        public void Update(Skeleton skeleton, GameTime gameTime)
+        /// <param name="resetPlayerSettgs">A value indicating whether to reset all player specific settings or not.</param>
+        public void Update(Skeleton skeleton, GameTime gameTime, bool resetPlayerSettgs)
         {
             if (this.lastLegLiftCounter < this.runTimeLimit)
             {
@@ -184,6 +209,11 @@ namespace SticKart.Input.Gestures
             }
 
             this.skeletonJoints = skeleton.Joints;
+            if (resetPlayerSettgs)
+            {
+                this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y; // TODO: monitor over time
+            }
+
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
             {
                 if (this.skeletonJoints[gestureDetector.JointToTrack].TrackingState != JointTrackingState.NotTracked)
@@ -193,7 +223,7 @@ namespace SticKart.Input.Gestures
                     {
                         if (gestureDetector.JointToTrack == JointType.FootLeft || gestureDetector.JointToTrack == JointType.FootRight)
                         {
-                            this.ProcessLegGesture(gestureDetector.JointToTrack);
+                            this.ProcessLegGesture(gestureDetector.JointToTrack, gestureDetector.GestureDetected);
                         }
                         else if (gestureDetector.JointToTrack == JointType.Head)
                         {
@@ -221,22 +251,53 @@ namespace SticKart.Input.Gestures
         /// Processes basic leg gestures into jump and run gestures.
         /// </summary>
         /// <param name="jointTracked">The joint used for the gesture.</param>
-        private void ProcessLegGesture(JointType jointTracked)
+        /// <param name="gesture">The gesture detected.</param>
+        private void ProcessLegGesture(JointType jointTracked, GestureType gesture)
         {
-            if ((this.lastLegLifted == JointType.FootLeft && jointTracked == JointType.FootRight) ||
-                (this.lastLegLifted == JointType.FootRight && jointTracked == JointType.FootLeft))
+            if (gesture == GestureType.SwipeUp)
             {
-                if (this.lastLegLiftCounter < this.jumpTimeLimit)
-                {
-                    this.detectedGestures.Enqueue(GestureType.Jump);
-                }
-                else if (this.lastLegLiftCounter < this.runTimeLimit)
-                {
-                    this.detectedGestures.Enqueue(GestureType.Run);
-                }
+                if ((this.acceptRightLegLift && jointTracked == JointType.FootRight) || (this.acceptLeftLegLift && jointTracked == JointType.FootLeft))
+                {                    
+                    if (this.lastLegLiftCounter < this.runTimeLimit)
+                    {
+                        float distance = MathHelper.Distance(this.skeletonJoints[JointType.Spine].Position.Y, this.standardSpineY);
+                        if (distance > GestureManager.JumpThreshold)
+                        {
+                            this.detectedGestures.Enqueue(GestureType.Jump);
+                        }
+                        else
+                        {
+                            this.detectedGestures.Enqueue(GestureType.Run);
+                        }
 
-                this.lastLegLiftCounter = 0.0;
-                this.lastLegLifted = jointTracked;
+                        this.acceptLeftLegLift = true;
+                        this.acceptRightLegLift = true;
+                        this.lastLegLiftCounter = this.runTimeLimit;
+                    }
+                    else
+                    {
+                        this.lastLegLiftCounter = 0.0;
+                        if (jointTracked == JointType.FootLeft)
+                        {
+                            this.acceptLeftLegLift = false;
+                        }
+                        else
+                        {
+                            this.acceptRightLegLift = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (jointTracked == JointType.FootLeft)
+                {
+                    this.acceptLeftLegLift = true;
+                }
+                else
+                {
+                    this.acceptRightLegLift = true;
+                }
             }
         }
     }

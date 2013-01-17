@@ -83,6 +83,11 @@ namespace SticKart.Input
         private bool kinectAngleSet;
 
         /// <summary>
+        /// A value indicating whether to reset the gesture manager or not.
+        /// </summary>
+        private bool resetGestureManager;
+
+        /// <summary>
         /// The maximum angle allowed between the Kinect sensor and the main tracking point on the player.
         /// </summary>
         private float thresholdAngleToTrackingPoint;
@@ -167,6 +172,7 @@ namespace SticKart.Input
         /// <param name="enableColourStream">A value indicating whether to enable the colour stream or not.</param>
         public InputManager(Vector2 screenDimensions, ControlDevice controlDevice, bool enableColourStream = false)
         {
+            this.resetGestureManager = false;
             this.ColourFrameSize = Vector2.Zero;
             this.selectionPosition = Vector2.Zero;
             this.screenDimensions = screenDimensions;
@@ -480,8 +486,9 @@ namespace SticKart.Input
                         if (this.kinectAngleSet)
                         {
                             this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked && (closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked || closestSkeleton.Joints[JointType.FootRight].TrackingState != JointTrackingState.NotTracked);
-                            this.gestureManager.Update(closestSkeleton, gameTime);
+                            this.gestureManager.Update(closestSkeleton, gameTime, this.resetGestureManager);
                             this.PlayerFloorPosition = Vector2.Zero;
+                            this.resetGestureManager = false;
                             this.ApplyKinectGestures();
                         }
                         else
@@ -742,6 +749,7 @@ namespace SticKart.Input
                 }
 
                 this.kinectAngleSet = true;
+                this.resetGestureManager = true;
             }
             else if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
             {
