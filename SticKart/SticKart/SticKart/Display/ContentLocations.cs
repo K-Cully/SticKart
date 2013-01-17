@@ -159,6 +159,11 @@ namespace SticKart.Display
         /// The location of the large tile texture asset.
         /// </summary>
         public const string LargeButtonTile = "Sprites/Menu/Button_large";
+
+        /// <summary>
+        /// The location of the medium tile texture asset.
+        /// </summary>
+        public const string MediumButtonTile = "Sprites/Menu/Button_medium";
         
         /// <summary>
         /// The location of the large play icon texture asset.

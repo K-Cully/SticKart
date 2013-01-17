@@ -289,7 +289,7 @@ namespace SticKart.Menu
             Sprite buttonTile = new Sprite();
             RenderableText textIcon = new RenderableText();
             RenderableText text = new RenderableText();
-
+            buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
             Vector2 firstTileRelativePosition = new Vector2(-3.0f * (buttonTile.Width + tileGap), -1.5f * (buttonTile.Height + tileGap));
             Vector2 currentTileOffset = Vector2.Zero;
             char letter = 'a';
