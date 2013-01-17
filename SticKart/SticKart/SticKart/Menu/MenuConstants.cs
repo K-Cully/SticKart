@@ -44,6 +44,11 @@ namespace SticKart.Menu
         public const string ContinueButtonName = "CONTINUE";
 
         /// <summary>
+        /// The name of the done button.
+        /// </summary>
+        public const string DoneButtonName = "DONE";
+
+        /// <summary>
         /// The name of the retry button.
         /// </summary>
         public const string RetryButtonName = "RETRY";
@@ -54,6 +59,26 @@ namespace SticKart.Menu
         public const string PauseCommandName = "PAUSE GAME";
 
         #endregion
+
+        /// <summary>
+        /// The hello text.
+        /// </summary>
+        public const string HelloText = "Hello";
+
+        /// <summary>
+        /// The enter name text.
+        /// </summary>
+        public const string EnterNameText = "Please enter your name below.";
+
+        /// <summary>
+        /// The select a letter text.
+        /// </summary>
+        public const string SelectLetterText = "Select a letter to change it.";
+
+        /// <summary>
+        /// The press done text.
+        /// </summary>
+        public const string PressDoneText = "Press done when you are finished.";
 
         /// <summary>
         /// The level complete text.

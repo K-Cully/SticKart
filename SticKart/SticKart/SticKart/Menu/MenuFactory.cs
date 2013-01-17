@@ -312,10 +312,44 @@ namespace SticKart.Menu
             Sprite largePlayIcon = new Sprite();
             largePlayIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumPlayIcon);
             RenderableText continueText = new RenderableText();
-            continueText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ContinueButtonName.ToLowerInvariant());
-            button = new MenuButton(relativePosition, buttonTile, largePlayIcon, continueText, MenuConstants.ContinueButtonName);
+            continueText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.DoneButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePosition, buttonTile, largePlayIcon, continueText, MenuConstants.DoneButtonName);
             namePromptMenu.AddItem(button);
 
+            relativePosition = new Vector2(-buttonTile.Width - tileGap, -buttonTile.Height - tileGap);
+            float offset = (buttonTile.Width + tileGap) / 2.0f;
+            for (int col = 0; col < 5; col++)
+            {
+                buttonTile = new Sprite();
+                buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
+                MenuImage background = new MenuImage(relativePosition, buttonTile);
+                namePromptMenu.AddItem(background);
+                relativePosition.X += offset;
+            }
+
+            relativePosition = new Vector2(0.0f, -1.55f * (buttonTile.Height - tileGap));
+            RenderableText hello = new RenderableText();
+            hello.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.HelloText);
+            MenuText helloText = new MenuText(relativePosition, hello);
+            namePromptMenu.AddItem(helloText);
+
+            RenderableText enterName = new RenderableText();
+            enterName.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.EnterNameText);
+            relativePosition.Y += enterName.Height * 1.2f;
+            MenuText enterNameText = new MenuText(relativePosition, enterName);
+            namePromptMenu.AddItem(enterNameText);
+
+            relativePosition.Y += enterName.Height * 1.2f;
+            RenderableText selectLetter = new RenderableText();
+            selectLetter.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.SelectLetterText);
+            MenuText selectLetterText = new MenuText(relativePosition, selectLetter);
+            namePromptMenu.AddItem(selectLetterText);
+
+            relativePosition.Y += enterName.Height * 1.2f;
+            RenderableText pressDone = new RenderableText();
+            pressDone.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.PressDoneText);
+            MenuText pressDoneText = new MenuText(relativePosition, pressDone);
+            namePromptMenu.AddItem(pressDoneText);
 
             return namePromptMenu;
         }
