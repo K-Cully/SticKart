@@ -272,6 +272,49 @@ namespace SticKart.Menu
             levelSelectMenu.SelectablesActive = gameSettings.LevelsUnlocked + 1;
             return levelSelectMenu;
         }
+        
+        /// <summary>
+        /// Creates a place holder for menu's which are yet to be implemented.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateNameInputMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            int rows = 4;
+            int columns = 7;
+            float tileGap = 16.0f;
+            Menu nameInutMenu = new Menu(position, rows, columns);            
+            Sprite buttonTile = new Sprite();
+            RenderableText textIcon = new RenderableText();
+            RenderableText text = new RenderableText();
+
+            Vector2 firstTileRelativePosition = new Vector2(-3.0f * (buttonTile.Width + tileGap), -1.5f * (buttonTile.Height + tileGap));
+            Vector2 currentTileOffset = Vector2.Zero;
+            char letter = 'a';
+
+            for (int rowCount = 0; rowCount < rows; rowCount++)
+            {
+                currentTileOffset.Y = rowCount * (buttonTile.Height + tileGap);
+                for (int colCount = 0; colCount < columns; colCount++)
+                {
+                    currentTileOffset.X = colCount * (buttonTile.Width + tileGap);
+
+                    buttonTile = new Sprite();
+                    buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
+                    textIcon = new RenderableText();
+                    textIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, letter.ToString().ToUpperInvariant()); 
+                    text = new RenderableText();
+                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, letter.ToString());
+                    MenuButton button = new MenuButton(firstTileRelativePosition + currentTileOffset, buttonTile, textIcon, text, letter.ToString().ToUpperInvariant());
+                    nameInutMenu.AddItem(button);
+                    letter += (char)1; // TODO: test and add . and _
+                }
+            }
+
+            return nameInutMenu;
+        }
 
         /// <summary>
         /// Creates a place holder for menu's which are yet to be implemented.

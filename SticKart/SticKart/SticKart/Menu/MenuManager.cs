@@ -119,11 +119,11 @@ namespace SticKart.Menu
             NotificationManager.AddNotification(NotificationType.PushGesture);
             NotificationManager.AddNotification(NotificationType.VoiceCommand);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
-            this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f)); // TODO: change name, reset notifications, adjust sounds?
             this.menus.Add(MenuType.LeaderboardSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreateLeaderboardMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
-            this.menus.Add(MenuType.NameInput, null);
+            this.menus.Add(MenuType.NameInput,  MenuFactory.CreateNameInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
         }
 
