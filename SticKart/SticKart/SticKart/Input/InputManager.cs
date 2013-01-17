@@ -38,6 +38,16 @@ namespace SticKart.Input
         /// </summary>
         private const int KeyDelayMillisceonds = 150;
 
+        /// <summary>
+        /// The amount of time which should pass before logging a foot tracking state.
+        /// </summary>
+        private const float FootTrackingTime = 0.25f;
+
+        /// <summary>
+        /// The maximum number of foot tracking states to log.
+        /// </summary>
+        private const int MaxLoggedFootStates = 16;
+
         #endregion
 
         #region kinect_motion_variables
@@ -56,6 +66,16 @@ namespace SticKart.Input
         /// The last frame's skeleton data.
         /// </summary>
         private Skeleton[] skeletonData;
+
+        /// <summary>
+        /// A list of values indicating whether the player's feet were tracked at specific points in time.
+        /// </summary>
+        private List<bool> footTrackingLog;
+
+        /// <summary>
+        /// A timer for logging foot tracking states.
+        /// </summary>
+        private float footTrackingTimer;
 
         /// <summary>
         /// The current skeleton frame coming from the Kinect.
@@ -172,6 +192,13 @@ namespace SticKart.Input
         /// <param name="enableColourStream">A value indicating whether to enable the colour stream or not.</param>
         public InputManager(Vector2 screenDimensions, ControlDevice controlDevice, bool enableColourStream = false)
         {
+            this.footTrackingLog = new List<bool>();
+            for (int count = 0; count < InputManager.MaxLoggedFootStates; count++)
+            {
+                this.footTrackingLog.Add(true);
+            }
+
+            this.footTrackingTimer = 0.0f;
             this.resetGestureManager = false;
             this.ColourFrameSize = Vector2.Zero;
             this.selectionPosition = Vector2.Zero;
@@ -457,6 +484,7 @@ namespace SticKart.Input
                 this.ReadColourFrame();
             }
 
+            this.footTrackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (this.ReadSkeletonFrame())
             {
                 Skeleton closestSkeleton = null;
@@ -493,7 +521,7 @@ namespace SticKart.Input
                             }
                             else
                             {
-                                this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked && (closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked || closestSkeleton.Joints[JointType.FootRight].TrackingState != JointTrackingState.NotTracked);
+                                this.UpdateKinectTrackingState(closestSkeleton);
                                 if (this.kinectAngleSet)
                                 {
                                     this.kinectAngleSet = !this.gestureManager.Update(closestSkeleton, gameTime);
@@ -518,6 +546,30 @@ namespace SticKart.Input
                     this.kinectAngleSet = false;
                 }
             }         
+        }
+
+        private void UpdateKinectTrackingState(Skeleton skeleton)
+        {
+            this.kinectAngleSet = skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked;
+            if (this.kinectAngleSet)
+            {
+                if (this.footTrackingTimer > InputManager.FootTrackingTime)
+                {
+                    this.footTrackingTimer = 0.0f;
+                    this.footTrackingLog.RemoveAt(0);
+                    this.footTrackingLog.Add(skeleton.Joints[JointType.FootRight].TrackingState == JointTrackingState.Tracked || skeleton.Joints[JointType.FootLeft].TrackingState == JointTrackingState.Tracked);
+                }
+
+                this.kinectAngleSet = false;
+                foreach (bool boolean in this.footTrackingLog)
+                {
+                    if (boolean == true)
+                    {
+                        this.kinectAngleSet = boolean;
+                        break;
+                    }
+                }
+            }
         }
 
         /// <summary>
