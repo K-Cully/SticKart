@@ -274,6 +274,53 @@ namespace SticKart.Menu
         }
         
         /// <summary>
+        /// Creates a name prompt menu.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <param name="playerName">The stored player's name.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateNamePromptMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position, string playerName)
+        {
+            Menu namePromptMenu = new Menu(position, 2, 3);
+            MenuButton button = null;
+
+            Sprite buttonTile = new Sprite();
+            RenderableText textIcon = new RenderableText();
+            RenderableText text = new RenderableText();
+            buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
+            float tileGap = 16.0f;
+
+            Vector2 relativePosition = new Vector2(-tileGap - buttonTile.Width, 0.0f);
+
+            for (int count = 0; count < 3; count++)
+            {
+                buttonTile = new Sprite();
+                buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
+                textIcon = new RenderableText();
+                textIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, playerName[count].ToString().ToUpperInvariant());
+                text = new RenderableText();
+                text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, playerName[count].ToString().ToLowerInvariant());
+                text.Colour = Color.Black;
+                button = new MenuButton(relativePosition, buttonTile, textIcon, text, count.ToString());
+                namePromptMenu.AddItem(button);
+                relativePosition.X += tileGap + buttonTile.Width;
+            }
+
+            relativePosition = new Vector2(0.0f, buttonTile.Height + tileGap);
+            Sprite largePlayIcon = new Sprite();
+            largePlayIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumPlayIcon);
+            RenderableText continueText = new RenderableText();
+            continueText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ContinueButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePosition, buttonTile, largePlayIcon, continueText, MenuConstants.ContinueButtonName);
+            namePromptMenu.AddItem(button);
+
+
+            return namePromptMenu;
+        }
+
+        /// <summary>
         /// Creates a letter input menu.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>

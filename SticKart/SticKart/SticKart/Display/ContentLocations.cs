@@ -171,6 +171,11 @@ namespace SticKart.Display
         public const string LargePlayIcon = "Sprites/Menu/Play_icon_large";
 
         /// <summary>
+        /// The location of the medium play icon texture asset.
+        /// </summary>
+        public const string MediumPlayIcon = "Sprites/Menu/Play_icon_medium";
+
+        /// <summary>
         /// The location of the large retry icon texture asset.
         /// </summary>
         public const string LargeRetryIcon = "Sprites/Menu/Restart_icon_large";
