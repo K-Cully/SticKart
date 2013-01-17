@@ -45,10 +45,11 @@ namespace SticKart.Input.Gestures
         /// <param name="jointToTrack">The joint to track with this gesture detector.</param>
         /// <param name="maxRecordedPositions">THe maximum number of positions to check for a gesture against.</param>
         /// <param name="millisecondsBetweenGestures">The delay to apply between gestures, in milliseconds.</param>
-        public HorizontalSwipeGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1200)
+        /// <param name="minimumLength">The minimum length of a swipe gesture.</param>
+        public HorizontalSwipeGestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 1200, float minimumLength = 0.65f)
             : base(jointToTrack, maxRecordedPositions, millisecondsBetweenGestures)
         {
-            this.swipeMinimumLength = 0.65f;
+            this.swipeMinimumLength = minimumLength;
             this.swipeMaximumHeight = 0.1f;
             this.swipeMinimumDuration = 600;
             this.swipeMaximumDuration = 1800;

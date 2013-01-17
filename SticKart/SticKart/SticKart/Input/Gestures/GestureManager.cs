@@ -9,6 +9,7 @@ namespace SticKart.Input.Gestures
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Kinect.Toolbox;
     using Microsoft.Kinect;
     using Microsoft.Xna.Framework;
 
@@ -17,6 +18,14 @@ namespace SticKart.Input.Gestures
     /// </summary>
     public class GestureManager
     {
+        #region monitoring
+
+        private const float BodySizeThreshold = 0.22f;
+
+        private float playerBodySize;
+
+        #endregion
+
         /// <summary>
         /// Stores the gesture detectors in use.
         /// </summary>
@@ -31,6 +40,8 @@ namespace SticKart.Input.Gestures
         /// Storage space for a skeleton's joints.
         /// </summary>
         private JointCollection skeletonJoints;
+        
+        #region arms
 
         /// <summary>
         /// The primary hand to track.
@@ -41,6 +52,8 @@ namespace SticKart.Input.Gestures
         /// The shoulder connected to the primary hand.
         /// </summary>
         private JointType activeShoulder;
+
+        #endregion
 
         #region legs
 
@@ -87,6 +100,7 @@ namespace SticKart.Input.Gestures
         /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
+            this.playerBodySize = 0.0f;
             this.jumpThreshold = 0.2f;
             this.standardSpineY = 0.0f;
             this.runTimeLimit = 1.5;
@@ -181,6 +195,33 @@ namespace SticKart.Input.Gestures
         }
 
         /// <summary>
+        /// Calculates the currently tracked skeleton's body size.
+        /// </summary>
+        /// <returns>The body size.</returns>
+        private float CalculateBodySize()
+        {
+            Vector3 neckPos = Tools.ToVector3(this.skeletonJoints[JointType.ShoulderCenter].Position);
+            Vector3 hipToNeck = neckPos - Tools.ToVector3(this.skeletonJoints[JointType.HipRight].Position);
+            Vector3 neckToHead = Tools.ToVector3(this.skeletonJoints[JointType.Head].Position) - neckPos;
+            return neckToHead.Length() + hipToNeck.Length();
+        }
+
+        private void SetGesturesToPlayer()
+        {
+            this.gestureDetectors = new Collection<GestureDetector>();
+            HorizontalSwipeGestureDetector swipeGestureDetector = new HorizontalSwipeGestureDetector(this.activeHand, 50, 1200);
+            this.gestureDetectors.Add(swipeGestureDetector);
+            PushGestureDetector pushGestureDetector = new PushGestureDetector(this.activeHand, 30);
+            this.gestureDetectors.Add(pushGestureDetector);
+            VerticalSwipeGestureDetector rightLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootRight, 60, 10, 0.035f, 0.3f, 200, 2000, true, true);
+            this.gestureDetectors.Add(rightLegSwipeGestureDetector);
+            VerticalSwipeGestureDetector leftLegSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.FootLeft, 60, 10, 0.035f, 0.3f, 200, 2000, true, true);
+            this.gestureDetectors.Add(leftLegSwipeGestureDetector);
+            VerticalSwipeGestureDetector headSwipeGestureDetector = new VerticalSwipeGestureDetector(JointType.Head, 45, 400, 0.45f, 0.4f, 400, 1800);
+            this.gestureDetectors.Add(headSwipeGestureDetector);
+        }
+
+        /// <summary>
         /// Resets all gesture detectors.
         /// </summary>
         public void ResetGestures()
@@ -203,7 +244,8 @@ namespace SticKart.Input.Gestures
         {
             this.skeletonJoints = skeleton.Joints;
             this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y; // TODO: monitor over time
-            this.ResetGestures();
+            this.playerBodySize = this.CalculateBodySize();
+            this.SetGesturesToPlayer();
         }
 
         /// <summary>
@@ -211,7 +253,8 @@ namespace SticKart.Input.Gestures
         /// </summary>
         /// <param name="skeleton">The skeleton being tracked.</param>
         /// <param name="gameTime">The game time.</param>
-        public void Update(Skeleton skeleton, GameTime gameTime)
+        /// <returns>A value indicating whether the player's body size has changed or not.</returns>
+        public bool Update(Skeleton skeleton, GameTime gameTime)
         {
             if (this.lastLegLiftCounter < this.runTimeLimit)
             {
@@ -250,6 +293,8 @@ namespace SticKart.Input.Gestures
                     }
                 }
             }
+
+            return MathHelper.Distance(this.playerBodySize, this.CalculateBodySize()) > GestureManager.BodySizeThreshold;
         }
 
         /// <summary>

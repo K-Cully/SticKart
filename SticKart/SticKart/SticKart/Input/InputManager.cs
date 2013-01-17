@@ -493,9 +493,12 @@ namespace SticKart.Input
                             else
                             {
                                 this.kinectAngleSet = closestSkeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked && (closestSkeleton.Joints[JointType.FootLeft].TrackingState != JointTrackingState.NotTracked || closestSkeleton.Joints[JointType.FootRight].TrackingState != JointTrackingState.NotTracked);
-                                this.gestureManager.Update(closestSkeleton, gameTime);
-                                this.PlayerFloorPosition = Vector2.Zero;
-                                this.ApplyKinectGestures();
+                                if (this.kinectAngleSet)
+                                {
+                                    this.kinectAngleSet = !this.gestureManager.Update(closestSkeleton, gameTime);
+                                    this.PlayerFloorPosition = Vector2.Zero;
+                                    this.ApplyKinectGestures();
+                                }
                             }
                         }
                         else
