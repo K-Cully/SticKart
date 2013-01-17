@@ -316,10 +316,10 @@ namespace SticKart
                     switch (command)
                     {
                         case InputCommand.Select:
-                            this.menuManager.Update(this.menuManager.HighlightedPosition, null, this.gameSettings);
+                            this.menuManager.Update(this.menuManager.HighlightedPosition, null, ref this.gameSettings);
                             break;
                         case InputCommand.SelectAt:
-                            this.menuManager.Update(this.inputManager.SelectedPosition, null, this.gameSettings);
+                            this.menuManager.Update(this.inputManager.SelectedPosition, null, ref this.gameSettings);
                             break;
                         case InputCommand.NextPage:
                             this.menuManager.FlipPage(true);
@@ -347,7 +347,7 @@ namespace SticKart
 
             if (this.inputManager.VoiceCommandAvailable)
             {
-                this.menuManager.Update(Vector2.Zero, this.inputManager.LastVoiceCommand, this.gameSettings);
+                this.menuManager.Update(Vector2.Zero, this.inputManager.LastVoiceCommand, ref this.gameSettings);
             }                
         }
 

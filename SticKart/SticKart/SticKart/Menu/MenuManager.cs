@@ -30,7 +30,12 @@ namespace SticKart.Menu
         /// A lookup table of available menus.
         /// </summary>
         private Dictionary<MenuType, Menu> menus;
-        
+
+        /// <summary>
+        /// Indicates which character in the name the player is trying to change.
+        /// </summary>
+        private int nameCharacterSelected;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuManager"/> class.
         /// </summary>
@@ -41,6 +46,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.None, null);
             this.screenDimensions = screenDimensions;
             this.ActiveMenu = MenuType.None;
+            this.nameCharacterSelected = -1;
         }
 
         #region events
@@ -117,7 +123,6 @@ namespace SticKart.Menu
         {
             this.ActiveMenu = MenuType.NamePrompt; // TODO: implement all menus.
             NotificationManager.AddNotification(NotificationType.PushGesture);
-            NotificationManager.AddNotification(NotificationType.VoiceCommand);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LeaderboardSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreateLeaderboardMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -353,6 +358,28 @@ namespace SticKart.Menu
             }
         }
 
+        private void HandleNameSelection(string selectedItemName, ref GameSettings gameSettings)
+        {
+            if (this.ActiveMenu == MenuType.NamePrompt)
+            {
+                if (selectedItemName == MenuConstants.DoneButtonName)
+                {
+                    this.menus[this.ActiveMenu].Reset();
+                    NotificationManager.AddNotification(NotificationType.VoiceCommand);
+                    this.ActiveMenu = MenuType.Main;
+                    this.nameCharacterSelected = -1;
+                }
+                else
+                {
+                    // Letter index
+                }
+            }
+            else
+            {
+                // TODO: set character at index then set index to -1
+            }
+        }
+
         /// <summary>
         /// Manages state changes from the level select menu, based on user input.
         /// </summary>
@@ -432,7 +459,7 @@ namespace SticKart.Menu
                 case MenuConstants.RetryButtonName:
                     this.menus[this.ActiveMenu].Reset();
                     this.OnBeginLevelDetected(int.MaxValue);
-                    break;
+                    break;                
                 default:
                     break;
             }
