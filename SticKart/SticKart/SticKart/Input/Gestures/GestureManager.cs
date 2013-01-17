@@ -165,18 +165,28 @@ namespace SticKart.Input.Gestures
         {
             get
             {
+                SkeletonPoint point = new SkeletonPoint();
                 if (this.skeletonJoints == null)
                 {
-                    SkeletonPoint point = new SkeletonPoint();
                     point.X = 0;
                     point.Y = 0;
                     point.Z = 0;
-                    return point;
                 }
                 else
                 {
-                    return this.skeletonJoints[this.activeShoulder].Position;
+                    point = this.skeletonJoints[JointType.Spine].Position;
+                    point.Y += this.PlayerBodySize * 0.375f;
+                    if (this.activeShoulder == JointType.ShoulderRight)
+                    {
+                        point.X += this.PlayerBodySize * 0.31f;
+                    }
+                    else
+                    {
+                        point.X -= this.PlayerBodySize * 0.31f;
+                    }
                 }
+
+                return point;
             }
         }
 

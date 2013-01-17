@@ -305,12 +305,13 @@ namespace SticKart.Input
                 }
                 else
                 {
-                    Vector2 handPosition = Tools.Convert(this.kinectSensor, this.gestureManager.HandPosition, this.coordinateMapper);
-                    Vector2 shoulderPosition = Tools.Convert(this.kinectSensor, this.gestureManager.ShoulderPosition, this.coordinateMapper);
-                    Vector2 scaling = this.screenDimensions * 1.8f;
+                    float bodySize = this.gestureManager.PlayerBodySize != 0.0f ? this.gestureManager.PlayerBodySize : 0.65f;
+                    Vector2 scaling = this.screenDimensions * 1.0f / bodySize;
+                    Vector2 handPosition = new Vector2(this.gestureManager.HandPosition.X, this.gestureManager.HandPosition.Y);
+                    Vector2 shoulderPosition = new Vector2(this.gestureManager.ShoulderPosition.X, this.gestureManager.ShoulderPosition.Y);                    
                     Vector2 relativeHandPosition = handPosition - shoulderPosition;
                     relativeHandPosition.X *= scaling.X;
-                    relativeHandPosition.Y *= scaling.Y;
+                    relativeHandPosition.Y *= -scaling.Y;
                     return (this.screenDimensions / 2.0f) + relativeHandPosition;
                 }
             }
