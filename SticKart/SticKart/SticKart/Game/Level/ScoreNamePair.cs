@@ -7,7 +7,7 @@
 namespace SticKart.Game.Level
 {
     using System;
-    using System.Collections;
+    using System.Collections.Generic;
 
     /// <summary>
     /// A wrapper to tie a score and name together.
@@ -48,18 +48,18 @@ namespace SticKart.Game.Level
         /// Retrieves the <see cref="IComparer"/> instance for an ascending sort.
         /// </summary>
         /// <returns>The ascending comparer.</returns>
-        public static IComparer SortScoreAscending()
+        public static IComparer<ScoreNamePair> SortScoreAscending()
         {
-            return (IComparer)new SortScoreAscendingHelper();
+            return (IComparer<ScoreNamePair>)new SortScoreAscendingHelper();
         }
 
         /// <summary>
         /// Retrieves the <see cref="IComparer"/> instance for a descending sort.
         /// </summary>
         /// <returns>The descending comparer.</returns>
-        public static IComparer SortScoreDescending()
+        public static IComparer<ScoreNamePair> SortScoreDescending()
         {
-            return (IComparer)new SortScoreDescendingHelper();
+            return (IComparer<ScoreNamePair>)new SortScoreDescendingHelper();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace SticKart.Game.Level
         /// <summary>
         /// Nested class to perform descending sort on score property.
         /// </summary>
-        private class SortScoreDescendingHelper : IComparer
+        private class SortScoreDescendingHelper : IComparer<ScoreNamePair>
         {
             /// <summary>
             /// Compares two <see cref="ScoreNamePair"/> instances for a descending sort.
@@ -105,7 +105,7 @@ namespace SticKart.Game.Level
             /// <param name="objectOne">The first object.</param>
             /// <param name="objectTwo">The second object.</param>
             /// <returns>The result of the comparison.</returns>
-            int IComparer.Compare(object objectOne, object objectTwo)
+            int Compare(object objectOne, object objectTwo)
             {
                 if ((objectOne as ScoreNamePair).Score < (objectTwo as ScoreNamePair).Score)
                 {
@@ -125,7 +125,7 @@ namespace SticKart.Game.Level
         /// <summary>
         /// Nested class to perform ascending sort on score property.
         /// </summary>
-        private class SortScoreAscendingHelper : IComparer
+        private class SortScoreAscendingHelper : IComparer<ScoreNamePair>
         {
             /// <summary>
             /// Compares two <see cref="ScoreNamePair"/> instances for an ascending sort.
@@ -133,7 +133,7 @@ namespace SticKart.Game.Level
             /// <param name="objectOne">The first object.</param>
             /// <param name="objectTwo">The second object.</param>
             /// <returns>The result of the comparison.</returns>
-            int IComparer.Compare(object objectOne, object objectTwo)
+            int Compare(object objectOne, object objectTwo)
             {
                 if ((objectOne as ScoreNamePair).Score > (objectTwo as ScoreNamePair).Score)
                 {
