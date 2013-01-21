@@ -298,7 +298,7 @@ namespace SticKart.Game.Entities
             this.wheelBodyOffset = new Vector2(0.0f, this.standingSprite.Height / 4.0f);
             this.SetUpPhysicsObjects(ref physicsWorld);
             this.cartJoint = null;
-            this.acceleration = 10.0f;
+            this.acceleration = 15.0f;
             this.wheelBody.OnCollision += this.CollisionHandlerWheel;
             this.smallBody.OnCollision += this.CollisionHandlerSmallBody;
             this.fullBody.OnCollision += this.CollisionHandlerFullBody;
@@ -456,7 +456,7 @@ namespace SticKart.Game.Entities
                         {
                             if (this.motorJoint.MotorSpeed > 1.0f)
                             {
-                                this.motorJoint.MotorSpeed *= 0.875f;
+                                this.motorJoint.MotorSpeed *= 0.9f;
                             }
                             else
                             {

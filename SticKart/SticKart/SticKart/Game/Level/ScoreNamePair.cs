@@ -105,13 +105,13 @@ namespace SticKart.Game.Level
             /// <param name="objectOne">The first object.</param>
             /// <param name="objectTwo">The second object.</param>
             /// <returns>The result of the comparison.</returns>
-            int Compare(object objectOne, object objectTwo)
+            public int Compare(ScoreNamePair objectOne, ScoreNamePair objectTwo)
             {
-                if ((objectOne as ScoreNamePair).Score < (objectTwo as ScoreNamePair).Score)
+                if (objectOne.Score < objectTwo.Score)
                 {
                     return 1;
                 }
-                else if ((objectOne as ScoreNamePair).Score > (objectTwo as ScoreNamePair).Score)
+                else if (objectOne.Score > objectTwo.Score)
                 {
                     return -1;
                 }
@@ -133,13 +133,13 @@ namespace SticKart.Game.Level
             /// <param name="objectOne">The first object.</param>
             /// <param name="objectTwo">The second object.</param>
             /// <returns>The result of the comparison.</returns>
-            int Compare(object objectOne, object objectTwo)
+            public int Compare(ScoreNamePair objectOne, ScoreNamePair objectTwo)
             {
-                if ((objectOne as ScoreNamePair).Score > (objectTwo as ScoreNamePair).Score)
+                if (objectOne.Score > objectTwo.Score)
                 {
                     return 1;
                 }
-                else if ((objectOne as ScoreNamePair).Score < (objectTwo as ScoreNamePair).Score)
+                else if (objectOne.Score < objectTwo.Score)
                 {
                     return -1;
                 }
