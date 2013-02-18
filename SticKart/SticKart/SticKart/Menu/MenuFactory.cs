@@ -109,6 +109,22 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, MenuConstants.ExitButtonName);
             levelCompleteMenu.AddItem(button);
 
+            relativePos = new Vector2(-largeButtonTile.Width - tileSpacing, -largeButtonTile.Height * 0.75f);
+            for (int row = 0; row < 2; row++)
+            {
+                for (int col = 0; col < 4; col++)
+                {
+                    largeButtonTile = new Sprite();
+                    largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+                    MenuImage background = new MenuImage(relativePos, largeButtonTile);
+                    levelCompleteMenu.AddItem(background);
+                    relativePos.X += largeButtonTile.Width * 0.745f;
+                }
+
+                relativePos.Y += largeButtonTile.Height * 0.375f;
+                relativePos.X = -largeButtonTile.Width - tileSpacing;
+            }
+
             relativePos = new Vector2(0.0f, -largeButtonTile.Height * 1.1f);
             RenderableText levelComplete = new RenderableText();
             levelComplete.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.LevelCompleteText);
