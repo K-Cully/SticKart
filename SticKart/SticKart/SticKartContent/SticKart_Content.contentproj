@@ -528,8 +528,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SFX\bonus.wav">
-      <Name>bonus</Name>
+    <Compile Include="SFX\coin.wav">
+      <Name>coin</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
@@ -733,8 +733,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="SFX\jewel.wav">
-      <Name>jewel</Name>
+    <Compile Include="SFX\diamond.wav">
+      <Name>diamond</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="SFX\ruby.wav">
+      <Name>ruby</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

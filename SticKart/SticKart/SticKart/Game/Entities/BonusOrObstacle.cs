@@ -70,14 +70,13 @@ namespace SticKart.Game.Entities
             if (this.Type == InteractiveEntityType.Bonus)
             {
                 path = EntityConstants.SpritesFolderPath + EntityConstants.BonusFolderSubPath;
-                this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.BonusSound);
             }
             else
             {
                 path = EntityConstants.SpritesFolderPath + EntityConstants.ObstacleFolderSubPath;
-                this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + this.name);
             }
 
+            this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + this.name);
             this.sprite.InitializeAndLoad(spriteBatch, contentManager, path + this.name);
         }
     }

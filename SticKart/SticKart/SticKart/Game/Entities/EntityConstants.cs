@@ -70,11 +70,6 @@ namespace SticKart.Game.Entities
         /// </summary>
         public const string DiamondName = "diamond";
 
-        /// <summary>
-        /// The name other bonus sound effect.
-        /// </summary>
-        public const string BonusSound = "bonus";
-
         #endregion
 
         #region obstacle_names
