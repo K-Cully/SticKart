@@ -376,48 +376,54 @@ namespace SticKart.Menu
         /// <param name="contentManager">The content manager to use to load resources.</param>
         /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
         /// <param name="position">The position of the menu.</param>
+        /// <param name="firstLetter">The first letter to put in the menu. This should be MaxValue if creating the base character select menu.</param>
         /// <returns>The new menu created.</returns>
-        public static Menu CreateLetterInputMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        public static Menu CreateLetterInputMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position, char firstLetter)
         {
-            int rows = 4;
-            int columns = 7;
-            float tileGap = 16.0f;
+            int rows = 2;
+            int columns = 3;
+            float tileGap = 32.0f;
             Menu nameInutMenu = new Menu(position, rows, columns);            
             Sprite buttonTile = new Sprite();
             RenderableText textIcon = new RenderableText();
             RenderableText text = new RenderableText();
-            buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
-            Vector2 firstTileRelativePosition = new Vector2(-3.0f * (buttonTile.Width + tileGap), -1.5f * (buttonTile.Height + tileGap));
+            buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            Vector2 firstTileRelativePosition = new Vector2(-buttonTile.Width - tileGap, -0.5f * (buttonTile.Height + tileGap));
             Vector2 currentTileOffset = Vector2.Zero;
-            char letter = 'a';
+            char letter = firstLetter;
+            string label = string.Empty;
             for (int rowCount = 0; rowCount < rows; rowCount++)
             {
                 currentTileOffset.Y = rowCount * (buttonTile.Height + tileGap);
                 for (int colCount = 0; colCount < columns; colCount++)
                 {
-                    currentTileOffset.X = colCount * (buttonTile.Width + tileGap);
-
-                    buttonTile = new Sprite();
-                    buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
-                    textIcon = new RenderableText();
-                    textIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, letter.ToString().ToUpperInvariant()); 
-                    text = new RenderableText();
-                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, letter.ToString());
-                    text.Colour = Color.Black;
-                    MenuButton button = new MenuButton(firstTileRelativePosition + currentTileOffset, buttonTile, textIcon, text, letter.ToString().ToUpperInvariant());
-                    nameInutMenu.AddItem(button);
-                    if (rowCount == rows - 1 && colCount == columns - 3)
+                    if (firstLetter == char.MaxValue)
                     {
-                        letter = '_';
-                    }
-                    else if (rowCount == rows - 1 && colCount == columns - 2)
-                    {
-                        letter = '.';
+                        label = MenuFactory.GetCharacterSelectionLabel(rowCount * columns + colCount);
                     }
                     else
                     {
-                        letter += (char)1;
+                        if (char.IsControl(letter))
+                        {
+                            label = " ";
+                        }
+                        else
+                        {
+                            label = letter.ToString();
+                        }
                     }
+
+                    currentTileOffset.X = colCount * (buttonTile.Width + tileGap);
+                    buttonTile = new Sprite();
+                    buttonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+                    textIcon = new RenderableText();
+                    textIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, label.ToUpperInvariant()); 
+                    text = new RenderableText();
+                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, label);
+                    text.Colour = Color.Black;
+                    MenuButton button = new MenuButton(firstTileRelativePosition + currentTileOffset, buttonTile, textIcon, text, label.ToUpperInvariant());
+                    nameInutMenu.AddItem(button);
+                    letter += (char)1;
                 }
             }
 
@@ -447,6 +453,42 @@ namespace SticKart.Menu
             placeHolderMenu.AddItem(button);
 
             return placeHolderMenu;
+        }
+
+        /// <summary>
+        /// Retrieves the label for a character selection menu button.
+        /// </summary>
+        /// <param name="buttonCount">The index of the button being created.</param>
+        /// <returns>The label to place on the button.</returns>
+        private static string GetCharacterSelectionLabel(int buttonCount)
+        {
+            string label = string.Empty;
+            switch (buttonCount)
+            {
+                case 0:
+                    label= MenuConstants.AToE;
+                    break;
+                case 1:
+                    label = MenuConstants.FToJ;
+                    break;
+                case 2:
+                    label = MenuConstants.KToO;
+                    break;
+                case 3:
+                    label = MenuConstants.PToT;
+                    break;
+                case 4:
+                    label = MenuConstants.UToY;
+                    break;
+                case 5:
+                    label = MenuConstants.ZToTilda;
+                    break;
+                default:
+                    label = string.Empty;
+                    break;
+            }
+
+            return label;
         }
     }
 }

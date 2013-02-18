@@ -127,7 +127,13 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.LeaderboardSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreateLeaderboardMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
-            this.menus.Add(MenuType.LetterInput,  MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.LetterInput,  MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, char.MaxValue));
+            this.menus.Add(MenuType.LetterInputA, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'a'));
+            this.menus.Add(MenuType.LetterInputF, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'f'));
+            this.menus.Add(MenuType.LetterInputK, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'k'));
+            this.menus.Add(MenuType.LetterInputP, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'p'));
+            this.menus.Add(MenuType.LetterInputU, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'u'));
+            this.menus.Add(MenuType.LetterInputZ, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'z'));
             this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.NamePrompt, MenuFactory.CreateNamePromptMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings.PlayerName));
 

@@ -60,6 +60,40 @@ namespace SticKart.Menu
 
         #endregion
 
+        #region charecterSelect
+
+        /// <summary>
+        /// The text to display on the a to e charecter select button.
+        /// </summary>
+        public const string AToE = "a-e";
+
+        /// <summary>
+        /// The text to display on the f to j charecter select button.
+        /// </summary>
+        public const string FToJ = "f-j";
+
+        /// <summary>
+        /// The text to display on the k to o charecter select button.
+        /// </summary>
+        public const string KToO = "k-o";
+
+        /// <summary>
+        /// The text to display on the p to t charecter select button.
+        /// </summary>
+        public const string PToT = "p-t";
+
+        /// <summary>
+        /// The text to display on the u to y charecter select button.
+        /// </summary>
+        public const string UToY = "u-y";
+
+        /// <summary>
+        /// The text to display on the z to tilda charecter select button.
+        /// </summary>
+        public const string ZToTilda = "z-~";
+
+        #endregion
+
         /// <summary>
         /// The hello text.
         /// </summary>

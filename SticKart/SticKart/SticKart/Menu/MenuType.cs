@@ -52,6 +52,36 @@ namespace SticKart.Menu
         LetterInput,
 
         /// <summary>
+        /// The first letter input sub menu.
+        /// </summary>
+        LetterInputA,
+
+        /// <summary>
+        /// The second letter input sub menu.
+        /// </summary>
+        LetterInputF,
+
+        /// <summary>
+        /// The third letter input sub menu.
+        /// </summary>
+        LetterInputK,
+
+        /// <summary>
+        /// The fourth letter input sub menu.
+        /// </summary>
+        LetterInputP,
+
+        /// <summary>
+        /// The fifth letter input sub menu.
+        /// </summary>
+        LetterInputU,
+
+        /// <summary>
+        /// The sixth letter input sub menu.
+        /// </summary>
+        LetterInputZ,
+
+        /// <summary>
         /// The level complete menu.
         /// </summary>
         LevelComplete
