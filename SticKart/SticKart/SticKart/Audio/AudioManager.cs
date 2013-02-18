@@ -136,7 +136,7 @@ namespace SticKart.Audio
         /// <param name="contentManager">The game's content manager.</param>
         public static void InitializeAndLoad(ContentManager contentManager)
         {
-            AudioManager.musicManager = new MusicManager(3, 2);
+            AudioManager.musicManager = new MusicManager(3, 1);
             AudioManager.musicManager.InitializeAndLoad(contentManager);
         }
 

@@ -87,7 +87,6 @@ Content\Music\Game\1.xnb
 Content\Music\Game\3.xnb
 Content\Music\Game\2.xnb
 Content\Music\Menu\1.xnb
-Content\Music\Menu\2.xnb
 Content\SFX\switch.xnb
 Content\SFX\cart.xnb
 Content\SFX\fire.xnb
@@ -99,11 +98,11 @@ Content\SFX\dying.xnb
 Content\SFX\scroll.xnb
 Content\SFX\jumping.xnb
 Content\SFX\landing.xnb
+Content\SFX\jewel.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma
 Content\Music\Menu\1.wma
-Content\Music\Menu\2.wma
 Content\Sprites\Menu\Hand.xnb
 Content\Sprites\Menu\Button_large.xnb
 Content\Sprites\Menu\Play_icon_large.xnb
@@ -193,7 +192,6 @@ Content\Music\Game\1.xnb
 Content\Music\Game\3.xnb
 Content\Music\Game\2.xnb
 Content\Music\Menu\1.xnb
-Content\Music\Menu\2.xnb
 Content\SFX\switch.xnb
 Content\SFX\cart.xnb
 Content\SFX\fire.xnb
@@ -205,8 +203,8 @@ Content\SFX\dying.xnb
 Content\SFX\scroll.xnb
 Content\SFX\jumping.xnb
 Content\SFX\landing.xnb
+Content\SFX\jewel.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma
 Content\Music\Menu\1.wma
-Content\Music\Menu\2.wma
