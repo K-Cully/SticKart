@@ -548,6 +548,10 @@ namespace SticKart.Input
             }         
         }
 
+        /// <summary>
+        /// Updates the current tracking state of the player by the Kinect ensor.
+        /// </summary>
+        /// <param name="skeleton">The current skeleton being tracked.</param>
         private void UpdateKinectTrackingState(Skeleton skeleton)
         {
             this.kinectAngleSet = skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked;

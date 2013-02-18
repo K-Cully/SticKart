@@ -941,7 +941,18 @@ namespace SticKart.Game.Entities
         private bool CollisionHandlerWheel(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
-            if (this.InCart)
+
+            if (fixtureTwo.CollisionCategories == EntityConstants.ScrollingDeathCategory)
+            {
+                collided = true;
+                if (this.state != PlayerState.dead)
+                {
+                    this.health = this.minimumHealth;
+                    this.state = PlayerState.dead;
+                    AudioManager.PlayEffect(this.dieSound);
+                }
+            }
+            else if (this.InCart)
             {
                 collided = false;
             }
@@ -980,16 +991,6 @@ namespace SticKart.Game.Entities
                         }
 
                         break;
-                    case EntityConstants.ScrollingDeathCategory:
-                        collided = true;
-                        if (this.state != PlayerState.dead)
-                        {
-                            this.health = this.minimumHealth;
-                            this.state = PlayerState.dead;
-                            AudioManager.PlayEffect(this.dieSound);
-                        }
-
-                        break;
                     case EntityConstants.MineCartCategory:
                         if (!this.InCart && this.state != PlayerState.jumping)
                         {
@@ -1025,7 +1026,17 @@ namespace SticKart.Game.Entities
         private bool CollisionHandlerSmallBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
-            if (this.state != PlayerState.crouching)
+            if (fixtureTwo.CollisionCategories == EntityConstants.ScrollingDeathCategory)
+            {
+                collided = true;
+                if (this.state != PlayerState.dead)
+                {
+                    this.health = this.minimumHealth;
+                    this.state = PlayerState.dead;
+                    AudioManager.PlayEffect(this.dieSound);
+                }
+            }
+            else if (this.state != PlayerState.crouching)
             {
                 collided = false;
             }
@@ -1044,16 +1055,6 @@ namespace SticKart.Game.Entities
                         else
                         {
                             collided = false;
-                        }
-
-                        break;
-                    case EntityConstants.ScrollingDeathCategory:
-                        collided = true;
-                        if (this.state == PlayerState.dead)
-                        {
-                            this.health = this.minimumHealth;
-                            this.state = PlayerState.dead;
-                            AudioManager.PlayEffect(this.dieSound);
                         }
 
                         break;
@@ -1083,7 +1084,17 @@ namespace SticKart.Game.Entities
         private bool CollisionHandlerFullBody(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
         {
             bool collided = true;
-            if (this.state == PlayerState.crouching)
+            if (fixtureTwo.CollisionCategories == EntityConstants.ScrollingDeathCategory)
+            {
+                collided = true;
+                if (this.state != PlayerState.dead)
+                {
+                    this.health = this.minimumHealth;
+                    this.state = PlayerState.dead;
+                    AudioManager.PlayEffect(this.dieSound);
+                }
+            }
+            else if (this.state == PlayerState.crouching)
             {
                 collided = false;
             }
@@ -1113,16 +1124,6 @@ namespace SticKart.Game.Entities
                         else
                         {
                             collided = false;
-                        }
-
-                        break;
-                    case EntityConstants.ScrollingDeathCategory:
-                        collided = true;
-                        if (this.state == PlayerState.dead)
-                        {
-                            this.health = this.minimumHealth;
-                            this.state = PlayerState.dead;
-                            AudioManager.PlayEffect(this.dieSound);
                         }
 
                         break;

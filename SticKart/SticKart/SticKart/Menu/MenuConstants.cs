@@ -60,35 +60,35 @@ namespace SticKart.Menu
 
         #endregion
 
-        #region charecterSelect
+        #region characterSelect
 
         /// <summary>
-        /// The text to display on the a to f charecter select button.
+        /// The text to display on the a to f character select button.
         /// </summary>
         public const string AToF = "a-f";
 
         /// <summary>
-        /// The text to display on the g to l charecter select button.
+        /// The text to display on the g to l character select button.
         /// </summary>
         public const string GToL = "g-l";
 
         /// <summary>
-        /// The text to display on the m to r charecter select button.
+        /// The text to display on the m to r character select button.
         /// </summary>
         public const string MToR = "m-r";
 
         /// <summary>
-        /// The text to display on the s to x charecter select button.
+        /// The text to display on the s to x character select button.
         /// </summary>
         public const string SToX = "s-x";
 
         /// <summary>
-        /// The text to display on the y to 3 charecter select button.
+        /// The text to display on the y to 3 character select button.
         /// </summary>
         public const string YToThree = "y-3";
 
         /// <summary>
-        /// The text to display on the 4 to 9 charecter select button.
+        /// The text to display on the 4 to 9 character select button.
         /// </summary>
         public const string FourToNine = "4-9";
 

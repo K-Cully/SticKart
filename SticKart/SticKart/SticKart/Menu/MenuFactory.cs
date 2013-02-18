@@ -399,7 +399,7 @@ namespace SticKart.Menu
                 {
                     if (firstLetter == char.MaxValue)
                     {
-                        label = MenuFactory.GetCharacterSelectionLabel(rowCount * columns + colCount);
+                        label = MenuFactory.GetCharacterSelectionLabel((rowCount * columns) + colCount);
                     }
                     else
                     {
@@ -464,7 +464,7 @@ namespace SticKart.Menu
             switch (buttonCount)
             {
                 case 0:
-                    label= MenuConstants.AToF;
+                    label = MenuConstants.AToF;
                     break;
                 case 1:
                     label = MenuConstants.GToL;
