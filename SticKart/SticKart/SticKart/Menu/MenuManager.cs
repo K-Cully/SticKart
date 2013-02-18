@@ -129,11 +129,11 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.LetterInput,  MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, char.MaxValue));
             this.menus.Add(MenuType.LetterInputA, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'a'));
-            this.menus.Add(MenuType.LetterInputF, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'f'));
-            this.menus.Add(MenuType.LetterInputK, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'k'));
-            this.menus.Add(MenuType.LetterInputP, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'p'));
-            this.menus.Add(MenuType.LetterInputU, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'u'));
-            this.menus.Add(MenuType.LetterInputZ, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'z'));
+            this.menus.Add(MenuType.LetterInputG, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'g'));
+            this.menus.Add(MenuType.LetterInputM, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'm'));
+            this.menus.Add(MenuType.LetterInputS, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 's'));
+            this.menus.Add(MenuType.LetterInputY, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, 'y'));
+            this.menus.Add(MenuType.LetterInput4, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, '4'));
             this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.NamePrompt, MenuFactory.CreateNamePromptMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings.PlayerName));
 
@@ -171,7 +171,9 @@ namespace SticKart.Menu
                     {
                         this.HandleLeaderboardSelection(selectedItemName, gameSettings);
                     }
-                    else if (this.ActiveMenu == MenuType.NamePrompt || this.ActiveMenu == MenuType.LetterInput)
+                    else if (this.ActiveMenu == MenuType.NamePrompt || this.ActiveMenu == MenuType.LetterInput || this.ActiveMenu == MenuType.LetterInputA
+                        || this.ActiveMenu == MenuType.LetterInputG || this.ActiveMenu == MenuType.LetterInputM || this.ActiveMenu == MenuType.LetterInputS
+                        || this.ActiveMenu == MenuType.LetterInputY || this.ActiveMenu == MenuType.LetterInput4)
                     {
                         this.HandleNameSelection(selectedItemName, ref gameSettings);
                     }
@@ -389,6 +391,33 @@ namespace SticKart.Menu
                     this.menus[this.ActiveMenu].Reset();
                     this.nameCharacterSelected = int.Parse(selectedItemName);
                     this.ActiveMenu = MenuType.LetterInput;
+                }
+            }
+            else if (this.ActiveMenu == MenuType.LetterInput)
+            {
+                switch (selectedItemName.ToLowerInvariant())
+                {
+                    case MenuConstants.AToF:
+                        this.ActiveMenu = MenuType.LetterInputA;
+                        break;
+                    case MenuConstants.GToL:
+                        this.ActiveMenu = MenuType.LetterInputG;
+                        break;
+                    case MenuConstants.MToR:
+                        this.ActiveMenu = MenuType.LetterInputM;
+                        break;
+                    case MenuConstants.SToX:
+                        this.ActiveMenu = MenuType.LetterInputS;
+                        break;
+                    case MenuConstants.YToThree:
+                        this.ActiveMenu = MenuType.LetterInputY;
+                        break;
+                    case MenuConstants.FourToNine:
+                        this.ActiveMenu = MenuType.LetterInput4;
+                        break;
+                    default:
+                        this.ActiveMenu = MenuType.NamePrompt;
+                        break;
                 }
             }
             else

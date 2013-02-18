@@ -403,14 +403,12 @@ namespace SticKart.Menu
                     }
                     else
                     {
-                        if (char.IsControl(letter))
+                        if (letter == '{')
                         {
-                            label = " ";
+                            letter = '0';
                         }
-                        else
-                        {
-                            label = letter.ToString();
-                        }
+                        
+                        label = letter.ToString();
                     }
 
                     currentTileOffset.X = colCount * (buttonTile.Width + tileGap);
@@ -466,22 +464,22 @@ namespace SticKart.Menu
             switch (buttonCount)
             {
                 case 0:
-                    label= MenuConstants.AToE;
+                    label= MenuConstants.AToF;
                     break;
                 case 1:
-                    label = MenuConstants.FToJ;
+                    label = MenuConstants.GToL;
                     break;
                 case 2:
-                    label = MenuConstants.KToO;
+                    label = MenuConstants.MToR;
                     break;
                 case 3:
-                    label = MenuConstants.PToT;
+                    label = MenuConstants.SToX;
                     break;
                 case 4:
-                    label = MenuConstants.UToY;
+                    label = MenuConstants.YToThree;
                     break;
                 case 5:
-                    label = MenuConstants.ZToTilda;
+                    label = MenuConstants.FourToNine;
                     break;
                 default:
                     label = string.Empty;
