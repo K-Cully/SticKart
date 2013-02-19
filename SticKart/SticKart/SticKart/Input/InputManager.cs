@@ -582,23 +582,28 @@ namespace SticKart.Input
         /// <param name="skeleton">The current skeleton being tracked.</param>
         private void UpdateKinectTrackingState(Skeleton skeleton)
         {
-            this.kinectAngleSet = skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked;
-            if (this.kinectAngleSet)
+            Vector3 skeletonPositionLeveled = Tools.ToVector3(skeleton.Position);
+            skeletonPositionLeveled.Y = 0.0f;
+            if ((this.optimalPosition - skeletonPositionLeveled).Length() < 0.3f)
             {
-                if (this.footTrackingTimer > InputManager.FootTrackingTime)
+                this.kinectAngleSet = skeleton.Joints[JointType.Head].TrackingState != JointTrackingState.NotTracked;
+                if (this.kinectAngleSet)
                 {
-                    this.footTrackingTimer = 0.0f;
-                    this.footTrackingLog.RemoveAt(0);
-                    this.footTrackingLog.Add(skeleton.Joints[JointType.FootRight].TrackingState == JointTrackingState.Tracked || skeleton.Joints[JointType.FootLeft].TrackingState == JointTrackingState.Tracked);
-                }
-
-                this.kinectAngleSet = false;
-                foreach (bool boolean in this.footTrackingLog)
-                {
-                    if (boolean == true)
+                    if (this.footTrackingTimer > InputManager.FootTrackingTime)
                     {
-                        this.kinectAngleSet = boolean;
-                        break;
+                        this.footTrackingTimer = 0.0f;
+                        this.footTrackingLog.RemoveAt(0);
+                        this.footTrackingLog.Add(skeleton.Joints[JointType.FootRight].TrackingState == JointTrackingState.Tracked || skeleton.Joints[JointType.FootLeft].TrackingState == JointTrackingState.Tracked);
+                    }
+
+                    this.kinectAngleSet = false;
+                    foreach (bool trackingLog in this.footTrackingLog)
+                    {
+                        if (trackingLog == true)
+                        {
+                            this.kinectAngleSet = trackingLog;
+                            break;
+                        }
                     }
                 }
             }
