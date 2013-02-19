@@ -340,7 +340,13 @@ namespace SticKart.Input
                 {
                     float bodySize = this.gestureManager.PlayerBodySize != 0.0f ? this.gestureManager.PlayerBodySize : 0.65f;
                     Vector2 scaling = this.screenDimensions * 1.0f / bodySize;
-                    Vector2 handPosition = new Vector2(this.gestureManager.HandPosition.X, this.gestureManager.HandPosition.Y);
+                    Vector3 originalHandPosition = Tools.ToVector3(this.gestureManager.HandPosition);
+                    Vector3 handUnit = originalHandPosition;
+                    handUnit.Normalize();
+                    float zDistanceToShoulder = this.gestureManager.ShoulderPosition.Z - originalHandPosition.Z;
+                    originalHandPosition += handUnit * zDistanceToShoulder;
+
+                    Vector2 handPosition = new Vector2(originalHandPosition.X, originalHandPosition.Y);
                     Vector2 shoulderPosition = new Vector2(this.gestureManager.ShoulderPosition.X, this.gestureManager.ShoulderPosition.Y);                    
                     Vector2 relativeHandPosition = handPosition - shoulderPosition;
                     relativeHandPosition.X *= scaling.X;
@@ -386,15 +392,16 @@ namespace SticKart.Input
         /// Checks for user input this frame.
         /// </summary>
         /// <returns>Whether any new commands have been picked up or not.</returns>
+        /// <param name="allowReset">A value indicating whether the input system may be reset or not.</param>
         /// <param name="gameTime">The game time.</param>
-        public bool Update(GameTime gameTime)
+        public bool Update(GameTime gameTime, bool allowReset)
         {
             this.selectionPosition = Vector2.Zero;
             this.commands.Clear();
             switch (this.controlDevice)
             {
                 case ControlDevice.Kinect:
-                    this.GetKinectInput(gameTime);
+                    this.GetKinectInput(gameTime, allowReset);
                     break;
                 case ControlDevice.Keyboard:
                     this.GetKeyboardInput();
@@ -483,7 +490,8 @@ namespace SticKart.Input
         /// Adds commands to the command list based on Kinect input. 
         /// </summary>
         /// <param name="gameTime">The game time.</param>
-        private void GetKinectInput(GameTime gameTime)
+        /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
+        private void GetKinectInput(GameTime gameTime, bool allowReset)
         {
             if (this.colourStreamEnabled)
             {
@@ -507,10 +515,22 @@ namespace SticKart.Input
                             }
                             else
                             {
-                                this.UpdateKinectTrackingState(closestSkeleton);
+                                if (allowReset)
+                                {
+                                    this.UpdateKinectTrackingState(closestSkeleton);
+                                }
+
                                 if (this.kinectAngleSet)
                                 {
-                                    this.kinectAngleSet = !this.gestureManager.Update(closestSkeleton, gameTime);
+                                    if (allowReset)
+                                    {
+                                        this.kinectAngleSet = !this.gestureManager.Update(closestSkeleton, gameTime);
+                                    }
+                                    else
+                                    {
+                                        this.gestureManager.Update(closestSkeleton, gameTime);
+                                    }
+
                                     this.PlayerFloorPosition = Vector2.Zero;
                                     this.ApplyKinectGestures();
                                 }
@@ -527,7 +547,7 @@ namespace SticKart.Input
                         this.PlayerFloorPosition = new Vector2(closestSkeleton.Position.Z, closestSkeleton.Position.X);
                     }
                 }
-                else
+                else if (allowReset)
                 {
                     this.kinectAngleSet = false;
                 }
