@@ -543,7 +543,7 @@ namespace SticKart.Input
             Skeleton closestSkeleton = null;
             float storedDistanceFromOptimal = float.MaxValue;
             float currentDistanceFromOptimal = 0.0f;
-            float optimalRadius = 0.65f;
+            float optimalRadius = 0.6f;
             foreach (Skeleton skeleton in this.skeletonData)
             {
                 if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
