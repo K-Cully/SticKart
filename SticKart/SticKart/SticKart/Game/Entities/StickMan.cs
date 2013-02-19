@@ -454,13 +454,9 @@ namespace SticKart.Game.Entities
                         this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.975f;
                         if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                         {
-                            if (this.motorJoint.MotorSpeed > 1.0f)
+                            if (this.motorJoint.MotorSpeed > 0.0f)
                             {
-                                this.motorJoint.MotorSpeed *= 0.9f;
-                            }
-                            else
-                            {
-                                this.motorJoint.MotorSpeed -= this.acceleration * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                                this.motorJoint.MotorSpeed *= 0.95f;
                             }
                         }
                         else if (this.smallBody.LinearVelocity.X < this.idealHorizontalVelocity && this.motorJoint.MotorSpeed < this.maximumHorizontalVelocity * 2.0f)
@@ -597,6 +593,9 @@ namespace SticKart.Game.Entities
                     this.InCart = false;
                     this.physicsWorld.RemoveJoint(this.cartJoint);
                     this.cartJoint = null;
+                    this.fullBody.LinearVelocity = new Vector2(this.fullBody.LinearVelocity.X, this.fullBody.LinearVelocity.Y * 0.5f);
+                    this.smallBody.LinearVelocity = new Vector2(this.fullBody.LinearVelocity.X, this.fullBody.LinearVelocity.Y * 0.5f);
+                    this.wheelBody.LinearVelocity = new Vector2(this.fullBody.LinearVelocity.X, this.fullBody.LinearVelocity.Y * 0.5f);
                 }
                 
                 this.state = PlayerState.jumping;
