@@ -21,7 +21,7 @@ namespace SticKart.Input.Gestures
         /// <summary>
         /// The maximum change in body size before the system resets itself.
         /// </summary>
-        private const float BodySizeThreshold = 0.22f;
+        private const float BodySizeThreshold = 0.15f;
 
         /// <summary>
         /// Stores the gesture detectors in use.
@@ -228,7 +228,7 @@ namespace SticKart.Input.Gestures
         public void ResetPlayerSettings(Skeleton skeleton)
         {
             this.skeletonJoints = skeleton.Joints;
-            this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y; // TODO: monitor over time
+            this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y;
             this.PlayerBodySize = this.CalculateBodySize();
             this.SetGesturesToPlayer();
         }
