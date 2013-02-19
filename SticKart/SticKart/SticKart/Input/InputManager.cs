@@ -122,6 +122,11 @@ namespace SticKart.Input
         /// </summary>
         private float minimumPlayerDistance;
 
+        /// <summary>
+        /// The optimal position for the player to be standing, in sensor view space.
+        /// </summary>
+        private Vector3 optimalPosition;
+
         #endregion
 
         #region kinect_speech_variables
@@ -208,7 +213,8 @@ namespace SticKart.Input
             this.kinectSensor = null;
             this.coordinateMapper = null;
             this.gestureManager = null;
-            this.minimumPlayerDistance = 2.375f;
+            this.minimumPlayerDistance = 2.35f;
+            this.optimalPosition = new Vector3(0.0f, 0.0f, this.minimumPlayerDistance + 0.2f);
             this.PlayerFloorPosition = Vector2.Zero;
             this.selectedWord = null;
             this.touchGesture = new GestureSample();
@@ -487,27 +493,7 @@ namespace SticKart.Input
             this.footTrackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (this.ReadSkeletonFrame())
             {
-                Skeleton closestSkeleton = null;
-                foreach (Skeleton skeleton in this.skeletonData)
-                {
-                    switch (skeleton.TrackingState)
-                    {
-                        case SkeletonTrackingState.NotTracked:
-                            break;
-                        case SkeletonTrackingState.PositionOnly:
-                            break;
-                        case SkeletonTrackingState.Tracked:
-                            if (closestSkeleton == null || skeleton.Position.Z < closestSkeleton.Position.Z)
-                            {
-                                closestSkeleton = skeleton;
-                            }
-
-                            break;
-                        default:
-                            break;
-                    }
-                }
-
+                Skeleton closestSkeleton = this.GetClosestSkeleton();
                 if (closestSkeleton != null)
                 {
                     if (closestSkeleton.Position.Z > this.minimumPlayerDistance)
@@ -546,6 +532,48 @@ namespace SticKart.Input
                     this.kinectAngleSet = false;
                 }
             }         
+        }
+
+        /// <summary>
+        /// Retrieves the closest skeleton to the optimal position.
+        /// </summary>
+        /// <returns>The closest skeleton to the optimal postion, if any.</returns>
+        private Skeleton GetClosestSkeleton()
+        {
+            Skeleton closestSkeleton = null;
+            float storedDistanceFromOptimal = float.MaxValue;
+            float currentDistanceFromOptimal = 0.0f;
+            float optimalRadius = 0.65f;
+            foreach (Skeleton skeleton in this.skeletonData)
+            {
+                if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
+                {
+                    if (closestSkeleton == null)
+                    {
+                        closestSkeleton = skeleton;
+                        storedDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
+                    }
+                    else
+                    {
+                        currentDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
+                        if (currentDistanceFromOptimal < optimalRadius || storedDistanceFromOptimal < optimalRadius)
+                        {
+                            if (currentDistanceFromOptimal < storedDistanceFromOptimal)
+                            {
+                                closestSkeleton = skeleton;
+                                storedDistanceFromOptimal = currentDistanceFromOptimal;
+                            }
+                        }
+                        else if (skeleton.Position.Z < closestSkeleton.Position.Z)
+                        {
+                            closestSkeleton = skeleton;
+                            storedDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
+                        }
+                    }
+                }
+            }
+
+            return closestSkeleton;
         }
 
         /// <summary>
