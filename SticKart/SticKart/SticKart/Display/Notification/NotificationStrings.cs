@@ -29,7 +29,7 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// The text to display for a push notification.
         /// </summary>
-        public const string Push = "To select an item:\nDraw your hand back to your\nshoulder then push gently\ntowards a tile.";
+        public const string Push = "To select an item:\nDraw your hand back towards you\nthen push gently forward.";
 
         /// <summary>
         /// The text to display for a swipe notification.
