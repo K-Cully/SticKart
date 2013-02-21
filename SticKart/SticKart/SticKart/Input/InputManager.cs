@@ -51,7 +51,7 @@ namespace SticKart.Input
         /// <summary>
         /// The delay, in seconds, to apply between angle resets.
         /// </summary>
-        private const float AngleResetTime = 5.0f;
+        private const float AngleResetTime = 10.0f;
 
         #endregion
 
