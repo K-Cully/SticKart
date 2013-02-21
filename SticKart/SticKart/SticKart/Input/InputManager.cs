@@ -48,6 +48,11 @@ namespace SticKart.Input
         /// </summary>
         private const int MaxLoggedFootStates = 16;
 
+        /// <summary>
+        /// The delay, in seconds, to apply between angle resets.
+        /// </summary>
+        private const float AngleResetTime = 5.0f;
+
         #endregion
 
         #region kinect_motion_variables
@@ -121,11 +126,6 @@ namespace SticKart.Input
         /// The optimal position for the player to be standing, in sensor view space.
         /// </summary>
         private Vector3 optimalPosition;
-
-        /// <summary>
-        /// The delay, in seconds, to apply between angle resets.
-        /// </summary>
-        private float angleResetDelay;
 
         /// <summary>
         /// A timer for the angle reset delay.
@@ -228,8 +228,7 @@ namespace SticKart.Input
             this.kinectAngleSet = false;
             this.thresholdAngleToTrackingPoint = 0.1f;
             this.colourStreamEnabled = false;
-            this.angleResetDelay = 5.0f;
-            this.angleResetTimer = 0.0f;
+            this.angleResetTimer = 5.0f;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -349,8 +348,8 @@ namespace SticKart.Input
                     Vector3 originalHandPosition = Tools.ToVector3(this.gestureManager.HandPosition);
                     Vector3 handUnit = originalHandPosition;
                     handUnit.Normalize();
-                    float zDistanceToShoulder = this.gestureManager.ShoulderPosition.Z - originalHandPosition.Z;
-                    originalHandPosition += handUnit * zDistanceToShoulder;
+                    float depthToShoulder = this.gestureManager.ShoulderPosition.Z - originalHandPosition.Z;
+                    originalHandPosition += handUnit * depthToShoulder;
 
                     Vector2 handPosition = new Vector2(originalHandPosition.X, originalHandPosition.Y);
                     Vector2 shoulderPosition = new Vector2(this.gestureManager.ShoulderPosition.X, this.gestureManager.ShoulderPosition.Y);                    
@@ -398,8 +397,8 @@ namespace SticKart.Input
         /// Checks for user input this frame.
         /// </summary>
         /// <returns>Whether any new commands have been picked up or not.</returns>
-        /// <param name="allowReset">A value indicating whether the input system may be reset or not.</param>
         /// <param name="gameTime">The game time.</param>
+        /// <param name="allowReset">A value indicating whether the input system may be reset or not.</param>
         public bool Update(GameTime gameTime, bool allowReset)
         {
             this.selectionPosition = Vector2.Zero;
@@ -499,7 +498,17 @@ namespace SticKart.Input
         /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
         private void GetKinectInput(GameTime gameTime, bool allowReset)
         {
-            this.footTrackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (this.angleResetTimer < InputManager.AngleResetTime)
+            {
+                allowReset = false;
+                this.angleResetTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            if (this.footTrackingTimer < InputManager.FootTrackingTime)
+            {
+                this.footTrackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
             if (this.colourStreamEnabled)
             {
                 this.ReadColourFrame();
@@ -548,7 +557,7 @@ namespace SticKart.Input
                     else if (this.AdjustSensorAngle(skeleton))
                     {
                         this.gestureManager.ResetPlayerSettings(skeleton);
-                        // TODO: set delay
+                        this.angleResetTimer = 0.0f;
                     }
                 }
                 else
@@ -562,7 +571,7 @@ namespace SticKart.Input
         /// <summary>
         /// Retrieves the closest skeleton to the optimal position.
         /// </summary>
-        /// <returns>The closest skeleton to the optimal postion, if any.</returns>
+        /// <returns>The closest skeleton to the optimal position, if any.</returns>
         private Skeleton GetClosestSkeleton()
         {
             Skeleton closestSkeleton = null;
