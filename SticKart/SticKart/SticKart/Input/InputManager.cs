@@ -103,11 +103,6 @@ namespace SticKart.Input
         private bool kinectAngleSet;
 
         /// <summary>
-        /// A value indicating whether to reset the gesture manager or not.
-        /// </summary>
-        private bool resetGestureManager;
-
-        /// <summary>
         /// The maximum angle allowed between the Kinect sensor and the main tracking point on the player.
         /// </summary>
         private float thresholdAngleToTrackingPoint;
@@ -126,6 +121,16 @@ namespace SticKart.Input
         /// The optimal position for the player to be standing, in sensor view space.
         /// </summary>
         private Vector3 optimalPosition;
+
+        /// <summary>
+        /// The delay, in seconds, to apply between angle resets.
+        /// </summary>
+        private float angleResetDelay;
+
+        /// <summary>
+        /// A timer for the angle reset delay.
+        /// </summary>
+        private float angleResetTimer;
 
         #endregion
 
@@ -204,7 +209,6 @@ namespace SticKart.Input
             }
 
             this.footTrackingTimer = 0.0f;
-            this.resetGestureManager = false;
             this.ColourFrameSize = Vector2.Zero;
             this.selectionPosition = Vector2.Zero;
             this.screenDimensions = screenDimensions;
@@ -224,6 +228,8 @@ namespace SticKart.Input
             this.kinectAngleSet = false;
             this.thresholdAngleToTrackingPoint = 0.1f;
             this.colourStreamEnabled = false;
+            this.angleResetDelay = 5.0f;
+            this.angleResetTimer = 0.0f;
 
             if (this.controlDevice == ControlDevice.Kinect)
             {
@@ -493,65 +499,64 @@ namespace SticKart.Input
         /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
         private void GetKinectInput(GameTime gameTime, bool allowReset)
         {
+            this.footTrackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (this.colourStreamEnabled)
             {
                 this.ReadColourFrame();
             }
 
-            this.footTrackingTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (this.ReadSkeletonFrame())
             {
-                Skeleton closestSkeleton = this.GetClosestSkeleton();
-                if (closestSkeleton != null)
+                this.ProcessSkeleton(gameTime, allowReset, this.GetClosestSkeleton());
+            }         
+        }
+
+        /// <summary>
+        /// Updates the gesture manager and Kinect tracking states based on the player's skeleton.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
+        /// <param name="skeleton">The skeleton to process.</param>
+        private void ProcessSkeleton(GameTime gameTime, bool allowReset, Skeleton skeleton)
+        {
+            if (skeleton != null)
+            {
+                if (skeleton.Position.Z > this.minimumPlayerDistance)
                 {
-                    if (closestSkeleton.Position.Z > this.minimumPlayerDistance)
+                    if (this.kinectAngleSet)
                     {
+                        if (allowReset)
+                        {
+                            this.UpdateKinectTrackingState(skeleton);
+                        }
+
                         if (this.kinectAngleSet)
                         {
-                            if (this.resetGestureManager)
+                            if (allowReset)
                             {
-                                this.gestureManager.ResetPlayerSettings(closestSkeleton);
-                                this.resetGestureManager = false;
+                                this.kinectAngleSet = !this.gestureManager.Update(skeleton, gameTime);
                             }
                             else
                             {
-                                if (allowReset)
-                                {
-                                    this.UpdateKinectTrackingState(closestSkeleton);
-                                }
-
-                                if (this.kinectAngleSet)
-                                {
-                                    if (allowReset)
-                                    {
-                                        this.kinectAngleSet = !this.gestureManager.Update(closestSkeleton, gameTime);
-                                    }
-                                    else
-                                    {
-                                        this.gestureManager.Update(closestSkeleton, gameTime);
-                                    }
-
-                                    this.PlayerFloorPosition = Vector2.Zero;
-                                    this.ApplyKinectGestures();
-                                }
+                                this.gestureManager.Update(skeleton, gameTime);
                             }
-                        }
-                        else
-                        {
-                            this.AdjustSensorAngle(closestSkeleton);
+
+                            this.PlayerFloorPosition = Vector2.Zero;
+                            this.ApplyKinectGestures();
                         }
                     }
-                    else
+                    else if (this.AdjustSensorAngle(skeleton))
                     {
-                        NotificationManager.AddNotification(NotificationType.StepBack);
-                        this.PlayerFloorPosition = new Vector2(closestSkeleton.Position.Z, closestSkeleton.Position.X);
+                        this.gestureManager.ResetPlayerSettings(skeleton);
+                        // TODO: set delay
                     }
                 }
-                else if (allowReset)
+                else
                 {
-                    this.kinectAngleSet = false;
+                    NotificationManager.AddNotification(NotificationType.StepBack);
+                    this.PlayerFloorPosition = new Vector2(skeleton.Position.Z, skeleton.Position.X);
                 }
-            }         
+            }
         }
 
         /// <summary>
@@ -855,8 +860,10 @@ namespace SticKart.Input
         /// Adjusts the angle of the Kinect sensor so that the player is in the sensor's field of view. 
         /// </summary>
         /// <param name="skeleton">The player's skeleton.</param>
-        private void AdjustSensorAngle(Skeleton skeleton)
+        /// <returns>A value indicating if the the angle was set to its final position.</returns>
+        private bool AdjustSensorAngle(Skeleton skeleton)
         {
+            bool set = false;
             if (skeleton.Joints[JointType.HipCenter].TrackingState == JointTrackingState.Tracked && skeleton.Joints[JointType.Spine].TrackingState == JointTrackingState.Tracked)
             {
                 Vector2 spinePoint = Vector2.Normalize(new Vector2(skeleton.Joints[JointType.Spine].Position.Z, skeleton.Joints[JointType.Spine].Position.Y));
@@ -868,8 +875,8 @@ namespace SticKart.Input
                     this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle + (int)Math.Round(angle));
                 }
 
+                set = true;
                 this.kinectAngleSet = true;
-                this.resetGestureManager = true;
             }
             else if (skeleton.Joints[JointType.Head].TrackingState == JointTrackingState.Tracked)
             {
@@ -879,6 +886,8 @@ namespace SticKart.Input
             {
                 this.kinectSensor.TrySetElevationAngle(this.kinectSensor.ElevationAngle + 4);
             }
+
+            return set;
         }
 
         /// <summary>
