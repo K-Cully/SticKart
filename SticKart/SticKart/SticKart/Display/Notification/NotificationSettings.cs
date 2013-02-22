@@ -182,6 +182,8 @@ namespace SticKart.Display.Notification
                     break;
                 case NotificationType.StepBack:
                     break;
+                case NotificationType.StepForward:
+                    break;
                 case NotificationType.PushGesture:
                     this.Push = false;
                     break;
@@ -246,6 +248,9 @@ namespace SticKart.Display.Notification
                     enabled = false;
                     break;
                 case NotificationType.StepBack:
+                    enabled = true;
+                    break;
+                case NotificationType.StepForward:
                     enabled = true;
                     break;
                 case NotificationType.PushGesture:

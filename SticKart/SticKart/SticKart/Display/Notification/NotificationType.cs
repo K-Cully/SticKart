@@ -22,6 +22,11 @@ namespace SticKart.Display.Notification
         StepBack,
 
         /// <summary>
+        /// A notification to tell the player to step forward.
+        /// </summary>
+        StepForward,
+
+        /// <summary>
         /// A notification on how to perform a push gesture.
         /// </summary>
         PushGesture,

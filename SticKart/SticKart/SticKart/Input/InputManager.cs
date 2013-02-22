@@ -123,6 +123,11 @@ namespace SticKart.Input
         private float minimumPlayerDistance;
 
         /// <summary>
+        /// The maximum distance the player can be at to play.
+        /// </summary>
+        private float maximumPlayerDistance;
+
+        /// <summary>
         /// The optimal position for the player to be standing, in sensor view space.
         /// </summary>
         private Vector3 optimalPosition;
@@ -217,7 +222,8 @@ namespace SticKart.Input
             this.kinectSensor = null;
             this.coordinateMapper = null;
             this.gestureManager = null;
-            this.minimumPlayerDistance = 2.35f;
+            this.minimumPlayerDistance = 2.30f;
+            this.maximumPlayerDistance = 3.15f;
             this.optimalPosition = new Vector3(0.0f, 0.0f, this.minimumPlayerDistance + 0.2f);
             this.PlayerFloorPosition = Vector2.Zero;
             this.selectedWord = null;
@@ -521,129 +527,6 @@ namespace SticKart.Input
         }
 
         /// <summary>
-        /// Updates the gesture manager and Kinect tracking states based on the player's skeleton.
-        /// </summary>
-        /// <param name="gameTime">The game time.</param>
-        /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
-        /// <param name="skeleton">The skeleton to process.</param>
-        private void ProcessSkeleton(GameTime gameTime, bool allowReset, Skeleton skeleton)
-        {
-            if (skeleton != null)
-            {
-                if (skeleton.Position.Z > this.minimumPlayerDistance)
-                {
-                    if (this.kinectAngleSet)
-                    {
-                        if (allowReset)
-                        {
-                            this.UpdateKinectTrackingState(skeleton);
-                        }
-
-                        if (this.kinectAngleSet)
-                        {
-                            if (allowReset)
-                            {
-                                this.kinectAngleSet = !this.gestureManager.Update(skeleton, gameTime);
-                            }
-                            else
-                            {
-                                this.gestureManager.Update(skeleton, gameTime);
-                            }
-
-                            this.PlayerFloorPosition = Vector2.Zero;
-                            this.ApplyKinectGestures();
-                        }
-                    }
-                    else if (this.AdjustSensorAngle(skeleton))
-                    {
-                        this.gestureManager.ResetPlayerSettings(skeleton);
-                        this.angleResetTimer = 0.0f;
-                    }
-                }
-                else
-                {
-                    NotificationManager.AddNotification(NotificationType.StepBack);
-                    this.PlayerFloorPosition = new Vector2(skeleton.Position.Z, skeleton.Position.X);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Retrieves the closest skeleton to the optimal position.
-        /// </summary>
-        /// <returns>The closest skeleton to the optimal position, if any.</returns>
-        private Skeleton GetClosestSkeleton()
-        {
-            Skeleton closestSkeleton = null;
-            float storedDistanceFromOptimal = float.MaxValue;
-            float currentDistanceFromOptimal = 0.0f;
-            float optimalRadius = 0.6f;
-            foreach (Skeleton skeleton in this.skeletonData)
-            {
-                if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
-                {
-                    if (closestSkeleton == null)
-                    {
-                        closestSkeleton = skeleton;
-                        storedDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
-                    }
-                    else
-                    {
-                        currentDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
-                        if (currentDistanceFromOptimal < optimalRadius || storedDistanceFromOptimal < optimalRadius)
-                        {
-                            if (currentDistanceFromOptimal < storedDistanceFromOptimal)
-                            {
-                                closestSkeleton = skeleton;
-                                storedDistanceFromOptimal = currentDistanceFromOptimal;
-                            }
-                        }
-                        else if (skeleton.Position.Z < closestSkeleton.Position.Z)
-                        {
-                            closestSkeleton = skeleton;
-                            storedDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
-                        }
-                    }
-                }
-            }
-
-            return closestSkeleton;
-        }
-
-        /// <summary>
-        /// Updates the current tracking state of the player by the Kinect ensor.
-        /// </summary>
-        /// <param name="skeleton">The current skeleton being tracked.</param>
-        private void UpdateKinectTrackingState(Skeleton skeleton)
-        {
-            Vector3 skeletonPositionLeveled = Tools.ToVector3(skeleton.Position);
-            skeletonPositionLeveled.Y = 0.0f;
-            if ((this.optimalPosition - skeletonPositionLeveled).Length() < 0.3f)
-            {
-                this.kinectAngleSet = skeleton.Joints[JointType.Head].TrackingState != JointTrackingState.NotTracked;
-                if (this.kinectAngleSet)
-                {
-                    if (this.footTrackingTimer > InputManager.FootTrackingTime)
-                    {
-                        this.footTrackingTimer = 0.0f;
-                        this.footTrackingLog.RemoveAt(0);
-                        this.footTrackingLog.Add(skeleton.Joints[JointType.FootRight].TrackingState == JointTrackingState.Tracked || skeleton.Joints[JointType.FootLeft].TrackingState == JointTrackingState.Tracked);
-                    }
-
-                    this.kinectAngleSet = false;
-                    foreach (bool trackingLog in this.footTrackingLog)
-                    {
-                        if (trackingLog == true)
-                        {
-                            this.kinectAngleSet = trackingLog;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Adds commands to the command list based on keyboard input. 
         /// </summary>
         private void GetKeyboardInput()
@@ -744,6 +627,134 @@ namespace SticKart.Input
         #endregion
 
         #region kinect_methods
+
+        /// <summary>
+        /// Updates the gesture manager and Kinect tracking states based on the player's skeleton.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
+        /// <param name="skeleton">The skeleton to process.</param>
+        private void ProcessSkeleton(GameTime gameTime, bool allowReset, Skeleton skeleton)
+        {
+            if (skeleton != null)
+            {
+                if (skeleton.Position.Z > this.minimumPlayerDistance && skeleton.Position.Z < this.maximumPlayerDistance)
+                {
+                    if (this.kinectAngleSet)
+                    {
+                        if (allowReset)
+                        {
+                            this.UpdateKinectTrackingState(skeleton);
+                        }
+
+                        if (this.kinectAngleSet)
+                        {
+                            if (allowReset)
+                            {
+                                this.kinectAngleSet = !this.gestureManager.Update(skeleton, gameTime);
+                            }
+                            else
+                            {
+                                this.gestureManager.Update(skeleton, gameTime);
+                            }
+
+                            this.PlayerFloorPosition = Vector2.Zero;
+                            this.ApplyKinectGestures();
+                        }
+                    }
+                    else if (this.AdjustSensorAngle(skeleton))
+                    {
+                        this.gestureManager.ResetPlayerSettings(skeleton);
+                        this.angleResetTimer = 0.0f;
+                    }
+                }
+                else if (skeleton.Position.Z < this.maximumPlayerDistance)
+                {
+                    NotificationManager.AddNotification(NotificationType.StepBack);
+                    this.PlayerFloorPosition = new Vector2(skeleton.Position.Z, skeleton.Position.X);
+                }
+                else
+                {
+                    NotificationManager.AddNotification(NotificationType.StepForward);
+                    this.PlayerFloorPosition = new Vector2(skeleton.Position.Z, skeleton.Position.X);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Retrieves the closest skeleton to the optimal position.
+        /// </summary>
+        /// <returns>The closest skeleton to the optimal position, if any.</returns>
+        private Skeleton GetClosestSkeleton()
+        {
+            Skeleton closestSkeleton = null;
+            float storedDistanceFromOptimal = float.MaxValue;
+            float currentDistanceFromOptimal = 0.0f;
+            float optimalRadius = 0.6f;
+            foreach (Skeleton skeleton in this.skeletonData)
+            {
+                if (skeleton.TrackingState == SkeletonTrackingState.Tracked)
+                {
+                    if (closestSkeleton == null)
+                    {
+                        closestSkeleton = skeleton;
+                        storedDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
+                    }
+                    else
+                    {
+                        currentDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
+                        if (currentDistanceFromOptimal < optimalRadius || storedDistanceFromOptimal < optimalRadius)
+                        {
+                            if (currentDistanceFromOptimal < storedDistanceFromOptimal)
+                            {
+                                closestSkeleton = skeleton;
+                                storedDistanceFromOptimal = currentDistanceFromOptimal;
+                            }
+                        }
+                        else if (skeleton.Position.Z < closestSkeleton.Position.Z)
+                        {
+                            closestSkeleton = skeleton;
+                            storedDistanceFromOptimal = (this.optimalPosition - Tools.ToVector3(skeleton.Position)).Length();
+                        }
+                    }
+                }
+            }
+
+            return closestSkeleton;
+        }
+
+        /// <summary>
+        /// Updates the current tracking state of the player by the Kinect ensor.
+        /// </summary>
+        /// <param name="skeleton">The current skeleton being tracked.</param>
+        private void UpdateKinectTrackingState(Skeleton skeleton)
+        {
+            Vector3 skeletonPositionLeveled = Tools.ToVector3(skeleton.Position);
+            skeletonPositionLeveled.Y = 0.0f;
+            if ((this.optimalPosition - skeletonPositionLeveled).Length() < 0.3f)
+            {
+                this.kinectAngleSet = skeleton.Joints[JointType.Head].TrackingState != JointTrackingState.NotTracked;
+                if (this.kinectAngleSet)
+                {
+                    if (this.footTrackingTimer > InputManager.FootTrackingTime)
+                    {
+                        this.footTrackingTimer = 0.0f;
+                        this.footTrackingLog.RemoveAt(0);
+                        this.footTrackingLog.Add(skeleton.Joints[JointType.FootRight].TrackingState == JointTrackingState.Tracked || skeleton.Joints[JointType.FootLeft].TrackingState == JointTrackingState.Tracked);
+                    }
+
+                    this.kinectAngleSet = false;
+                    foreach (bool trackingLog in this.footTrackingLog)
+                    {
+                        if (trackingLog == true)
+                        {
+                            this.kinectAngleSet = trackingLog;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes all Kinect based control systems.

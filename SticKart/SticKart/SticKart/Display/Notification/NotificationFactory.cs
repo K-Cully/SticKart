@@ -59,6 +59,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.StepBack:
                     notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 2.0f, NotificationStrings.StepBack, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.StepBack, 1, 3.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
+                case NotificationType.StepForward:
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 2.0f, NotificationStrings.StepForward, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.StepBack, 1, 3.0f, ContentLocations.NotificationsPath + ContentLocations.Background);
+                    break;
                 case NotificationType.PushGesture:
                     notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Push, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Push, 7, 0.2f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
