@@ -1,0 +1,3 @@
+
+
+DELETE FROM HighScores_000

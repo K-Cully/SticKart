@@ -1,0 +1,3 @@
+
+
+SELECT TOP 10 Name, Score FROM HighScores_000 ORDER BY Score DESC
