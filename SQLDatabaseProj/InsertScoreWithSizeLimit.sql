@@ -1,7 +1,8 @@
 
 
+
 DECLARE @value INT = 110
-DECLARE @name CHAR = 'AAA'
+DECLARE @name CHAR(10) = 'AAA'
 
 DECLARE @maxRows INT = 10
 DECLARE @rowCount INT = 0
