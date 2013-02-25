@@ -13,6 +13,8 @@
     </Endpoints>
     <Imports>
       <Import moduleName="Diagnostics" />
+      <Import moduleName="RemoteAccess" />
+      <Import moduleName="RemoteForwarder" />
     </Imports>
     <LocalResources>
       <LocalStorage name="SticKartScoresAzureWebRole.svclog" sizeInMB="1000" cleanOnRoleRecycle="false" />
