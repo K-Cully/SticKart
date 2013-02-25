@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "SticKartScoresWindowsAzure", "SticKartScoresWindowsAzure.ccproj", "{2BF2D595-B262-479A-9B96-036B1935AE9E}"
+Project("{CC5FD16D-436D-48AD-A40C-5A424C6E3E79}") = "SticKartScoresAzure", "SticKartScoresAzure.ccproj", "{2BF2D595-B262-479A-9B96-036B1935AE9E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SticKartScoresAzureWebRole", "SticKartScoresAzureWebRole\SticKartScoresAzureWebRole.csproj", "{49035BB8-8B25-4D6B-A96E-F3BC3E95C670}"
 EndProject
