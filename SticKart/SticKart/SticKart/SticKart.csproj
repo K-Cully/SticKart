@@ -88,6 +88,9 @@
     <Reference Include="Microsoft.Xna.Framework.Input.Touch, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
     <Reference Include="System" />
+    <Reference Include="System.Data.Services.Client" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -108,6 +111,7 @@
     <Compile Include="Display\SceneryRenderer.cs" />
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
+    <Compile Include="Game\AzureServices\ScoreServiceManager.cs" />
     <Compile Include="Game\Entities\Exit.cs" />
     <Compile Include="Game\Entities\InteractiveEntity.cs" />
     <Compile Include="Game\Entities\InteractiveEntityType.cs" />
@@ -159,6 +163,11 @@
     <Compile Include="Display\Notification\NotificationType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Service References\SticKartScores\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.datasvcmap</DependentUpon>
+    </Compile>
     <Compile Include="SticKart.cs" />
     <Compile Include="Display\Sprite.cs" />
   </ItemGroup>
@@ -167,6 +176,10 @@
     <Content Include="GameThumbnail.png">
       <XnaPlatformSpecific>true</XnaPlatformSpecific>
     </Content>
+    <None Include="Service References\SticKartScores\Reference.datasvcmap">
+      <Generator>DataServiceClientGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
@@ -232,7 +245,13 @@
     </PublishFile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Service References\SticKartScores\service.edmx" />
     <None Include="SticKart_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ServiceReferenceMetadataStorage Include="Service References\SticKartScores\">
+      <Type>datasvcmap</Type>
+    </ServiceReferenceMetadataStorage>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
