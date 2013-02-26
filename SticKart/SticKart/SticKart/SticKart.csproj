@@ -111,6 +111,7 @@
     <Compile Include="Display\SceneryRenderer.cs" />
     <Compile Include="ExternalTools\ConvertUnits.cs" />
     <Compile Include="ExternalTools\Tools.cs" />
+    <Compile Include="Game\AzureServices\ScoreServiceConstants.cs" />
     <Compile Include="Game\AzureServices\ScoreServiceManager.cs" />
     <Compile Include="Game\Entities\Exit.cs" />
     <Compile Include="Game\Entities\InteractiveEntity.cs" />
