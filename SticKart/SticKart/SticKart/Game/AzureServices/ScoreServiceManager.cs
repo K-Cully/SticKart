@@ -8,6 +8,8 @@ namespace SticKart.Game.AzureServices
 {
     using System;
     using System.Data.Services.Client;
+    using System.Linq;
+    using Game.Level;
     using SticKartScores;
 
     /// <summary>
@@ -32,7 +34,6 @@ namespace SticKart.Game.AzureServices
         {
             try
             {
-                // Instantiate the DataServiceContext.
                 this.context = new SticKartScores_0Entities(new Uri(ScoreServiceConstants.ServiceUriString));
             }
             catch (Exception exception)
@@ -44,7 +45,7 @@ namespace SticKart.Game.AzureServices
         /// <summary>
         /// Gets the score service manager singleton, if it has been initialized.
         /// </summary>
-        public ScoreServiceManager Instance
+        public static ScoreServiceManager Instance
         {
             get
             {
@@ -56,7 +57,7 @@ namespace SticKart.Game.AzureServices
         /// Initailizes the <see cref="ScoreServiceManager"/> singleton.
         /// </summary>
         /// <returns>The newly created score service manager or null if there was an error during initialization.</returns>
-        public ScoreServiceManager Initialize()
+        public static ScoreServiceManager Initialize()
         {
             if (ScoreServiceManager.managerSingleton == null)
             {
@@ -68,6 +69,32 @@ namespace SticKart.Game.AzureServices
             }
 
             return ScoreServiceManager.managerSingleton;
+        }
+
+        public bool AddScore(ScoreNamePair scoreNamePair, int levelNumber)
+        {
+            // Add score if any lower than current score            
+            try
+            {
+                // Define a LINQ query that returns the high score entry for scores over zero
+                var query = from scores in context.HighScores_000 where scores.Score > scoreNamePair.Score select scores;
+
+                // Create an DataServiceCollection<T> based on execution of the LINQ query for scores.
+                DataServiceCollection<HighScores_000> customerOrders = new DataServiceCollection<HighScores_000>(query);
+
+                if (customerOrders.Count > 0)
+                {
+                }
+            }
+            catch (Exception ex)
+            {
+                this.context = null;
+            }
+            
+            // Else return false
+
+
+            return false;
         }
     }
 }
