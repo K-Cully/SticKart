@@ -4,316 +4,48 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="SticKartScores_0Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="SticKartScores_0Model.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
         <EntityContainer Name="SticKartScores_0ModelStoreContainer">
-          <EntitySet Name="HighScores_000" EntityType="SticKartScores_0Model.Store.HighScores_000" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_001" EntityType="SticKartScores_0Model.Store.HighScores_001" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_002" EntityType="SticKartScores_0Model.Store.HighScores_002" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_003" EntityType="SticKartScores_0Model.Store.HighScores_003" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_004" EntityType="SticKartScores_0Model.Store.HighScores_004" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_005" EntityType="SticKartScores_0Model.Store.HighScores_005" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_006" EntityType="SticKartScores_0Model.Store.HighScores_006" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_007" EntityType="SticKartScores_0Model.Store.HighScores_007" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_008" EntityType="SticKartScores_0Model.Store.HighScores_008" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_009" EntityType="SticKartScores_0Model.Store.HighScores_009" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="HighScores_010" EntityType="SticKartScores_0Model.Store.HighScores_010" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="HighScores" EntityType="SticKartScores_0Model.Store.HighScores" store:Type="Tables" Schema="dbo" />
         </EntityContainer>
-        <EntityType Name="HighScores_000">
+        <EntityType Name="HighScores">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Level" Type="int" Nullable="false" />
           <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
           <Property Name="Score" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="HighScores_001">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_002">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_003">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_004">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_005">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_006">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_007">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_008">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_009">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_010">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="char" Nullable="false" MaxLength="10" />
-          <Property Name="Score" Type="int" Nullable="false" />
-        </EntityType>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SticKartScores_0Model" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
         <EntityContainer Name="SticKartScores_0Entities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="HighScores_000" EntityType="SticKartScores_0Model.HighScores_000" />
-          <EntitySet Name="HighScores_001" EntityType="SticKartScores_0Model.HighScores_001" />
-          <EntitySet Name="HighScores_002" EntityType="SticKartScores_0Model.HighScores_002" />
-          <EntitySet Name="HighScores_003" EntityType="SticKartScores_0Model.HighScores_003" />
-          <EntitySet Name="HighScores_004" EntityType="SticKartScores_0Model.HighScores_004" />
-          <EntitySet Name="HighScores_005" EntityType="SticKartScores_0Model.HighScores_005" />
-          <EntitySet Name="HighScores_006" EntityType="SticKartScores_0Model.HighScores_006" />
-          <EntitySet Name="HighScores_007" EntityType="SticKartScores_0Model.HighScores_007" />
-          <EntitySet Name="HighScores_008" EntityType="SticKartScores_0Model.HighScores_008" />
-          <EntitySet Name="HighScores_009" EntityType="SticKartScores_0Model.HighScores_009" />
-          <EntitySet Name="HighScores_010" EntityType="SticKartScores_0Model.HighScores_010" />
+          <EntitySet Name="HighScores" EntityType="SticKartScores_0Model.HighScore" />
         </EntityContainer>
-        <EntityType Name="HighScores_000">
+        <EntityType Name="HighScore">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Level" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
+          <Property Type="Int32" Name="Score" Nullable="false" />
         </EntityType>
-        <EntityType Name="HighScores_001">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_002">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_003">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_004">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_005">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_006">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_007">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_008">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_009">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-        <EntityType Name="HighScores_010">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-          <Property Name="Score" Type="Int32" Nullable="false" />
-        </EntityType>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SticKartScores_0ModelStoreContainer" CdmEntityContainer="SticKartScores_0Entities">
-          <EntitySetMapping Name="HighScores_000">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_000">
-              <MappingFragment StoreEntitySet="HighScores_000">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="HighScores">
+            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScore">
+              <MappingFragment StoreEntitySet="HighScores">
                 <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_001">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_001">
-              <MappingFragment StoreEntitySet="HighScores_001">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_002">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_002">
-              <MappingFragment StoreEntitySet="HighScores_002">
+                <ScalarProperty Name="Level" ColumnName="Level" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_003">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_003">
-              <MappingFragment StoreEntitySet="HighScores_003">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_004">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_004">
-              <MappingFragment StoreEntitySet="HighScores_004">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_005">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_005">
-              <MappingFragment StoreEntitySet="HighScores_005">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_006">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_006">
-              <MappingFragment StoreEntitySet="HighScores_006">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_007">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_007">
-              <MappingFragment StoreEntitySet="HighScores_007">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_008">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_008">
-              <MappingFragment StoreEntitySet="HighScores_008">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_009">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_009">
-              <MappingFragment StoreEntitySet="HighScores_009">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="HighScores_010">
-            <EntityTypeMapping TypeName="SticKartScores_0Model.HighScores_010">
-              <MappingFragment StoreEntitySet="HighScores_010">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Score" ColumnName="Score" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -338,17 +70,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="ScoresModel">
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_000" Width="1.5" PointX="0.75" PointY="0.75" Height="1.6156835937500005" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_001" Width="1.5" PointX="2.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_002" Width="1.5" PointX="0.75" PointY="3.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_003" Width="1.5" PointX="2.75" PointY="3.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_004" Width="1.5" PointX="4.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_005" Width="1.5" PointX="4.75" PointY="3.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_006" Width="1.5" PointX="6.75" PointY="0.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_007" Width="1.5" PointX="0.75" PointY="6.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_008" Width="1.5" PointX="2.75" PointY="6.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_009" Width="1.5" PointX="6.75" PointY="3.75" Height="1.5956835937499996" IsExpanded="true" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.HighScores_010" Width="1.5" PointX="4.75" PointY="6.75" Height="1.5956835937500031" IsExpanded="true" />
+        <EntityTypeShape EntityType="SticKartScores_0Model.HighScore" Width="1.5" PointX="0.75" PointY="0.75" Height="1.7879850260416674" />
       </Diagram>
     </Diagrams>
   </Designer>

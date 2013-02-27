@@ -13,14 +13,7 @@ namespace SticKartScoresAzureWebRole
         // This method is called only once to initialize service-wide policies.
         public static void InitializeService(DataServiceConfiguration config)
         {
-            int numTables = 11;
-            for (int count = 0; count < numTables; ++count)
-            {
-                int padding = 3 - count.ToString().Length;
-                string entity = "HighScores_" + new string('0', padding) + count.ToString();
-                config.SetEntitySetAccessRule(entity, EntitySetRights.All);
-            }
-
+            config.SetEntitySetAccessRule("HighScores", EntitySetRights.All);
             config.UseVerboseErrors = false;
             config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
             
