@@ -188,6 +188,8 @@ namespace SticKart
             }
 
             AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
+            Game.AzureServices.ScoreServiceManager test = Game.AzureServices.ScoreServiceManager.Initialize();
+            test.AddScore(new ScoreNamePair(100, "Bob"), 10);
         }
 
         /// <summary>

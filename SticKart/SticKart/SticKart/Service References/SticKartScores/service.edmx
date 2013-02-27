@@ -1,108 +1,19 @@
 ﻿<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx">
   <edmx:DataServices xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" m:DataServiceVersion="1.0">
     <Schema Namespace="SticKartScores_0Model" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
-      <EntityType Name="HighScores_000">
+      <EntityType Name="HighScore">
         <Key>
           <PropertyRef Name="Id" />
         </Key>
         <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_001">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_002">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_003">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_004">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_005">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_006">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_007">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_008">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_009">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
-        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
-        <Property Name="Score" Type="Edm.Int32" Nullable="false" />
-      </EntityType>
-      <EntityType Name="HighScores_010">
-        <Key>
-          <PropertyRef Name="Id" />
-        </Key>
-        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Level" Type="Edm.Int32" Nullable="false" />
         <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
         <Property Name="Score" Type="Edm.Int32" Nullable="false" />
       </EntityType>
     </Schema>
     <Schema Namespace="SticKartScoresAzureWebRole" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
       <EntityContainer Name="SticKartScores_0Entities" p7:LazyLoadingEnabled="true" m:IsDefaultEntityContainer="true" xmlns:p7="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
-        <EntitySet Name="HighScores_000" EntityType="SticKartScores_0Model.HighScores_000" />
-        <EntitySet Name="HighScores_001" EntityType="SticKartScores_0Model.HighScores_001" />
-        <EntitySet Name="HighScores_002" EntityType="SticKartScores_0Model.HighScores_002" />
-        <EntitySet Name="HighScores_003" EntityType="SticKartScores_0Model.HighScores_003" />
-        <EntitySet Name="HighScores_004" EntityType="SticKartScores_0Model.HighScores_004" />
-        <EntitySet Name="HighScores_005" EntityType="SticKartScores_0Model.HighScores_005" />
-        <EntitySet Name="HighScores_006" EntityType="SticKartScores_0Model.HighScores_006" />
-        <EntitySet Name="HighScores_007" EntityType="SticKartScores_0Model.HighScores_007" />
-        <EntitySet Name="HighScores_008" EntityType="SticKartScores_0Model.HighScores_008" />
-        <EntitySet Name="HighScores_009" EntityType="SticKartScores_0Model.HighScores_009" />
-        <EntitySet Name="HighScores_010" EntityType="SticKartScores_0Model.HighScores_010" />
+        <EntitySet Name="HighScores" EntityType="SticKartScores_0Model.HighScore" />
       </EntityContainer>
     </Schema>
   </edmx:DataServices>
