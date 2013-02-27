@@ -94,19 +94,30 @@ namespace SticKart.Game.AzureServices
         /// <returns>A value indicating if the score has made it onto the high score table.</returns>
         private bool AddScoreToTable(DataServiceQuery<HighScore> table, ScoreNamePair scoreNamePair, int levelNumber)
         {
-            // Add score if any lower than current score  
-            IQueryable<HighScore> query = from score in table where score.Level == levelNumber select score;
-            DataServiceCollection<HighScore> scores = new DataServiceCollection<HighScore>(query);
-            
-            // if count < 10 or is higher than any other element add and possibly remove lowest
-
-            int comparison = 0;
-            for (int count = 0; count < scores.Count; count++)
+            bool highScore = false;
+            IQueryable<HighScore> queryScores = from score in table where score.Level == levelNumber orderby score.Score ascending select score;
+            //HighScore lowest = scores.First();
+            DataServiceCollection<HighScore> scores = new DataServiceCollection<HighScore>(queryScores);
+            if (scores.Count() < 10)
             {
-                comparison = scoreNamePair.CompareTo(new ScoreNamePair(scores[count].Score, scores[count].Name));
+                context.AddToHighScores(HighScore.CreateHighScore(0, levelNumber, scoreNamePair.Name, scoreNamePair.Score));
+                context.SaveChanges();
+                highScore = true;
+            }
+            else if (scoreNamePair.CompareTo(new ScoreNamePair(scores.First().Score, scores.First().Name)) < 0)
+            {
+                // TODO: get delete or update working
+                context.DeleteObject(scores.First());
+                //lowest.Score = scoreNamePair.Score;
+                //lowest.Name = scoreNamePair.Name;
+                //context.UpdateObject(lowest);
+                //HighScore temp = scores.First();
+                context.AddToHighScores(HighScore.CreateHighScore(0, levelNumber, scoreNamePair.Name, scoreNamePair.Score));
+                context.SaveChanges();
+                highScore = true;
             }
 
-            return false;
+            return highScore;
         }
 
         public bool AddScore(ScoreNamePair scoreNamePair, int levelNumber)
@@ -115,11 +126,6 @@ namespace SticKart.Game.AzureServices
             try
             {
                 scoreAdded = this.AddScoreToTable(context.HighScores, scoreNamePair, levelNumber);
-
-                // Get all scores that are lower than the current score.
-                // var getHigherScoresQuery = from scores in context.HighScores_000 where scores.Score < scoreNamePair.Score select scores;
-                //this.AddScoreToTable<HighScores_000>(this.CreateQueryForAllElements<HighScores_000>(context.HighScores_000));
-                //DataServiceCollection<HighScores_000> customerOrders = new DataServiceCollection<HighScores_000>(getHigherScoresQuery);
             }
             catch (WebException)
             {
@@ -128,6 +134,11 @@ namespace SticKart.Game.AzureServices
             catch (DataServiceQueryException)
             {
                 scoreAdded = false;
+            }
+            catch (DataServiceRequestException e)
+            {
+                scoreAdded = false;
+                Console.WriteLine(e.InnerException.Message);
             }
 
             return scoreAdded;
