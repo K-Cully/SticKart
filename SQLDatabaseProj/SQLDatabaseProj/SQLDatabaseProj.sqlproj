@@ -101,6 +101,6 @@
     <None Include="SQLDatabaseProj.publish.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="HighScores_000.sql" />
+    <Build Include="HighScores.sql" />
   </ItemGroup>
 </Project>
