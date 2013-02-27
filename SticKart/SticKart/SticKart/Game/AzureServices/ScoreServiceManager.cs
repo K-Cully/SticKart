@@ -29,7 +29,7 @@ namespace SticKart.Game.AzureServices
         private SticKartScores_0Entities context;
         
         /// <summary>
-        /// Prevents the initialization of the <see cref="ScoreServiceManager"/> class.
+        /// Prevents a default instance of the <see cref="ScoreServiceManager"/> class from being created.
         /// </summary>
         private ScoreServiceManager()
         {
@@ -37,7 +37,7 @@ namespace SticKart.Game.AzureServices
             {
                 this.context = new SticKartScores_0Entities(new Uri(ScoreServiceConstants.ServiceUriString));
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 this.context = null;
             }
@@ -55,7 +55,7 @@ namespace SticKart.Game.AzureServices
         }
 
         /// <summary>
-        /// Initailizes the <see cref="ScoreServiceManager"/> singleton.
+        /// Initializes the <see cref="ScoreServiceManager"/> singleton.
         /// </summary>
         /// <returns>The newly created score service manager or null if there was an error during initialization.</returns>
         public static ScoreServiceManager Initialize()
@@ -73,59 +73,17 @@ namespace SticKart.Game.AzureServices
         }
 
         /// <summary>
-        /// Creates a query which retrievs all elements in a table.
+        /// Adds a score-name pair to the database and checks if it is a new high score or not.
         /// </summary>
-        /// <typeparam name="T">The element type of the table.</typeparam>
-        /// <param name="table">The table to query.</param>
-        /// <returns>The query of all elements.</returns>
-        private IQueryable<T> CreateQueryForAllElements<T>(DataServiceQuery<T> table)
-        {
-            return from entity in table select entity;
-        }
-        
-
-        /// <summary>
-        /// Tries to add a score-name pair to a high table.
-        /// </summary>
-        /// <typeparam name="T">The type of table to add to.</typeparam>
-        /// <param name="table">The table to add to.</param>
-        /// <param name="scoreNamePair">The score-name pair to try to add.</param>
+        /// <param name="scoreNamePair">The score-name pair to add.</param>
         /// <param name="levelNumber">The level number.</param>
-        /// <returns>A value indicating if the score has made it onto the high score table.</returns>
-        private bool AddScoreToTable(DataServiceQuery<HighScore> table, ScoreNamePair scoreNamePair, int levelNumber)
-        {
-            bool highScore = false;
-            IQueryable<HighScore> queryScores = from score in table where score.Level == levelNumber orderby score.Score ascending select score;
-            //HighScore lowest = scores.First();
-            DataServiceCollection<HighScore> scores = new DataServiceCollection<HighScore>(queryScores);
-            if (scores.Count() < 10)
-            {
-                context.AddToHighScores(HighScore.CreateHighScore(0, levelNumber, scoreNamePair.Name, scoreNamePair.Score));
-                context.SaveChanges();
-                highScore = true;
-            }
-            else if (scoreNamePair.CompareTo(new ScoreNamePair(scores.First().Score, scores.First().Name)) < 0)
-            {
-                // TODO: get delete or update working
-                context.DeleteObject(scores.First());
-                //lowest.Score = scoreNamePair.Score;
-                //lowest.Name = scoreNamePair.Name;
-                //context.UpdateObject(lowest);
-                //HighScore temp = scores.First();
-                context.AddToHighScores(HighScore.CreateHighScore(0, levelNumber, scoreNamePair.Name, scoreNamePair.Score));
-                context.SaveChanges();
-                highScore = true;
-            }
-
-            return highScore;
-        }
-
+        /// <returns>A value indicating whether the score was a new high score or not.</returns>
         public bool AddScore(ScoreNamePair scoreNamePair, int levelNumber)
         {
             bool scoreAdded = false;
             try
             {
-                scoreAdded = this.AddScoreToTable(context.HighScores, scoreNamePair, levelNumber);
+                scoreAdded = this.AddScoreToTable(scoreNamePair, levelNumber);
             }
             catch (WebException)
             {
@@ -135,13 +93,52 @@ namespace SticKart.Game.AzureServices
             {
                 scoreAdded = false;
             }
-            catch (DataServiceRequestException e)
+            catch (DataServiceRequestException)
             {
                 scoreAdded = false;
-                Console.WriteLine(e.InnerException.Message);
             }
 
             return scoreAdded;
+        }
+
+        /// <summary>
+        /// Creates a query which retrieves all elements in a table.
+        /// </summary>
+        /// <typeparam name="T">The element type of the table.</typeparam>
+        /// <param name="table">The table to query.</param>
+        /// <returns>The query of all elements.</returns>
+        private IQueryable<T> CreateQueryForAllElements<T>(DataServiceQuery<T> table)
+        {
+            return from entity in table select entity;
+        }
+
+        /// <summary>
+        /// Tries to add a score-name pair to a high table.
+        /// </summary>
+        /// <param name="scoreNamePair">The score-name pair to try to add.</param>
+        /// <param name="levelNumber">The level number.</param>
+        /// <returns>A value indicating if the score has made it onto the high score table.</returns>
+        private bool AddScoreToTable(ScoreNamePair scoreNamePair, int levelNumber)
+        {
+            bool highScore = false;
+            IQueryable<HighScore> scores = from score in this.context.HighScores where score.Level == levelNumber orderby score.Score ascending select score;
+            if (scores.Count() < 10)
+            {
+                this.context.AddToHighScores(HighScore.CreateHighScore(0, levelNumber, scoreNamePair.Name, scoreNamePair.Score));
+                this.context.SaveChanges();
+                highScore = true;
+            }
+            else if (scoreNamePair.CompareTo(new ScoreNamePair(scores.First().Score, scores.First().Name)) < 0)
+            {
+                HighScore lowest = scores.First();
+                lowest.Score = scoreNamePair.Score;
+                lowest.Name = scoreNamePair.Name;
+                this.context.UpdateObject(lowest);
+                this.context.SaveChanges();
+                highScore = true;
+            }
+
+            return highScore;
         }
     }
 }

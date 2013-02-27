@@ -7,7 +7,7 @@
 namespace SticKart.Game.AzureServices
 {
     /// <summary>
-    /// Defines all constanst used by the score service manager.
+    /// Defines all constants used by the score service manager.
     /// </summary>
     public class ScoreServiceConstants
     {
