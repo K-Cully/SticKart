@@ -12,17 +12,17 @@ namespace SticKart.Game.Level
     public enum HighScoreType
     {
         /// <summary>
-        /// Specifys a global high score type.
+        /// Specifies a global high score type.
         /// </summary>
         Global,
 
         /// <summary>
-        /// Specifys a local high score type.
+        /// Specifies a local high score type.
         /// </summary>
         Local,
 
         /// <summary>
-        /// Specifys no high score.
+        /// Specifies no high score.
         /// </summary>
         None
     }

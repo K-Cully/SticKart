@@ -191,7 +191,7 @@ namespace SticKart.Menu
         /// <summary>
         /// Retrieves the value for the high score prompt.
         /// </summary>
-        /// <param name="setHighScore">A value indicating what high score wat set, if any.</param>
+        /// <param name="highScoreSet">A value indicating what high score was set, if any.</param>
         /// <returns>The appropriate high score prompt text.</returns>
         public static string GetHighScoreText(HighScoreType highScoreSet)
         {
