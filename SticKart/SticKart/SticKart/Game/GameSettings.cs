@@ -10,6 +10,7 @@ namespace SticKart.Game
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Xml.Serialization;
+    using AzureServices;
     using Level;
 
     /// <summary>
@@ -21,6 +22,11 @@ namespace SticKart.Game
         /// The name of the settings file.
         /// </summary>
         private static string filename = "settings.xml";
+
+        /// <summary>
+        /// The score data service manager.
+        /// </summary>
+        private ScoreServiceManager scoreServiceManager;
         
         /// <summary>
         /// Prevents a default instance of the <see cref="GameSettings"/> class from being created.
@@ -31,6 +37,7 @@ namespace SticKart.Game
             this.LevelsUnlocked = 1;
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
+            this.scoreServiceManager = ScoreServiceManager.Initialize();
         }
 
         /// <summary>
@@ -43,6 +50,7 @@ namespace SticKart.Game
             this.LevelsUnlocked = 1;
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
+            this.scoreServiceManager = ScoreServiceManager.Initialize();
             for (int count = 0; count < this.TotalLevels; ++count)
             {
                 this.LevelScoreTables.Add(new LevelScoreTable(1));
@@ -142,17 +150,28 @@ namespace SticKart.Game
         /// </summary>
         /// <param name="levelNumber">The level number to add the score to.</param>
         /// <param name="score">The score to add.</param>
-        /// <returns>A value indicating whether the score was added or not.</returns>
-        public bool AddScore(int levelNumber, int score)
+        /// <returns>The type of high score set, if any.</returns>
+        public HighScoreType AddScore(int levelNumber, int score)
         {
+            HighScoreType scoreSet = HighScoreType.None;
             if (levelNumber < 1 || levelNumber > this.TotalLevels)
             {
-                return false;
+                scoreSet = HighScoreType.None;
             }
             else
             {
-                return this.LevelScoreTables[levelNumber - 1].AddScore(new ScoreNamePair(score, this.PlayerName));
+                if (this.LevelScoreTables[levelNumber - 1].AddScore(new ScoreNamePair(score, this.PlayerName)))
+                {
+                    scoreSet = HighScoreType.Local;
+                }
+
+                if (this.scoreServiceManager.AddScore(new ScoreNamePair(score, this.PlayerName), levelNumber))
+                {
+                    scoreSet = HighScoreType.Global;
+                }
             }
+
+            return scoreSet;
         }
     }
 }

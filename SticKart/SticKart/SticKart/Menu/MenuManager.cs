@@ -12,6 +12,7 @@ namespace SticKart.Menu
     using Display;
     using Display.Notification;
     using Game;
+    using Game.Level;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -241,10 +242,10 @@ namespace SticKart.Menu
         /// <summary>
         /// Sets the text of the level complete menu based on the player's performance.
         /// </summary>
-        /// <param name="setHighScore">A value indicating whether the player set a high score or not.</param>
+        /// <param name="highScoreSet">A value indicating what high score was set, if any.</param>
         /// <param name="score">The player's score for the level.</param>
         /// <param name="ratingLevel">The overall rating for the level in the inclusive range 0 to 2.</param>
-        public void SetLevelCompleteMenuText(bool setHighScore, int score, int ratingLevel)
+        public void SetLevelCompleteMenuText(HighScoreType highScoreSet, int score, int ratingLevel)
         {
             Collection<MenuItem> levelCompleteItems = this.menus[MenuType.LevelComplete].MenuItems;
             int changedCount = 0;
@@ -255,7 +256,7 @@ namespace SticKart.Menu
                     switch (changedCount)
                     {
                         case 0:
-                            (levelCompleteItems[count] as MenuText).SetText(MenuConstants.GetHighScoreText(setHighScore));
+                            (levelCompleteItems[count] as MenuText).SetText(MenuConstants.GetHighScoreText(highScoreSet));
                             break;
                         case 1:
                             (levelCompleteItems[count] as MenuText).SetText(score.ToString());

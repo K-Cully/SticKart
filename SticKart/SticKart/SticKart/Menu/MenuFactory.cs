@@ -127,13 +127,13 @@ namespace SticKart.Menu
 
             relativePos = new Vector2(0.0f, -largeButtonTile.Height * 1.1f);
             RenderableText levelComplete = new RenderableText();
-            levelComplete.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.LevelCompleteText);
+            levelComplete.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.LevelCompleteText); // TODO: test
             text = new MenuText(relativePos, levelComplete);
             levelCompleteMenu.AddItem(text);
 
             relativePos += new Vector2(0.0f, levelComplete.Height * 1.25f);
             RenderableText highScoreText = new RenderableText();
-            highScoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.GetHighScoreText(true));
+            highScoreText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.LevelCompleteText);
             text = new MenuText(relativePos, highScoreText, true);
             levelCompleteMenu.AddItem(text);
 

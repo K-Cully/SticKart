@@ -6,6 +6,8 @@
 
 namespace SticKart.Menu
 {
+    using Game.Level;
+
     /// <summary>
     /// A class containing all the menu string constants.
     /// </summary>
@@ -135,14 +137,19 @@ namespace SticKart.Menu
         public const string RatingText = "Rating:";
 
         /// <summary>
-        /// The default high score text.
+        /// The global high score text.
         /// </summary>
-        private const string HighScoreText = "Congratulations, you set a high score.";
+        private const string HighScoreGlobalText = "Congratulations, you set a global high score.";
 
         /// <summary>
-        /// The alternate high score text.
+        /// The local high score text.
         /// </summary>
-        private const string HighScoreAlternateText = "Unlucky, you didn't set a high score this time.";
+        private const string HighScoreLocalText = "Well done, you set a local high score.";
+
+        /// <summary>
+        /// The no high score text.
+        /// </summary>
+        private const string HighScoreNoneText = "Unlucky, you didn't set a high score this time.";
 
         /// <summary>
         /// The lowest rating.
@@ -184,17 +191,20 @@ namespace SticKart.Menu
         /// <summary>
         /// Retrieves the value for the high score prompt.
         /// </summary>
-        /// <param name="setHighScore">A value indicating whether the player set a high score or not.</param>
+        /// <param name="setHighScore">A value indicating what high score wat set, if any.</param>
         /// <returns>The appropriate high score prompt text.</returns>
-        public static string GetHighScoreText(bool setHighScore)
+        public static string GetHighScoreText(HighScoreType highScoreSet)
         {
-            if (setHighScore)
+            switch (highScoreSet)
             {
-                return MenuConstants.HighScoreText;
-            }
-            else
-            {
-                return MenuConstants.HighScoreAlternateText;
+                case HighScoreType.Global:
+                    return MenuConstants.HighScoreGlobalText;
+                case HighScoreType.Local:
+                    return MenuConstants.HighScoreLocalText;
+                case HighScoreType.None:
+                    return MenuConstants.HighScoreNoneText;
+                default:
+                    return MenuConstants.HighScoreNoneText;
             }
         }
     }
