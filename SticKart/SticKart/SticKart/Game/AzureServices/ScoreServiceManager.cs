@@ -36,6 +36,7 @@ namespace SticKart.Game.AzureServices
             try
             {
                 this.context = new SticKartScores_0Entities(new Uri(ScoreServiceConstants.ServiceUriString));
+                this.context.Credentials = new NetworkCredential(ScoreServiceConstants.AppLoginName, ScoreServiceConstants.AppLoginPassword);
                 this.AddScoreToTable(new ScoreNamePair(0, "AAA"), 1);
             }
             catch (Exception)

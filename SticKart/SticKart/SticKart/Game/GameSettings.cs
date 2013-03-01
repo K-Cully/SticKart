@@ -165,7 +165,7 @@ namespace SticKart.Game
                     scoreSet = HighScoreType.Local;
                 }
 
-                if (this.scoreServiceManager.AddScore(new ScoreNamePair(score, this.PlayerName), levelNumber))
+                if (this.scoreServiceManager != null && this.scoreServiceManager.AddScore(new ScoreNamePair(score, this.PlayerName), levelNumber))
                 {
                     scoreSet = HighScoreType.Global;
                 }
