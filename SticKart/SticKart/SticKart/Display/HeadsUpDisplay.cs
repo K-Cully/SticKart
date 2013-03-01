@@ -26,6 +26,11 @@ namespace SticKart.Display
         /// </summary>
         private const string ScoreWord = "Score";
 
+        /// <summary>
+        /// The colour to render the heads-up display text.
+        /// </summary>
+        private Color textColour;
+
         #region positions
 
         /// <summary>
@@ -133,10 +138,11 @@ namespace SticKart.Display
             this.Score = 0;
             this.HealthPercentage = 100.0f;
             this.powerUpPosition = new Vector2(this.displaySize.X * 0.5f, this.displaySize.Y * 0.1f);
-            this.scoreTextPosition = new Vector2(this.displaySize.X * 0.8f, this.displaySize.Y * 0.075f);
-            this.scorePosition = new Vector2(this.displaySize.X * 0.9f, this.displaySize.Y * 0.075f);
-            this.healthTextPosition = new Vector2(this.displaySize.X * 0.1f, this.displaySize.Y * 0.075f);
-            this.healthPosition = new Vector2(this.displaySize.X * 0.2f, this.displaySize.Y * 0.075f);
+            this.scoreTextPosition = new Vector2(this.displaySize.X * 0.572f, this.displaySize.Y * 0.075f);
+            this.scorePosition = new Vector2(this.displaySize.X * 0.648f, this.displaySize.Y * 0.075f);
+            this.healthTextPosition = new Vector2(this.displaySize.X * 0.355f, this.displaySize.Y * 0.075f);
+            this.healthPosition = new Vector2(this.displaySize.X * 0.43f, this.displaySize.Y * 0.075f);
+            this.textColour = new Color(50, 50, 50);
         }
 
         #region public_accessors
@@ -214,12 +220,12 @@ namespace SticKart.Display
                     break;
             }
 
-            this.score.SetText(this.Score.ToString("D8"));
+            this.score.SetText(this.Score.ToString("D6"));
             this.health.SetText(this.HealthPercentage.ToString("N0") + "%");
-            RenderableText.Draw(this.scoreText, this.scoreTextPosition, 0.0f, Color.Black);
-            RenderableText.Draw(this.score, this.scorePosition, 0.0f, Color.Black);
-            RenderableText.Draw(this.healthText, this.healthTextPosition, 0.0f, Color.Black);
-            RenderableText.Draw(this.health, this.healthPosition, 0.0f, Color.Black);
+            RenderableText.Draw(this.scoreText, this.scoreTextPosition, 0.0f, this.textColour);
+            RenderableText.Draw(this.score, this.scorePosition, 0.0f, this.textColour);
+            RenderableText.Draw(this.healthText, this.healthTextPosition, 0.0f, this.textColour);
+            RenderableText.Draw(this.health, this.healthPosition, 0.0f, this.textColour);
         }
     }
 }
