@@ -173,5 +173,29 @@ namespace SticKart.Game
 
             return scoreSet;
         }
+
+        /// <summary>
+        /// Retrieves the global high scores for a level.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <returns>The high scores for the level or null if input is invalid.</returns>
+        public LevelScoreTable GetGlobalScoresFor(int levelNumber)
+        {
+            if (levelNumber < 1 || levelNumber > this.TotalLevels)
+            {
+                return null;
+            }
+            else
+            {
+                Collection<ScoreNamePair> scoresForLevel = this.scoreServiceManager.GetScoresFor(levelNumber);
+                LevelScoreTable scoreTable = new LevelScoreTable(1);
+                foreach (ScoreNamePair scoreNamePair in scoresForLevel)
+                {
+                    scoreTable.AddScore(scoreNamePair);
+                }
+
+                return scoreTable;
+            }
+        }
     }
 }

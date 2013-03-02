@@ -38,6 +38,11 @@ namespace SticKart.Menu
         private int nameCharacterSelected;
 
         /// <summary>
+        /// A value indicating whether the local leaderboard is active or not.
+        /// </summary>
+        private bool localLeaderboardActive;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MenuManager"/> class.
         /// </summary>
         /// <param name="screenDimensions">The current display size in pixels.</param>
@@ -48,6 +53,7 @@ namespace SticKart.Menu
             this.screenDimensions = screenDimensions;
             this.ActiveMenu = MenuType.None;
             this.nameCharacterSelected = -1;
+            this.localLeaderboardActive = false;
         }
 
         #region events
@@ -125,6 +131,7 @@ namespace SticKart.Menu
             this.ActiveMenu = MenuType.NamePrompt; // TODO: implement all menus.
             NotificationManager.AddNotification(NotificationType.PushGesture);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.LeaderboardTypeSelect, MenuFactory.CreateLeaderboardTypeMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LeaderboardSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.Leaderboard, MenuFactory.CreateLeaderboardMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LevelSelect, MenuFactory.CreateLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
@@ -355,19 +362,20 @@ namespace SticKart.Menu
                 int level = int.Parse(selectedItemName);
                 this.ActiveMenu = MenuType.Leaderboard;                
                 Collection<MenuItem> leaderboardItems = this.menus[MenuType.Leaderboard].MenuItems;
+                LevelScoreTable scoreTable = this.localLeaderboardActive ? gameSettings.LevelScoreTables[level - 1] : gameSettings.GetGlobalScoresFor(level);
                 int changedCount = 0;
                 for (int count = 0; count < leaderboardItems.Count; count++)
                 {
                     if (leaderboardItems[count].Type == typeof(MenuText) && (leaderboardItems[count] as MenuText).IsChangeable)
                     {
-                        (leaderboardItems[count] as MenuText).SetText(gameSettings.LevelScoreTables[level - 1].Scores[changedCount].ToString());
+                        (leaderboardItems[count] as MenuText).SetText(scoreTable.Scores[changedCount].ToString());
                         changedCount++;
                     }
                 }
             }
             catch
             {
-                this.ActiveMenu = MenuType.Main;
+                this.ActiveMenu = MenuType.LeaderboardTypeSelect;
             }
         }
 
@@ -471,8 +479,19 @@ namespace SticKart.Menu
                     this.menus[this.ActiveMenu].Reset();
                     break;
                 case MenuConstants.LeaderboardButtonName:
+                    this.ActiveMenu = MenuType.LeaderboardTypeSelect;                    
+                    this.menus[this.ActiveMenu].Reset();
+                    break;
+                case MenuConstants.LocalButtonName:
                     this.ActiveMenu = MenuType.LeaderboardSelect;
                     NotificationManager.AddNotification(NotificationType.SwipeGesture);
+                    this.localLeaderboardActive = true;
+                    this.menus[this.ActiveMenu].Reset();
+                    break;
+                case MenuConstants.GlobalButtonName:
+                    this.ActiveMenu = MenuType.LeaderboardSelect;
+                    NotificationManager.AddNotification(NotificationType.SwipeGesture);
+                    this.localLeaderboardActive = false;
                     this.menus[this.ActiveMenu].Reset();
                     break;
                 case MenuConstants.ExitButtonName:
@@ -493,17 +512,20 @@ namespace SticKart.Menu
 
                     break;
                 case MenuConstants.BackButtonName:
-                    if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardSelect)
+                    if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardTypeSelect)
                     {
                         this.ActiveMenu = MenuType.Main;
-                        this.menus[this.ActiveMenu].Reset();
+                    }
+                    else if (this.ActiveMenu == MenuType.LeaderboardSelect)
+                    {
+                        this.ActiveMenu = MenuType.LeaderboardTypeSelect;
                     }
                     else if (this.ActiveMenu == MenuType.Leaderboard)
                     {
                         this.ActiveMenu = MenuType.LeaderboardSelect;
-                        this.menus[this.ActiveMenu].Reset();
                     }
 
+                    this.menus[this.ActiveMenu].Reset();
                     break;
                 case MenuConstants.ContinueButtonName:
                     this.menus[this.ActiveMenu].Reset();

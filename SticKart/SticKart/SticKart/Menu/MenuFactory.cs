@@ -165,7 +165,7 @@ namespace SticKart.Menu
         }
         
         /// <summary>
-        /// Creates a level complete menu.
+        /// Creates a leaderboard menu.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>
         /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
@@ -219,7 +219,7 @@ namespace SticKart.Menu
         }
 
         /// <summary>
-        /// Creates a level complete menu.
+        /// Creates a leaderboard type select menu.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>
         /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
@@ -252,7 +252,7 @@ namespace SticKart.Menu
 
             relativePos.X += largeButtonTile.Width + tileOffset;
             Sprite largeGlobalIcon = new Sprite();
-            largeLocalIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeGlobalIcon);
+            largeGlobalIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeGlobalIcon);
             buttonText = new RenderableText();
             buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.GlobalButtonName.ToLowerInvariant());
             button = new MenuButton(relativePos, largeButtonTile, largeGlobalIcon, buttonText, MenuConstants.GlobalButtonName);

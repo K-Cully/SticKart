@@ -7,6 +7,7 @@
 namespace SticKart.Game.AzureServices
 {
     using System;
+    using System.Collections.ObjectModel;
     using System.Data.Services.Client;
     using System.Linq;
     using System.Net;
@@ -101,6 +102,37 @@ namespace SticKart.Game.AzureServices
             }
 
             return scoreAdded;
+        }
+
+        /// <summary>
+        /// Retrieves the top ten high score entries for a level.
+        /// </summary>
+        /// <param name="levelNumber">The level number.</param>
+        /// <returns>The top ten scores for the level.</returns>
+        public Collection<ScoreNamePair> GetScoresFor(int levelNumber)
+        {
+            Collection<ScoreNamePair> scoreNamePairs = new Collection<ScoreNamePair>();
+            try
+            {
+                Collection<HighScore> scores = new Collection<HighScore>((from score in this.context.HighScores where score.Level == levelNumber orderby score.Score descending select score).ToList());
+                for (int count = 0; count < 10; ++count)
+                {
+                    if (count < scores.Count)
+                    {
+                        scoreNamePairs.Add(new ScoreNamePair(scores[count].Score, scores[count].Name));
+                    }
+                    else
+                    {
+                        scoreNamePairs.Add(new ScoreNamePair(0, "AAA"));
+                    }
+                }
+            }
+            catch
+            {
+                return scoreNamePairs;
+            }
+
+            return scoreNamePairs;
         }
 
         /// <summary>
