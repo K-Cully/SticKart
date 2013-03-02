@@ -219,6 +219,49 @@ namespace SticKart.Menu
         }
 
         /// <summary>
+        /// Creates a level complete menu.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateLeaderboardTypeMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu leaderboardTypeMenu = new Menu(position, 1, 3);
+            MenuButton button = null;
+            RenderableText buttonText = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            float tileOffset = 32.0f;
+            
+            Vector2 relativePos = new Vector2(-(largeButtonTile.Width + tileOffset), 0.0f);
+            Sprite largeBackIcon = new Sprite();
+            largeBackIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, buttonText, MenuConstants.BackButtonName);
+            leaderboardTypeMenu.AddItem(button);
+
+            relativePos.X += largeButtonTile.Width + tileOffset;
+            Sprite largeLocalIcon = new Sprite();
+            largeLocalIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeLocalIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.LocalButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeLocalIcon, buttonText, MenuConstants.LocalButtonName);
+            leaderboardTypeMenu.AddItem(button);
+
+            relativePos.X += largeButtonTile.Width + tileOffset;
+            Sprite largeGlobalIcon = new Sprite();
+            largeLocalIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeGlobalIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.GlobalButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeGlobalIcon, buttonText, MenuConstants.GlobalButtonName);
+            leaderboardTypeMenu.AddItem(button);
+
+            return leaderboardTypeMenu;
+        }
+
+        /// <summary>
         /// Creates a level select menu.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>

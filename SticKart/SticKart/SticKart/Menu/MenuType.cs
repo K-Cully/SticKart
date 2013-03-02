@@ -37,6 +37,11 @@ namespace SticKart.Menu
         LeaderboardSelect,
 
         /// <summary>
+        /// The leaderboard type select menu.
+        /// </summary>
+        LeaderboardTypeSelect,
+
+        /// <summary>
         /// The level selection menu.
         /// </summary>
         LevelSelect,

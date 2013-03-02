@@ -196,6 +196,16 @@ namespace SticKart.Display
         public const string LargeBackIcon = "Sprites/Menu/Back_icon_large";
 
         /// <summary>
+        /// The location of the large global icon texture asset.
+        /// </summary>
+        public const string LargeGlobalIcon = "Sprites/Menu/Global_icon_large";
+
+        /// <summary>
+        /// The location of the large local icon texture asset.
+        /// </summary>
+        public const string LargeLocalIcon = "Sprites/Menu/Local_icon_large";
+
+        /// <summary>
         /// The location of the large leaderboard icon texture asset.
         /// </summary>
         public const string LargeLeaderboardIcon = "Sprites/Menu/Leaderboard_icon_large";

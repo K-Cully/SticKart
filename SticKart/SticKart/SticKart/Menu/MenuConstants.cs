@@ -31,6 +31,16 @@ namespace SticKart.Menu
         public const string LeaderboardButtonName = "LEADERBOARD";
 
         /// <summary>
+        /// The name of the global button.
+        /// </summary>
+        public const string GlobalButtonName = "GLOBAL";
+
+        /// <summary>
+        /// The name of the local button.
+        /// </summary>
+        public const string LocalButtonName = "LOCAL";
+
+        /// <summary>
         /// The name of the exit button.
         /// </summary>
         public const string ExitButtonName = "EXIT";
