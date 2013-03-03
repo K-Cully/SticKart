@@ -10,6 +10,7 @@ namespace SticKart.Game
     using System.IO;
     using System.IO.IsolatedStorage;
     using System.Xml.Serialization;
+    using Audio;
     using AzureServices;
     using Level;
 
@@ -48,8 +49,7 @@ namespace SticKart.Game
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
             this.scoreServiceManager = ScoreServiceManager.Initialize();
-            this.soundEffectsEnabled = true;
-            this.musicEnabled = true;
+            this.soundEffectsEnabled = this.musicEnabled = true;
             this.UploadHighScores = true;
         }
 
@@ -64,8 +64,7 @@ namespace SticKart.Game
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
             this.scoreServiceManager = ScoreServiceManager.Initialize();
-            this.soundEffectsEnabled = true;
-            this.musicEnabled = true;
+            this.soundEffectsEnabled = this.musicEnabled = true;
             this.UploadHighScores = true;
             for (int count = 0; count < this.TotalLevels; ++count)
             {
@@ -99,9 +98,9 @@ namespace SticKart.Game
         public bool UploadHighScores { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating if music is enabled or not.
+        /// Gets or sets a value indicating if audio is enabled or not.
         /// </summary>
-        public bool MusicEnabled
+        public bool AudioEnabled
         {
             get
             {
@@ -110,23 +109,9 @@ namespace SticKart.Game
             set
             {
                 this.musicEnabled = value;
-                Audio.AudioManager.MusicEnabled = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets a value indicating if sound effects are enabled or not.
-        /// </summary>
-        public bool SoundEffectsEnabled
-        {
-            get
-            {
-                return this.soundEffectsEnabled;
-            }
-            set
-            {
                 this.soundEffectsEnabled = value;
-                Audio.AudioManager.SoundEffectsEnabled = value;
+                AudioManager.MusicEnabled = value;
+                AudioManager.SoundEffectsEnabled = value;
             }
         }
 
