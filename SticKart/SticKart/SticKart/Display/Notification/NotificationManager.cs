@@ -185,5 +185,16 @@ namespace SticKart.Display.Notification
                 this.notificationSettings.Save();
             }
         }
+
+        /// <summary>
+        /// Resets which notifications have been displayed.
+        /// </summary>
+        public void Reset()
+        {
+            lock (NotificationManager.mutex)
+            {
+                this.notificationSettings.Reset();
+            }
+        }
     }
 }

@@ -115,6 +115,11 @@ namespace SticKart.Audio
         {
             set
             {
+                if (!value)
+                {
+                    AudioManager.StopBackgroundMusic();
+                }
+
                 AudioManager.musicEnabled = value;
             }
         }

@@ -102,6 +102,8 @@ Content\SFX\diamond.xnb
 Content\SFX\ruby.xnb
 Content\Sprites\Menu\Global_icon_large.xnb
 Content\Sprites\Menu\Local_icon_large.xnb
+Content\Sprites\Menu\Sfx_icon_large.xnb
+Content\Sprites\Menu\Music_icon_large.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma

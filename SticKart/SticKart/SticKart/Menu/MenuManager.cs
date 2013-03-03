@@ -9,6 +9,7 @@ namespace SticKart.Menu
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using Audio;
     using Display;
     using Display.Notification;
     using Game;
@@ -144,9 +145,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.LetterInput4, MenuFactory.CreateLetterInputMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, '4'));
             this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.NamePrompt, MenuFactory.CreateNamePromptMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings.PlayerName));
-
-            // TODO: change name, reset notifications, adjust sounds?
-            this.menus.Add(MenuType.Options, MenuFactory.CreatePlaceholderMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.Options, MenuFactory.CreateOptionsMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings));
         }
 
         /// <summary>
@@ -178,6 +177,10 @@ namespace SticKart.Menu
                     else if (this.ActiveMenu == MenuType.LeaderboardSelect)
                     {
                         this.HandleLeaderboardSelection(selectedItemName, gameSettings);
+                    }
+                    else if (this.ActiveMenu == MenuType.Options)
+                    {
+                        this.HandleOptionsSelection(selectedItemName, ref gameSettings);
                     }
                     else if (this.ActiveMenu == MenuType.NamePrompt || this.ActiveMenu == MenuType.LetterInput || this.ActiveMenu == MenuType.LetterInputA
                         || this.ActiveMenu == MenuType.LetterInputG || this.ActiveMenu == MenuType.LetterInputM || this.ActiveMenu == MenuType.LetterInputS
@@ -349,7 +352,79 @@ namespace SticKart.Menu
         }
 
         #endregion
-        
+
+        /// <summary>
+        /// Manages state and setting changes from the options menu, based on user input.
+        /// </summary>
+        /// <param name="selectedItemName">The name of the selected item.</param>
+        /// <param name="gameSettings">The game settings.</param>
+        private void HandleOptionsSelection(string selectedItemName, ref GameSettings gameSettings)
+        {
+            Collection<MenuItem> optionsItems = this.menus[this.ActiveMenu].MenuItems;
+            int count = 0;
+            for (count = 0; count < optionsItems.Count; count++)
+            {
+                if (optionsItems[count].Type == typeof(MenuButton) && (optionsItems[count] as MenuButton).Name.ToUpperInvariant() == selectedItemName.ToUpperInvariant())
+                {
+                    break;
+                }
+            }
+
+            switch (selectedItemName)
+            {
+                case MenuConstants.MusicButtonName:
+                    gameSettings.MusicEnabled = !gameSettings.MusicEnabled;
+                    if (gameSettings.MusicEnabled)
+                    {
+                        AudioManager.PlayBackgroundMusic(false);
+                        (optionsItems[count] as MenuButton).SetIconText(" ");
+                    }
+                    else
+                    {
+                        (optionsItems[count] as MenuButton).SetIconText("X");
+                    }
+
+                    break;
+                case MenuConstants.SoundEffectsButtonName:
+                    gameSettings.SoundEffectsEnabled = !gameSettings.SoundEffectsEnabled;
+                    if (gameSettings.SoundEffectsEnabled)
+                    {
+                        (optionsItems[count] as MenuButton).SetIconText(" ");
+                    }
+                    else
+                    {
+                        (optionsItems[count] as MenuButton).SetIconText("X");
+                    }
+
+                    break;
+                case MenuConstants.UploadButtonName:
+                    gameSettings.UploadHighScores = !gameSettings.UploadHighScores;
+                    if (gameSettings.UploadHighScores)
+                    {
+                        (optionsItems[count] as MenuButton).SetIconText(" ");
+                    }
+                    else
+                    {
+                        (optionsItems[count] as MenuButton).SetIconText("X");
+                    }
+
+                    break;
+                case MenuConstants.NotificationButtonName:
+                    NotificationManager.Instance.Reset();
+                    break;
+                case MenuConstants.NameButtonName:
+                    this.ActiveMenu = MenuType.NamePrompt;
+                    this.menus[this.ActiveMenu].Reset();
+                    break;
+                case MenuConstants.DoneButtonName:
+                    this.ActiveMenu = MenuType.Main;
+                    this.menus[this.ActiveMenu].Reset();
+                    break;
+                default:
+                    break;
+            }            
+        }
+
         /// <summary>
         /// Manages state changes from the leaderboard select menu, based on user input.
         /// </summary>
@@ -534,7 +609,7 @@ namespace SticKart.Menu
                 case MenuConstants.RetryButtonName:
                     this.menus[this.ActiveMenu].Reset();
                     this.OnBeginLevelDetected(int.MaxValue);
-                    break;                
+                    break;
                 default:
                     break;
             }
