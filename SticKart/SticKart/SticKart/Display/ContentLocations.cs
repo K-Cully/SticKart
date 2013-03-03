@@ -220,15 +220,6 @@ namespace SticKart.Display
         /// </summary>
         public const string LargeSoundEffectsIcon = "Sprites/Menu/Sfx_icon_large";
 
-        /// <summary>
-        /// The location of the large leaderboard icon texture asset.
-        /// </summary>
-        public const string LargeLeaderboardIcon = "Sprites/Menu/Leaderboard_icon_large";
-
-        /// <summary>
-        /// The location of the large leaderboard icon texture asset.
-        /// </summary>
-        public const string LargeLeaderboardIcon = "Sprites/Menu/Leaderboard_icon_large";
         #endregion
 
         #region effects
