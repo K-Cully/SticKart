@@ -260,6 +260,88 @@ namespace SticKart.Menu
 
             return leaderboardTypeMenu;
         }
+        
+        /// <summary>
+        /// Creates an options menu.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <param name="settings">The game settings.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateOptionsMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position, GameSettings settings)
+        {
+            Menu optionsMenu = new Menu(position, 2, 3);
+            MenuButton button = null;
+            RenderableText buttonText = null;
+            RenderableText buttonIconText = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            float tileOffset = 32.0f;
+
+            Vector2 relativePos = new Vector2(-(largeButtonTile.Width + tileOffset), -0.5f * (largeButtonTile.Height + tileOffset));
+
+            // Music toggle
+            Sprite largeMusicIcon = new Sprite();
+            largeMusicIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeMusicIcon);
+            buttonIconText = new RenderableText();
+            buttonIconText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, settings.MusicEnabled ? " " : "X");
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.MusicButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeMusicIcon, buttonIconText, buttonText, MenuConstants.MusicButtonName);
+            optionsMenu.AddItem(button);
+
+            // SFX toggle
+            relativePos.X += largeButtonTile.Width + tileOffset;
+            Sprite largeSoundEffectsIcon = new Sprite();
+            largeSoundEffectsIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeSoundEffectsIcon);
+            buttonIconText = new RenderableText();
+            buttonIconText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, settings.SoundEffectsEnabled ? " " : "X");
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.SoundEffectsButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeSoundEffectsIcon, buttonIconText, buttonText, MenuConstants.SoundEffectsButtonName);
+            optionsMenu.AddItem(button);
+
+            // Upload toggle
+            relativePos.X += largeButtonTile.Width + tileOffset;
+            Sprite largeUploadIcon = new Sprite();
+            largeUploadIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeGlobalIcon);
+            buttonIconText = new RenderableText();
+            buttonIconText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, settings.UploadHighScores ? " " : "X");
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.UploadButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeUploadIcon, buttonIconText, buttonText, MenuConstants.UploadButtonName);
+            optionsMenu.AddItem(button);
+
+            // Reset Notifications
+            relativePos = new Vector2(-(largeButtonTile.Width + tileOffset), 0.5f * (largeButtonTile.Height + tileOffset));
+            buttonIconText = new RenderableText();
+            buttonIconText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, "!");
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.NotificationButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIconText, buttonText, MenuConstants.NotificationButtonName);
+            optionsMenu.AddItem(button);
+
+            // Set Name
+            relativePos.X += largeButtonTile.Width + tileOffset;
+            buttonIconText = new RenderableText();
+            buttonIconText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, "A");
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.NameButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIconText, buttonText, MenuConstants.NameButtonName);
+            optionsMenu.AddItem(button);
+
+            // Done button
+            relativePos.X += largeButtonTile.Width + tileOffset;
+            Sprite largeDoneIcon = new Sprite();
+            largeDoneIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargePlayIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.DoneButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeDoneIcon, buttonText, MenuConstants.DoneButtonName);
+            optionsMenu.AddItem(button);
+
+            return optionsMenu;
+        }
 
         /// <summary>
         /// Creates a level select menu.

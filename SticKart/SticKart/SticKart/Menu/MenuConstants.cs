@@ -70,6 +70,31 @@ namespace SticKart.Menu
         /// </summary>
         public const string PauseCommandName = "PAUSE GAME";
 
+        /// <summary>
+        /// The name of the music toggle command.
+        /// </summary>
+        public const string MusicButtonName = "TOGGLE MUSIC";
+
+        /// <summary>
+        /// The name of the sound effects toggle command.
+        /// </summary>
+        public const string SoundEffectsButtonName = "TOGGLE SOUND EFFECTS";
+
+        /// <summary>
+        /// The name of the high score upload toggle command.
+        /// </summary>
+        public const string UploadButtonName = "TOGGLE SCORE UPLOADS";
+        
+        /// <summary>
+        /// The name of the notification reset command.
+        /// </summary>
+        public const string NotificationButtonName = "RESET HINTS";
+
+        /// <summary>
+        /// The name of the set name command.
+        /// </summary>
+        public const string NameButtonName = "SET PLAYER NAME";
+
         #endregion
 
         #region characterSelect
