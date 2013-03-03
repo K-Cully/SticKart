@@ -27,6 +27,16 @@ namespace SticKart.Game
         /// The score data service manager.
         /// </summary>
         private ScoreServiceManager scoreServiceManager;
+
+        /// <summary>
+        /// A value indicating if music is enabled or not.
+        /// </summary>
+        private bool musicEnabled;
+
+        /// <summary>
+        /// A value indicating if sound effects are enabled or not.
+        /// </summary>
+        private bool soundEffectsEnabled;
         
         /// <summary>
         /// Prevents a default instance of the <see cref="GameSettings"/> class from being created.
@@ -38,6 +48,9 @@ namespace SticKart.Game
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
             this.scoreServiceManager = ScoreServiceManager.Initialize();
+            this.soundEffectsEnabled = true;
+            this.musicEnabled = true;
+            this.UploadHighScores = true;
         }
 
         /// <summary>
@@ -51,6 +64,9 @@ namespace SticKart.Game
             this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
             this.scoreServiceManager = ScoreServiceManager.Initialize();
+            this.soundEffectsEnabled = true;
+            this.musicEnabled = true;
+            this.UploadHighScores = true;
             for (int count = 0; count < this.TotalLevels; ++count)
             {
                 this.LevelScoreTables.Add(new LevelScoreTable(1));
@@ -76,6 +92,43 @@ namespace SticKart.Game
         /// Gets or sets the total number of levels in the game.
         /// </summary>
         public int TotalLevels { get; set; }
+        
+        /// <summary>
+        /// Gets or sets a value indicating whether high scores should be uploaded or not.
+        /// </summary>
+        public bool UploadHighScores { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating if music is enabled or not.
+        /// </summary>
+        public bool MusicEnabled
+        {
+            get
+            {
+                return this.musicEnabled;
+            }
+            set
+            {
+                this.musicEnabled = value;
+                Audio.AudioManager.MusicEnabled = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating if sound effects are enabled or not.
+        /// </summary>
+        public bool SoundEffectsEnabled
+        {
+            get
+            {
+                return this.soundEffectsEnabled;
+            }
+            set
+            {
+                this.soundEffectsEnabled = value;
+                Audio.AudioManager.SoundEffectsEnabled = value;
+            }
+        }
 
         /// <summary>
         /// Loads the game settings from persistent storage.
@@ -165,7 +218,7 @@ namespace SticKart.Game
                     scoreSet = HighScoreType.Local;
                 }
 
-                if (this.scoreServiceManager != null && this.scoreServiceManager.AddScore(new ScoreNamePair(score, this.PlayerName), levelNumber))
+                if (this.UploadHighScores && this.scoreServiceManager != null && this.scoreServiceManager.AddScore(new ScoreNamePair(score, this.PlayerName), levelNumber))
                 {
                     scoreSet = HighScoreType.Global;
                 }
