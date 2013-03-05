@@ -84,6 +84,11 @@ namespace SticKart.Input
         /// <summary>
         /// Command to go to the last page.
         /// </summary>
-        PreviousPage
+        PreviousPage,
+
+        /// <summary>
+        /// Command to go to place an object.
+        /// </summary>
+        Place
     }
 }

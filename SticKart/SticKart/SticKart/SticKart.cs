@@ -265,13 +265,24 @@ namespace SticKart
                 }
             }
 
-            if (this.inputManager.Update(gameTime, false))
+            if (this.inputManager.Update(gameTime, false)) // TODO: add commands to update paramaters
             {
                 // Commands are available.
                 foreach (InputCommand command in this.inputManager.Commands)
                 {
                     switch (command)
                     {
+                        case InputCommand.Pause:
+                            this.PauseGame();
+                            break;
+                        case InputCommand.Exit:
+                            this.PauseGame();
+                            break;
+                        case InputCommand.Place:
+                            this.levelEditor.AddSelectedElement();
+                            break;
+                        default:
+                            break;
                     }
                 }
             }

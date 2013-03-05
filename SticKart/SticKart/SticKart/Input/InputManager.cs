@@ -991,6 +991,9 @@ namespace SticKart.Input
                     case Gestures.GestureType.Push:
                         this.commands.Add(InputCommand.SelectAt);
                         break;
+                    case Gestures.GestureType.Place:
+                        this.commands.Add(InputCommand.Place);
+                        break;
                     default:
                         break;
                 }

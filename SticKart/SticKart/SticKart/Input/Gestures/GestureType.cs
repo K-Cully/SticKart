@@ -59,6 +59,11 @@ namespace SticKart.Input.Gestures
         /// <summary>
         /// A quick rise in the head's position.
         /// </summary>
-        Stand
+        Stand,
+
+        /// <summary>
+        /// The inactive hand is above its connected elbow.
+        /// </summary>
+        Place
     }
 }

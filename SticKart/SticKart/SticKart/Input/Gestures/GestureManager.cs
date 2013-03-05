@@ -247,6 +247,7 @@ namespace SticKart.Input.Gestures
             }
 
             this.skeletonJoints = skeleton.Joints;
+            this.CheckForPoses();
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
             {
                 if (this.skeletonJoints[gestureDetector.JointToTrack].TrackingState != JointTrackingState.NotTracked)
@@ -280,6 +281,27 @@ namespace SticKart.Input.Gestures
             }
 
             return MathHelper.Distance(this.PlayerBodySize, this.CalculateBodySize()) > GestureManager.BodySizeThreshold;
+        }
+
+        /// <summary>
+        /// Checks for any poses which are not handled by the gesture detectors.
+        /// </summary>
+        private void CheckForPoses()
+        {
+            if (this.activeHand == JointType.HandRight)
+            {
+                if (this.skeletonJoints[JointType.HandLeft].Position.Y > this.skeletonJoints[JointType.ElbowLeft].Position.Y)
+                {
+                    this.detectedGestures.Enqueue(GestureType.Place);
+                }
+            }
+            else if (this.activeHand == JointType.HandLeft)
+            {
+                if (this.skeletonJoints[JointType.HandRight].Position.Y > this.skeletonJoints[JointType.ElbowRight].Position.Y)
+                {
+                    this.detectedGestures.Enqueue(GestureType.Place);
+                }
+            } 
         }
 
         /// <summary>
