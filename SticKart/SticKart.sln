@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SticKart_Content", "SticKar
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SticKart_CustomContent", "SticKart_CustomContent\SticKart_CustomContent.csproj", "{264DD867-FD3C-4AC6-9935-3736B0BAC654}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SticKartLevelEditor", "SticKartLevelEditor\SticKartLevelEditor\SticKartLevelEditor.csproj", "{E44D25D4-8896-4741-993A-9CAA8325E2DD}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -25,8 +23,6 @@ Global
 		{264DD867-FD3C-4AC6-9935-3736B0BAC654}.Debug|x86.Build.0 = Debug|x86
 		{264DD867-FD3C-4AC6-9935-3736B0BAC654}.Release|x86.ActiveCfg = Release|x86
 		{264DD867-FD3C-4AC6-9935-3736B0BAC654}.Release|x86.Build.0 = Release|x86
-		{E44D25D4-8896-4741-993A-9CAA8325E2DD}.Debug|x86.ActiveCfg = Debug|x86
-		{E44D25D4-8896-4741-993A-9CAA8325E2DD}.Release|x86.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
