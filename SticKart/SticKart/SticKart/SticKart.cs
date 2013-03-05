@@ -15,26 +15,11 @@ namespace SticKart
     using Game.Entities;
     using Game.Level;
     using Input;
+    using LevelEditor;
     using Menu;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Graphics;
-
-    /// <summary>
-    /// An enumeration of the possible game states.
-    /// </summary>
-    public enum GameState
-    {
-        /// <summary>
-        /// The menu is active.
-        /// </summary>
-        InMenu,
-
-        /// <summary>
-        /// The game is in play.
-        /// </summary>
-        InGame
-    }
-
+    
     /// <summary>
     /// This is the main type for your game
     /// </summary>
@@ -122,6 +107,11 @@ namespace SticKart
         /// </summary>
         private NotificationManager notificationManager;
 
+        /// <summary>
+        /// The game's level editor.
+        /// </summary>
+        private Editor levelEditor; // TODO: add placement timer to editor
+
         #endregion
 
         /// <summary>
@@ -130,7 +120,7 @@ namespace SticKart
         public SticKart()
         {
             this.notificationManager = null;
-            this.gameState = GameState.InMenu;
+            this.gameState = GameState.InEditor;    // TODO: change back to InMenu
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1360.0f, 768.0f);
             this.graphics = new GraphicsDeviceManager(this);
@@ -144,6 +134,8 @@ namespace SticKart
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect, SticKart.DisplayColourStream);
             this.levelManager = new LevelManager(this.screenDimensions, SticKart.FrameTime);
+
+            this.levelEditor = new Editor(this.screenDimensions);
 
             // TODO: add other menu event handlers.
             this.menuManager = new MenuManager(this.screenDimensions);
@@ -181,6 +173,7 @@ namespace SticKart
             this.headsUpDisplay.InitializeAndLoad(this.spriteBatch, this.Content);
             EntitySettingsLoader.LoadEntitySettings(this.Content);
             this.levelManager.LoadContent(this.Content, this.spriteBatch);
+            this.levelEditor.LoadContent(this.spriteBatch, this.Content);
             if (SticKart.DisplayColourStream)
             {
                 this.colourStreamRenderer = new ColourStreamRenderer(this.Content, this.GraphicsDevice);
@@ -222,6 +215,10 @@ namespace SticKart
                     case GameState.InGame:
                         this.UpdateGame(gameTime);
                         break;
+                    case GameState.InEditor:
+                        //this.UpdateMenu(gameTime); // TODO: will probably need this
+                        this.UpdateEditor(gameTime);
+                        break;
                     default:
                         break;
                 }
@@ -233,6 +230,48 @@ namespace SticKart
             }
 
             base.Update(gameTime);
+        }
+
+        /// <summary>
+        /// Updates the level editor.
+        /// </summary>
+        /// <param name="gameTime">Provides a snapshot of timing values.</param>
+        protected void UpdateEditor(GameTime gameTime)
+        {
+            Vector2 handPosition = this.inputManager.HandPosition;
+            this.levelEditor.Update(handPosition + Camera2D.OffsetPosition);
+            if (handPosition.X > this.screenDimensions.X * 0.75f)
+            {
+                float speed = (handPosition.X - (this.screenDimensions.X * 0.75f)) / (this.screenDimensions.X * 0.00025f);
+                //if (Camera2D.OffsetPosition.X + speed < this.levelEditor.MaxLength)
+                //{
+                    Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
+                //}
+                //else
+                //{
+
+                //}
+            }
+            else if (handPosition.X < this.screenDimensions.X * 0.25f)
+            {
+                float speed = (handPosition.X - (this.screenDimensions.X * 0.25f)) / (this.screenDimensions.X * 0.00025f);
+                if (Camera2D.OffsetPosition.X > -speed)
+                {
+                    Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
+                }
+                else
+                {
+                    Camera2D.Update(new Vector2(-Camera2D.OffsetPosition.X, 0.0f), gameTime);
+                }
+            }
+
+            //this.levelEditor.CycleSelection();
+            //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + 16.0f;
+            //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + -16.0f;
+            //this.levelEditor.SaveLevel(true); // TODO: Remove in release
+            //this.levelEditor.SaveLevel(false);
+            //this.levelEditor.LoadLevel(1);
+            //this.levelEditor.CreateNewLevel();
         }
 
         /// <summary>
@@ -357,8 +396,6 @@ namespace SticKart
         /// <param name="value">The value passed from the sender.</param>
         protected void BeginLevel(int value)
         {
-            // TODO: refine.
-            // this.levelManager.EndLevel(); TODO: test this extensively (changed logic).
             Camera2D.Reset();
             this.inputManager.Reset();
             if (value == 0)
@@ -387,7 +424,6 @@ namespace SticKart
         /// <param name="value">The value passed from the sender.</param>
         protected void QuitGame(bool value)
         {
-            // TODO: refine.
             AudioManager.StopBackgroundMusic();
             this.Exit();
         }
@@ -418,6 +454,10 @@ namespace SticKart
                     this.GraphicsDevice.Clear(Color.GhostWhite);
                     this.levelManager.Draw();
                     this.headsUpDisplay.Draw();
+                    break;
+                case GameState.InEditor:
+                    this.GraphicsDevice.Clear(Color.GhostWhite);
+                    this.levelEditor.Draw();
                     break;
                 default:
                     break;

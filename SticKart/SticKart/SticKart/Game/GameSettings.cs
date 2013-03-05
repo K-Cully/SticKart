@@ -100,7 +100,7 @@ namespace SticKart.Game
         public bool UploadHighScores { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating if music is enabled or not.
+        /// Gets or sets a value indicating whether music is enabled or not.
         /// </summary>
         public bool MusicEnabled
         {
@@ -108,6 +108,7 @@ namespace SticKart.Game
             {
                 return this.musicEnabled;
             }
+
             set
             {
                 this.musicEnabled = value;
@@ -116,7 +117,7 @@ namespace SticKart.Game
         }
 
         /// <summary>
-        /// Gets or sets a value indicating if sound effects are enabled or not.
+        /// Gets or sets a value indicating whether sound effects are enabled or not.
         /// </summary>
         public bool SoundEffectsEnabled
         {
@@ -124,6 +125,7 @@ namespace SticKart.Game
             {
                 return this.soundEffectsEnabled;
             }
+
             set
             {
                 this.soundEffectsEnabled = value;

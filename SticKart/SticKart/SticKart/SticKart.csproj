@@ -128,6 +128,7 @@
     <Compile Include="Game\Entities\ScrollingDeath.cs" />
     <Compile Include="Game\Entities\Switch.cs" />
     <Compile Include="Game\GameSettings.cs" />
+    <Compile Include="Game\GameState.cs" />
     <Compile Include="Game\Level\Background.cs" />
     <Compile Include="Game\Level\HighScoreType.cs" />
     <Compile Include="Game\Level\LevelConstants.cs" />
@@ -148,6 +149,10 @@
     <Compile Include="Input\Gestures\HorizontalSwipeGestureDetector.cs" />
     <Compile Include="Input\Gestures\VerticalSwipeGestureDetector.cs" />
     <Compile Include="Input\InputManager.cs" />
+    <Compile Include="LevelEditor\Level.cs" />
+    <Compile Include="LevelEditor\Editor.cs" />
+    <Compile Include="LevelEditor\LevelSerializationConstants.cs" />
+    <Compile Include="LevelEditor\ModifiableEntity.cs" />
     <Compile Include="Menu\ConvertToWords.cs" />
     <Compile Include="Menu\Menu.cs" />
     <Compile Include="Menu\MenuFactory.cs" />

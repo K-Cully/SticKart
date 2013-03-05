@@ -50,7 +50,6 @@ namespace SticKart.Display.Notification
         /// <returns>The new notification.</returns>
         public Notification Create(NotificationType notificationType)
         {
-            // TODO: finish this
             Notification notification = null;
             switch (notificationType)
             {

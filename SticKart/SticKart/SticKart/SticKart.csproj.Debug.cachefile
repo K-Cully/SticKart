@@ -54,6 +54,10 @@ Content\Sprites\Notifications\blank.xnb
 Content\Sprites\Notifications\platform.xnb
 Content\Sprites\Menu\Button_medium.xnb
 Content\Sprites\Menu\Play_icon_medium.xnb
+Content\Sprites\Menu\Global_icon_large.xnb
+Content\Sprites\Menu\Local_icon_large.xnb
+Content\Sprites\Menu\Sfx_icon_large.xnb
+Content\Sprites\Menu\Music_icon_large.xnb
 Content\Fonts\SegoeUIMono.xnb
 Content\Fonts\SegoeUIMonoLarge.xnb
 Content\Fonts\SegoeUIMonoMedium.xnb
@@ -100,10 +104,6 @@ Content\SFX\jumping.xnb
 Content\SFX\landing.xnb
 Content\SFX\diamond.xnb
 Content\SFX\ruby.xnb
-Content\Sprites\Menu\Global_icon_large.xnb
-Content\Sprites\Menu\Local_icon_large.xnb
-Content\Sprites\Menu\Sfx_icon_large.xnb
-Content\Sprites\Menu\Music_icon_large.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma

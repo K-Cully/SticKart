@@ -127,7 +127,7 @@ namespace SticKart.Menu
 
             relativePos = new Vector2(0.0f, -largeButtonTile.Height * 1.1f);
             RenderableText levelComplete = new RenderableText();
-            levelComplete.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.LevelCompleteText); // TODO: test
+            levelComplete.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.LevelCompleteText);
             text = new MenuText(relativePos, levelComplete);
             levelCompleteMenu.AddItem(text);
 
