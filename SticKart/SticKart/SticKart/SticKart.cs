@@ -238,6 +238,7 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateEditor(GameTime gameTime)
         {
+            NotificationManager.AddNotification(NotificationType.Place);
             this.levelEditor.Update(gameTime, this.inputManager.HandPosition, this.inputManager.Commands);            
             this.inputManager.Update(gameTime, false);
 

@@ -32,6 +32,11 @@ namespace SticKart.Display.Notification
         public const string StepForward = "You are too far away.\nPlease step forward.";
 
         /// <summary>
+        /// The text to display for a place notification.
+        /// </summary>
+        public const string Place = "To place an item:\nMove your active hand to\nthe desired position, then\nraise your other hand\nabove your elbow.";
+
+        /// <summary>
         /// The text to display for a push notification.
         /// </summary>
         public const string Push = "To select an item:\nDraw your hand back towards you\nthen push gently forward.";

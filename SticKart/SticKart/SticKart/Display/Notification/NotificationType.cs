@@ -99,6 +99,11 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// A notification about platforms.
         /// </summary>
-        Platform
+        Platform,
+
+        /// <summary>
+        /// A notification about the place pose.
+        /// </summary>
+        Place
     }
 }

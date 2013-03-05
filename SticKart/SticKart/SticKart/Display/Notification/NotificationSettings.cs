@@ -31,6 +31,11 @@ namespace SticKart.Display.Notification
         public bool Push { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the place gesture notification is enabled or not. 
+        /// </summary>
+        public bool Place { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the swipe gesture notification is enabled or not. 
         /// </summary>
         public bool Swipe { get; set; }
@@ -229,6 +234,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.Platform:
                     this.Platform = false;
                     break;
+                case NotificationType.Place:
+                    this.Place = false;
+                    break;
                 default:
                     break;
             }
@@ -298,6 +306,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.Platform:
                     enabled = this.Platform;
                     break;
+                case NotificationType.Place:
+                    enabled = this.Place;
+                    break;
                 default:
                     enabled = false;
                     break;
@@ -311,6 +322,7 @@ namespace SticKart.Display.Notification
         /// </summary>
         public void Reset()
         {
+            this.Place = true;
             this.Bonus = true;
             this.Cart = true;
             this.Crouch = true;

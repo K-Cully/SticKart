@@ -53,6 +53,11 @@ namespace SticKart.Display
         public const string Push = "push";
 
         /// <summary>
+        /// The name of the place animated sprite asset.
+        /// </summary>
+        public const string Place = "place";
+
+        /// <summary>
         /// The name of the swipe animated sprite asset.
         /// </summary>
         public const string Swipe = "swipe";

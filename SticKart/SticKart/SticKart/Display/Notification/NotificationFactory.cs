@@ -82,6 +82,8 @@ namespace SticKart.Display.Notification
                 case NotificationType.Crouch:
                     notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Crouch, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Crouch, 8, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
+                case NotificationType.Place:
+                    notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.Place, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.Place, 10, 0.075f, ContentLocations.NotificationsPath + ContentLocations.Background);                    break;
                 case NotificationType.ScrollingDeath:
                     notification = new Notification(notificationType, this.contentManager, this.spriteBatch, this.displayDimensions / 2.0f, 10.0f, NotificationStrings.ScrollingDeath, ContentLocations.SegoeUIFontMedium, ContentLocations.NotificationsPath + ContentLocations.ScrollingDeath, 7, 0.1f, ContentLocations.NotificationsPath + ContentLocations.Background);
                     break;
