@@ -238,54 +238,8 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateEditor(GameTime gameTime)
         {
-            Vector2 handPosition = this.inputManager.HandPosition;
-            this.levelEditor.Update(handPosition + Camera2D.OffsetPosition);
-            if (handPosition.X > this.screenDimensions.X * 0.75f)
-            {
-                float speed = (handPosition.X - (this.screenDimensions.X * 0.75f)) / (this.screenDimensions.X * 0.00025f);
-                //if (Camera2D.OffsetPosition.X + (speed * (float)gameTime.ElapsedGameTime.TotalSeconds) < this.levelEditor.MaxLength)
-                //{
-                    Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
-                //}
-                //else
-                //{
-
-                //}
-            }
-            else if (handPosition.X < this.screenDimensions.X * 0.25f)
-            {
-                float speed = (handPosition.X - (this.screenDimensions.X * 0.25f)) / (this.screenDimensions.X * 0.00025f);
-                if (Camera2D.OffsetPosition.X > -speed * (float)gameTime.ElapsedGameTime.TotalSeconds)
-                {
-                    Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
-                }
-                else
-                {
-                    Camera2D.Update(new Vector2(-Camera2D.OffsetPosition.X, 0.0f), gameTime);
-                }
-            }
-
-            if (this.inputManager.Update(gameTime, false)) // TODO: add commands to update paramaters
-            {
-                // Commands are available.
-                foreach (InputCommand command in this.inputManager.Commands)
-                {
-                    switch (command)
-                    {
-                        case InputCommand.Pause:
-                            this.PauseGame();
-                            break;
-                        case InputCommand.Exit:
-                            this.PauseGame();
-                            break;
-                        case InputCommand.Place:
-                            this.levelEditor.AddSelectedElement();
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+            this.levelEditor.Update(gameTime, this.inputManager.HandPosition, this.inputManager.Commands);            
+            this.inputManager.Update(gameTime, false);
 
             //this.levelEditor.CycleSelection();
             //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + 16.0f;

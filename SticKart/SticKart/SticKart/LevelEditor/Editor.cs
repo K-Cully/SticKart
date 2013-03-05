@@ -10,6 +10,7 @@ namespace SticKart.LevelEditor
     using System.Collections.Generic;
     using Display;
     using Game.Entities;
+    using Input;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
     using Microsoft.Xna.Framework.Graphics;
@@ -27,7 +28,17 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// The maximum angle of any floor edge.
         /// </summary>
-        private const float MaxFloorAngle = 0.85f; 
+        private const float MaxFloorAngle = 0.85f;
+
+        /// <summary>
+        /// The delay to apply between placing two items.
+        /// </summary>
+        private const float TimeBetweenPlacments = 0.3f;
+
+        /// <summary>
+        /// The maximum length of a level.
+        /// </summary>
+        private const float MaxLength = 2000.0f;
  
         #region sprites
 
@@ -121,6 +132,11 @@ namespace SticKart.LevelEditor
         private Level levelToEdit;
 
         /// <summary>
+        /// The dimensions of the game's viewport.
+        /// </summary>
+        private Vector2 screenDimensions;
+
+        /// <summary>
         /// The width of the next platform.
         /// </summary>
         private float platformWidth;
@@ -139,6 +155,11 @@ namespace SticKart.LevelEditor
         /// The angle of the last floor edge.
         /// </summary>
         private float lastFloorAngle;
+
+        /// <summary>
+        /// The time since the last object was placed.
+        /// </summary>
+        private float timeSinceLastPlace;
         
         /// <summary>
         /// The current position of the user's cursor.
@@ -165,6 +186,7 @@ namespace SticKart.LevelEditor
         /// <param name="screenDimensions">The dimensions of the game area.</param>
         public Editor(Vector2 screenDimensions)
         {
+            this.screenDimensions = screenDimensions;
             this.levelsCreated = 0;
             this.currentLevelNumber = 1;
             this.cursorPosition = Vector2.Zero;
@@ -190,6 +212,7 @@ namespace SticKart.LevelEditor
             this.switchSprite = new Sprite();
             this.cartSprite = new Sprite();
             this.platformWidth = 128.0f;
+            this.timeSinceLastPlace = Editor.TimeBetweenPlacments;
         }
 
         #endregion
@@ -466,57 +489,26 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// Updates the level editor.
         /// </summary>
-        /// <param name="cursorPosition">The user's cursor position.</param>
-        public void Update(Vector2 cursorPosition)
+        /// <param name="gameTime">The game time.</param>
+        /// <param name="cursorScreenPosition">The on-screen cursor position.</param>
+        /// <param name="commands">The list of input commands.</param>
+        public void Update(GameTime gameTime, Vector2 cursorScreenPosition, List<InputCommand> commands)
         {
+            Vector2 cursorPosition = Camera2D.OffsetPosition + cursorScreenPosition;
+            if (this.timeSinceLastPlace < Editor.TimeBetweenPlacments)
+            {
+                this.timeSinceLastPlace += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            }
+
+            this.UpdateCameraPosition(cursorScreenPosition, gameTime);
             this.cursorPosition.X = 8.0f * ((int)cursorPosition.X / 8);
             this.cursorPosition.Y = 8.0f * ((int)cursorPosition.Y / 8);
-
             if (this.EntitySelected == ModifiableEntity.Floor)
             {
-                this.cursorPosition = cursorPosition;
-                if (this.lastFloorPoint == Vector2.Zero)
-                {
-                    this.currentFloorPoint = new Vector2(0.0f, this.cursorPosition.Y);
-                    this.lastFloorAngle = 0.0f;
-                }
-                else
-                {
-                    Vector2 direction = this.cursorPosition - this.lastFloorPoint;
-                    if (direction.X <= 0.0f)
-                    {
-                        direction = Vector2.UnitX;
-                    }
-                    else
-                    {
-                        direction.Normalize();
-                        float edgeAngle = (float)Math.Asin(direction.Y);
-                        float difference = edgeAngle - this.lastFloorAngle;
-                        if (difference < -Editor.MaxFloorAngleDeviation)
-                        {
-                            float newAngle = this.lastFloorAngle - Editor.MaxFloorAngleDeviation;
-                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
-                        }
-                        else if (difference > Editor.MaxFloorAngleDeviation)
-                        {
-                            float newAngle = this.lastFloorAngle + Editor.MaxFloorAngleDeviation;
-                            direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
-                        }
-
-                        edgeAngle = (float)Math.Asin(direction.Y);
-                        if (edgeAngle > Editor.MaxFloorAngle)
-                        {
-                            direction = new Vector2((float)Math.Cos(Editor.MaxFloorAngle), (float)Math.Sin(Editor.MaxFloorAngle));
-                        }
-                        else if (edgeAngle < -Editor.MaxFloorAngle)
-                        {
-                            direction = new Vector2((float)Math.Cos(-Editor.MaxFloorAngle), (float)Math.Sin(-Editor.MaxFloorAngle));
-                        }
-                    }
-
-                    this.currentFloorPoint = this.lastFloorPoint + (direction * this.edgeSprite.Width); 
-                }
+                this.SetFloorAngle(cursorPosition);
             }
+
+            this.ProcessCommands(commands);
         }
 
         #region drawing
@@ -638,5 +630,108 @@ namespace SticKart.LevelEditor
         }
 
         #endregion
+
+        /// <summary>
+        /// Processes any relevant input commands into actions.
+        /// </summary>
+        /// <param name="commands">The list of input commands.</param>
+        private void ProcessCommands(List<InputCommand> commands)
+        {
+            foreach (InputCommand command in commands)
+            {
+                switch (command)
+                {
+                    case InputCommand.Place:
+                        if (this.timeSinceLastPlace >= Editor.TimeBetweenPlacments)
+                        {
+                            this.AddSelectedElement();
+                            this.timeSinceLastPlace = 0.0f;
+                        }
+
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sets the angle of the next floor element to place.
+        /// </summary>
+        /// <param name="cursorPosition">The current cursor position.</param>
+        private void SetFloorAngle(Vector2 cursorPosition)
+        {
+            this.cursorPosition = cursorPosition;
+            if (this.lastFloorPoint == Vector2.Zero)
+            {
+                this.currentFloorPoint = new Vector2(0.0f, this.cursorPosition.Y);
+                this.lastFloorAngle = 0.0f;
+            }
+            else
+            {
+                Vector2 direction = this.cursorPosition - this.lastFloorPoint;
+                if (direction.X <= 0.0f)
+                {
+                    direction = Vector2.UnitX;
+                }
+                else
+                {
+                    direction.Normalize();
+                    float edgeAngle = (float)Math.Asin(direction.Y);
+                    float difference = edgeAngle - this.lastFloorAngle;
+                    if (difference < -Editor.MaxFloorAngleDeviation)
+                    {
+                        float newAngle = this.lastFloorAngle - Editor.MaxFloorAngleDeviation;
+                        direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                    }
+                    else if (difference > Editor.MaxFloorAngleDeviation)
+                    {
+                        float newAngle = this.lastFloorAngle + Editor.MaxFloorAngleDeviation;
+                        direction = new Vector2((float)Math.Cos(newAngle), (float)Math.Sin(newAngle));
+                    }
+
+                    edgeAngle = (float)Math.Asin(direction.Y);
+                    if (edgeAngle > Editor.MaxFloorAngle)
+                    {
+                        direction = new Vector2((float)Math.Cos(Editor.MaxFloorAngle), (float)Math.Sin(Editor.MaxFloorAngle));
+                    }
+                    else if (edgeAngle < -Editor.MaxFloorAngle)
+                    {
+                        direction = new Vector2((float)Math.Cos(-Editor.MaxFloorAngle), (float)Math.Sin(-Editor.MaxFloorAngle));
+                    }
+                }
+
+                this.currentFloorPoint = this.lastFloorPoint + (direction * this.edgeSprite.Width);
+            }
+        }
+
+        /// <summary>
+        /// Updates the camera position.
+        /// </summary>
+        /// <param name="screenCursorPosition">The on-screen cursor position.</param>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateCameraPosition(Vector2 screenCursorPosition, GameTime gameTime)
+        {
+            if (screenCursorPosition.X > this.screenDimensions.X * 0.75f)
+            {
+                float speed = (screenCursorPosition.X - (this.screenDimensions.X * 0.75f)) / (this.screenDimensions.X * 0.00025f);
+                if (Camera2D.OffsetPosition.X + (speed * (float)gameTime.ElapsedGameTime.TotalSeconds) < Editor.MaxLength)
+                {
+                    Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
+                }
+            }
+            else if (screenCursorPosition.X < this.screenDimensions.X * 0.25f)
+            {
+                float speed = (screenCursorPosition.X - (this.screenDimensions.X * 0.25f)) / (this.screenDimensions.X * 0.00025f);
+                if (Camera2D.OffsetPosition.X > -speed * (float)gameTime.ElapsedGameTime.TotalSeconds)
+                {
+                    Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
+                }
+                else
+                {
+                    Camera2D.Update(new Vector2(-Camera2D.OffsetPosition.X, 0.0f), gameTime);
+                }
+            }
+        }
     }
 }
