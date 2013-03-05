@@ -120,7 +120,7 @@ namespace SticKart
         public SticKart()
         {
             this.notificationManager = null;
-            this.gameState = GameState.InEditor;    // TODO: change back to InMenu
+            this.gameState = GameState.InEditor;    // TODO: change back ti InMenu
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1360.0f, 768.0f);
             this.graphics = new GraphicsDeviceManager(this);
@@ -243,7 +243,7 @@ namespace SticKart
             if (handPosition.X > this.screenDimensions.X * 0.75f)
             {
                 float speed = (handPosition.X - (this.screenDimensions.X * 0.75f)) / (this.screenDimensions.X * 0.00025f);
-                //if (Camera2D.OffsetPosition.X + speed < this.levelEditor.MaxLength)
+                //if (Camera2D.OffsetPosition.X + (speed * (float)gameTime.ElapsedGameTime.TotalSeconds) < this.levelEditor.MaxLength)
                 //{
                     Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
                 //}
@@ -255,13 +255,24 @@ namespace SticKart
             else if (handPosition.X < this.screenDimensions.X * 0.25f)
             {
                 float speed = (handPosition.X - (this.screenDimensions.X * 0.25f)) / (this.screenDimensions.X * 0.00025f);
-                if (Camera2D.OffsetPosition.X > -speed)
+                if (Camera2D.OffsetPosition.X > -speed * (float)gameTime.ElapsedGameTime.TotalSeconds)
                 {
                     Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
                 }
                 else
                 {
                     Camera2D.Update(new Vector2(-Camera2D.OffsetPosition.X, 0.0f), gameTime);
+                }
+            }
+
+            if (this.inputManager.Update(gameTime, false))
+            {
+                // Commands are available.
+                foreach (InputCommand command in this.inputManager.Commands)
+                {
+                    switch (command)
+                    {
+                    }
                 }
             }
 
@@ -458,6 +469,15 @@ namespace SticKart
                 case GameState.InEditor:
                     this.GraphicsDevice.Clear(Color.GhostWhite);
                     this.levelEditor.Draw();
+                    if (this.inputManager.HandPosition == Vector2.Zero)
+                    {
+                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f);
+                    }
+                    else
+                    {
+                        Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f);
+                    }
+
                     break;
                 default:
                     break;
