@@ -84,7 +84,7 @@ namespace SticKart.Menu
         }
 
         /// <summary>
-        /// Creates a editor overlay main menu object.
+        /// Creates an editor overlay main menu object.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>
         /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
@@ -108,6 +108,56 @@ namespace SticKart.Menu
             buttonText = new RenderableText();
             buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.MenuButtonName.ToLowerInvariant());
             button = new MenuButton(relativePos, smallButtonTile, buttonIcon, buttonText, MenuConstants.MenuButtonName);
+            editorMenu.AddItem(button);
+
+            // TODO: add other buttons
+
+            return editorMenu;
+        }
+
+        /// <summary>
+        /// Creates an editor overlay main sub menu object.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateEditorSubMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu editorMenu = new Menu(position, 3, 1);
+            MenuButton button = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            float gapBetweenTiles = 32.0f;
+            Vector2 relativePos = Vector2.Zero;
+            Sprite buttonIcon = null;
+            RenderableText buttonText = null;
+
+            // Save
+            relativePos = new Vector2(-largeButtonTile.Width - gapBetweenTiles, 0.0f);
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeSaveIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.SaveButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.SaveButtonName);
+            editorMenu.AddItem(button);
+
+            // Exit
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeExitIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ExitButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.ExitButtonName);
+            editorMenu.AddItem(button);
+
+            // Back
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.BackButtonName);
             editorMenu.AddItem(button);
 
             // TODO: add other buttons

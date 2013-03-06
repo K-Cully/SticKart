@@ -142,6 +142,7 @@ namespace SticKart
             this.menuManager.OnBeginLevelDetected += this.BeginLevel;
             this.menuManager.OnQuitGameDetected += this.QuitGame;
             this.menuManager.OnEditLevelSelected += this.EditLevel;
+            this.menuManager.OnEditorSaveSelected += this.SaveCustomLevel;
             
             this.handSprite = new Sprite();
         }
@@ -243,8 +244,15 @@ namespace SticKart
         {
             NotificationManager.AddNotification(NotificationType.Place);
             this.UpdateMenu(gameTime);
-            this.levelEditor.Update(gameTime, this.inputManager.HandPosition, this.inputManager.Commands);            
-            //this.inputManager.Update(gameTime, false);
+            if (this.menuManager.ActiveMenu == MenuType.CustomContent)
+            {
+                this.gameState = GameState.InMenu;
+            }
+            else if (this.menuManager.ActiveMenu == MenuType.EditorOverlayMain)
+            {
+                this.levelEditor.Update(gameTime, this.inputManager.HandPosition, this.inputManager.Commands);
+            }
+
             if (this.levelEditor.LevelsCreated != this.gameSettings.TotalCustomLevels)
             {
                 this.gameSettings.TotalCustomLevels = this.levelEditor.LevelsCreated;
@@ -253,11 +261,7 @@ namespace SticKart
 
             //this.levelEditor.CycleSelection();
             //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + 16.0f;
-            //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + -16.0f;
-            //this.levelEditor.SaveLevel(true); // TODO: Remove in release
-            //this.levelEditor.SaveLevel(false);
-            //this.levelEditor.LoadLevel(1);
-            //this.levelEditor.CreateNewLevel();
+            //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + -16.0f;           
         }
 
         /// <summary>
@@ -423,6 +427,16 @@ namespace SticKart
                 this.levelEditor.LoadLevel(value);
                 this.gameState = GameState.InEditor;
             }
+        }
+
+        // <summary>
+        /// Event handler for an save custom level event.
+        /// </summary>
+        /// <param name="value">The value passed from the sender.</param>
+        protected void SaveCustomLevel(int value)
+        { 
+            //this.levelEditor.SaveLevel(true); // TODO: Remove in release
+            this.levelEditor.SaveLevel(false);
         }
 
         /// <summary>

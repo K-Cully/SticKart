@@ -79,6 +79,11 @@ namespace SticKart.Menu
         /// </summary>
         public event Action<int> OnEditLevelSelected;
 
+        /// <summary>
+        /// An event triggered on the user selecting to save a custom level.
+        /// </summary>
+        public event Action<int> OnEditorSaveSelected;
+
         #endregion
 
         #region public_accessors
@@ -154,6 +159,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.CustomContent, MenuFactory.CreateCustomContentMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.EditLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.EditorOverlayMain, MenuFactory.CreateEditorMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.EditorOverlayMenu, MenuFactory.CreateEditorSubMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
         }
 
         /// <summary>
@@ -620,6 +626,12 @@ namespace SticKart.Menu
                             this.OnQuitGameDetected(true);
                         }
                     }
+                    else if (this.ActiveMenu == MenuType.EditorOverlayMenu)
+                    {
+                        this.menus[this.ActiveMenu].Reset();
+                        this.ActiveMenu = MenuType.CustomContent;
+                        this.menus[this.ActiveMenu].Reset();                        
+                    }
                     else
                     {
                         this.menus[this.ActiveMenu].Reset();
@@ -629,6 +641,7 @@ namespace SticKart.Menu
 
                     break;
                 case MenuConstants.BackButtonName:
+                    this.menus[this.ActiveMenu].Reset();
                     if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardTypeSelect || this.ActiveMenu == MenuType.CustomContent)
                     {
                         this.ActiveMenu = MenuType.Main;
@@ -640,6 +653,10 @@ namespace SticKart.Menu
                     else if (this.ActiveMenu == MenuType.Leaderboard)
                     {
                         this.ActiveMenu = MenuType.LeaderboardSelect;
+                    }
+                    else if (this.ActiveMenu == MenuType.EditorOverlayMenu)
+                    {
+                        this.ActiveMenu = MenuType.EditorOverlayMain;
                     }
 
                     this.menus[this.ActiveMenu].Reset();
@@ -662,11 +679,24 @@ namespace SticKart.Menu
                     break;
                 case MenuConstants.NewButtonName:
                     this.menus[this.ActiveMenu].Reset();
-                    this.OnEditLevelSelected(0);
+                    if (this.OnEditLevelSelected != null)
+                    {
+                        this.OnEditLevelSelected(0);
+                    }
+
                     break;
                 case MenuConstants.MenuButtonName:
                     this.menus[this.ActiveMenu].Reset();
                     this.ActiveMenu = MenuType.EditorOverlayMenu;
+                    break;
+                case MenuConstants.SaveButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    if (this.OnEditorSaveSelected != null)
+                    {
+                        this.OnEditorSaveSelected(0);
+                    }
+
+                    this.ActiveMenu = MenuType.EditorOverlayMain;
                     break;
                 default:
                     break;

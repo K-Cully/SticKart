@@ -115,6 +115,11 @@ namespace SticKart.Menu
         /// </summary>
         public const string MenuButtonName = "MENU";
 
+        /// <summary>
+        /// The name of the save button.
+        /// </summary>
+        public const string SaveButtonName = "SAVE";
+
         #endregion
 
         #region characterSelect
