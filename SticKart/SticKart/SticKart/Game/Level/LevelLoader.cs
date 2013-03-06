@@ -6,7 +6,11 @@
 
 namespace SticKart.Game.Level
 {
+    using System;
     using System.Collections.Generic;
+    using System.IO;
+    using System.IO.IsolatedStorage;
+    using System.Xml.Serialization;
     using Microsoft.Xna.Framework;
     using Microsoft.Xna.Framework.Content;
  
@@ -101,18 +105,84 @@ namespace SticKart.Game.Level
         {
             if (isCustom)
             {
-                // TODO: load from isolated/local storage
+#if WINDOWS_PHONE
+                using (IsolatedStorageFile levelFile = IsolatedStorageFile.GetUserStoreForApplication())
+#else
+                using (IsolatedStorageFile levelFile = IsolatedStorageFile.GetUserStoreForDomain())
+#endif
+                {
+                    if (levelFile.DirectoryExists(levelNumber.ToString()))
+                    {
+                        this.DeserializeLevelPoints(levelNumber.ToString(), levelFile);
+                        this.DeserializePlatforms(levelNumber.ToString(), levelFile);
+                        this.DeserializeInteractiveEntities(levelNumber.ToString(), levelFile);
+                    }
+                    else
+                    {
+                        throw new Exception("Level " + levelNumber.ToString() + " does not exist.");
+                    }
+                }
             }
             else
             {
                 this.levelPoints = new List<Vector2>(this.contentManager.Load<Vector2[]>(LevelConstants.StandardFilePath + levelNumber.ToString() + "/" + LevelConstants.PointSubPath));
                 this.platformDescriptions = new List<PlatformDescription>(this.contentManager.Load<PlatformDescription[]>(LevelConstants.StandardFilePath + levelNumber.ToString() + "/" + LevelConstants.PlatformSubPath));
                 this.interactiveEntityDescriptions = new List<InteractiveEntityDescription>(this.contentManager.Load<InteractiveEntityDescription[]>(LevelConstants.StandardFilePath + levelNumber.ToString() + "/" + LevelConstants.InteractiveSubPath));
-                this.StartPosition = this.levelPoints[0];
-                this.levelPoints.RemoveAt(0);
-                this.EndPosition = this.levelPoints[0];
-                this.levelPoints.RemoveAt(0);
+            }
+
+            this.StartPosition = this.levelPoints[0];
+            this.levelPoints.RemoveAt(0);
+            this.EndPosition = this.levelPoints[0];
+            this.levelPoints.RemoveAt(0);
+        }
+
+        #region custom_deserialization
+
+        /// <summary>
+        /// Deserializes the start position, exit position and floor points from a file.
+        /// </summary>
+        /// <param name="directory">The level directory name.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void DeserializeLevelPoints(string directory, IsolatedStorageFile levelFile)
+        {
+            this.levelPoints.Clear();
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(directory + "/" + LevelConstants.PointSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<Vector2>));
+                this.levelPoints = (List<Vector2>)deserializer.Deserialize(levelStream);
             }
         }
+
+        /// <summary>
+        /// Deserializes the platforms from a file.
+        /// </summary>
+        /// <param name="directory">The level directory name.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void DeserializePlatforms(string directory, IsolatedStorageFile levelFile)
+        {
+            this.platformDescriptions.Clear();
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(directory + "/" + LevelConstants.PlatformSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<PlatformDescription>));
+                this.platformDescriptions = (List<PlatformDescription>)deserializer.Deserialize(levelStream);
+            }
+        }
+
+        /// <summary>
+        /// Deserializes the interactive entities from a file.
+        /// </summary>
+        /// <param name="directory">The level directory name.</param>
+        /// <param name="levelFile">The isolated storage file.</param>
+        private void DeserializeInteractiveEntities(string directory, IsolatedStorageFile levelFile)
+        {
+            this.interactiveEntityDescriptions.Clear();
+            using (IsolatedStorageFileStream levelStream = new IsolatedStorageFileStream(directory + "/" + LevelConstants.InteractiveSubPath + ".xml", FileMode.OpenOrCreate, levelFile))
+            {
+                XmlSerializer deserializer = new XmlSerializer(typeof(List<InteractiveEntityDescription>));
+                this.interactiveEntityDescriptions = (List<InteractiveEntityDescription>)deserializer.Deserialize(levelStream);
+            }
+        }
+
+        #endregion
     }
 }
