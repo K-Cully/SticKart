@@ -39,7 +39,7 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// The text to display for a swap notification.
         /// </summary>
-        public const string Swap = "To swap between sub-types:\nMove your inactive\nhand across your body.\nOnly available with\ncertain entity types.";
+        public const string Swap = "To swap between sub-types:\nMove your inactive\nhand across your body.";
 
         /// <summary>
         /// The text to display for a push notification.

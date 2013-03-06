@@ -460,6 +460,7 @@ namespace SticKart
         {
             if (value >= 0 && value < 6)
             {
+                NotificationManager.AddNotification(NotificationType.Swap);
                 this.levelEditor.ChangeEntityType(value);
             }
         }
