@@ -470,7 +470,6 @@ namespace SticKart
         /// <param name="value">The value passed from the sender.</param>
         protected void SaveCustomLevel(int value)
         { 
-            //this.levelEditor.SaveLevel(true); // TODO: Remove in release
             this.levelEditor.SaveLevel(false);
         }
 

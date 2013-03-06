@@ -146,7 +146,7 @@ namespace SticKart.Menu
         public const string MainTypeButtonName = "MAIN";
 
         /// <summary>
-        /// The name of the bouns button.
+        /// The name of the bonus button.
         /// </summary>
         public const string BonusButtonName = "BONUS";
 
