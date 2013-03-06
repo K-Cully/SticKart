@@ -288,11 +288,21 @@ namespace SticKart.Input.Gestures
         /// </summary>
         private void CheckForPoses()
         {
+            if (this.skeletonJoints[JointType.HandLeft].TrackingState == JointTrackingState.NotTracked || this.skeletonJoints[JointType.HandRight].TrackingState == JointTrackingState.NotTracked)
+            {
+                return;
+            }
+
             if (this.activeHand == JointType.HandRight)
             {
                 if (this.skeletonJoints[JointType.HandLeft].Position.Y > this.skeletonJoints[JointType.ElbowLeft].Position.Y)
                 {
                     this.detectedGestures.Enqueue(GestureType.Place);
+                }
+
+                if (this.skeletonJoints[JointType.HandLeft].Position.X > this.skeletonJoints[JointType.Spine].Position.X)
+                {
+                    this.detectedGestures.Enqueue(GestureType.Swap);
                 }
             }
             else if (this.activeHand == JointType.HandLeft)
@@ -301,7 +311,12 @@ namespace SticKart.Input.Gestures
                 {
                     this.detectedGestures.Enqueue(GestureType.Place);
                 }
-            } 
+
+                if (this.skeletonJoints[JointType.HandRight].Position.X < this.skeletonJoints[JointType.Spine].Position.X)
+                {
+                    this.detectedGestures.Enqueue(GestureType.Swap);
+                }
+            }
         }
 
         /// <summary>

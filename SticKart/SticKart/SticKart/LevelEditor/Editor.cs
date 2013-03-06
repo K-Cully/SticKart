@@ -692,20 +692,23 @@ namespace SticKart.LevelEditor
         /// <param name="commands">The list of input commands.</param>
         private void ProcessCommands(List<InputCommand> commands)
         {
-            foreach (InputCommand command in commands)
+            if (this.timeSinceLastPlace >= Editor.TimeBetweenPlacments)
             {
-                switch (command)
+                foreach (InputCommand command in commands)
                 {
-                    case InputCommand.Place:
-                        if (this.timeSinceLastPlace >= Editor.TimeBetweenPlacments)
-                        {
+                    switch (command)
+                    {
+                        case InputCommand.Place:
                             this.AddSelectedElement();
                             this.timeSinceLastPlace = 0.0f;
-                        }
-
-                        break;
-                    default:
-                        break;
+                            break;
+                        case InputCommand.Swap:
+                            this.CycleSelection();
+                            this.timeSinceLastPlace = 0.0f;
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
         }

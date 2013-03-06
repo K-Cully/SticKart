@@ -87,8 +87,13 @@ namespace SticKart.Input
         PreviousPage,
 
         /// <summary>
-        /// Command to go to place an object.
+        /// Command to place an object.
         /// </summary>
-        Place
+        Place,
+
+        /// <summary>
+        /// Command to swap the selected object type.
+        /// </summary>
+        Swap
     }
 }

@@ -64,6 +64,11 @@ namespace SticKart.Input.Gestures
         /// <summary>
         /// The inactive hand is above its connected elbow.
         /// </summary>
-        Place
+        Place,
+
+        /// <summary>
+        /// Both hands are very close to each other.
+        /// </summary>
+        Swap
     }
 }
