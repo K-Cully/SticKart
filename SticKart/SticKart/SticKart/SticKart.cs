@@ -127,24 +127,20 @@ namespace SticKart
             this.graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft;
             this.graphics.PreferredBackBufferWidth = (int)this.screenDimensions.X;
             this.graphics.PreferredBackBufferHeight = (int)this.screenDimensions.Y;
-            this.graphics.IsFullScreen = false; // TODO: set to true for release 
-
             Camera2D.Initialize(this.screenDimensions);
             this.headsUpDisplay = new HeadsUpDisplay(this.screenDimensions);
             this.Content.RootDirectory = "Content";
             this.inputManager = new InputManager(this.screenDimensions, ControlDevice.Kinect, SticKart.DisplayColourStream);
             this.levelManager = new LevelManager(this.screenDimensions, SticKart.FrameTime);
-
             this.levelEditor = new Editor(this.screenDimensions);
-
-            // TODO: add other menu event handlers.
             this.menuManager = new MenuManager(this.screenDimensions);
             this.menuManager.OnBeginLevelDetected += this.BeginLevel;
             this.menuManager.OnQuitGameDetected += this.QuitGame;
             this.menuManager.OnEditLevelSelected += this.EditLevel;
             this.menuManager.OnEditorSaveSelected += this.SaveCustomLevel;
-            
+            this.menuManager.OnEditorUndoSelected += this.EditorUndo;
             this.handSprite = new Sprite();
+            this.graphics.IsFullScreen = false; // TODO: set to true for release 
         }
 
         /// <summary>
@@ -444,6 +440,15 @@ namespace SticKart
                 this.levelEditor.LoadLevel(value);
                 this.gameState = GameState.InEditor;
             }
+        }
+
+        /// <summary>
+        /// Event handler for an editor undo event.
+        /// </summary>
+        /// <param name="value">The value passed from the sender.</param>
+        protected void EditorUndo(int value)
+        {
+            this.levelEditor.RemoveSelectedElement();
         }
 
         /// <summary>

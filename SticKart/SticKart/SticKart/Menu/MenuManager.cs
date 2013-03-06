@@ -84,6 +84,11 @@ namespace SticKart.Menu
         /// </summary>
         public event Action<int> OnEditorSaveSelected;
 
+        /// <summary>
+        /// An event triggered on the user selecting to undo from the editor overlay.
+        /// </summary>
+        public event Action<int> OnEditorUndoSelected;
+
         #endregion
 
         #region public_accessors
@@ -721,6 +726,13 @@ namespace SticKart.Menu
                 case MenuConstants.MenuButtonName:
                     this.menus[this.ActiveMenu].Reset();
                     this.ActiveMenu = MenuType.EditorOverlayMenu;
+                    break;
+                case MenuConstants.UndoButtonName:
+                    if (this.OnEditorUndoSelected != null)
+                    {
+                        this.OnEditorUndoSelected(0);
+                    }
+
                     break;
                 case MenuConstants.SaveButtonName:
                     this.menus[this.ActiveMenu].Reset();
