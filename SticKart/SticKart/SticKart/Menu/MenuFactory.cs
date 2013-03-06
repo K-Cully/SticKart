@@ -84,6 +84,63 @@ namespace SticKart.Menu
         }
 
         /// <summary>
+        /// Creates a custom content menu object.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateCustomContentMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu customMenu = new Menu(position, 2, 2);
+            MenuButton button = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            float gapBetweenTiles = 32.0f;
+            Vector2 relativePos = Vector2.Zero;
+            RenderableText buttonText = null;
+            Sprite buttonIcon = null;
+
+            // Play
+            relativePos = new Vector2(-0.5f * (largeButtonTile.Width + gapBetweenTiles), -0.5f * (largeButtonTile.Height + gapBetweenTiles));
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargePlayIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.PlayButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.PlayButtonName);
+            customMenu.AddItem(button);
+
+            // New
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeNewIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.NewButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.NewButtonName);
+            customMenu.AddItem(button);
+
+            // Edit
+            relativePos = new Vector2(-0.5f * (largeButtonTile.Width + gapBetweenTiles), 0.5f * (largeButtonTile.Height + gapBetweenTiles));
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeEditIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.EditButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.EditButtonName);
+            customMenu.AddItem(button);
+
+            // Edit
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.BackButtonName);
+            customMenu.AddItem(button);
+
+            return customMenu;
+        }
+
+        /// <summary>
         /// Creates a level complete menu.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>
@@ -369,8 +426,8 @@ namespace SticKart.Menu
         /// <returns>The new menu created.</returns>
         public static Menu CreateLevelSelectMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position, float screenWidth, GameSettings gameSettings)
         {
-            int pages = (gameSettings.TotalLevels + 1) / 8;
-            pages += (gameSettings.TotalLevels + 1) % 8 == 0 ? 0 : 1;
+            int pages = (GameSettings.TotalLevels + 1) / 8;
+            pages += (GameSettings.TotalLevels + 1) % 8 == 0 ? 0 : 1;
             Menu levelSelectMenu = new Menu(position, 2, 4, pages, screenWidth);
             Sprite largeButtonTile = new Sprite();
             largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
@@ -386,7 +443,7 @@ namespace SticKart.Menu
             int rowOffset = 0;
             int colOffset = 0;
 
-            while (total < gameSettings.TotalLevels + 1)
+            while (total < GameSettings.TotalLevels + 1)
             {
                 MenuButton button = null;
                 Vector2 relativePos = new Vector2(screenCount * screenWidth, 0.0f) + firstTileRelativePos + new Vector2(tileOffset.X * colOffset, tileOffset.Y * rowOffset);
@@ -426,6 +483,77 @@ namespace SticKart.Menu
             }
 
             levelSelectMenu.SelectablesActive = gameSettings.LevelsUnlocked + 1;
+            return levelSelectMenu;
+        }
+
+        /// <summary>
+        /// Creates a custom level select menu.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <param name="screenWidth">The width of the rendering window.</param>
+        /// <param name="gameSettings">The game settings.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateCustomLevelSelectMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position, float screenWidth, GameSettings gameSettings)
+        {
+            int pages = (GameSettings.MaxCustomLevels + 1) / 8;
+            pages += (GameSettings.MaxCustomLevels + 1) % 8 == 0 ? 0 : 1;
+            Menu levelSelectMenu = new Menu(position, 2, 4, pages, screenWidth);
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+
+            float gapBetweenTiles = 32.0f;
+            Vector2 firstTileRelativePos = new Vector2((-largeButtonTile.Width * 1.5f) + (-gapBetweenTiles * 1.5f), (-largeButtonTile.Height - gapBetweenTiles) * 0.5f);
+            Vector2 tileOffset = new Vector2(largeButtonTile.Width + gapBetweenTiles, largeButtonTile.Height + gapBetweenTiles);
+
+            float screenCount = 0.0f;
+            int total = 0;
+            int tilesPerScreen = 8;
+            int columns = 4;
+            int rowOffset = 0;
+            int colOffset = 0;
+
+            while (total < GameSettings.MaxCustomLevels + 1)
+            {
+                MenuButton button = null;
+                Vector2 relativePos = new Vector2(screenCount * screenWidth, 0.0f) + firstTileRelativePos + new Vector2(tileOffset.X * colOffset, tileOffset.Y * rowOffset);
+                if (total == 0)
+                {
+                    Sprite largeBackIcon = new Sprite();
+                    largeBackIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
+                    RenderableText backText = new RenderableText();
+                    backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+                    button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, MenuConstants.BackButtonName);
+                    levelSelectMenu.AddItem(button);
+                }
+                else
+                {
+                    RenderableText text = new RenderableText();
+                    RenderableText largeText = new RenderableText();
+                    string name = ConvertToWords.ConvertIntToWords(total);
+                    text.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, name);
+                    largeText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, total.ToString());
+                    button = new MenuButton(relativePos, largeButtonTile, largeText, text, total.ToString());
+                    levelSelectMenu.AddItem(button);
+                }
+
+                colOffset++;
+                total++;
+                if (total % tilesPerScreen == 0)
+                {
+                    rowOffset = 0;
+                    colOffset = 0;
+                    screenCount++;
+                }
+                else if (total % columns == 0)
+                {
+                    rowOffset++;
+                    colOffset = 0;
+                }
+            }
+
+            levelSelectMenu.SelectablesActive = gameSettings.TotalCustomLevels + 1;
             return levelSelectMenu;
         }
         

@@ -73,6 +73,11 @@ namespace SticKart.Menu
         /// An event triggered on the user selecting to start a new level.
         /// </summary>
         public event Action<int> OnBeginLevelDetected;
+                
+        /// <summary>
+        /// An event triggered on the user selecting to edit a level.
+        /// </summary>
+        public event Action<int> OnEditLevelSelected;
 
         #endregion
 
@@ -146,6 +151,8 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.LevelComplete, MenuFactory.CreateLevelCompleteMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.NamePrompt, MenuFactory.CreateNamePromptMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings.PlayerName));
             this.menus.Add(MenuType.Options, MenuFactory.CreateOptionsMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings));
+            this.menus.Add(MenuType.CustomContent, MenuFactory.CreateCustomContentMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.EditLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
         }
 
         /// <summary>
@@ -537,6 +544,26 @@ namespace SticKart.Menu
         }
 
         /// <summary>
+        /// Manages state changes from the level edit select menu, based on user input.
+        /// </summary>
+        /// <param name="selectedItemName">The name of the selected item.</param>
+        private void HandleLevelEditSelection(string selectedItemName)
+        {
+            try
+            {
+                int level = int.Parse(selectedItemName);
+                if (this.OnEditLevelSelected != null)
+                {
+                    this.OnEditLevelSelected(level);
+                }
+            }
+            catch
+            {
+                this.ActiveMenu = MenuType.CustomContent;
+            }
+        }
+
+        /// <summary>
         /// Manages standard state changes based on menu selection.
         /// </summary>
         /// <param name="selectedItemName">The name of the selected menu item.</param>
@@ -587,7 +614,7 @@ namespace SticKart.Menu
 
                     break;
                 case MenuConstants.BackButtonName:
-                    if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardTypeSelect)
+                    if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardTypeSelect || this.ActiveMenu == MenuType.CustomContent)
                     {
                         this.ActiveMenu = MenuType.Main;
                     }
@@ -609,6 +636,14 @@ namespace SticKart.Menu
                 case MenuConstants.RetryButtonName:
                     this.menus[this.ActiveMenu].Reset();
                     this.OnBeginLevelDetected(int.MaxValue);
+                    break;
+                case MenuConstants.CustomButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.ActiveMenu = MenuType.CustomContent;
+                    break;
+                case MenuConstants.EditButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.ActiveMenu = MenuType.EditLevelSelect;
                     break;
                 default:
                     break;

@@ -36,6 +36,16 @@ namespace SticKart.Menu
         public const string CustomButtonName = "CUSTOM CONTENT";
 
         /// <summary>
+        /// The name of the new level button.
+        /// </summary>
+        public const string NewButtonName = "NEW LEVEL";
+
+        /// <summary>
+        /// The name of the edit level button.
+        /// </summary>
+        public const string EditButtonName = "EDIT LEVEL";
+
+        /// <summary>
         /// The name of the global button.
         /// </summary>
         public const string GlobalButtonName = "GLOBAL";

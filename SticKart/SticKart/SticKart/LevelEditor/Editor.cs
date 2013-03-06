@@ -170,12 +170,7 @@ namespace SticKart.LevelEditor
         /// The current level number.
         /// </summary>
         private int currentLevelNumber;
-
-        /// <summary>
-        /// The number of levels created.
-        /// </summary>
-        private int levelsCreated;
-
+        
         #endregion
 
         #region constructor
@@ -187,7 +182,7 @@ namespace SticKart.LevelEditor
         public Editor(Vector2 screenDimensions)
         {
             this.screenDimensions = screenDimensions;
-            this.levelsCreated = 0;
+            this.LevelsCreated = 0;
             this.currentLevelNumber = 1;
             this.cursorPosition = Vector2.Zero;
             this.lastFloorPoint = Vector2.Zero;
@@ -218,6 +213,11 @@ namespace SticKart.LevelEditor
         #endregion
 
         #region public_accessors
+
+        /// <summary>
+        /// Gets or sets the number of levels created.
+        /// </summary>
+        public int LevelsCreated { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected entity to modify. 
@@ -465,9 +465,9 @@ namespace SticKart.LevelEditor
         public void SaveLevel(bool formatForContentManager)
         {
             this.levelToEdit.Save(this.currentLevelNumber, formatForContentManager);
-            if (this.currentLevelNumber > this.levelsCreated)
+            if (this.currentLevelNumber > this.LevelsCreated)
             {
-                this.levelsCreated++;
+                this.LevelsCreated++;
             }
         }
 
@@ -477,7 +477,7 @@ namespace SticKart.LevelEditor
         public void CreateNewLevel()
         {
             this.levelToEdit.Clear();
-            this.currentLevelNumber = this.levelsCreated + 1;
+            this.currentLevelNumber = this.LevelsCreated + 1;
             this.lastFloorAngle = 0.0f;
             this.lastFloorPoint = Vector2.Zero;
             this.currentFloorPoint = Vector2.Zero;

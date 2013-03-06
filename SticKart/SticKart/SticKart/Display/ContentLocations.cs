@@ -221,6 +221,16 @@ namespace SticKart.Display
         public const string LargeCustomIcon = "Sprites/Menu/Custom_icon_large";
 
         /// <summary>
+        /// The location of the large edit icon texture asset.
+        /// </summary>
+        public const string LargeEditIcon = "Sprites/Menu/Edit_icon_large";
+
+        /// <summary>
+        /// The location of the large new icon texture asset.
+        /// </summary>
+        public const string LargeNewIcon = "Sprites/Menu/New_icon_large";
+
+        /// <summary>
         /// The location of the large music icon texture asset.
         /// </summary>
         public const string LargeMusicIcon = "Sprites/Menu/Music_icon_large";

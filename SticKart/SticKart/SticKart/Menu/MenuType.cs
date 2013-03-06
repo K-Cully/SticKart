@@ -89,6 +89,16 @@ namespace SticKart.Menu
         /// <summary>
         /// The level complete menu.
         /// </summary>
-        LevelComplete
+        LevelComplete,
+
+        /// <summary>
+        /// The custom content menu.
+        /// </summary>
+        CustomContent,
+
+        /// <summary>
+        /// The edit level select menu.
+        /// </summary>
+        EditLevelSelect
     }
 }

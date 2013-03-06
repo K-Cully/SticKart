@@ -174,6 +174,7 @@ namespace SticKart
             EntitySettingsLoader.LoadEntitySettings(this.Content);
             this.levelManager.LoadContent(this.Content, this.spriteBatch);
             this.levelEditor.LoadContent(this.spriteBatch, this.Content);
+            this.levelEditor.LevelsCreated = this.gameSettings.TotalCustomLevels;
             if (SticKart.DisplayColourStream)
             {
                 this.colourStreamRenderer = new ColourStreamRenderer(this.Content, this.GraphicsDevice);
@@ -189,6 +190,7 @@ namespace SticKart
         /// </summary>
         protected override void UnloadContent()
         {
+            this.gameSettings.TotalCustomLevels = this.levelEditor.LevelsCreated;
             this.gameSettings.Save();
             this.notificationManager.Save();
             this.inputManager.Dispose();
@@ -241,6 +243,11 @@ namespace SticKart
             NotificationManager.AddNotification(NotificationType.Place);
             this.levelEditor.Update(gameTime, this.inputManager.HandPosition, this.inputManager.Commands);            
             this.inputManager.Update(gameTime, false);
+            if (this.levelEditor.LevelsCreated != this.gameSettings.TotalCustomLevels)
+            {
+                this.levelEditor.LevelsCreated = this.gameSettings.TotalCustomLevels;
+                // TODO: recreate custom level select menus or set max custom levels and just unlock those which are created???
+            }
 
             //this.levelEditor.CycleSelection();
             //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + 16.0f;

@@ -20,6 +20,16 @@ namespace SticKart.Game
     public class GameSettings
     {
         /// <summary>
+        /// The maximum number of custom levels.
+        /// </summary>
+        public const int MaxCustomLevels = 24;
+
+        /// <summary>
+        /// The total number of levels in the main game.
+        /// </summary>
+        public const int TotalLevels = 5;
+
+        /// <summary>
         /// The name of the settings file.
         /// </summary>
         private static string filename = "settings.xml";
@@ -44,9 +54,9 @@ namespace SticKart.Game
         /// </summary>
         private GameSettings()
         {
+            this.TotalCustomLevels = 0;
             this.PlayerName = "BOB";
             this.LevelsUnlocked = 1;
-            this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
             this.scoreServiceManager = ScoreServiceManager.Initialize();
             this.soundEffectsEnabled = true;
@@ -60,15 +70,15 @@ namespace SticKart.Game
         /// <param name="createDefaults">A value indicating that the default lists should be created.</param>
         private GameSettings(int createDefaults)
         {
+            this.TotalCustomLevels = 0;
             this.PlayerName = "BOB";
             this.LevelsUnlocked = 1;
-            this.TotalLevels = 5;
             this.LevelScoreTables = new Collection<LevelScoreTable>();
             this.scoreServiceManager = ScoreServiceManager.Initialize();
             this.soundEffectsEnabled = true;
             this.musicEnabled = true;
             this.UploadHighScores = true;
-            for (int count = 0; count < this.TotalLevels; ++count)
+            for (int count = 0; count < GameSettings.TotalLevels; ++count)
             {
                 this.LevelScoreTables.Add(new LevelScoreTable(1));
             }
@@ -90,9 +100,9 @@ namespace SticKart.Game
         public int LevelsUnlocked { get; set; }
 
         /// <summary>
-        /// Gets or sets the total number of levels in the game.
+        /// Gets or sets the total number of custom levels in the game.
         /// </summary>
-        public int TotalLevels { get; set; }
+        public int TotalCustomLevels { get; set; }
         
         /// <summary>
         /// Gets or sets a value indicating whether high scores should be uploaded or not.
