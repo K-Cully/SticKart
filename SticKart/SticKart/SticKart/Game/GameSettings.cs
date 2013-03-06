@@ -220,7 +220,7 @@ namespace SticKart.Game
         public HighScoreType AddScore(int levelNumber, int score)
         {
             HighScoreType scoreSet = HighScoreType.None;
-            if (levelNumber < 1 || levelNumber > this.TotalLevels)
+            if (levelNumber < 1 || levelNumber > GameSettings.TotalLevels)
             {
                 scoreSet = HighScoreType.None;
             }
@@ -247,7 +247,7 @@ namespace SticKart.Game
         /// <returns>The high scores for the level or null if input is invalid.</returns>
         public LevelScoreTable GetGlobalScoresFor(int levelNumber)
         {
-            if (levelNumber < 1 || levelNumber > this.TotalLevels)
+            if (levelNumber < 1 || levelNumber > GameSettings.TotalLevels)
             {
                 return null;
             }

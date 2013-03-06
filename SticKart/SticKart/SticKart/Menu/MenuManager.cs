@@ -185,6 +185,10 @@ namespace SticKart.Menu
                     {
                         this.HandleLeaderboardSelection(selectedItemName, gameSettings);
                     }
+                    else if (this.ActiveMenu == MenuType.EditLevelSelect)
+                    {
+                        this.HandleLevelEditSelection(selectedItemName);
+                    }
                     else if (this.ActiveMenu == MenuType.Options)
                     {
                         this.HandleOptionsSelection(selectedItemName, ref gameSettings);
@@ -299,6 +303,16 @@ namespace SticKart.Menu
         {
             this.menus[MenuType.LeaderboardSelect].SelectablesActive = levelsUnlocked + 1;
             this.menus[MenuType.LevelSelect].SelectablesActive = levelsUnlocked + 1;
+        }
+
+        /// <summary>
+        /// Unlocks the menu entries for created levels.
+        /// </summary>
+        /// <param name="levelsCreated">The number of unlocked levels.</param>
+        public void UpdateLevelsCreated(int levelsCreated)
+        {
+            this.menus[MenuType.EditLevelSelect].SelectablesActive = levelsCreated + 1;
+            //this.menus[MenuType.CustomLevelSelect].SelectablesActive = levelsCreated + 1; // TODO: uncomment when added
         }
 
         /// <summary>
@@ -644,6 +658,10 @@ namespace SticKart.Menu
                 case MenuConstants.EditButtonName:
                     this.menus[this.ActiveMenu].Reset();
                     this.ActiveMenu = MenuType.EditLevelSelect;
+                    break;
+                case MenuConstants.NewButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.OnEditLevelSelected(0);
                     break;
                 default:
                     break;

@@ -141,6 +141,7 @@ namespace SticKart
             this.menuManager = new MenuManager(this.screenDimensions);
             this.menuManager.OnBeginLevelDetected += this.BeginLevel;
             this.menuManager.OnQuitGameDetected += this.QuitGame;
+            this.menuManager.OnEditLevelSelected += this.EditLevel;
             
             this.handSprite = new Sprite();
         }
@@ -245,8 +246,8 @@ namespace SticKart
             this.inputManager.Update(gameTime, false);
             if (this.levelEditor.LevelsCreated != this.gameSettings.TotalCustomLevels)
             {
-                this.levelEditor.LevelsCreated = this.gameSettings.TotalCustomLevels;
-                // TODO: recreate custom level select menus or set max custom levels and just unlock those which are created???
+                this.gameSettings.TotalCustomLevels = this.levelEditor.LevelsCreated;
+                this.menuManager.UpdateLevelsCreated(this.gameSettings.TotalCustomLevels);
             }
 
             //this.levelEditor.CycleSelection();
@@ -267,7 +268,8 @@ namespace SticKart
             this.levelManager.Update(gameTime, this.inputManager.Commands);
             if (this.levelManager.Complete)
             {
-                if (this.levelManager.CurrentLevel < this.gameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
+                // TODO: if custom level
+                if (this.levelManager.CurrentLevel < GameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
                 {
                     this.gameSettings.LevelsUnlocked += 1;
                     this.menuManager.UpdateLevelsUnlocked(this.gameSettings.LevelsUnlocked);
@@ -391,7 +393,7 @@ namespace SticKart
                 value = this.levelManager.CurrentLevel;
             }
 
-            if (value <= this.gameSettings.TotalLevels)
+            if (value <= GameSettings.TotalLevels)
             {
                 this.gameState = GameState.InGame;
                 this.levelManager.BeginLevel(value, false);
@@ -399,6 +401,26 @@ namespace SticKart
             else
             {
                 // TODO: Game complete (roll credits)
+            }
+        }
+
+        // <summary>
+        /// Event handler for an edit level event.
+        /// </summary>
+        /// <param name="value">The value passed from the sender.</param>
+        protected void EditLevel(int value)
+        {
+            if (value == 0)
+            {
+                //this.menuManager.ActiveMenu = MenuType.Editor;    // TODO: add editor overlay menu 
+                this.levelEditor.CreateNewLevel();
+                this.gameState = GameState.InEditor;
+            }
+            else if (value > 0 && value <= GameSettings.MaxCustomLevels && value <= this.gameSettings.TotalCustomLevels)
+            {
+                //this.menuManager.ActiveMenu = MenuType.Editor;    // TODO: add editor overlay menu 
+                this.levelEditor.LoadLevel(value);
+                this.gameState = GameState.InEditor;
             }
         }
 
