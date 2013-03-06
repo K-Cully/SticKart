@@ -39,6 +39,16 @@ namespace SticKart.LevelEditor
         /// The maximum length of a level.
         /// </summary>
         private const float MaxLength = 2000.0f;
+
+        /// <summary>
+        /// The length of a small platform, in pixels.
+        /// </summary>
+        private const float SmallPlatformLength = 128.0f;
+
+        /// <summary>
+        /// The length of the largest platform, in pixels.
+        /// </summary>
+        private const float MaxPlatformLength = SmallPlatformLength * 4.0f;
  
         #region sprites
 
@@ -206,7 +216,7 @@ namespace SticKart.LevelEditor
             this.rubySprite = new Sprite();
             this.switchSprite = new Sprite();
             this.cartSprite = new Sprite();
-            this.platformWidth = 128.0f;
+            this.platformWidth = Editor.SmallPlatformLength;
             this.timeSinceLastPlace = Editor.TimeBetweenPlacments;
         }
 
@@ -384,12 +394,50 @@ namespace SticKart.LevelEditor
         }
 
         /// <summary>
+        /// Changes the main type of entity being placed.
+        /// </summary>
+        /// <param name="subTypeValue">The entity sub type value.</param>
+        public void ChangeEntityType(int subTypeValue)
+        {
+            if (this.EntitySelected == ModifiableEntity.Switch)
+            {
+                this.levelToEdit.RemoveLastInteractiveEntity();
+            }
+
+            switch (subTypeValue)
+            {
+                case 0:
+                    this.EntitySelected = ModifiableEntity.Floor;
+                    break;
+                case 1:
+                    this.EntitySelected = ModifiableEntity.Platform;
+                    this.platformWidth = Editor.SmallPlatformLength;
+                    break;
+                case 2:
+                    this.EntitySelected = ModifiableEntity.StartPosition;
+                    break;
+                case 3:
+                    this.EntitySelected = ModifiableEntity.Coin;
+                    break;
+                case 4:
+                    this.EntitySelected = ModifiableEntity.Rock;
+                    break;
+                case 5:
+                    this.EntitySelected = ModifiableEntity.Health;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Moves the selected entity to the next in the list.
         /// </summary>
         public void CycleSelection()
         {
             switch (this.EntitySelected)
             {
+                    // TODO: update these
                 case ModifiableEntity.Floor:
                     this.EntitySelected = ModifiableEntity.StartPosition;
                     break;

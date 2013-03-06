@@ -216,6 +216,10 @@ namespace SticKart.Menu
                     {
                         this.HandleOptionsSelection(selectedItemName, ref gameSettings);
                     }
+                    else if (this.ActiveMenu == MenuType.EditorOverlayType)
+                    {
+                        this.HandleEditorTypeSelection(selectedItemName);
+                    }
                     else if (this.ActiveMenu == MenuType.NamePrompt || this.ActiveMenu == MenuType.LetterInput || this.ActiveMenu == MenuType.LetterInputA
                         || this.ActiveMenu == MenuType.LetterInputG || this.ActiveMenu == MenuType.LetterInputM || this.ActiveMenu == MenuType.LetterInputS
                         || this.ActiveMenu == MenuType.LetterInputY || this.ActiveMenu == MenuType.LetterInput4)
@@ -434,7 +438,7 @@ namespace SticKart.Menu
                 this.ActiveMenu = MenuType.EditorOverlayMain;
                 if (this.OnEditorTypeSelected != null)
                 {
-                    this.OnEditorSaveSelected(type);
+                    this.OnEditorTypeSelected(type);
                 }
             }
         }
