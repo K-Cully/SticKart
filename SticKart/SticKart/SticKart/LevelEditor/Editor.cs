@@ -437,18 +437,27 @@ namespace SticKart.LevelEditor
         {
             switch (this.EntitySelected)
             {
-                    // TODO: update these
                 case ModifiableEntity.Floor:
-                    this.EntitySelected = ModifiableEntity.StartPosition;
+                    break;
+                case ModifiableEntity.Platform:
+                    if (this.platformWidth < Editor.MaxPlatformLength)
+                    {
+                        this.platformWidth += Editor.SmallPlatformLength;
+                    }
+                    else
+                    {
+                        this.platformWidth = Editor.SmallPlatformLength;
+                    }
+
                     break;
                 case ModifiableEntity.StartPosition:
                     this.EntitySelected = ModifiableEntity.ExitPosition;
                     break;
                 case ModifiableEntity.ExitPosition:
-                    this.EntitySelected = ModifiableEntity.Platform;
+                    this.EntitySelected = ModifiableEntity.Cart;
                     break;
-                case ModifiableEntity.Platform:
-                    this.EntitySelected = ModifiableEntity.Invincible;
+                case ModifiableEntity.Cart:
+                    this.EntitySelected = ModifiableEntity.StartPosition;
                     break;
                 case ModifiableEntity.Invincible:
                     this.EntitySelected = ModifiableEntity.Speed;
@@ -460,7 +469,16 @@ namespace SticKart.LevelEditor
                     this.EntitySelected = ModifiableEntity.Health;
                     break;
                 case ModifiableEntity.Health:
-                    this.EntitySelected = ModifiableEntity.Fire;
+                    this.EntitySelected = ModifiableEntity.Invincible;
+                    break;
+                case ModifiableEntity.Coin:
+                    this.EntitySelected = ModifiableEntity.Ruby;
+                    break;
+                case ModifiableEntity.Ruby:
+                    this.EntitySelected = ModifiableEntity.Diamond;
+                    break;
+                case ModifiableEntity.Diamond:
+                    this.EntitySelected = ModifiableEntity.Coin;
                     break;
                 case ModifiableEntity.Fire:
                     this.EntitySelected = ModifiableEntity.Rock;
@@ -469,19 +487,7 @@ namespace SticKart.LevelEditor
                     this.EntitySelected = ModifiableEntity.Spike;
                     break;
                 case ModifiableEntity.Spike:
-                    this.EntitySelected = ModifiableEntity.Cart;
-                    break;
-                case ModifiableEntity.Cart:
-                    this.EntitySelected = ModifiableEntity.Coin;
-                    break;
-                case ModifiableEntity.Coin:
-                    this.EntitySelected = ModifiableEntity.Ruby;                    
-                    break;
-                case ModifiableEntity.Ruby:
-                    this.EntitySelected = ModifiableEntity.Diamond;
-                    break;
-                case ModifiableEntity.Diamond:
-                    this.EntitySelected = ModifiableEntity.Floor;
+                    this.EntitySelected = ModifiableEntity.Fire;
                     break;
                 default:
                     break;
