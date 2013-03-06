@@ -216,6 +216,11 @@ namespace SticKart.Display
         public const string LargeLeaderboardIcon = "Sprites/Menu/Leaderboard_icon_large";
 
         /// <summary>
+        /// The location of the large custom icon texture asset.
+        /// </summary>
+        public const string LargeCustomIcon = "Sprites/Menu/Custom_icon_large";
+
+        /// <summary>
         /// The location of the large music icon texture asset.
         /// </summary>
         public const string LargeMusicIcon = "Sprites/Menu/Music_icon_large";

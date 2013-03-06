@@ -31,6 +31,11 @@ namespace SticKart.Menu
         public const string LeaderboardButtonName = "LEADERBOARD";
 
         /// <summary>
+        /// The name of the custom content button.
+        /// </summary>
+        public const string CustomButtonName = "CUSTOM CONTENT";
+
+        /// <summary>
         /// The name of the global button.
         /// </summary>
         public const string GlobalButtonName = "GLOBAL";

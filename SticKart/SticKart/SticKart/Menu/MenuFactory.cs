@@ -26,44 +26,59 @@ namespace SticKart.Menu
         /// <returns>The new menu created.</returns>
         public static Menu CreateMainMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
         {
-            Menu mainMenu = new Menu(position, 2, 2);
+            Menu mainMenu = new Menu(position, 2, 3);
             MenuButton button = null;
             Sprite largeButtonTile = new Sprite();
             largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);            
             float gapBetweenTiles = 32.0f;
             Vector2 relativePos = Vector2.Zero;
-
+            
+            // Play
+            relativePos = new Vector2(-largeButtonTile.Width - gapBetweenTiles, (-largeButtonTile.Height - gapBetweenTiles) * 0.5f);
             Sprite largePlayIcon = new Sprite();
             largePlayIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargePlayIcon);
             RenderableText playGameText = new RenderableText();
             playGameText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.PlayButtonName.ToLowerInvariant());
-            relativePos = new Vector2((-largeButtonTile.Width - gapBetweenTiles) * 0.5f, (-largeButtonTile.Height - gapBetweenTiles) * 0.5f);
             button = new MenuButton(relativePos, largeButtonTile, largePlayIcon, playGameText, MenuConstants.PlayButtonName);
             mainMenu.AddItem(button);
 
+            // Options
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
             Sprite largeOptionsIcon = new Sprite();
             largeOptionsIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeOptionsIcon);
             RenderableText optionsText = new RenderableText();
             optionsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.OptionsButtonName.ToLowerInvariant());
-            relativePos = new Vector2((largeButtonTile.Width + gapBetweenTiles) * 0.5f, (-largeButtonTile.Height - gapBetweenTiles) * 0.5f);
             button = new MenuButton(relativePos, largeButtonTile, largeOptionsIcon, optionsText, MenuConstants.OptionsButtonName);
             mainMenu.AddItem(button);
-            
+
+            // High scores
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
             Sprite largeLeaderboardIcon = new Sprite();
             largeLeaderboardIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeLeaderboardIcon);
             RenderableText leaderboardText = new RenderableText();
             leaderboardText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.LeaderboardButtonName.ToLowerInvariant());
-            relativePos = new Vector2((-largeButtonTile.Width - gapBetweenTiles) * 0.5f, (largeButtonTile.Height + gapBetweenTiles) * 0.5f);
             button = new MenuButton(relativePos, largeButtonTile, largeLeaderboardIcon, leaderboardText, MenuConstants.LeaderboardButtonName);
             mainMenu.AddItem(button);
+            
+            // Custom content
+            relativePos = new Vector2(-largeButtonTile.Width - gapBetweenTiles, (largeButtonTile.Height + gapBetweenTiles) * 0.5f);
+            Sprite largeCustomIcon = new Sprite();
+            largeCustomIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeCustomIcon);
+            RenderableText customText = new RenderableText();
+            customText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.CustomButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeCustomIcon, customText, MenuConstants.CustomButtonName);
+            mainMenu.AddItem(button);
 
+            // Exit
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
             Sprite largeExitIcon = new Sprite();
             largeExitIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeExitIcon);
             RenderableText exitText = new RenderableText();
             exitText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ExitButtonName.ToLowerInvariant());
-            relativePos = new Vector2((largeButtonTile.Width + gapBetweenTiles) * 0.5f, (largeButtonTile.Height + gapBetweenTiles) * 0.5f);
             button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, MenuConstants.ExitButtonName);
             mainMenu.AddItem(button);
+
+            // TODO: Add about menu here.
 
             return mainMenu;
         }

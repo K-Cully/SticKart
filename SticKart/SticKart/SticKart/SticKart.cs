@@ -120,7 +120,7 @@ namespace SticKart
         public SticKart()
         {
             this.notificationManager = null;
-            this.gameState = GameState.InEditor;    // TODO: change back to InMenu
+            this.gameState = GameState.InMenu;
             this.TargetElapsedTime = TimeSpan.FromSeconds(SticKart.FrameTime); 
             this.screenDimensions = new Vector2(1360.0f, 768.0f);
             this.graphics = new GraphicsDeviceManager(this);
