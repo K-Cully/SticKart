@@ -255,6 +255,36 @@ namespace SticKart.Display
         /// </summary>
         public const string LargeSoundEffectsIcon = "Sprites/Menu/Sfx_icon_large";
 
+        /// <summary>
+        /// The location of the large floor icon texture asset.
+        /// </summary>
+        public const string LargeFloorIcon = "Sprites/Menu/Floor_icon_large";
+
+        /// <summary>
+        /// The location of the large platform icon texture asset.
+        /// </summary>
+        public const string LargePlatformIcon = "Sprites/Menu/Platform_icon_large";
+        
+        /// <summary>
+        /// The location of the large main type icon texture asset.
+        /// </summary>
+        public const string LargeMainTypeIcon = "Sprites/Menu/Main_icon_large";
+        
+        /// <summary>
+        /// The location of the large bonus icon texture asset.
+        /// </summary>
+        public const string LargeBonusIcon = "Sprites/Menu/Bonus_icon_large";
+        
+        /// <summary>
+        /// The location of the large obstacle icon texture asset.
+        /// </summary>
+        public const string LargeObstacleIcon = "Sprites/Menu/Obstacle_icon_large";
+        
+        /// <summary>
+        /// The location of the large power up icon texture asset.
+        /// </summary>
+        public const string LargePowerUpIcon = "Sprites/Menu/PowerUp_icon_large";
+        
         #endregion
 
         #region effects

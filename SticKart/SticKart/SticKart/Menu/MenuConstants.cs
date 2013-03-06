@@ -130,6 +130,36 @@ namespace SticKart.Menu
         /// </summary>
         public const string SaveButtonName = "SAVE";
 
+        /// <summary>
+        /// The name of the floor button.
+        /// </summary>
+        public const string FloorButtonName = "FLOOR";
+
+        /// <summary>
+        /// The name of the platform button.
+        /// </summary>
+        public const string PlatformButtonName = "PLATFORM";
+
+        /// <summary>
+        /// The name of the main type button.
+        /// </summary>
+        public const string MainTypeButtonName = "MAIN";
+
+        /// <summary>
+        /// The name of the bouns button.
+        /// </summary>
+        public const string BonusButtonName = "BONUS";
+
+        /// <summary>
+        /// The name of the obstacle button.
+        /// </summary>
+        public const string ObstacleButtonName = "OBSTACLE";
+
+        /// <summary>
+        /// The name of the power up button.
+        /// </summary>
+        public const string PowerUpButtonName = "POWER UP";
+
         #endregion
 
         #region characterSelect
