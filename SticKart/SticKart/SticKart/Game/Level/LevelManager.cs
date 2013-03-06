@@ -228,6 +228,11 @@ namespace SticKart.Game.Level
         public bool Complete { get; private set; }
 
         /// <summary>
+        /// Gets a value indicating whether the current level is custom or not.
+        /// </summary>
+        public bool CurrentLevelCustom { get; private set; }
+
+        /// <summary>
         /// Gets The current level number.
         /// </summary>
         public int CurrentLevel { get; private set; }
@@ -241,6 +246,7 @@ namespace SticKart.Game.Level
         /// <param name="spriteBatch">The sprite batch to render using.</param>
         public void LoadContent(ContentManager contentManager, SpriteBatch spriteBatch)
         {
+            this.CurrentLevelCustom = false;
             this.physicsWorld = new World(ConvertUnits.ToSimUnits(new Vector2(0.0f, 348.8f)));
             this.contentManager = contentManager;
             this.spriteBatch = spriteBatch;
@@ -261,16 +267,14 @@ namespace SticKart.Game.Level
         /// <param name="isCustom">Whether the level is a custom level or not.</param>
         public void BeginLevel(int levelNumber, bool isCustom)
         {
+            this.CurrentLevelCustom = isCustom;
             this.Complete = false;
             this.CurrentLevel = levelNumber > 0 ? levelNumber : 1;
             this.currentLevelCustom = isCustom;
             this.scrollingDeath = new ScrollingDeath(ref this.physicsWorld, this.gameDisplayResolution.Y, LevelConstants.MinimumScrollRate, LevelConstants.MaximumScrollRate, LevelConstants.ScrollRate, LevelConstants.ScrollAcceleration, LevelConstants.ScrollDeceleration, this.contentManager);
             this.scrollStartTimer = 0.0f;
-            
-            // TODO: Implement logic to allow for custom levels.
             this.physicsWorld.ClearForces();
             this.levelLoader.LoadLevel(this.CurrentLevel, this.currentLevelCustom);
-
             LevelFactory.CreateFloor(this.levelLoader.FloorPoints, ref this.physicsWorld, ref this.floorEdges, ref this.visualFloorEdges, this.gameDisplayResolution.Y);
             LevelFactory.CreatePlatforms(this.levelLoader.PlatformDescriptions, ref this.physicsWorld, ref this.platforms, this.spriteBatch, this.contentManager);
             LevelFactory.CreateInteractiveEntities(this.levelLoader.InteractiveDescriptions, ref this.physicsWorld, ref this.interactiveEntities, ref this.mineCart, ref this.cartSwitch, this.spriteBatch, this.contentManager);

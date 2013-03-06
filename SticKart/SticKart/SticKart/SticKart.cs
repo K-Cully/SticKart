@@ -220,7 +220,6 @@ namespace SticKart
                         this.UpdateGame(gameTime);
                         break;
                     case GameState.InEditor:
-                        //this.UpdateMenu(gameTime); // TODO: will probably need this
                         this.UpdateEditor(gameTime);
                         break;
                     default:
@@ -273,16 +272,23 @@ namespace SticKart
             this.levelManager.Update(gameTime, this.inputManager.Commands);
             if (this.levelManager.Complete)
             {
-                // TODO: if custom level
-                if (this.levelManager.CurrentLevel < GameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
-                {
-                    this.gameSettings.LevelsUnlocked += 1;
-                    this.menuManager.UpdateLevelsUnlocked(this.gameSettings.LevelsUnlocked);
-                }
-
                 this.gameState = GameState.InMenu;
                 this.menuManager.ActiveMenu = MenuType.LevelComplete;
-                this.menuManager.SetLevelCompleteMenuText(this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore), this.levelManager.PlayerScore, this.levelManager.GetRating());
+                if (!this.levelManager.CurrentLevelCustom)
+                {
+                    if (this.levelManager.CurrentLevel < GameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
+                    {
+                        this.gameSettings.LevelsUnlocked += 1;
+                        this.menuManager.UpdateLevelsUnlocked(this.gameSettings.LevelsUnlocked);
+                    }
+
+                    this.menuManager.SetLevelCompleteMenuText(this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore), this.levelManager.PlayerScore, this.levelManager.GetRating());
+                }
+                else
+                {
+                    this.menuManager.SetLevelCompleteMenuText(HighScoreType.Local, this.levelManager.PlayerScore, this.levelManager.GetRating());
+                }
+
                 this.levelManager.EndLevel();
                 AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
             }
@@ -387,31 +393,40 @@ namespace SticKart
         /// <param name="value">The value passed from the sender.</param>
         protected void BeginLevel(int value)
         {
-            bool isCustom = value < 0;
-            if (isCustom)
+            if (value == 0 && this.levelManager.CurrentLevelCustom)
             {
-                value *= -1;
-            }
-
-            Camera2D.Reset();
-            this.inputManager.Reset();
-            if (value == 0)
-            {
-                value = this.levelManager.CurrentLevel + 1;
-            }
-            else if (value == int.MaxValue)
-            {
-                value = this.levelManager.CurrentLevel;
-            }
-
-            if (value <= GameSettings.TotalLevels)
-            {
-                this.gameState = GameState.InGame;
-                this.levelManager.BeginLevel(value, isCustom);
+                this.gameState = GameState.InMenu;
+                this.menuManager.ActiveMenu = MenuType.CustomContent;
             }
             else
             {
-                // TODO: Game complete (roll credits)
+                bool isCustom = value < 0;
+                if (isCustom)
+                {
+                    value *= -1;
+                }
+
+                Camera2D.Reset();
+                this.inputManager.Reset();
+                if (value == 0)
+                {
+                    value = this.levelManager.CurrentLevel + 1;
+                }
+                else if (value == int.MaxValue)
+                {
+                    value = this.levelManager.CurrentLevel;
+                    isCustom = this.levelManager.CurrentLevelCustom;
+                }
+
+                if (value <= GameSettings.TotalLevels)
+                {
+                    this.gameState = GameState.InGame;
+                    this.levelManager.BeginLevel(value, isCustom);
+                }
+                else
+                {
+                    // TODO: Game complete (roll credits)
+                }
             }
         }
 
