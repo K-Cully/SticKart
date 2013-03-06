@@ -111,6 +111,12 @@ Content\Sprites\Menu\Edit_icon_large.xnb
 Content\Sprites\Menu\Menu_icon_medium.xnb
 Content\Sprites\Menu\Save_icon_large.xnb
 Content\Sprites\Menu\Restart_icon_medium.xnb
+Content\Sprites\Menu\Platform_icon_large.xnb
+Content\Sprites\Menu\PowerUp_icon_large.xnb
+Content\Sprites\Menu\Obstacle_icon_large.xnb
+Content\Sprites\Menu\Bonus_icon_large.xnb
+Content\Sprites\Menu\Main_icon_large.xnb
+Content\Sprites\Menu\Floor_icon_large.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma

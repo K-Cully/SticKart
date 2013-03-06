@@ -114,6 +114,11 @@ namespace SticKart.Menu
         /// <summary>
         /// The editor overlay sub menu.
         /// </summary>
-        EditorOverlayMenu
+        EditorOverlayMenu,
+
+        /// <summary>
+        /// The editor overlay type menu.
+        /// </summary>
+        EditorOverlayType
     }
 }

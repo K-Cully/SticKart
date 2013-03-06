@@ -139,6 +139,7 @@ namespace SticKart
             this.menuManager.OnEditLevelSelected += this.EditLevel;
             this.menuManager.OnEditorSaveSelected += this.SaveCustomLevel;
             this.menuManager.OnEditorUndoSelected += this.EditorUndo;
+            this.menuManager.OnEditorTypeSelected += this.EditorChangeType;
             this.handSprite = new Sprite();
             this.graphics.IsFullScreen = false; // TODO: set to true for release 
         }
@@ -449,6 +450,18 @@ namespace SticKart
         protected void EditorUndo(int value)
         {
             this.levelEditor.RemoveSelectedElement();
+        }
+
+        /// <summary>
+        /// Event handler for an editor type change event event.
+        /// </summary>
+        /// <param name="value">The value passed from the sender.</param>
+        protected void EditorChangeType(int value)
+        {
+            if (value >= 0 && value < 6)
+            {
+                this.levelEditor.ChangeEntityType(value);
+            }
         }
 
         /// <summary>

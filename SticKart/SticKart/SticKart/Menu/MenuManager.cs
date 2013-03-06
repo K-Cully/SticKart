@@ -89,6 +89,11 @@ namespace SticKart.Menu
         /// </summary>
         public event Action<int> OnEditorUndoSelected;
 
+        /// <summary>
+        /// An event triggered on the user selecting an entity type from the editor overlay.
+        /// </summary>
+        public event Action<int> OnEditorTypeSelected;
+
         #endregion
 
         #region public_accessors
@@ -166,6 +171,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.EditorOverlayMain, MenuFactory.CreateEditorMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.EditorOverlayMenu, MenuFactory.CreateEditorSubMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.CustomLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
+            this.menus.Add(MenuType.EditorOverlayType, MenuFactory.CreateEditorTypeMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
         }
 
         /// <summary>
@@ -390,6 +396,48 @@ namespace SticKart.Menu
         }
 
         #endregion
+
+        /// <summary>
+        /// Manages state and setting changes from the editor type select menu, based on user input.
+        /// </summary>
+        /// <param name="selectedItemName">The name of the selected item.</param>
+        private void HandleEditorTypeSelection(string selectedItemName)
+        {
+            int type = -1;
+            switch (selectedItemName)
+            {
+                case MenuConstants.FloorButtonName:
+                    type = 0;
+                    break;
+                case MenuConstants.PlatformButtonName:
+                    type = 1;
+                    break;
+                case MenuConstants.MainTypeButtonName:
+                    type = 2;
+                    break;
+                case MenuConstants.BonusButtonName:
+                    type = 3;
+                    break;
+                case MenuConstants.ObstacleButtonName:
+                    type = 4;
+                    break;
+                case MenuConstants.PowerUpButtonName:
+                    type = 5;
+                    break;
+                default:
+                    break;
+            }
+
+            if (type >= 0)
+            {
+                this.menus[this.ActiveMenu].Reset();
+                this.ActiveMenu = MenuType.EditorOverlayMain;
+                if (this.OnEditorTypeSelected != null)
+                {
+                    this.OnEditorSaveSelected(type);
+                }
+            }
+        }
 
         /// <summary>
         /// Manages state and setting changes from the options menu, based on user input.
@@ -733,6 +781,10 @@ namespace SticKart.Menu
                         this.OnEditorUndoSelected(0);
                     }
 
+                    break;
+                case MenuConstants.ChangeButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.ActiveMenu = MenuType.EditorOverlayType;
                     break;
                 case MenuConstants.SaveButtonName:
                     this.menus[this.ActiveMenu].Reset();
