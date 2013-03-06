@@ -102,8 +102,13 @@ namespace SticKart.Menu
         EditLevelSelect,
         
         /// <summary>
-        /// The editor overlay menu.
+        /// The editor overlay main menu.
         /// </summary>
-        EditorOverlay
+        EditorOverlayMain,
+
+        /// <summary>
+        /// The editor overlay sub menu.
+        /// </summary>
+        EditorOverlayMenu
     }
 }

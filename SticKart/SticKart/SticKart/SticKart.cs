@@ -110,7 +110,7 @@ namespace SticKart
         /// <summary>
         /// The game's level editor.
         /// </summary>
-        private Editor levelEditor; // TODO: add placement timer to editor
+        private Editor levelEditor;
 
         #endregion
 
@@ -242,8 +242,9 @@ namespace SticKart
         protected void UpdateEditor(GameTime gameTime)
         {
             NotificationManager.AddNotification(NotificationType.Place);
+            this.UpdateMenu(gameTime);
             this.levelEditor.Update(gameTime, this.inputManager.HandPosition, this.inputManager.Commands);            
-            this.inputManager.Update(gameTime, false);
+            //this.inputManager.Update(gameTime, false);
             if (this.levelEditor.LevelsCreated != this.gameSettings.TotalCustomLevels)
             {
                 this.gameSettings.TotalCustomLevels = this.levelEditor.LevelsCreated;
@@ -412,13 +413,13 @@ namespace SticKart
         {
             if (value == 0)
             {
-                //this.menuManager.ActiveMenu = MenuType.Editor;    // TODO: add editor overlay menu 
+                this.menuManager.ActiveMenu = MenuType.EditorOverlayMain;
                 this.levelEditor.CreateNewLevel();
                 this.gameState = GameState.InEditor;
             }
             else if (value > 0 && value <= GameSettings.MaxCustomLevels && value <= this.gameSettings.TotalCustomLevels)
             {
-                //this.menuManager.ActiveMenu = MenuType.Editor;    // TODO: add editor overlay menu 
+                this.menuManager.ActiveMenu = MenuType.EditorOverlayMain;
                 this.levelEditor.LoadLevel(value);
                 this.gameState = GameState.InEditor;
             }
@@ -464,6 +465,7 @@ namespace SticKart
                 case GameState.InEditor:
                     this.GraphicsDevice.Clear(Color.GhostWhite);
                     this.levelEditor.Draw();
+                    this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {
                         Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f);

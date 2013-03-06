@@ -153,6 +153,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.Options, MenuFactory.CreateOptionsMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, gameSettings));
             this.menus.Add(MenuType.CustomContent, MenuFactory.CreateCustomContentMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.EditLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
+            this.menus.Add(MenuType.EditorOverlayMain, MenuFactory.CreateEditorMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
         }
 
         /// <summary>
@@ -662,6 +663,10 @@ namespace SticKart.Menu
                 case MenuConstants.NewButtonName:
                     this.menus[this.ActiveMenu].Reset();
                     this.OnEditLevelSelected(0);
+                    break;
+                case MenuConstants.MenuButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.ActiveMenu = MenuType.EditorOverlayMenu;
                     break;
                 default:
                     break;

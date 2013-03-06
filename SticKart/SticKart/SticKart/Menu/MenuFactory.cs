@@ -84,6 +84,38 @@ namespace SticKart.Menu
         }
 
         /// <summary>
+        /// Creates a editor overlay main menu object.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateEditorMainMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu editorMenu = new Menu(position, 3, 1);
+            MenuButton button = null;
+            Sprite smallButtonTile = new Sprite();
+            smallButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
+            float gapBetweenTiles = 16.0f;
+            Vector2 relativePos = Vector2.Zero;
+            Sprite buttonIcon = null;
+            RenderableText buttonText = null;
+
+            // Play
+            relativePos = new Vector2(-smallButtonTile.Width - gapBetweenTiles, -smallButtonTile.Height * 1.7f);
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumMenuIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.MenuButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, smallButtonTile, buttonIcon, buttonText, MenuConstants.MenuButtonName);
+            editorMenu.AddItem(button);
+
+            // TODO: add other buttons
+
+            return editorMenu;
+        }
+
+        /// <summary>
         /// Creates a custom content menu object.
         /// </summary>
         /// <param name="contentManager">The content manager to use to load resources.</param>

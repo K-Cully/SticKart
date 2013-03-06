@@ -110,6 +110,11 @@ namespace SticKart.Menu
         /// </summary>
         public const string NameButtonName = "SET PLAYER NAME";
 
+        /// <summary>
+        /// The name of the menu button.
+        /// </summary>
+        public const string MenuButtonName = "MENU";
+
         #endregion
 
         #region characterSelect
