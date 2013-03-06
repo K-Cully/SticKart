@@ -257,10 +257,6 @@ namespace SticKart
                 this.gameSettings.TotalCustomLevels = this.levelEditor.LevelsCreated;
                 this.menuManager.UpdateLevelsCreated(this.gameSettings.TotalCustomLevels);
             }
-
-            //this.levelEditor.CycleSelection();
-            //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + 16.0f;
-            //this.levelEditor.PlatformWidth = this.levelEditor.PlatformWidth + -16.0f;           
         }
 
         /// <summary>
@@ -430,7 +426,7 @@ namespace SticKart
             }
         }
 
-        // <summary>
+        /// <summary>
         /// Event handler for an edit level event.
         /// </summary>
         /// <param name="value">The value passed from the sender.</param>
@@ -450,7 +446,7 @@ namespace SticKart
             }
         }
 
-        // <summary>
+        /// <summary>
         /// Event handler for an save custom level event.
         /// </summary>
         /// <param name="value">The value passed from the sender.</param>

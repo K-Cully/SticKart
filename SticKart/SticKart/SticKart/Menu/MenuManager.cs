@@ -189,7 +189,7 @@ namespace SticKart.Menu
                     {
                         this.HandleLevelSelection(selectedItemName);
                     }
-                    if (this.ActiveMenu == MenuType.CustomLevelSelect)
+                    else if (this.ActiveMenu == MenuType.CustomLevelSelect)
                     {
                         this.HandleCustomLevelSelection(selectedItemName);
                     }

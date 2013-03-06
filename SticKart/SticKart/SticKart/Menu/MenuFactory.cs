@@ -101,7 +101,7 @@ namespace SticKart.Menu
             Sprite buttonIcon = null;
             RenderableText buttonText = null;
 
-            // Play
+            // Menu
             relativePos = new Vector2(-smallButtonTile.Width - gapBetweenTiles, -smallButtonTile.Height * 1.7f);
             buttonIcon = new Sprite();
             buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumMenuIcon);
