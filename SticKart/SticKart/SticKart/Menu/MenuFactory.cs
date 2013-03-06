@@ -160,8 +160,6 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.BackButtonName);
             editorMenu.AddItem(button);
 
-            // TODO: add other buttons
-
             return editorMenu;
         }
 

@@ -139,7 +139,7 @@ namespace SticKart.Menu
         /// <param name="gameSettings">The game settings.</param>
         public void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager, GameSettings gameSettings)
         {
-            this.ActiveMenu = MenuType.NamePrompt; // TODO: implement all menus.
+            this.ActiveMenu = MenuType.NamePrompt;
             NotificationManager.AddNotification(NotificationType.PushGesture);
             this.menus.Add(MenuType.Main, MenuFactory.CreateMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.LeaderboardTypeSelect, MenuFactory.CreateLeaderboardTypeMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
@@ -160,6 +160,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.EditLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.EditorOverlayMain, MenuFactory.CreateEditorMainMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.EditorOverlayMenu, MenuFactory.CreateEditorSubMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.CustomLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
         }
 
         /// <summary>
@@ -187,6 +188,10 @@ namespace SticKart.Menu
                     if (this.ActiveMenu == MenuType.LevelSelect)
                     {
                         this.HandleLevelSelection(selectedItemName);
+                    }
+                    if (this.ActiveMenu == MenuType.CustomLevelSelect)
+                    {
+                        this.HandleCustomLevelSelection(selectedItemName);
                     }
                     else if (this.ActiveMenu == MenuType.LeaderboardSelect)
                     {
@@ -319,7 +324,7 @@ namespace SticKart.Menu
         public void UpdateLevelsCreated(int levelsCreated)
         {
             this.menus[MenuType.EditLevelSelect].SelectablesActive = levelsCreated + 1;
-            //this.menus[MenuType.CustomLevelSelect].SelectablesActive = levelsCreated + 1; // TODO: uncomment when added
+            this.menus[MenuType.CustomLevelSelect].SelectablesActive = levelsCreated + 1;
         }
 
         /// <summary>
@@ -565,6 +570,26 @@ namespace SticKart.Menu
         }
 
         /// <summary>
+        /// Manages state changes from the custom level select menu, based on user input.
+        /// </summary>
+        /// <param name="selectedItemName">The name of the selected item.</param>
+        private void HandleCustomLevelSelection(string selectedItemName)
+        {
+            try
+            {
+                int level = int.Parse(selectedItemName);
+                if (this.OnBeginLevelDetected != null)
+                {
+                    this.OnBeginLevelDetected(-level);
+                }
+            }
+            catch
+            {
+                this.ActiveMenu = MenuType.CustomContent;
+            }
+        }
+
+        /// <summary>
         /// Manages state changes from the level edit select menu, based on user input.
         /// </summary>
         /// <param name="selectedItemName">The name of the selected item.</param>
@@ -593,8 +618,16 @@ namespace SticKart.Menu
             switch (selectedItemName)
             {
                 case MenuConstants.PlayButtonName:
-                    this.ActiveMenu = MenuType.LevelSelect;
                     NotificationManager.AddNotification(NotificationType.SwipeGesture);
+                    if (this.ActiveMenu == MenuType.CustomContent)
+                    {
+                        this.ActiveMenu = MenuType.CustomLevelSelect;
+                    }
+                    else
+                    {
+                        this.ActiveMenu = MenuType.LevelSelect;
+                    }
+
                     this.menus[this.ActiveMenu].Reset();
                     break;
                 case MenuConstants.OptionsButtonName:

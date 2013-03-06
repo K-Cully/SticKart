@@ -387,6 +387,12 @@ namespace SticKart
         /// <param name="value">The value passed from the sender.</param>
         protected void BeginLevel(int value)
         {
+            bool isCustom = value < 0;
+            if (isCustom)
+            {
+                value *= -1;
+            }
+
             Camera2D.Reset();
             this.inputManager.Reset();
             if (value == 0)
@@ -401,7 +407,7 @@ namespace SticKart
             if (value <= GameSettings.TotalLevels)
             {
                 this.gameState = GameState.InGame;
-                this.levelManager.BeginLevel(value, false);
+                this.levelManager.BeginLevel(value, isCustom);
             }
             else
             {

@@ -97,6 +97,11 @@ namespace SticKart.Menu
         CustomContent,
 
         /// <summary>
+        /// The custom level select menu.
+        /// </summary>
+        CustomLevelSelect,
+
+        /// <summary>
         /// The edit level select menu.
         /// </summary>
         EditLevelSelect,
