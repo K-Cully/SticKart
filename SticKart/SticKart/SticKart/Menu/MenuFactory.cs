@@ -110,7 +110,7 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, smallButtonTile, buttonIcon, buttonText, MenuConstants.MenuButtonName);
             editorMenu.AddItem(button);
 
-            // Menu
+            // Undo
             relativePos.X += smallButtonTile.Width + gapBetweenTiles;
             buttonIcon = new Sprite();
             buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumRetryIcon);
@@ -119,7 +119,14 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, smallButtonTile, buttonIcon, buttonText, MenuConstants.UndoButtonName);
             editorMenu.AddItem(button);
 
-            // TODO: add other buttons
+            // Change type
+            relativePos.X += smallButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumPlayIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ChangeButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, smallButtonTile, buttonIcon, buttonText, MenuConstants.ChangeButtonName);
+            editorMenu.AddItem(button);
 
             return editorMenu;
         }
