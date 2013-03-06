@@ -116,6 +116,11 @@ namespace SticKart.Menu
         public const string MenuButtonName = "MENU";
 
         /// <summary>
+        /// The name of the undo button.
+        /// </summary>
+        public const string UndoButtonName = "REMOVE LAST";
+
+        /// <summary>
         /// The name of the save button.
         /// </summary>
         public const string SaveButtonName = "SAVE";

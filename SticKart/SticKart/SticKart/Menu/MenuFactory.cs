@@ -110,6 +110,15 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, smallButtonTile, buttonIcon, buttonText, MenuConstants.MenuButtonName);
             editorMenu.AddItem(button);
 
+            // Menu
+            relativePos.X += smallButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumRetryIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.UndoButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, smallButtonTile, buttonIcon, buttonText, MenuConstants.UndoButtonName);
+            editorMenu.AddItem(button);
+
             // TODO: add other buttons
 
             return editorMenu;
