@@ -99,6 +99,11 @@ namespace SticKart.Menu
         /// <summary>
         /// The edit level select menu.
         /// </summary>
-        EditLevelSelect
+        EditLevelSelect,
+        
+        /// <summary>
+        /// The editor overlay menu.
+        /// </summary>
+        EditorOverlay
     }
 }

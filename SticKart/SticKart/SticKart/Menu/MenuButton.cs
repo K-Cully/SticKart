@@ -49,7 +49,7 @@ namespace SticKart.Menu
             this.textIcon = new MenuText(Vector2.Zero, textIcon);
             this.tile = new MenuImage(Vector2.Zero, tile);
             this.icon = null;
-            Vector2 relativeTextPosition = new Vector2(0.0f, (tile.Height * 0.5f) - (text.Height * 1.5f));
+            Vector2 relativeTextPosition = new Vector2(0.0f, tile.Height * 0.36f);
             this.text = new MenuText(relativeTextPosition, text);
         }
 
@@ -67,7 +67,7 @@ namespace SticKart.Menu
             this.textIcon = null;
             this.tile = new MenuImage(Vector2.Zero, tile);
             this.icon = new MenuImage(Vector2.Zero, icon);
-            Vector2 relativeTextPosition = new Vector2(0.0f, (tile.Height * 0.5f) - (text.Height * 1.5f));
+            Vector2 relativeTextPosition = new Vector2(0.0f, tile.Height * 0.36f);
             this.text = new MenuText(relativeTextPosition, text);
         }
 
@@ -86,7 +86,7 @@ namespace SticKart.Menu
             this.textIcon = new MenuText(Vector2.Zero, textIcon);
             this.tile = new MenuImage(Vector2.Zero, tile);
             this.icon = new MenuImage(Vector2.Zero, icon);
-            Vector2 relativeTextPosition = new Vector2(0.0f, (tile.Height * 0.5f) - (text.Height * 1.5f));
+            Vector2 relativeTextPosition = new Vector2(0.0f, tile.Height * 0.36f);
             this.text = new MenuText(relativeTextPosition, text);
         }
         
