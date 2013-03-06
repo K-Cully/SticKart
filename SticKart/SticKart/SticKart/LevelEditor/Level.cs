@@ -349,6 +349,24 @@ namespace SticKart.LevelEditor
             }
         }
 
+        /// <summary>
+        /// Retrieves the last floor edge's angle.
+        /// </summary>
+        /// <returns>The angle in radians.</returns>
+        public float GetLastFloorEdgeAngle()
+        {
+            if (this.floorEdgePoints.Count > 2)
+            {
+                Vector2 lastEdgeDirection = this.floorEdgePoints[this.floorEdgePoints.Count - 1] - this.floorEdgePoints[this.floorEdgePoints.Count - 2];
+                lastEdgeDirection.Normalize();
+                return (float)Math.Asin(lastEdgeDirection.Y);
+            }
+            else
+            {
+                return 0.0f;
+            }
+        }
+
         #endregion
 
         #region save_and_load

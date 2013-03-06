@@ -362,7 +362,7 @@ namespace SticKart.LevelEditor
             {
                 case ModifiableEntity.Floor:
                     this.lastFloorPoint = this.levelToEdit.RemoveLastFloorPoint();
-                    this.lastFloorAngle = 0.0f;
+                    this.lastFloorAngle = this.levelToEdit.GetLastFloorEdgeAngle();
                     break;
                 case ModifiableEntity.StartPosition:
                     this.levelToEdit.StartPosition = Vector2.Zero;
@@ -454,6 +454,7 @@ namespace SticKart.LevelEditor
             this.currentFloorPoint = Vector2.Zero;
             this.EntitySelected = ModifiableEntity.Floor;
             this.levelToEdit.Load(number);
+            this.lastFloorAngle = this.levelToEdit.GetLastFloorEdgeAngle();
             this.currentLevelNumber = number;
             this.lastFloorPoint = this.levelToEdit.LastFloorPoint;
         }
