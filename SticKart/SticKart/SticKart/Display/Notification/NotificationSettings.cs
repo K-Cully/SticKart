@@ -36,6 +36,11 @@ namespace SticKart.Display.Notification
         public bool Place { get; set; }
 
         /// <summary>
+        /// Gets or sets a value indicating whether the swap gesture notification is enabled or not. 
+        /// </summary>
+        public bool Swap { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the swipe gesture notification is enabled or not. 
         /// </summary>
         public bool Swipe { get; set; }
@@ -237,6 +242,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.Place:
                     this.Place = false;
                     break;
+                case NotificationType.Swap:
+                    this.Swap = false;
+                    break;
                 default:
                     break;
             }
@@ -309,6 +317,9 @@ namespace SticKart.Display.Notification
                 case NotificationType.Place:
                     enabled = this.Place;
                     break;
+                case NotificationType.Swap:
+                    enabled = this.Swap;
+                    break;
                 default:
                     enabled = false;
                     break;
@@ -323,6 +334,7 @@ namespace SticKart.Display.Notification
         public void Reset()
         {
             this.Place = true;
+            this.Swap = true;
             this.Bonus = true;
             this.Cart = true;
             this.Crouch = true;

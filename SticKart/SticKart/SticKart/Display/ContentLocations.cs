@@ -58,6 +58,11 @@ namespace SticKart.Display
         public const string Place = "place";
 
         /// <summary>
+        /// The name of the swap animated sprite asset.
+        /// </summary>
+        public const string Swap = "swap";
+
+        /// <summary>
         /// The name of the swipe animated sprite asset.
         /// </summary>
         public const string Swipe = "swipe";

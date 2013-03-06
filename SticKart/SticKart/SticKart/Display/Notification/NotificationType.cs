@@ -104,6 +104,11 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// A notification about the place pose.
         /// </summary>
-        Place
+        Place,
+
+        /// <summary>
+        /// A notification about the swap pose.
+        /// </summary>
+        Swap
     }
 }
