@@ -301,19 +301,33 @@ namespace SticKart.LevelEditor
         /// </summary>
         public void AddSelectedElement()
         {
+            if (this.EntitySelected != ModifiableEntity.Floor && (this.cursorPosition.X > this.levelToEdit.LastFloorPoint.X || this.cursorPosition.X <= 0.0f))
+            {
+                // TODO: set invalid = false?
+                return;
+            }
+
             switch (this.EntitySelected)
             {
                 case ModifiableEntity.Floor:
-                    this.levelToEdit.AddFloorPoint(this.currentFloorPoint);
-                    Vector2 direction = this.currentFloorPoint - this.lastFloorPoint;
-                    if (this.lastFloorPoint == Vector2.Zero)
+                    if (this.levelToEdit.LastFloorPoint.X > Editor.MaxLength)
                     {
-                        direction = Vector2.UnitX;
+                        // TODO: set invalid = false?
+                    }
+                    else
+                    {
+                        this.levelToEdit.AddFloorPoint(this.currentFloorPoint);
+                        Vector2 direction = this.currentFloorPoint - this.lastFloorPoint;
+                        if (this.lastFloorPoint == Vector2.Zero)
+                        {
+                            direction = Vector2.UnitX;
+                        }
+
+                        direction.Normalize();
+                        this.lastFloorAngle = (float)Math.Asin(direction.Y);
+                        this.lastFloorPoint = this.currentFloorPoint;
                     }
 
-                    direction.Normalize();
-                    this.lastFloorAngle = (float)Math.Asin(direction.Y);
-                    this.lastFloorPoint = this.currentFloorPoint;
                     break;
                 case ModifiableEntity.StartPosition:
                     this.levelToEdit.StartPosition = this.cursorPosition;
@@ -777,7 +791,7 @@ namespace SticKart.LevelEditor
             if (screenCursorPosition.X > this.screenDimensions.X * 0.75f)
             {
                 float speed = (screenCursorPosition.X - (this.screenDimensions.X * 0.75f)) / (this.screenDimensions.X * 0.00025f);
-                if (Camera2D.OffsetPosition.X + (speed * (float)gameTime.ElapsedGameTime.TotalSeconds) < Editor.MaxLength)
+                if (Camera2D.OffsetPosition.X + (speed * (float)gameTime.ElapsedGameTime.TotalSeconds) < Editor.MaxLength - (this.screenDimensions.X * 0.75f))
                 {
                     Camera2D.Update(new Vector2(speed, 0.0f), gameTime);
                 }
