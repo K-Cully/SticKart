@@ -145,6 +145,16 @@ namespace SticKart.LevelEditor
         /// </summary>
         private List<Vector2> floorEdgePoints;
 
+        /// <summary>
+        /// The index of the cart entity.
+        /// </summary>
+        private int cartIndex;
+
+        /// <summary>
+        /// The index of the switch entity.
+        /// </summary>
+        private int switchIndex;
+
         #endregion
 
         #region constructor
@@ -178,6 +188,8 @@ namespace SticKart.LevelEditor
             this.rubySprite = new Sprite();
             this.background = new Background(screenDimensions, 0.8f);
             this.screenDimensions = screenDimensions;
+            this.cartIndex = -1;
+            this.switchIndex = -1;
         }
 
         #endregion
@@ -275,7 +287,53 @@ namespace SticKart.LevelEditor
             entityDescription.Dimensions = size;
             this.interactiveEntityDescriptions.Add(entityDescription);
         }
-        
+
+        /// <summary>
+        /// Adds a cart to the level.
+        /// </summary>
+        /// <param name="position">The position of the entity.</param>
+        /// <param name="size">The size of the entity in display coordinates.</param>
+        public void AddCart(Vector2 position, Vector2 size)
+        {
+            if (this.cartIndex == -1)
+            {
+                this.cartIndex = this.interactiveEntityDescriptions.Count;
+                InteractiveEntityDescription entityDescription = new InteractiveEntityDescription();
+                entityDescription.Position = position;
+                entityDescription.Name = EntityConstants.CartBody;
+                entityDescription.Dimensions = size;
+                this.interactiveEntityDescriptions.Add(entityDescription);
+            }
+            else
+            {
+                this.interactiveEntityDescriptions[this.cartIndex].Position = position;
+                this.interactiveEntityDescriptions[this.cartIndex].Dimensions = size;
+            }
+        }
+
+        /// <summary>
+        /// Adds a switch to the level.
+        /// </summary>
+        /// <param name="position">The position of the entity.</param>
+        /// <param name="size">The size of the entity in display coordinates.</param>
+        public void AddSwitch(Vector2 position, Vector2 size)
+        {
+            if (this.switchIndex == -1)
+            {
+                this.switchIndex = this.interactiveEntityDescriptions.Count;
+                InteractiveEntityDescription entityDescription = new InteractiveEntityDescription();
+                entityDescription.Position = position;
+                entityDescription.Name = EntityConstants.Switch;
+                entityDescription.Dimensions = size;
+                this.interactiveEntityDescriptions.Add(entityDescription);
+            }
+            else
+            {
+                this.interactiveEntityDescriptions[this.switchIndex].Position = position;
+                this.interactiveEntityDescriptions[this.switchIndex].Dimensions = size;
+            }
+        }
+
         /// <summary>
         /// Adds a point to the floor edges.
         /// </summary>
@@ -300,6 +358,8 @@ namespace SticKart.LevelEditor
             this.interactiveEntityDescriptions.Clear();
             this.floorEdgePoints.Clear();
             this.background.Reset();
+            this.cartIndex = -1;
+            this.switchIndex = -1;
         }
 
         /// <summary>
@@ -321,10 +381,23 @@ namespace SticKart.LevelEditor
             if (this.interactiveEntityDescriptions.Count > 0)
             {
                 this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
-                if (this.interactiveEntityDescriptions.Count > 0 && this.interactiveEntityDescriptions[this.interactiveEntityDescriptions.Count - 1].Name == EntityConstants.CartBody)
-                {
-                    this.interactiveEntityDescriptions.RemoveAt(this.interactiveEntityDescriptions.Count - 1);
-                }
+            }
+        }
+
+        /// <summary>
+        /// Removes the cart and switch from the level.
+        /// </summary>
+        public void RemoveCartAndSwitch()
+        {
+            if (this.cartIndex > this.switchIndex)
+            {
+                this.RemoveCart();
+                this.RemoveSwitch();
+            }
+            else
+            {
+                this.RemoveSwitch();
+                this.RemoveCart();
             }
         }
 
@@ -735,8 +808,44 @@ namespace SticKart.LevelEditor
                 XmlSerializer deserializer = new XmlSerializer(typeof(List<InteractiveEntityDescription>));
                 this.interactiveEntityDescriptions = (List<InteractiveEntityDescription>)deserializer.Deserialize(levelStream);
             }
+
+            for (int count = 0; count < this.interactiveEntityDescriptions.Count; count++)
+            {
+                if (this.interactiveEntityDescriptions[count].Name == EntityConstants.CartBody)
+                {
+                    this.cartIndex = count;
+                }
+                else if (this.interactiveEntityDescriptions[count].Name == EntityConstants.Switch)
+                {
+                    this.switchIndex = count;
+                }
+            }
         }
 
         #endregion
+        
+        /// <summary>
+        /// Removes the cart from the level.
+        /// </summary>
+        private void RemoveCart()
+        {
+            if (this.cartIndex != -1)
+            {
+                this.interactiveEntityDescriptions.RemoveAt(this.cartIndex);
+                this.cartIndex = -1;
+            }
+        }
+
+        /// <summary>
+        /// Removes the switch from the level.
+        /// </summary>
+        private void RemoveSwitch()
+        {
+            if (this.switchIndex != -1)
+            {
+                this.interactiveEntityDescriptions.RemoveAt(this.switchIndex);
+                this.switchIndex = -1;
+            }
+        }
     }
 }

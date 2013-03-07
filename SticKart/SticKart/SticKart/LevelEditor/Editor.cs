@@ -353,11 +353,11 @@ namespace SticKart.LevelEditor
                     break;
                 case ModifiableEntity.Cart:
                     this.EntitySelected = ModifiableEntity.Switch;
-                    this.levelToEdit.AddInteractiveEntity(EntityConstants.CartBody, this.cursorPosition, new Vector2(this.cartSprite.Width, this.cartSprite.Height));
+                    this.levelToEdit.AddCart(this.cursorPosition, new Vector2(this.cartSprite.Width, this.cartSprite.Height));
                     break;
                 case ModifiableEntity.Switch:
                     this.EntitySelected = ModifiableEntity.Cart;
-                    this.levelToEdit.AddInteractiveEntity(EntityConstants.Switch, this.cursorPosition, new Vector2(this.switchSprite.Width, this.switchSprite.Height));
+                    this.levelToEdit.AddSwitch(this.cursorPosition, new Vector2(this.switchSprite.Width, this.switchSprite.Height));
                     break;
                 case ModifiableEntity.Coin:
                     this.levelToEdit.AddInteractiveEntity(EntityConstants.CoinName, this.cursorPosition, new Vector2(this.coinSprite.Width, this.coinSprite.Height));
@@ -393,8 +393,11 @@ namespace SticKart.LevelEditor
                 case ModifiableEntity.Platform:
                     this.levelToEdit.RemoveLastPlatform();
                     break;
+                case ModifiableEntity.Cart:
+                    this.levelToEdit.RemoveCartAndSwitch();
+                    break;
                 case ModifiableEntity.Switch:
-                    this.levelToEdit.RemoveLastInteractiveEntity();
+                    this.levelToEdit.RemoveCartAndSwitch();
                     this.EntitySelected = ModifiableEntity.Cart;
                     break;
                 default:
