@@ -20,6 +20,8 @@ namespace SticKart.LevelEditor
     /// </summary>
     public class Editor
     {
+        #region constants
+
         /// <summary>
         /// The maximum angle change between two floor edges.
         /// </summary>
@@ -49,7 +51,9 @@ namespace SticKart.LevelEditor
         /// The length of the largest platform, in pixels.
         /// </summary>
         private const float MaxPlatformLength = SmallPlatformLength * 4.0f;
- 
+
+        #endregion
+
         #region sprites
 
         /// <summary>
@@ -270,7 +274,7 @@ namespace SticKart.LevelEditor
         {
             this.levelToEdit.LoadContent(spriteBatch, contentManager);
             this.cartSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartFull);
-            this.switchSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Switch);
+            this.switchSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.SwitchStatic);
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
             this.platformWidth = this.platformSprite.Width;
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
