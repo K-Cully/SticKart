@@ -821,7 +821,7 @@ namespace SticKart.LevelEditor
             }
             else
             {
-                this.CurrentPositionValid = this.cursorPosition.X < this.levelToEdit.LastFloorPoint.X && this.cursorPosition.X > 0.0f;
+                this.CurrentPositionValid = this.cursorPosition.X < this.levelToEdit.LastFloorPoint.X && this.cursorPosition.X > 0.0f && this.levelToEdit.IsPositionFree(this.cursorPosition);
             }
         }
     }

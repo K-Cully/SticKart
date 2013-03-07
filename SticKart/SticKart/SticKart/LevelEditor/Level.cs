@@ -272,6 +272,56 @@ namespace SticKart.LevelEditor
             platformDescription.Position = position;
             this.platformDescriptions.Add(platformDescription);
         }
+        
+        /// <summary>
+        /// Checks if a position is free.
+        /// </summary>
+        /// <param name="position">The position to check.</param>
+        /// <returns>A value indacating whether the space is occupied or not.</returns>
+        public bool IsPositionFree(Vector2 position)
+        {
+            float radiusSquared = 1024.0f;
+            foreach (InteractiveEntityDescription entity in this.interactiveEntityDescriptions)
+            {
+                if ((entity.Position - position).LengthSquared() < radiusSquared)
+                {
+                    return false;
+                }
+            }
+
+            foreach (PlatformDescription platform in this.platformDescriptions)
+            {
+                if ((platform.Position - position).LengthSquared() < radiusSquared)
+                {
+                    return false;
+                }
+            }
+
+            foreach (Vector2 point in this.floorEdgePoints)
+            {
+                if (position.X > point.X)
+                {
+                    // TODO: finished here
+                    if (position.X - point.X < 33.0f)
+                    {
+                        if (position.X - point.Y < radiusSquared)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Adds an interactive entity to the level.
