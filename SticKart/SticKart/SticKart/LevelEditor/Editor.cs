@@ -817,7 +817,7 @@ namespace SticKart.LevelEditor
             this.CurrentPositionValid = true;
             if (this.EntitySelected == ModifiableEntity.Floor)
             {
-                this.CurrentPositionValid = this.levelToEdit.LastFloorPoint.X < Editor.MaxLength;
+                this.CurrentPositionValid = this.cursorPosition.X > this.levelToEdit.LastFloorPoint.X && this.levelToEdit.LastFloorPoint.X < Editor.MaxLength;
             }
             else
             {
