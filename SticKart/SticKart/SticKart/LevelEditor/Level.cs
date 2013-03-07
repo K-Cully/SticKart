@@ -280,7 +280,14 @@ namespace SticKart.LevelEditor
         /// <returns>A value indacating whether the space is occupied or not.</returns>
         public bool IsPositionFree(Vector2 position)
         {
-            float radiusSquared = 1024.0f;
+            float radius = 32.0f;
+            float radiusSquared = radius * radius;
+
+            if ((this.StartPosition - position).LengthSquared() < radiusSquared || (this.ExitPosition - position).LengthSquared() < radiusSquared)
+            {
+                return false;
+            }
+
             foreach (InteractiveEntityDescription entity in this.interactiveEntityDescriptions)
             {
                 if ((entity.Position - position).LengthSquared() < radiusSquared)
@@ -299,19 +306,11 @@ namespace SticKart.LevelEditor
 
             foreach (Vector2 point in this.floorEdgePoints)
             {
-                if (position.X > point.X)
+                if (point.X > position.X)
                 {
-                    // TODO: finished here
-                    if (position.X - point.X < 33.0f)
+                    if (point.Y - position.Y < radius)
                     {
-                        if (position.X - point.Y < radiusSquared)
-                        {
-                            return false;
-                        }
-                        else
-                        {
-                            break;
-                        }
+                        return false;
                     }
                     else
                     {
