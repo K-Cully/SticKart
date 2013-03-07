@@ -521,7 +521,14 @@ namespace SticKart
                     }
                     else
                     {
-                        Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, new Color(0.5f, 0.5f, 0.5f, 0.2f));
+                        if (this.levelEditor.CurrentPositionValid)
+                        {
+                            Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, new Color(0.5f, 1.0f, 0.5f, 0.2f));
+                        }
+                        else
+                        {
+                            Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, new Color(1.0f, 0.5f, 0.5f, 0.2f));
+                        }
                     }
 
                     break;

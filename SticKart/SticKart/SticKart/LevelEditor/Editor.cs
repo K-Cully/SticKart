@@ -222,6 +222,7 @@ namespace SticKart.LevelEditor
             this.cartSprite = new Sprite();
             this.platformWidth = Editor.SmallPlatformLength;
             this.timeSinceLastPlace = Editor.TimeBetweenPlacments;
+            this.CurrentPositionValid = true;
         }
 
         #endregion
@@ -237,6 +238,11 @@ namespace SticKart.LevelEditor
         /// Gets or sets the currently selected entity to modify. 
         /// </summary>
         public ModifiableEntity EntitySelected { get; set; }
+
+        /// <summary>
+        /// Gets a value indicating whether the current item placement position is valid or not.
+        /// </summary>
+        public bool CurrentPositionValid { get; private set; }
 
         /// <summary>
         /// Gets or sets the platform width.
@@ -301,33 +307,19 @@ namespace SticKart.LevelEditor
         /// </summary>
         public void AddSelectedElement()
         {
-            if (this.EntitySelected != ModifiableEntity.Floor && (this.cursorPosition.X > this.levelToEdit.LastFloorPoint.X || this.cursorPosition.X <= 0.0f))
-            {
-                // TODO: set invalid = false?
-                return;
-            }
-
             switch (this.EntitySelected)
             {
-                case ModifiableEntity.Floor:
-                    if (this.levelToEdit.LastFloorPoint.X > Editor.MaxLength)
+                case ModifiableEntity.Floor:                    
+                    this.levelToEdit.AddFloorPoint(this.currentFloorPoint);
+                    Vector2 direction = this.currentFloorPoint - this.lastFloorPoint;
+                    if (this.lastFloorPoint == Vector2.Zero)
                     {
-                        // TODO: set invalid = false?
-                    }
-                    else
-                    {
-                        this.levelToEdit.AddFloorPoint(this.currentFloorPoint);
-                        Vector2 direction = this.currentFloorPoint - this.lastFloorPoint;
-                        if (this.lastFloorPoint == Vector2.Zero)
-                        {
-                            direction = Vector2.UnitX;
-                        }
-
-                        direction.Normalize();
-                        this.lastFloorAngle = (float)Math.Asin(direction.Y);
-                        this.lastFloorPoint = this.currentFloorPoint;
+                        direction = Vector2.UnitX;
                     }
 
+                    direction.Normalize();
+                    this.lastFloorAngle = (float)Math.Asin(direction.Y);
+                    this.lastFloorPoint = this.currentFloorPoint;
                     break;
                 case ModifiableEntity.StartPosition:
                     this.levelToEdit.StartPosition = this.cursorPosition;
@@ -581,6 +573,7 @@ namespace SticKart.LevelEditor
                 this.SetFloorAngle(cursorPosition);
             }
 
+            this.CheckCursorPositionIsValid();
             this.ProcessCommands(commands);
         }
 
@@ -717,8 +710,11 @@ namespace SticKart.LevelEditor
                     switch (command)
                     {
                         case InputCommand.Place:
-                            this.AddSelectedElement();
-                            this.timeSinceLastPlace = 0.0f;
+                            if (this.CurrentPositionValid)
+                            {
+                                this.AddSelectedElement();
+                                this.timeSinceLastPlace = 0.0f;
+                            }
                             break;
                         case InputCommand.Swap:
                             this.CycleSelection();
@@ -807,6 +803,22 @@ namespace SticKart.LevelEditor
                 {
                     Camera2D.Update(new Vector2(-Camera2D.OffsetPosition.X, 0.0f), gameTime);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Checks if the current cursor position is valid for the current object type.
+        /// </summary>
+        private void CheckCursorPositionIsValid()
+        {
+            this.CurrentPositionValid = true;
+            if (this.EntitySelected == ModifiableEntity.Floor)
+            {
+                this.CurrentPositionValid = this.levelToEdit.LastFloorPoint.X < Editor.MaxLength;
+            }
+            else
+            {
+                this.CurrentPositionValid = this.cursorPosition.X < this.levelToEdit.LastFloorPoint.X && this.cursorPosition.X > 0.0f;
             }
         }
     }
