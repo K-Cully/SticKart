@@ -411,14 +411,25 @@ namespace SticKart
                     isCustom = this.levelManager.CurrentLevelCustom;
                 }
 
-                if (value <= GameSettings.TotalLevels)
+                if (isCustom)
                 {
-                    this.gameState = GameState.InGame;
-                    this.levelManager.BeginLevel(value, isCustom);
+                    if (value <= gameSettings.TotalCustomLevels)
+                    {
+                        this.gameState = GameState.InGame;
+                        this.levelManager.BeginLevel(value, isCustom);
+                    }
                 }
                 else
                 {
-                    // TODO: Game complete (roll credits)
+                    if (value <= GameSettings.TotalLevels)
+                    {
+                        this.gameState = GameState.InGame;
+                        this.levelManager.BeginLevel(value, isCustom);
+                    }
+                    else
+                    {
+                        // TODO: Game complete (roll credits)
+                    }
                 }
             }
         }
