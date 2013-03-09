@@ -289,7 +289,17 @@ namespace SticKart.Display
         /// The location of the large power up icon texture asset.
         /// </summary>
         public const string LargePowerUpIcon = "Sprites/Menu/PowerUp_icon_large";
-        
+
+        /// <summary>
+        /// The location of the left arrow texture asset.
+        /// </summary>
+        public const string LeftArrow = "Sprites/Menu/leftArrow";
+
+        /// <summary>
+        /// The location of the right arrow texture asset.
+        /// </summary>
+        public const string RightArrow = "Sprites/Menu/rightArrow";
+
         #endregion
 
         #region effects

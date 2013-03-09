@@ -333,7 +333,7 @@ namespace SticKart.Game.Level
             {
                 this.Complete = true;
             }
-            else if (!stickman.IsDead)
+            else if (!this.stickman.IsDead)
             {
                 this.stickman.Update(gameTime);
                 this.exit.Update();

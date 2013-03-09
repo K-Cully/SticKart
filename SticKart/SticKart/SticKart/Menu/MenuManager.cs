@@ -44,6 +44,16 @@ namespace SticKart.Menu
         private bool localLeaderboardActive;
 
         /// <summary>
+        /// A left arrow sprite.
+        /// </summary>
+        private Sprite leftArrow;
+
+        /// <summary>
+        /// A right arrow sprite.
+        /// </summary>
+        private Sprite rightArrow;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MenuManager"/> class.
         /// </summary>
         /// <param name="screenDimensions">The current display size in pixels.</param>
@@ -55,6 +65,8 @@ namespace SticKart.Menu
             this.ActiveMenu = MenuType.None;
             this.nameCharacterSelected = -1;
             this.localLeaderboardActive = false;
+            this.leftArrow = new Sprite();
+            this.rightArrow = new Sprite();
         }
 
         #region events
@@ -173,7 +185,8 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.CustomLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.EditorOverlayType, MenuFactory.CreateEditorTypeMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Pause, MenuFactory.CreatePauseMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
-        
+            this.leftArrow.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LeftArrow);
+            this.rightArrow.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.RightArrow);
         }
 
         /// <summary>
@@ -325,7 +338,7 @@ namespace SticKart.Menu
         }
 
         /// <summary>
-        /// Updates teh number of active buttons in the pause menu.
+        /// Updates the number of active buttons in the pause menu.
         /// </summary>
         /// <param name="playerDied">A value indicating whether the player died or not.</param>
         public void UpdatePauseMenuTiles(bool playerDied)
@@ -368,6 +381,11 @@ namespace SticKart.Menu
             if (this.menus[this.ActiveMenu] != null)
             {
                 this.menus[this.ActiveMenu].Draw();
+                if (this.menus[this.ActiveMenu].HasPages)
+                {
+                    Sprite.Draw(this.leftArrow, new Vector2(this.leftArrow.Width, this.screenDimensions.Y * 0.5f), 0.0f);
+                    Sprite.Draw(this.rightArrow, new Vector2(this.screenDimensions.X - this.rightArrow.Width, this.screenDimensions.Y * 0.5f), 0.0f);
+                }
             }
         }
 

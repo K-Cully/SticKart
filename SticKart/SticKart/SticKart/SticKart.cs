@@ -424,7 +424,7 @@ namespace SticKart
                 this.levelManager.EndLevel();
                 if (isCustom)
                 {
-                    if (value <= gameSettings.TotalCustomLevels)
+                    if (value <= this.gameSettings.TotalCustomLevels)
                     {
                         this.gameState = GameState.InGame;
                         this.levelManager.BeginLevel(value, isCustom);

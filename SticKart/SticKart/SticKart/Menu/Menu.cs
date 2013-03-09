@@ -198,6 +198,17 @@ namespace SticKart.Menu
             }
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the menu has more than one page or not.
+        /// </summary>
+        public bool HasPages
+        {
+            get
+            {
+                return this.pages > 1;
+            }
+        }
+
         #endregion
 
         /// <summary>

@@ -718,6 +718,7 @@ namespace SticKart.LevelEditor
                                 this.AddSelectedElement();
                                 this.timeSinceLastPlace = 0.0f;
                             }
+
                             break;
                         case InputCommand.Swap:
                             this.CycleSelection();

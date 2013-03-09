@@ -118,6 +118,8 @@ Content\Sprites\Menu\Bonus_icon_large.xnb
 Content\Sprites\Menu\Main_icon_large.xnb
 Content\Sprites\Menu\Floor_icon_large.xnb
 Content\Sprites\Notifications\swap.xnb
+Content\Sprites\Menu\leftArrow.xnb
+Content\Sprites\Menu\rightArrow.xnb
 Content\Music\Game\1.wma
 Content\Music\Game\3.wma
 Content\Music\Game\2.wma

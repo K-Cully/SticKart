@@ -277,7 +277,7 @@ namespace SticKart.LevelEditor
         /// Checks if a position is free.
         /// </summary>
         /// <param name="position">The position to check.</param>
-        /// <returns>A value indacating whether the space is occupied or not.</returns>
+        /// <returns>A value indicating whether the space is occupied or not.</returns>
         public bool IsPositionFree(Vector2 position)
         {
             float radius = 32.0f;
