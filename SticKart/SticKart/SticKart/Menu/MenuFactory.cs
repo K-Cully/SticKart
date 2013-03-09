@@ -92,7 +92,7 @@ namespace SticKart.Menu
         /// <returns>The new menu created.</returns>
         public static Menu CreateEditorMainMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
         {
-            Menu editorMenu = new Menu(position, 3, 1);
+            Menu editorMenu = new Menu(position, 1, 3);
             MenuButton button = null;
             Sprite smallButtonTile = new Sprite();
             smallButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.MediumButtonTile);
@@ -140,7 +140,7 @@ namespace SticKart.Menu
         /// <returns>The new menu created.</returns>
         public static Menu CreateEditorTypeMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
         {
-            Menu editorMenu = new Menu(position, 3, 1);
+            Menu editorMenu = new Menu(position, 2, 3);
             MenuButton button = null;
             Sprite largeButtonTile = new Sprite();
             largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
@@ -215,7 +215,7 @@ namespace SticKart.Menu
         /// <returns>The new menu created.</returns>
         public static Menu CreateEditorSubMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
         {
-            Menu editorMenu = new Menu(position, 3, 1);
+            Menu editorMenu = new Menu(position, 1, 3);
             MenuButton button = null;
             Sprite largeButtonTile = new Sprite();
             largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
@@ -252,6 +252,55 @@ namespace SticKart.Menu
             editorMenu.AddItem(button);
 
             return editorMenu;
+        }
+
+        /// <summary>
+        /// Creates a pause menu object.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreatePauseMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu pauseMenu = new Menu(position, 1, 3);
+            MenuButton button = null;
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            float gapBetweenTiles = 32.0f;
+            Vector2 relativePos = Vector2.Zero;
+            Sprite buttonIcon = null;
+            RenderableText buttonText = null;
+            relativePos = new Vector2(-largeButtonTile.Width - gapBetweenTiles, 0.0f);
+
+            // Restart
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeRetryIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.RetryButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.RetryButtonName);
+            pauseMenu.AddItem(button);
+
+            // Exit
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeExitIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ExitButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.ExitButtonName);
+            pauseMenu.AddItem(button);
+
+            // Continue
+            relativePos = new Vector2(-largeButtonTile.Width - gapBetweenTiles, 0.0f);
+            buttonIcon = new Sprite();
+            buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargePlayIcon);
+            buttonText = new RenderableText();
+            buttonText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.ContinueButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.ContinueButtonName);
+            pauseMenu.AddItem(button);
+
+            return pauseMenu;
         }
 
         /// <summary>

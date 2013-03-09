@@ -140,6 +140,7 @@ namespace SticKart
             this.menuManager.OnEditorSaveSelected += this.SaveCustomLevel;
             this.menuManager.OnEditorUndoSelected += this.EditorUndo;
             this.menuManager.OnEditorTypeSelected += this.EditorChangeType;
+            this.menuManager.OnResumeGameDetected += this.UnpauseGame;
             this.handSprite = new Sprite();
             this.graphics.IsFullScreen = false; // TODO: set to true for release 
         }
@@ -262,58 +263,67 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateGame(GameTime gameTime)
         {
-            this.levelManager.Update(gameTime, this.inputManager.Commands);
-            if (this.levelManager.Complete)
+            if (this.levelManager.IsPlayerDead)
             {
                 this.gameState = GameState.InMenu;
-                this.menuManager.ActiveMenu = MenuType.LevelComplete;
-                if (!this.levelManager.CurrentLevelCustom)
-                {
-                    if (this.levelManager.CurrentLevel < GameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
-                    {
-                        this.gameSettings.LevelsUnlocked += 1;
-                        this.menuManager.UpdateLevelsUnlocked(this.gameSettings.LevelsUnlocked);
-                    }
-
-                    this.menuManager.SetLevelCompleteMenuText(this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore), this.levelManager.PlayerScore, this.levelManager.GetRating());
-                }
-                else
-                {
-                    this.menuManager.SetLevelCompleteMenuText(HighScoreType.Local, this.levelManager.PlayerScore, this.levelManager.GetRating());
-                }
-
-                this.levelManager.EndLevel();
-                AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
+                this.menuManager.ActiveMenu = MenuType.Pause;
+                this.menuManager.UpdatePauseMenuTiles(true);
             }
             else
             {
-                this.headsUpDisplay.HealthPercentage = this.levelManager.PlayerHealthPercentage;
-                this.headsUpDisplay.Score = this.levelManager.PlayerScore;
-                this.headsUpDisplay.ActivePowerUp = this.levelManager.PlayerPowerUp;
-                if (this.inputManager.Update(gameTime, false))
+                this.levelManager.Update(gameTime, this.inputManager.Commands);
+                if (this.levelManager.Complete)
                 {
-                    // Commands are available.
-                    foreach (InputCommand command in this.inputManager.Commands)
+                    this.gameState = GameState.InMenu;
+                    this.menuManager.ActiveMenu = MenuType.LevelComplete;
+                    if (!this.levelManager.CurrentLevelCustom)
                     {
-                        switch (command)
+                        if (this.levelManager.CurrentLevel < GameSettings.TotalLevels && this.levelManager.CurrentLevel == this.gameSettings.LevelsUnlocked)
                         {
-                            case InputCommand.Pause:
-                                this.PauseGame();
-                                break;
-                            case InputCommand.Exit:
-                                this.PauseGame();
-                                break;
-                            default:
-                                break;
+                            this.gameSettings.LevelsUnlocked += 1;
+                            this.menuManager.UpdateLevelsUnlocked(this.gameSettings.LevelsUnlocked);
+                        }
+
+                        this.menuManager.SetLevelCompleteMenuText(this.gameSettings.AddScore(this.levelManager.CurrentLevel, this.levelManager.PlayerScore), this.levelManager.PlayerScore, this.levelManager.GetRating());
+                    }
+                    else
+                    {
+                        this.menuManager.SetLevelCompleteMenuText(HighScoreType.Local, this.levelManager.PlayerScore, this.levelManager.GetRating());
+                    }
+
+                    this.levelManager.EndLevel();
+                    AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
+                }
+                else
+                {
+                    this.headsUpDisplay.HealthPercentage = this.levelManager.PlayerHealthPercentage;
+                    this.headsUpDisplay.Score = this.levelManager.PlayerScore;
+                    this.headsUpDisplay.ActivePowerUp = this.levelManager.PlayerPowerUp;
+                    if (this.inputManager.Update(gameTime, false))
+                    {
+                        // Commands are available.
+                        foreach (InputCommand command in this.inputManager.Commands)
+                        {
+                            switch (command)
+                            {
+                                case InputCommand.Pause:
+                                    this.PauseGame();
+                                    break;
+                                case InputCommand.Exit:
+                                    this.PauseGame();
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     }
-                }
 
-                if (this.inputManager.VoiceCommandAvailable)
-                {
-                    if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == MenuConstants.PauseCommandName)
+                    if (this.inputManager.VoiceCommandAvailable)
                     {
-                        this.PauseGame();
+                        if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == MenuConstants.PauseCommandName)
+                        {
+                            this.PauseGame();
+                        }
                     }
                 }
             }
@@ -324,10 +334,10 @@ namespace SticKart
         /// </summary>
         protected void PauseGame()
         {
-            this.levelManager.EndLevel(); // TODO: change to only on exit
+            this.menuManager.UpdatePauseMenuTiles(false);
             AudioManager.PauseBackgroundMusic();
             this.gameState = GameState.InMenu;
-            this.menuManager.ActiveMenu = MenuType.Main; // TODO: Add a resume button or pause menu.
+            this.menuManager.ActiveMenu = MenuType.Pause;
             AudioManager.PlayBackgroundMusic(this.gameState == GameState.InGame);
         }
 
@@ -411,6 +421,7 @@ namespace SticKart
                     isCustom = this.levelManager.CurrentLevelCustom;
                 }
 
+                this.levelManager.EndLevel();
                 if (isCustom)
                 {
                     if (value <= gameSettings.TotalCustomLevels)
@@ -464,7 +475,7 @@ namespace SticKart
         }
 
         /// <summary>
-        /// Event handler for an editor type change event event.
+        /// Event handler for an editor type change event.
         /// </summary>
         /// <param name="value">The value passed from the sender.</param>
         protected void EditorChangeType(int value)
@@ -474,6 +485,15 @@ namespace SticKart
                 NotificationManager.AddNotification(NotificationType.Swap);
                 this.levelEditor.ChangeEntityType(value);
             }
+        }
+
+        /// <summary>
+        /// Event handler for a resume game event.
+        /// </summary>
+        /// <param name="value">The value passed from the sender.</param>
+        protected void UnpauseGame(bool value)
+        {
+            this.gameState = GameState.InGame;
         }
 
         /// <summary>
@@ -506,6 +526,11 @@ namespace SticKart
             {
                 case GameState.InMenu:
                     this.GraphicsDevice.Clear(Color.CornflowerBlue);
+                    if (this.menuManager.ActiveMenu == MenuType.Pause)
+                    {
+                        this.levelManager.Draw();
+                    }
+
                     this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {

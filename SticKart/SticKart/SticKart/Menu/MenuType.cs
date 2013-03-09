@@ -119,6 +119,11 @@ namespace SticKart.Menu
         /// <summary>
         /// The editor overlay type menu.
         /// </summary>
-        EditorOverlayType
+        EditorOverlayType,
+
+        /// <summary>
+        /// The pause menu.
+        /// </summary>
+        Pause
     }
 }

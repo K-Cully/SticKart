@@ -212,6 +212,24 @@ namespace SticKart.Game.Level
         }
 
         /// <summary>
+        /// Gets a value indicating whether the player is dead or not.
+        /// </summary>
+        public bool IsPlayerDead
+        {
+            get
+            {
+                if (this.stickman != null)
+                {
+                    return this.stickman.IsDead;
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the player's active power up.
         /// </summary>
         public PowerUpType PlayerPowerUp
@@ -311,18 +329,11 @@ namespace SticKart.Game.Level
         /// <param name="commands">A list of input commands.</param>
         public void Update(GameTime gameTime, List<InputCommand> commands)
         {
-            if (this.stickman.IsDead)
-            {
-                Camera2D.Reset();
-                this.background.Reset();
-                this.EndLevel();
-                this.BeginLevel(this.CurrentLevel, this.currentLevelCustom);
-            }
-            else if (this.exit.Triggered)
+            if (this.exit.Triggered)
             {
                 this.Complete = true;
             }
-            else
+            else if (!stickman.IsDead)
             {
                 this.stickman.Update(gameTime);
                 this.exit.Update();

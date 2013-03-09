@@ -172,6 +172,8 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.EditorOverlayMenu, MenuFactory.CreateEditorSubMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.CustomLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.EditorOverlayType, MenuFactory.CreateEditorTypeMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.Pause, MenuFactory.CreatePauseMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+        
         }
 
         /// <summary>
@@ -319,6 +321,22 @@ namespace SticKart.Menu
 
                     changedCount++;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Updates teh number of active buttons in the pause menu.
+        /// </summary>
+        /// <param name="playerDied">A value indicating whether the player died or not.</param>
+        public void UpdatePauseMenuTiles(bool playerDied)
+        {
+            if (playerDied)
+            {
+                this.menus[MenuType.Pause].SelectablesActive = 2;
+            }
+            else
+            {
+                this.menus[MenuType.Pause].SelectablesActive = 3;
             }
         }
 
@@ -753,7 +771,21 @@ namespace SticKart.Menu
                     break;
                 case MenuConstants.ContinueButtonName:
                     this.menus[this.ActiveMenu].Reset();
-                    this.OnBeginLevelDetected(0);
+                    if (this.ActiveMenu == MenuType.LevelComplete)
+                    {
+                        if (this.OnBeginLevelDetected != null)
+                        {
+                            this.OnBeginLevelDetected(0);
+                        }
+                    }
+                    else
+                    {
+                        if (this.OnResumeGameDetected != null)
+                        {
+                            this.OnResumeGameDetected(true);
+                        }
+                    }
+
                     break;
                 case MenuConstants.RetryButtonName:
                     this.menus[this.ActiveMenu].Reset();
