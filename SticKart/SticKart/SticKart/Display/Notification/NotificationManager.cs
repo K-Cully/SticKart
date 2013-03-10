@@ -17,6 +17,11 @@ namespace SticKart.Display.Notification
     public sealed class NotificationManager
     {
         /// <summary>
+        /// The delay to apply between notifications.
+        /// </summary>
+        private const float DelayTime = 1.0f;
+
+        /// <summary>
         /// The notification manager singleton.
         /// </summary>
         private static volatile NotificationManager managerSingleton = null;
@@ -52,6 +57,11 @@ namespace SticKart.Display.Notification
         private Vector2 textPosition;
 
         /// <summary>
+        /// The delay timer.
+        /// </summary>
+        private float delayTimer;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="NotificationManager"/> class.
         /// </summary>
         /// <param name="contentManager">The content manager to use for loading assets.</param>
@@ -67,6 +77,7 @@ namespace SticKart.Display.Notification
             this.textPosition = new Vector2(displayDimensions.X / 2.0f, displayDimensions.Y / 8.0f);
             // NotificationSettings.Clear(); // TODO: add in for play testing
             this.notificationSettings = NotificationSettings.Load();
+            this.delayTimer = NotificationManager.DelayTime;
         }
 
         /// <summary>
@@ -148,13 +159,24 @@ namespace SticKart.Display.Notification
         public void Update(GameTime gameTime, bool closeNotification)
         {
             lock (NotificationManager.mutex)
-            {
+            {                
                 if (this.notificationQueue.Count > 0)
                 {
-                    this.notificationQueue.Peek().Update(gameTime, closeNotification);
-                    if (!this.notificationQueue.Peek().Active)
+                    if (this.delayTimer < NotificationManager.DelayTime)
                     {
-                        this.notificationQueue.Dequeue();
+                        this.delayTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                    }
+                    else
+                    {
+                        this.notificationQueue.Peek().Update(gameTime, closeNotification);
+                        if (!this.notificationQueue.Peek().Active)
+                        {
+                            this.notificationQueue.Dequeue();
+                            if (this.notificationQueue.Count > 0)
+                            {
+                                this.delayTimer = 0.0f;
+                            }
+                        }
                     }
                 }
             }
@@ -167,7 +189,7 @@ namespace SticKart.Display.Notification
         {
             lock (NotificationManager.mutex)
             {
-                if (this.notificationQueue.Count > 0)
+                if (this.notificationQueue.Count > 0 && this.delayTimer >= NotificationManager.DelayTime)
                 {
                     this.notificationQueue.Peek().Draw();
                     RenderableText.Draw(this.closeInformation, this.textPosition, 0.0f);
