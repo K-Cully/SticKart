@@ -78,8 +78,6 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, MenuConstants.ExitButtonName);
             mainMenu.AddItem(button);
 
-            // TODO: Add about menu here.
-
             return mainMenu;
         }
 

@@ -411,8 +411,6 @@ namespace SticKart
                     value *= -1;
                 }
 
-                Camera2D.Reset();
-                this.inputManager.Reset();
                 if (value == 0)
                 {
                     value = this.levelManager.CurrentLevel + 1;
@@ -423,6 +421,8 @@ namespace SticKart
                     isCustom = this.levelManager.CurrentLevelCustom;
                 }
 
+                Camera2D.Reset();
+                this.inputManager.Reset();
                 this.levelManager.EndLevel();
                 if (isCustom)
                 {
