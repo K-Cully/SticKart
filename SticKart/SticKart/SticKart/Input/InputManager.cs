@@ -436,6 +436,7 @@ namespace SticKart.Input
         /// </summary>
         public void Reset()
         {
+            this.Commands.Clear();
             if (this.gestureManager != null)
             {
                 this.gestureManager.ResetGestures();
