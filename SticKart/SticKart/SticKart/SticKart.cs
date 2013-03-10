@@ -205,7 +205,9 @@ namespace SticKart
         {
             if (this.notificationManager.NotificationsActive)
             {
-                this.notificationManager.Update(gameTime, this.inputManager.Update(gameTime, false));
+                this.inputManager.Update(gameTime, false);
+                bool close = this.inputManager.Commands.Contains(InputCommand.Select) || this.inputManager.Commands.Contains(InputCommand.SelectAt);
+                this.notificationManager.Update(gameTime, close);
             }
             else
             {
