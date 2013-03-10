@@ -19,7 +19,7 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// The delay to apply between notifications.
         /// </summary>
-        private const float DelayTime = 1.0f;
+        private const float DelayTime = 0.5f;
 
         /// <summary>
         /// The notification manager singleton.

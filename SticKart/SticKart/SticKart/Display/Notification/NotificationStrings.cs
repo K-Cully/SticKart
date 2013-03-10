@@ -19,7 +19,7 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// The text to inform a user how to close a notification.
         /// </summary>
-        public const string CloseNotification = "Press return or make a gesture to close.";
+        public const string CloseNotification = "Make a push gesture to close.";
 
         /// <summary>
         /// The text to display for a step back notification.
@@ -44,7 +44,7 @@ namespace SticKart.Display.Notification
         /// <summary>
         /// The text to display for a push notification.
         /// </summary>
-        public const string Push = "To select an item:\nDraw your hand back towards you\nthen push gently forward.";
+        public const string Push = "To select an item:\nDraw your hand back to you\nthen push gently towards\nthe screen.";
 
         /// <summary>
         /// The text to display for a swipe notification.
