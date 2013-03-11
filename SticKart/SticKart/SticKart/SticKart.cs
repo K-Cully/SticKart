@@ -267,9 +267,7 @@ namespace SticKart
         {
             if (this.levelManager.IsPlayerDead)
             {
-                this.gameState = GameState.InMenu;
-                this.menuManager.ActiveMenu = MenuType.Pause;
-                this.menuManager.UpdatePauseMenuTiles(true);
+                this.PauseGame(true);
             }
             else
             {
@@ -309,10 +307,10 @@ namespace SticKart
                             switch (command)
                             {
                                 case InputCommand.Pause:
-                                    this.PauseGame();
+                                    this.PauseGame(false);
                                     break;
                                 case InputCommand.Exit:
-                                    this.PauseGame();
+                                    this.PauseGame(false);
                                     break;
                                 default:
                                     break;
@@ -324,7 +322,7 @@ namespace SticKart
                     {
                         if (this.inputManager.LastVoiceCommand.ToUpperInvariant() == MenuConstants.PauseCommandName)
                         {
-                            this.PauseGame();
+                            this.PauseGame(false);
                         }
                     }
                 }
@@ -334,9 +332,10 @@ namespace SticKart
         /// <summary>
         /// Pauses the game.
         /// </summary>
-        protected void PauseGame()
+        /// <param name="playerDied">A value indicating whether the player is dead or not.</param>
+        protected void PauseGame(bool playerDied)
         {
-            this.menuManager.UpdatePauseMenuTiles(false);
+            this.menuManager.UpdatePauseMenuTiles(playerDied);
             AudioManager.PauseBackgroundMusic();
             this.gameState = GameState.InMenu;
             this.menuManager.ActiveMenu = MenuType.Pause;
@@ -427,12 +426,12 @@ namespace SticKart
                 }
 
                 Camera2D.Reset();
-                this.inputManager.Reset();
                 this.levelManager.EndLevel();
                 if (isCustom)
                 {
                     if (value <= this.gameSettings.TotalCustomLevels)
                     {
+                        this.inputManager.Reset();
                         this.gameState = GameState.InGame;
                         this.levelManager.BeginLevel(value, isCustom);
                     }
@@ -441,6 +440,7 @@ namespace SticKart
                 {
                     if (value <= GameSettings.TotalLevels)
                     {
+                        this.inputManager.Reset();
                         this.gameState = GameState.InGame;
                         this.levelManager.BeginLevel(value, isCustom);
                     }
@@ -500,6 +500,8 @@ namespace SticKart
         /// <param name="value">The value passed from the sender.</param>
         protected void UnpauseGame(bool value)
         {
+            AudioManager.StopBackgroundMusic();
+            AudioManager.PlayBackgroundMusic(true);
             this.gameState = GameState.InGame;
         }
 
