@@ -2,56 +2,12 @@
 <XnaContent>
   <Asset Type="SticKart.PlatformDescription[]">
     <Item>
-      <Position>128 376</Position>
-      <Length>288</Length>
+      <Position>1344 496</Position>
+      <Length>512</Length>
     </Item>
     <Item>
-      <Position>408 472</Position>
-      <Length>288</Length>
-    </Item>
-    <Item>
-      <Position>1448 416</Position>
-      <Length>288</Length>
-    </Item>
-    <Item>
-      <Position>1864 344</Position>
-      <Length>288</Length>
-    </Item>
-    <Item>
-      <Position>2320 416</Position>
-      <Length>208</Length>
-    </Item>
-    <Item>
-      <Position>3176 264</Position>
-      <Length>320</Length>
-    </Item>
-    <Item>
-      <Position>3872 192</Position>
-      <Length>592</Length>
-    </Item>
-    <Item>
-      <Position>4448 96</Position>
-      <Length>160</Length>
-    </Item>
-    <Item>
-      <Position>4824 32</Position>
-      <Length>240</Length>
-    </Item>
-    <Item>
-      <Position>5232 8</Position>
-      <Length>240</Length>
-    </Item>
-    <Item>
-      <Position>5720 56</Position>
-      <Length>368</Length>
-    </Item>
-    <Item>
-      <Position>6248 240</Position>
-      <Length>368</Length>
-    </Item>
-    <Item>
-      <Position>6632 568</Position>
-      <Length>320</Length>
+      <Position>104 576</Position>
+      <Length>384</Length>
     </Item>
   </Asset>
 </XnaContent>

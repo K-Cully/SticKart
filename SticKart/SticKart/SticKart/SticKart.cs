@@ -383,6 +383,11 @@ namespace SticKart
                         default:
                             break;
                     }
+
+                    if (this.gameState == GameState.InGame)
+                    {
+                        break;
+                    }
                 }
             }
 

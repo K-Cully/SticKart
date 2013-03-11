@@ -40,7 +40,7 @@ namespace SticKart.LevelEditor
         /// <summary>
         /// The maximum length of a level.
         /// </summary>
-        private const float MaxLength = 2000.0f;
+        private const float MaxLength = 6000.0f;
 
         /// <summary>
         /// The length of a small platform, in pixels.
