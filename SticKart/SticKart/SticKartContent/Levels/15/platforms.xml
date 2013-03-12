@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="SticKart.PlatformDescription[]">
+    <Item>
+      <Position>216 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>720 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>1224 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>1984 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2488 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2992 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>3496 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>4000 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>4368 352</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>5040 480</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>5640 384</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>6144 384</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>6464 488</Position>
+      <Length>384</Length>
+    </Item>
+  </Asset>
+</XnaContent>

@@ -1,0 +1,1015 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="SticKart.InteractiveEntityDescription[]">
+    <Item>
+      <Name>cart</Name>
+      <Position>72 552</Position>
+      <Dimensions>64 43</Dimensions>
+    </Item>
+    <Item>
+      <Name>switch</Name>
+      <Position>208 440</Position>
+      <Dimensions>64 64</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1504 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1544 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1584 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1624 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1664 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1704 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>192 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>232 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>272 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>312 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>352 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>392 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>spike</Name>
+      <Position>616 440</Position>
+      <Dimensions>32 64</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>192 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>296 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>400 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>504 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>600 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>712 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1288 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1336 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1392 304</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1464 240</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1600 208</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1728 208</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1832 256</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1904 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1960 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2008 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>776 328</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>848 288</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>952 264</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1064 264</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1152 288</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>1216 352</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2112 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2224 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2320 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2416 264</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2520 232</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2624 232</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2728 232</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2824 264</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2904 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>2984 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3072 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3240 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3304 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3368 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3176 320</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3296 296</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3392 296</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3488 296</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3592 328</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3672 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>spike</Name>
+      <Position>2560 440</Position>
+      <Dimensions>32 64</Dimensions>
+    </Item>
+    <Item>
+      <Name>spike</Name>
+      <Position>4232 440</Position>
+      <Dimensions>32 64</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3760 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3848 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3920 320</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>3984 240</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4072 168</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4192 112</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4336 112</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4488 112</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4584 176</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4672 240</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4752 240</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4848 240</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4488 568</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4544 568</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4608 568</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>health</Name>
+      <Position>4368 320</Position>
+      <Dimensions>48 48</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4928 288</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>4992 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5072 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5360 384</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5120 296</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5184 224</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5272 168</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5376 136</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5488 136</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5584 136</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5648 184</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5696 256</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6064 464</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6120 488</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6192 520</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6256 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5784 256</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5856 216</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>5936 192</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6024 184</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6112 184</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6184 168</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6248 136</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6344 128</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6424 136</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6528 192</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6608 256</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>spike</Name>
+      <Position>6368 344</Position>
+      <Dimensions>32 64</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6672 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6792 352</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>6896 352</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>7000 352</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>104 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>fire</Name>
+      <Position>24 376</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>288 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>392 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>480 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>552 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>496 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>600 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>712 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>936 336</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>1040 336</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>824 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>936 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1040 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1160 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>856 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1000 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1160 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1296 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>1408 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1304 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1392 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>1472 352</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>1552 296</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>1744 304</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>1824 352</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>diamond</Name>
+      <Position>1648 280</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1904 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2032 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2160 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2288 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>2376 368</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>2488 320</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>diamond</Name>
+      <Position>2592 296</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>2712 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>2824 360</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>1896 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2024 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2176 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2320 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>2568 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2456 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2696 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2848 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>2960 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>3152 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3232 424</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3344 424</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3456 424</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3560 424</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3632 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3784 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3952 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>4120 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>4288 552</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>4544 448</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>4176 440</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>4072 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>3960 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>4176 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>4272 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>4472 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>4560 312</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>4848 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>4936 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>5032 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5128 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>5224 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>5280 280</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>5376 232</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>5480 256</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>diamond</Name>
+      <Position>6376 224</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>diamond</Name>
+      <Position>6480 264</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>diamond</Name>
+      <Position>6552 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>5776 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>5992 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>ruby</Name>
+      <Position>6200 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>6104 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5888 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5664 344</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>6344 448</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>6464 448</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>6584 448</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>6536 560</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>6680 560</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>6816 560</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5632 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5792 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5928 432</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5496 448</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5408 496</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5296 544</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5192 560</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>coin</Name>
+      <Position>5048 560</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+    <Item>
+      <Name>diamond</Name>
+      <Position>6264 232</Position>
+      <Dimensions>32 32</Dimensions>
+    </Item>
+  </Asset>
+</XnaContent>
