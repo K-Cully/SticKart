@@ -916,7 +916,23 @@
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Levels\9\interactiveEntities.xml">
+      <Name>interactiveEntities</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\9\platforms.xml">
+      <Name>platforms</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Levels\9\points.xml">
+      <Name>points</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Levels\8\interactiveEntities.xml">
       <Name>interactiveEntities</Name>
