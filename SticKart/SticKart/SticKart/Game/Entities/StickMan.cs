@@ -199,9 +199,14 @@ namespace SticKart.Game.Entities
         private float health;
 
         /// <summary>
-        /// The impulse applied to the stickman when they jump.
+        /// The impulse applied to the stickman when jumping.
         /// </summary>
         private float jumpImpulse;
+
+        /// <summary>
+        /// The base impulse applied to the stickman when jumping.
+        /// </summary>
+        private float baseJumpImpulse;
 
         /// <summary>
         /// The current state the stickman is in.
@@ -280,6 +285,7 @@ namespace SticKart.Game.Entities
             this.health = maximumHealth;
             this.maximumHealth = maximumHealth;
             this.jumpImpulse = jumpImpulse;
+            this.baseJumpImpulse = jumpImpulse;
             this.InCart = false;
             this.state = PlayerState.standing;
             this.onFloor = false;
@@ -649,6 +655,7 @@ namespace SticKart.Game.Entities
                 this.cartJoint = null;
             }
 
+            this.jumpImpulse = this.baseJumpImpulse;
             this.activePowerUp = PowerUpType.None;
             this.powerUpTimer = 0.0f;
             this.fullBody.Position = ConvertUnits.ToSimUnits(position + this.fullBodyOffset);
