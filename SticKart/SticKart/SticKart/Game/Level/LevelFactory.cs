@@ -46,7 +46,7 @@ namespace SticKart.Game.Level
                     }
                     else if (description.Name == EntityConstants.CartBody)
                     {
-                        mineCart = new MineCart(spriteBatch, contentManager, ref physicsWorld, description.Position, 200.0f, 350.0f, 80.0f, -80.0f);
+                        mineCart = new MineCart(spriteBatch, contentManager, ref physicsWorld, description.Position, 100.0f, 240.0f, 350.0f, 80.0f, -80.0f);
                     }
                     else if (description.Name == EntityConstants.Switch)
                     {

@@ -6,7 +6,9 @@
 
 namespace SticKart.Game.Entities
 {
+    using System;
     using Display;
+    using FarseerPhysics.Collision.Shapes;
     using FarseerPhysics.Dynamics;
     using FarseerPhysics.Dynamics.Joints;
     using FarseerPhysics.Factories;
@@ -111,6 +113,11 @@ namespace SticKart.Game.Entities
         /// The minimum horizontal speed, in physics units, of a cart entity.
         /// </summary>
         private float minimumHorizontalSpeed;
+        
+        /// <summary>
+        /// The minimum horizontal speed, in physics units, of a cart entity, while carrying the player.
+        /// </summary>
+        private float minimumHorizontalSpeedPlayer;        
 
         /// <summary>
         /// The maximum horizontal speed, in physics units, of a cart entity.
@@ -156,15 +163,17 @@ namespace SticKart.Game.Entities
         /// <param name="physicsWorld">The game's physics world.</param>
         /// <param name="position">The position of the mine cart.</param>
         /// <param name="minimumHorizontalSpeed">The minimum horizontal speed of the mine cart, in display units.</param>
+        /// <param name="minimumHorizontalSpeedPlayer">The minimum horizontal speed of the mine cart, while carrying the player, in display units.</param>
         /// <param name="maximumHorizontalSpeed">The maximum horizontal speed of the mine cart, in display units.</param>
         /// <param name="acceleration">The acceleration of the mine cart, in display units.</param>
         /// <param name="deceleration">The deceleration of the mine cart, in display units.</param>
-        public MineCart(SpriteBatch spriteBatch, ContentManager contentManager, ref World physicsWorld, Vector2 position, float minimumHorizontalSpeed, float maximumHorizontalSpeed, float acceleration, float deceleration)
+        public MineCart(SpriteBatch spriteBatch, ContentManager contentManager, ref World physicsWorld, Vector2 position, float minimumHorizontalSpeed, float minimumHorizontalSpeedPlayer, float maximumHorizontalSpeed, float acceleration, float deceleration)
         {
             this.physicsWorld = physicsWorld;
             this.cartSprite = new Sprite();
             this.wheelSprite = new Sprite();
             this.minimumHorizontalSpeed = ConvertUnits.ToSimUnits(minimumHorizontalSpeed);
+            this.minimumHorizontalSpeedPlayer = ConvertUnits.ToSimUnits(minimumHorizontalSpeedPlayer);
             this.maximumHorizontalSpeed = ConvertUnits.ToSimUnits(maximumHorizontalSpeed);
             this.acceleration = ConvertUnits.ToSimUnits(acceleration);
             this.deceleration = ConvertUnits.ToSimUnits(deceleration);
@@ -172,8 +181,8 @@ namespace SticKart.Game.Entities
             this.wheelLeftOffset = new Vector2(-16.0f, 14.0f);
             this.wheelRightOffset = new Vector2(16.0f, 14.0f);
             this.InitializeAndLoadSprites(spriteBatch, contentManager);
-            this.stabilizerLeftOffset = new Vector2(-this.cartSprite.Width, -this.cartSprite.Height / 2.0f);
-            this.stabilizerRightOffset = new Vector2(this.cartSprite.Width, -this.cartSprite.Height / 2.0f);
+            this.stabilizerLeftOffset = new Vector2(-this.cartSprite.Width * 1.25f, -this.cartSprite.Height * 0.6f);
+            this.stabilizerRightOffset = new Vector2(this.cartSprite.Width * 1.25f, -this.cartSprite.Height * 0.6f);
             this.SetUpPhysics(ref physicsWorld, position);
             this.moving = false;
         }
@@ -189,37 +198,38 @@ namespace SticKart.Game.Entities
         {
             if (this.moving)
             {
+                Vector2 accelerationVector = this.CalculateDirectionOftravel();
                 if (containsPlayer)
                 {
-                    if (this.cartBody.LinearVelocity.X < this.minimumHorizontalSpeed)
+                    if (this.cartBody.LinearVelocity.X < this.minimumHorizontalSpeedPlayer)
                     {
-                        this.cartBody.ApplyForce(new Vector2(this.acceleration * 3.0f, 0.0f));
+                        this.cartBody.ApplyForce(accelerationVector * this.acceleration * 3.0f);
                     }
                     else if (this.cartBody.LinearVelocity.X < this.maximumHorizontalSpeed)
                     {
-                        this.cartBody.ApplyForce(new Vector2(this.acceleration, 0.0f));
+                        this.cartBody.ApplyForce(accelerationVector * this.acceleration);
                     }
                 }
                 else if (playerPosition.X > this.cartBody.Position.X)
                 {
                     if (this.cartBody.LinearVelocity.X > this.maximumHorizontalSpeed)
                     {
-                        this.cartBody.ApplyForce(new Vector2(this.deceleration, 0.0f));
+                        this.cartBody.ApplyForce(accelerationVector * this.deceleration);
                     }
                     else if (this.cartBody.LinearVelocity.X < horizontalPlayerSpeed || this.cartBody.LinearVelocity.X < this.maximumHorizontalSpeed)
                     {
-                        this.cartBody.ApplyForce(new Vector2(this.acceleration, 0.0f));
+                        this.cartBody.ApplyForce(accelerationVector * this.acceleration);
                     }
                 }
                 else if (playerPosition.X < this.cartBody.Position.X)
                 {
                     if (this.cartBody.LinearVelocity.X > this.minimumHorizontalSpeed)
                     {
-                        this.cartBody.ApplyForce(new Vector2(this.deceleration, 0.0f));
+                        this.cartBody.ApplyForce(accelerationVector * this.deceleration);
                     }
                     else
                     {
-                        this.cartBody.ApplyForce(new Vector2(this.acceleration, 0.0f));
+                        this.cartBody.ApplyForce(accelerationVector * this.acceleration);
                     }
                 }
             }
@@ -298,6 +308,7 @@ namespace SticKart.Game.Entities
             this.cartBody.Restitution = restitution;
             this.cartBody.CollisionCategories = EntityConstants.MineCartCategory;
             this.cartBody.CollidesWith = EntityConstants.StickManCategory;
+            this.cartBody.AngularDamping = 0.01f;
 
             // Anchor
             this.anchorBody = BodyFactory.CreateBody(physicsWorld, ConvertUnits.ToSimUnits(position));
@@ -322,7 +333,8 @@ namespace SticKart.Game.Entities
 
             // Left stabilizer
             this.stabilizerBodyLeft = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(position + this.stabilizerLeftOffset));
-            this.stabilizerBodyLeft.BodyType = BodyType.Dynamic;
+            this.stabilizerBodyLeft.Mass = 0.0f;
+            this.stabilizerBodyLeft.BodyType = BodyType.Dynamic;            
             this.stabilizerBodyLeft.Restitution = restitution;
             this.stabilizerBodyLeft.Friction = 1.0f;
             this.stabilizerBodyLeft.CollisionCategories = EntityConstants.MineCartCategory;
@@ -330,6 +342,7 @@ namespace SticKart.Game.Entities
 
             // Right stabilizer
             this.stabilizerBodyRight = BodyFactory.CreateCircle(physicsWorld, ConvertUnits.ToSimUnits(this.wheelSprite.Width / 2.0f), density, ConvertUnits.ToSimUnits(position + this.stabilizerRightOffset));
+            this.stabilizerBodyRight.Mass = 0.0f;
             this.stabilizerBodyRight.BodyType = BodyType.Dynamic;
             this.stabilizerBodyRight.Restitution = restitution;
             this.stabilizerBodyRight.Friction = 1.0f;
@@ -346,6 +359,34 @@ namespace SticKart.Game.Entities
             // Stabilizer joints
             this.stabilizerJointLeft = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.stabilizerBodyLeft, Vector2.Zero);
             this.stabilizerJointRight = JointFactory.CreateRevoluteJoint(physicsWorld, this.cartBody, this.stabilizerBodyRight, Vector2.Zero);
+        }
+
+        /// <summary>
+        /// Calculates the direction that the cart should move, based on the floor direction.
+        /// </summary>
+        /// <returns>The direction the cart should travel.</returns>
+        private Vector2 CalculateDirectionOftravel()
+        {
+            Vector2 direction = Vector2.UnitX;
+            if (this.wheelBodyRight.ContactList != null && this.wheelBodyRight.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            {
+                direction = (this.wheelBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.wheelBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
+            }
+            else if (this.wheelBodyLeft.ContactList != null && this.wheelBodyLeft.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            {
+                direction = (this.wheelBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.wheelBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
+            }
+            else if (this.stabilizerBodyRight.ContactList != null && this.stabilizerBodyRight.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            {
+                direction = (this.stabilizerBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.stabilizerBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
+            }
+            else if (this.stabilizerBodyLeft.ContactList != null && this.stabilizerBodyLeft.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            {
+                direction = (this.stabilizerBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.stabilizerBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
+            }
+
+            direction.Normalize();
+            return direction;
         }
     }
 }
