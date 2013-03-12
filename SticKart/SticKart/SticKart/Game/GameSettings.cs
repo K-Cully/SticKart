@@ -27,7 +27,7 @@ namespace SticKart.Game
         /// <summary>
         /// The total number of levels in the main game.
         /// </summary>
-        public const int TotalLevels = 8;
+        public const int TotalLevels = 15;
 
         /// <summary>
         /// The name of the settings file.
