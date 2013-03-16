@@ -75,7 +75,6 @@ namespace SticKart.Display.Notification
             this.closeInformation.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, NotificationStrings.CloseNotification);
             this.closeInformation.Colour = Color.Gray;
             this.textPosition = new Vector2(displayDimensions.X / 2.0f, displayDimensions.Y / 8.0f);
-            // NotificationSettings.Clear(); // TODO: add in for play testing
             this.notificationSettings = NotificationSettings.Load();
             this.delayTimer = NotificationManager.DelayTime;
         }

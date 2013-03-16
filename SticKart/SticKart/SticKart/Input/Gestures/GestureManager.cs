@@ -65,11 +65,6 @@ namespace SticKart.Input.Gestures
         private double lastLegLiftCounter;
 
         /// <summary>
-        /// The last leg lifted.
-        /// </summary>
-        private JointType lastLegLifted;
-
-        /// <summary>
         /// A value indicating whether to accept a left leg lift gesture or not.
         /// </summary>
         private bool acceptLeftLegLift;
@@ -102,7 +97,6 @@ namespace SticKart.Input.Gestures
             this.standardSpineY = 0.0f;
             this.runTimeLimit = 1.5;
             this.lastLegLiftCounter = 0.0f;
-            this.lastLegLifted = JointType.FootLeft;
             this.acceptLeftLegLift = true;
             this.acceptRightLegLift = true;
             this.activeHand = primaryHand;
@@ -212,7 +206,6 @@ namespace SticKart.Input.Gestures
         public void ResetGestures()
         {
             this.lastLegLiftCounter = 0.0f;
-            this.lastLegLifted = JointType.FootLeft;
             this.acceptLeftLegLift = true;
             this.acceptRightLegLift = true;
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
