@@ -11,6 +11,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
     </ConfigurationSettings>
     <Certificates>
+      <Certificate name="stickarthighscores" thumbprint="2AC4A01A5978D488BE16FFA34AD6474172F84C66" thumbprintAlgorithm="sha1" />
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="622B7B215EA053EC9E5DC6D38BE9FFBF0EA72D6C" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
