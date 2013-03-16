@@ -14,7 +14,7 @@ namespace SticKart.Game.AzureServices
         /// <summary>
         /// The uri string of the hosted data service.
         /// </summary>
-        public const string ServiceUriString = "http://stickarthighscores.cloudapp.net/ScoresWcfDataService.svc";
+        public const string ServiceUriString = "https://stickarthighscores.cloudapp.net/ScoresWcfDataService.svc";
 
         /// <summary>
         /// The app login credentials.
