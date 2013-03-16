@@ -102,5 +102,10 @@
   </ItemGroup>
   <ItemGroup>
     <Build Include="HighScores.sql" />
+    <Build Include="ActivePlayers.sql" />
+    <Build Include="Statistics.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SQLDatabaseProj.refactorlog" />
   </ItemGroup>
 </Project>
