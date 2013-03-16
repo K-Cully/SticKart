@@ -11,9 +11,9 @@ namespace SticKart.Game.AzureServices
     using System.Data.Services.Client;
     using System.Linq;
     using System.Net;
+    using System.Security.Cryptography.X509Certificates;
     using Game.Level;
     using SticKartScores;
-    using System.Security.Cryptography.X509Certificates;
 
     /// <summary>
     /// Manages connection to and querying of the cloud hosted high score service.
@@ -37,7 +37,7 @@ namespace SticKart.Game.AzureServices
         {
             try
             {
-                ServicePointManager.ServerCertificateValidationCallback += new System.Net.Security.RemoteCertificateValidationCallback(EasyCertCheck);
+                ServicePointManager.ServerCertificateValidationCallback += new System.Net.Security.RemoteCertificateValidationCallback(this.CertificateCheck);
                 this.context = new SticKartScores_0Entities(new Uri(ScoreServiceConstants.ServiceUriString));
                 this.context.Credentials = new NetworkCredential(ScoreServiceConstants.AppLoginName, ScoreServiceConstants.AppLoginPassword);
                 this.AddScoreToTable(new ScoreNamePair(0, "AAA"), 1);                
@@ -181,13 +181,13 @@ namespace SticKart.Game.AzureServices
         /// An event handler to verify the self-signed SSL certificate used by the data service.
         /// </summary>
         /// <param name="sender">The event sender.</param>
-        /// <param name="cert">The certificate received.</param>
+        /// <param name="certificate">The certificate received.</param>
         /// <param name="chain">The certificate chain.</param>
         /// <param name="error">Any SSL errors encountered.</param>
-        /// <returns></returns>
-        private bool EasyCertCheck(object sender, X509Certificate cert, X509Chain chain, System.Net.Security.SslPolicyErrors error)
+        /// <returns>A value indicating if the certificate is valid or not.</returns>
+        private bool CertificateCheck(object sender, X509Certificate certificate, X509Chain chain, System.Net.Security.SslPolicyErrors error)
         {
-            return true;
+            return certificate.Subject == ScoreServiceConstants.CertName && certificate.Issuer == ScoreServiceConstants.CertName;
         }
     }
 }
