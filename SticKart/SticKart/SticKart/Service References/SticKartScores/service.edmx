@@ -10,10 +10,77 @@
         <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="10" Unicode="false" FixedLength="true" />
         <Property Name="Score" Type="Edm.Int32" Nullable="false" />
       </EntityType>
+      <EntityType Name="ActivePlayer">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Ip" Type="Edm.String" Nullable="false" MaxLength="39" Unicode="true" FixedLength="true" />
+        <Property Name="Port" Type="Edm.String" Nullable="false" MaxLength="5" Unicode="true" FixedLength="true" />
+        <Property Name="State" Type="Edm.String" Nullable="false" MaxLength="1" Unicode="true" FixedLength="true" />
+        <Property Name="Player" Type="Edm.Int32" Nullable="false" />
+        <Property Name="Session" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="Statistic" Relationship="SticKartScores_0Model.FK_ActivePlayers_Statistics" FromRole="ActivePlayer" ToRole="Statistic" />
+      </EntityType>
+      <EntityType Name="Statistic">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.Int32" Nullable="false" p8:StoreGeneratedPattern="Identity" xmlns:p8="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        <Property Name="Name" Type="Edm.String" Nullable="false" MaxLength="32" Unicode="true" FixedLength="true" />
+        <Property Name="Password" Type="Edm.String" Nullable="false" MaxLength="4" Unicode="true" FixedLength="true" />
+        <Property Name="GamesPlayed" Type="Edm.Int32" Nullable="false" />
+        <Property Name="GamesWon" Type="Edm.Int32" Nullable="false" />
+        <Property Name="GamesLost" Type="Edm.Int32" Nullable="false" />
+        <NavigationProperty Name="ActivePlayers" Relationship="SticKartScores_0Model.FK_ActivePlayers_Statistics" FromRole="Statistic" ToRole="ActivePlayer" />
+      </EntityType>
+      <Association Name="FK_ActivePlayers_Statistics">
+        <End Role="Statistic" Type="SticKartScores_0Model.Statistic" Multiplicity="1" />
+        <End Role="ActivePlayer" Type="SticKartScores_0Model.ActivePlayer" Multiplicity="*" />
+        <ReferentialConstraint>
+          <Principal Role="Statistic">
+            <PropertyRef Name="Id" />
+          </Principal>
+          <Dependent Role="ActivePlayer">
+            <PropertyRef Name="Player" />
+          </Dependent>
+        </ReferentialConstraint>
+      </Association>
     </Schema>
     <Schema Namespace="SticKartScoresAzureWebRole" xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices" xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
       <EntityContainer Name="SticKartScores_0Entities" p7:LazyLoadingEnabled="true" m:IsDefaultEntityContainer="true" xmlns:p7="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+        <FunctionImport Name="RegisterPlayer" ReturnType="Edm.Boolean" m:HttpMethod="GET">
+          <Parameter Name="name" Type="Edm.String" Mode="In" />
+          <Parameter Name="password" Type="Edm.String" Mode="In" />
+        </FunctionImport>
+        <FunctionImport Name="AddActivePlayer" ReturnType="Edm.Boolean" m:HttpMethod="GET">
+          <Parameter Name="gamePort" Type="Edm.String" Mode="In" />
+          <Parameter Name="name" Type="Edm.String" Mode="In" />
+          <Parameter Name="password" Type="Edm.String" Mode="In" />
+          <Parameter Name="isHost" Type="Edm.Boolean" Mode="In" />
+        </FunctionImport>
+        <FunctionImport Name="SetPlayerInGame" ReturnType="Edm.Boolean" m:HttpMethod="GET">
+          <Parameter Name="gamePort" Type="Edm.String" Mode="In" />
+        </FunctionImport>
+        <FunctionImport Name="AreOpponentsAvailable" ReturnType="Edm.Boolean" m:HttpMethod="GET">
+          <Parameter Name="lookingForHosts" Type="Edm.Boolean" Mode="In" />
+        </FunctionImport>
+        <FunctionImport Name="GetNextOpponentAddress" ReturnType="Edm.String" m:HttpMethod="GET">
+          <Parameter Name="lookingForHosts" Type="Edm.Boolean" Mode="In" />
+          <Parameter Name="gamePort" Type="Edm.String" Mode="In" />
+        </FunctionImport>
+        <FunctionImport Name="RemoveFromActivePlayers" ReturnType="Edm.Boolean" m:HttpMethod="GET">
+          <Parameter Name="gamePort" Type="Edm.String" Mode="In" />
+          <Parameter Name="gameComplete" Type="Edm.Boolean" Mode="In" />
+          <Parameter Name="gameWon" Type="Edm.Boolean" Mode="In" />
+        </FunctionImport>
         <EntitySet Name="HighScores" EntityType="SticKartScores_0Model.HighScore" />
+        <EntitySet Name="ActivePlayers" EntityType="SticKartScores_0Model.ActivePlayer" />
+        <EntitySet Name="Statistics" EntityType="SticKartScores_0Model.Statistic" />
+        <AssociationSet Name="FK_ActivePlayers_Statistics" Association="SticKartScores_0Model.FK_ActivePlayers_Statistics">
+          <End Role="Statistic" EntitySet="Statistics" />
+          <End Role="ActivePlayer" EntitySet="ActivePlayers" />
+        </AssociationSet>
       </EntityContainer>
     </Schema>
   </edmx:DataServices>

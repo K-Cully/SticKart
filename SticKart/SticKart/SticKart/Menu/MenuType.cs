@@ -124,6 +124,11 @@ namespace SticKart.Menu
         /// <summary>
         /// The pause menu.
         /// </summary>
-        Pause
+        Pause,
+
+        /// <summary>
+        /// The about menu.
+        /// </summary>
+        About
     }
 }

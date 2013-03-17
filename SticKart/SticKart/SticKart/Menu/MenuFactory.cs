@@ -78,6 +78,15 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, largeButtonTile, largeExitIcon, exitText, MenuConstants.ExitButtonName);
             mainMenu.AddItem(button);
 
+            // About
+            relativePos.X += largeButtonTile.Width + gapBetweenTiles;
+            RenderableText largeAboutIcon = new RenderableText();
+            largeAboutIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, "?");
+            RenderableText aboutText = new RenderableText();
+            aboutText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.AboutButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeAboutIcon, aboutText, MenuConstants.AboutButtonName);
+            mainMenu.AddItem(button);
+
             return mainMenu;
         }
 
@@ -192,7 +201,7 @@ namespace SticKart.Menu
             button = new MenuButton(relativePos, largeButtonTile, buttonIcon, buttonText, MenuConstants.ObstacleButtonName);
             editorMenu.AddItem(button);
 
-            // Obstacle
+            // Power up
             relativePos.X += largeButtonTile.Width + gapBetweenTiles;
             buttonIcon = new Sprite();
             buttonIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargePowerUpIcon);
@@ -453,7 +462,114 @@ namespace SticKart.Menu
 
             return levelCompleteMenu;
         }
-        
+
+        /// <summary>
+        /// Creates an about menu.
+        /// </summary>
+        /// <param name="contentManager">The content manager to use to load resources.</param>
+        /// <param name="spriteBatch">The sprite batch to attach to menu items.</param>
+        /// <param name="position">The position of the menu.</param>
+        /// <returns>The new menu created.</returns>
+        public static Menu CreateAboutMenu(ContentManager contentManager, SpriteBatch spriteBatch, Vector2 position)
+        {
+            Menu aboutMenu = new Menu(position, 1, 1);
+            MenuButton button = null;
+            MenuText text = null;
+            RenderableText creditsText = new RenderableText();
+            Sprite largeButtonTile = new Sprite();
+            largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+            Vector2 relativePos = Vector2.Zero;
+            float tileOffset = 32.0f;
+
+            relativePos = new Vector2((-largeButtonTile.Width - tileOffset) * 1.5f, (-largeButtonTile.Height - tileOffset) * 0.5f);
+            Sprite largeBackIcon = new Sprite();
+            largeBackIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeBackIcon);
+            RenderableText backText = new RenderableText();
+            backText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.BackButtonName.ToLowerInvariant());
+            button = new MenuButton(relativePos, largeButtonTile, largeBackIcon, backText, MenuConstants.BackButtonName);
+            aboutMenu.AddItem(button);
+
+            relativePos = new Vector2((-largeButtonTile.Width) * 0.5f, (-largeButtonTile.Height - tileOffset) * 0.5f);
+            for (int row = 0; row < 2; row++)
+            {
+                for (int col = 0; col < 2; col++)
+                {
+                    largeButtonTile = new Sprite();
+                    largeButtonTile.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeButtonTile);
+                    MenuImage background = new MenuImage(relativePos, largeButtonTile);
+                    aboutMenu.AddItem(background);
+                    relativePos.X += largeButtonTile.Width;
+                }
+
+                relativePos.Y += largeButtonTile.Height;
+                relativePos.X = (-largeButtonTile.Width) * 0.5f;
+            }
+
+            relativePos = new Vector2(0.0f, -largeButtonTile.Height * 0.875f);
+            float smallGap = tileOffset * 1.2f;
+            float largeGap = tileOffset * 2.2f;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Design, artwork,");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += smallGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "programming & sfx:");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += smallGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Keith Cully");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += largeGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Music:");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += smallGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "www.tannerhelland.com");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += largeGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Notification model:");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += smallGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "thelowlander.wordpress.com");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += largeGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Special thanks:");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += smallGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "All my testers");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            relativePos.Y += smallGap;
+
+            creditsText = new RenderableText();
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "I.T.Carlow lecturing staff");
+            text = new MenuText(relativePos, creditsText, true);
+            aboutMenu.AddItem(text);
+            return aboutMenu;
+        }
+
         /// <summary>
         /// Creates a leaderboard menu.
         /// </summary>

@@ -185,6 +185,7 @@ namespace SticKart.Menu
             this.menus.Add(MenuType.CustomLevelSelect, MenuFactory.CreateCustomLevelSelectMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f, this.screenDimensions.X, gameSettings));
             this.menus.Add(MenuType.EditorOverlayType, MenuFactory.CreateEditorTypeMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.menus.Add(MenuType.Pause, MenuFactory.CreatePauseMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
+            this.menus.Add(MenuType.About, MenuFactory.CreateAboutMenu(contentManager, spriteBatch, this.screenDimensions / 2.0f));
             this.leftArrow.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LeftArrow);
             this.rightArrow.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.RightArrow);
         }
@@ -768,7 +769,7 @@ namespace SticKart.Menu
                     break;
                 case MenuConstants.BackButtonName:
                     this.menus[this.ActiveMenu].Reset();
-                    if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardTypeSelect || this.ActiveMenu == MenuType.CustomContent)
+                    if (this.ActiveMenu == MenuType.Options || this.ActiveMenu == MenuType.LeaderboardTypeSelect || this.ActiveMenu == MenuType.CustomContent || this.ActiveMenu == MenuType.About)
                     {
                         this.ActiveMenu = MenuType.Main;
                     }
@@ -848,6 +849,10 @@ namespace SticKart.Menu
                     }
 
                     this.ActiveMenu = MenuType.EditorOverlayMain;
+                    break;
+                case MenuConstants.AboutButtonName:
+                    this.menus[this.ActiveMenu].Reset();
+                    this.ActiveMenu = MenuType.About;
                     break;
                 default:
                     break;

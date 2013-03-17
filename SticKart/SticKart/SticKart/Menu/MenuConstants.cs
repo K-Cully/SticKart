@@ -61,6 +61,11 @@ namespace SticKart.Menu
         public const string ExitButtonName = "EXIT";
 
         /// <summary>
+        /// The name of the about button.
+        /// </summary>
+        public const string AboutButtonName = "CREDITS";
+
+        /// <summary>
         /// The name of the back button.
         /// </summary>
         public const string BackButtonName = "BACK";

@@ -9,7 +9,7 @@
 //------------------------------------------------------------------------------
 
 // Original file name:
-// Generation date: 27/02/2013 17:06:43
+// Generation date: 17/03/2013 09:01:48
 namespace SticKart.SticKartScores
 {
     
@@ -76,12 +76,62 @@ namespace SticKart.SticKartScores
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<HighScore> _HighScores;
         /// <summary>
+        /// There are no comments for ActivePlayers in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<ActivePlayer> ActivePlayers
+        {
+            get
+            {
+                if ((this._ActivePlayers == null))
+                {
+                    this._ActivePlayers = base.CreateQuery<ActivePlayer>("ActivePlayers");
+                }
+                return this._ActivePlayers;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<ActivePlayer> _ActivePlayers;
+        /// <summary>
+        /// There are no comments for Statistics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceQuery<Statistic> Statistics
+        {
+            get
+            {
+                if ((this._Statistics == null))
+                {
+                    this._Statistics = base.CreateQuery<Statistic>("Statistics");
+                }
+                return this._Statistics;
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceQuery<Statistic> _Statistics;
+        /// <summary>
         /// There are no comments for HighScores in the schema.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToHighScores(HighScore highScore)
         {
             base.AddObject("HighScores", highScore);
+        }
+        /// <summary>
+        /// There are no comments for ActivePlayers in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToActivePlayers(ActivePlayer activePlayer)
+        {
+            base.AddObject("ActivePlayers", activePlayer);
+        }
+        /// <summary>
+        /// There are no comments for Statistics in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public void AddToStatistics(Statistic statistic)
+        {
+            base.AddObject("Statistics", statistic);
         }
     }
     /// <summary>
@@ -199,6 +249,390 @@ namespace SticKart.SticKartScores
         private int _Score;
         partial void OnScoreChanging(int value);
         partial void OnScoreChanged();
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        protected virtual void OnPropertyChanged(string property)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new global::System.ComponentModel.PropertyChangedEventArgs(property));
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for SticKartScores_0Model.ActivePlayer in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.EntitySetAttribute("ActivePlayers")]
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("Id")]
+    public partial class ActivePlayer : global::System.ComponentModel.INotifyPropertyChanged
+    {
+        /// <summary>
+        /// Create a new ActivePlayer object.
+        /// </summary>
+        /// <param name="ID">Initial value of Id.</param>
+        /// <param name="ip">Initial value of Ip.</param>
+        /// <param name="port">Initial value of Port.</param>
+        /// <param name="state">Initial value of State.</param>
+        /// <param name="player">Initial value of Player.</param>
+        /// <param name="session">Initial value of Session.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static ActivePlayer CreateActivePlayer(int ID, string ip, string port, string state, int player, int session)
+        {
+            ActivePlayer activePlayer = new ActivePlayer();
+            activePlayer.Id = ID;
+            activePlayer.Ip = ip;
+            activePlayer.Port = port;
+            activePlayer.State = state;
+            activePlayer.Player = player;
+            activePlayer.Session = session;
+            return activePlayer;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this._Id = value;
+                this.OnIdChanged();
+                this.OnPropertyChanged("Id");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _Id;
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property Ip in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Ip
+        {
+            get
+            {
+                return this._Ip;
+            }
+            set
+            {
+                this.OnIpChanging(value);
+                this._Ip = value;
+                this.OnIpChanged();
+                this.OnPropertyChanged("Ip");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Ip;
+        partial void OnIpChanging(string value);
+        partial void OnIpChanged();
+        /// <summary>
+        /// There are no comments for Property Port in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Port
+        {
+            get
+            {
+                return this._Port;
+            }
+            set
+            {
+                this.OnPortChanging(value);
+                this._Port = value;
+                this.OnPortChanged();
+                this.OnPropertyChanged("Port");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Port;
+        partial void OnPortChanging(string value);
+        partial void OnPortChanged();
+        /// <summary>
+        /// There are no comments for Property State in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string State
+        {
+            get
+            {
+                return this._State;
+            }
+            set
+            {
+                this.OnStateChanging(value);
+                this._State = value;
+                this.OnStateChanged();
+                this.OnPropertyChanged("State");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _State;
+        partial void OnStateChanging(string value);
+        partial void OnStateChanged();
+        /// <summary>
+        /// There are no comments for Property Player in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int Player
+        {
+            get
+            {
+                return this._Player;
+            }
+            set
+            {
+                this.OnPlayerChanging(value);
+                this._Player = value;
+                this.OnPlayerChanged();
+                this.OnPropertyChanged("Player");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _Player;
+        partial void OnPlayerChanging(int value);
+        partial void OnPlayerChanged();
+        /// <summary>
+        /// There are no comments for Property Session in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int Session
+        {
+            get
+            {
+                return this._Session;
+            }
+            set
+            {
+                this.OnSessionChanging(value);
+                this._Session = value;
+                this.OnSessionChanged();
+                this.OnPropertyChanged("Session");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _Session;
+        partial void OnSessionChanging(int value);
+        partial void OnSessionChanged();
+        /// <summary>
+        /// There are no comments for Statistic in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public Statistic Statistic
+        {
+            get
+            {
+                return this._Statistic;
+            }
+            set
+            {
+                this._Statistic = value;
+                this.OnPropertyChanged("Statistic");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private Statistic _Statistic;
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        protected virtual void OnPropertyChanged(string property)
+        {
+            if ((this.PropertyChanged != null))
+            {
+                this.PropertyChanged(this, new global::System.ComponentModel.PropertyChangedEventArgs(property));
+            }
+        }
+    }
+    /// <summary>
+    /// There are no comments for SticKartScores_0Model.Statistic in the schema.
+    /// </summary>
+    /// <KeyProperties>
+    /// Id
+    /// </KeyProperties>
+    [global::System.Data.Services.Common.EntitySetAttribute("Statistics")]
+    [global::System.Data.Services.Common.DataServiceKeyAttribute("Id")]
+    public partial class Statistic : global::System.ComponentModel.INotifyPropertyChanged
+    {
+        /// <summary>
+        /// Create a new Statistic object.
+        /// </summary>
+        /// <param name="ID">Initial value of Id.</param>
+        /// <param name="name">Initial value of Name.</param>
+        /// <param name="password">Initial value of Password.</param>
+        /// <param name="gamesPlayed">Initial value of GamesPlayed.</param>
+        /// <param name="gamesWon">Initial value of GamesWon.</param>
+        /// <param name="gamesLost">Initial value of GamesLost.</param>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public static Statistic CreateStatistic(int ID, string name, string password, int gamesPlayed, int gamesWon, int gamesLost)
+        {
+            Statistic statistic = new Statistic();
+            statistic.Id = ID;
+            statistic.Name = name;
+            statistic.Password = password;
+            statistic.GamesPlayed = gamesPlayed;
+            statistic.GamesWon = gamesWon;
+            statistic.GamesLost = gamesLost;
+            return statistic;
+        }
+        /// <summary>
+        /// There are no comments for Property Id in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int Id
+        {
+            get
+            {
+                return this._Id;
+            }
+            set
+            {
+                this.OnIdChanging(value);
+                this._Id = value;
+                this.OnIdChanged();
+                this.OnPropertyChanged("Id");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _Id;
+        partial void OnIdChanging(int value);
+        partial void OnIdChanged();
+        /// <summary>
+        /// There are no comments for Property Name in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Name
+        {
+            get
+            {
+                return this._Name;
+            }
+            set
+            {
+                this.OnNameChanging(value);
+                this._Name = value;
+                this.OnNameChanged();
+                this.OnPropertyChanged("Name");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Name;
+        partial void OnNameChanging(string value);
+        partial void OnNameChanged();
+        /// <summary>
+        /// There are no comments for Property Password in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public string Password
+        {
+            get
+            {
+                return this._Password;
+            }
+            set
+            {
+                this.OnPasswordChanging(value);
+                this._Password = value;
+                this.OnPasswordChanged();
+                this.OnPropertyChanged("Password");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private string _Password;
+        partial void OnPasswordChanging(string value);
+        partial void OnPasswordChanged();
+        /// <summary>
+        /// There are no comments for Property GamesPlayed in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int GamesPlayed
+        {
+            get
+            {
+                return this._GamesPlayed;
+            }
+            set
+            {
+                this.OnGamesPlayedChanging(value);
+                this._GamesPlayed = value;
+                this.OnGamesPlayedChanged();
+                this.OnPropertyChanged("GamesPlayed");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _GamesPlayed;
+        partial void OnGamesPlayedChanging(int value);
+        partial void OnGamesPlayedChanged();
+        /// <summary>
+        /// There are no comments for Property GamesWon in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int GamesWon
+        {
+            get
+            {
+                return this._GamesWon;
+            }
+            set
+            {
+                this.OnGamesWonChanging(value);
+                this._GamesWon = value;
+                this.OnGamesWonChanged();
+                this.OnPropertyChanged("GamesWon");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _GamesWon;
+        partial void OnGamesWonChanging(int value);
+        partial void OnGamesWonChanged();
+        /// <summary>
+        /// There are no comments for Property GamesLost in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public int GamesLost
+        {
+            get
+            {
+                return this._GamesLost;
+            }
+            set
+            {
+                this.OnGamesLostChanging(value);
+                this._GamesLost = value;
+                this.OnGamesLostChanged();
+                this.OnPropertyChanged("GamesLost");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private int _GamesLost;
+        partial void OnGamesLostChanging(int value);
+        partial void OnGamesLostChanged();
+        /// <summary>
+        /// There are no comments for ActivePlayers in the schema.
+        /// </summary>
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        public global::System.Data.Services.Client.DataServiceCollection<ActivePlayer> ActivePlayers
+        {
+            get
+            {
+                return this._ActivePlayers;
+            }
+            set
+            {
+                this._ActivePlayers = value;
+                this.OnPropertyChanged("ActivePlayers");
+            }
+        }
+        [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
+        private global::System.Data.Services.Client.DataServiceCollection<ActivePlayer> _ActivePlayers = new global::System.Data.Services.Client.DataServiceCollection<ActivePlayer>(null, System.Data.Services.Client.TrackingMode.None);
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
