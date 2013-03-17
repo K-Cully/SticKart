@@ -510,61 +510,61 @@ namespace SticKart.Menu
             float largeGap = tileOffset * 2.2f;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Design, artwork,");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.DesignArtworkText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += smallGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "programming & sfx:");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.ProgrammingSfxText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += smallGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Keith Cully");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.KeithText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += largeGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Music:");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.MusicText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += smallGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "www.tannerhelland.com");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.MusicSourceText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += largeGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Notification model:");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.ModelText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += smallGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "thelowlander.wordpress.com");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.ModelSourceText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += largeGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "Special thanks:");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.ThanksText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += smallGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "All my testers");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.TestersText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             relativePos.Y += smallGap;
 
             creditsText = new RenderableText();
-            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, "I.T.Carlow lecturing staff");
+            creditsText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontMedium, MenuConstants.LecturersText);
             text = new MenuText(relativePos, creditsText, true);
             aboutMenu.AddItem(text);
             return aboutMenu;

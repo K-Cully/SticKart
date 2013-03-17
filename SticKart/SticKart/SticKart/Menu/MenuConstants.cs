@@ -201,6 +201,60 @@ namespace SticKart.Menu
 
         #endregion
 
+        #region credits
+
+        /// <summary>
+        /// The design and artwork credits text.
+        /// </summary>
+        public const string DesignArtworkText = "Design, artwork,";
+
+        /// <summary>
+        /// The programming and sound effects credits text.
+        /// </summary>
+        public const string ProgrammingSfxText = "programming & sfx:";
+
+        /// <summary>
+        /// The developer's name.
+        /// </summary>
+        public const string KeithText = "Keith Cully";
+
+        /// <summary>
+        /// The music credits text.
+        /// </summary>
+        public const string MusicText = "Music:";
+
+        /// <summary>
+        /// The music creator's website.
+        /// </summary>
+        public const string MusicSourceText = "www.tannerhelland.com";
+
+        /// <summary>
+        /// The model credits text.
+        /// </summary>
+        public const string ModelText = "Notification model:";
+
+        /// <summary>
+        /// The model creator's website.
+        /// </summary>
+        public const string ModelSourceText = "thelowlander.wordpress.com";
+
+        /// <summary>
+        /// The special thanks text.
+        /// </summary>
+        public const string ThanksText = "Special thanks:";
+
+        /// <summary>
+        /// The testers text.
+        /// </summary>
+        public const string TestersText = "All my testers";
+
+        /// <summary>
+        /// The lecturers text.
+        /// </summary>
+        public const string LecturersText = "I.T.Carlow lecturing staff";
+
+        #endregion
+
         /// <summary>
         /// The hello text.
         /// </summary>
@@ -220,6 +274,8 @@ namespace SticKart.Menu
         /// The press done text.
         /// </summary>
         public const string PressDoneText = "Press done when you are finished.";
+
+        #region levelComplete
 
         /// <summary>
         /// The level complete text.
@@ -312,5 +368,7 @@ namespace SticKart.Menu
                     return MenuConstants.HighScoreNoneText;
             }
         }
+
+        #endregion
     }
 }
