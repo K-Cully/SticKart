@@ -173,7 +173,8 @@ namespace SticKartScoresAzureWebRole
         /// <param name="port">Initial value of the Port property.</param>
         /// <param name="state">Initial value of the State property.</param>
         /// <param name="player">Initial value of the Player property.</param>
-        public static ActivePlayer CreateActivePlayer(global::System.Int32 id, global::System.String ip, global::System.String port, global::System.String state, global::System.Int32 player)
+        /// <param name="session">Initial value of the Session property.</param>
+        public static ActivePlayer CreateActivePlayer(global::System.Int32 id, global::System.String ip, global::System.String port, global::System.String state, global::System.Int32 player, global::System.Int32 session)
         {
             ActivePlayer activePlayer = new ActivePlayer();
             activePlayer.Id = id;
@@ -181,6 +182,7 @@ namespace SticKartScoresAzureWebRole
             activePlayer.Port = port;
             activePlayer.State = state;
             activePlayer.Player = player;
+            activePlayer.Session = session;
             return activePlayer;
         }
 
@@ -310,6 +312,30 @@ namespace SticKartScoresAzureWebRole
         private global::System.Int32 _Player;
         partial void OnPlayerChanging(global::System.Int32 value);
         partial void OnPlayerChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Session
+        {
+            get
+            {
+                return _Session;
+            }
+            set
+            {
+                OnSessionChanging(value);
+                ReportPropertyChanging("Session");
+                _Session = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Session");
+                OnSessionChanged();
+            }
+        }
+        private global::System.Int32 _Session;
+        partial void OnSessionChanging(global::System.Int32 value);
+        partial void OnSessionChanged();
 
         #endregion
 

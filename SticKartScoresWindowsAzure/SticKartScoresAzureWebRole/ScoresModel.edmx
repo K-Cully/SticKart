@@ -23,6 +23,7 @@
           <Property Name="Port" Type="nchar" Nullable="false" MaxLength="4" />
           <Property Name="State" Type="nchar" Nullable="false" MaxLength="1" />
           <Property Name="Player" Type="int" Nullable="false" />
+          <Property Name="Session" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="HighScores">
           <Key>
@@ -84,10 +85,11 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Ip" Nullable="false" MaxLength="39" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="Port" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="Port" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="State" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Type="Int32" Name="Player" Nullable="false" />
           <NavigationProperty Name="Statistic" Relationship="SticKartScores_0Model.FK_ActivePlayers_Statistics" FromRole="ActivePlayer" ToRole="Statistic" />
+          <Property Type="Int32" Name="Session" Nullable="false" />
         </EntityType>
         <EntityType Name="Statistic">
           <Key>
@@ -132,6 +134,7 @@
           <EntitySetMapping Name="ActivePlayers">
             <EntityTypeMapping TypeName="SticKartScores_0Model.ActivePlayer">
               <MappingFragment StoreEntitySet="ActivePlayers">
+                <ScalarProperty Name="Session" ColumnName="Session" />
                 <ScalarProperty Name="Player" ColumnName="Player" />
                 <ScalarProperty Name="State" ColumnName="State" />
                 <ScalarProperty Name="Port" ColumnName="Port" />
