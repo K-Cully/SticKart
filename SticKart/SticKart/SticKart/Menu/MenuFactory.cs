@@ -80,8 +80,8 @@ namespace SticKart.Menu
 
             // About
             relativePos.X += largeButtonTile.Width + gapBetweenTiles;
-            RenderableText largeAboutIcon = new RenderableText();
-            largeAboutIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFontLarge, "?");
+            Sprite largeAboutIcon = new Sprite();
+            largeAboutIcon.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.LargeAboutIcon);
             RenderableText aboutText = new RenderableText();
             aboutText.InitializeAndLoad(spriteBatch, contentManager, ContentLocations.SegoeUIFont, MenuConstants.AboutButtonName.ToLowerInvariant());
             button = new MenuButton(relativePos, largeButtonTile, largeAboutIcon, aboutText, MenuConstants.AboutButtonName);

@@ -216,6 +216,11 @@ namespace SticKart.Display
         public const string LargeExitIcon = "Sprites/Menu/Exit_icon_large";
 
         /// <summary>
+        /// The location of the large about icon texture asset.
+        /// </summary>
+        public const string LargeAboutIcon = "Sprites/Menu/About_icon_large";
+
+        /// <summary>
         /// The location of the large back icon texture asset.
         /// </summary>
         public const string LargeBackIcon = "Sprites/Menu/Back_icon_large";

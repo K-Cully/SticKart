@@ -1018,7 +1018,13 @@
       <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Sprites\Menu\About_icon_large.png">
+      <Name>About_icon_large</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <ItemGroup>
     <Compile Include="Levels\14\interactiveEntities.xml">
       <Name>interactiveEntities</Name>
