@@ -446,7 +446,9 @@ namespace SticKart
                     }
                     else
                     {
-                        // TODO: Game complete (roll credits)
+                        this.menuManager.ActiveMenu = MenuType.About;
+                        AudioManager.PlayBackgroundMusic(false);
+                        this.gameState = GameState.InMenu;
                     }
                 }
             }
