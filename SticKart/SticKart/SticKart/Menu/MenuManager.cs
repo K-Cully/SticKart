@@ -538,6 +538,7 @@ namespace SticKart.Menu
                     break;
                 case MenuConstants.NotificationButtonName:
                     NotificationManager.Instance.Reset();
+                    NotificationManager.AddNotification(NotificationType.PushGesture);
                     break;
                 case MenuConstants.NameButtonName:
                     this.ActiveMenu = MenuType.NamePrompt;
