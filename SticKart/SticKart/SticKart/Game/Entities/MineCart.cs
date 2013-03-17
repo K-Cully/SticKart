@@ -10,6 +10,7 @@ namespace SticKart.Game.Entities
     using Display;
     using FarseerPhysics.Collision.Shapes;
     using FarseerPhysics.Dynamics;
+    using FarseerPhysics.Dynamics.Contacts;
     using FarseerPhysics.Dynamics.Joints;
     using FarseerPhysics.Factories;
     using FarseerPhysics.SamplesFramework;
@@ -125,9 +126,14 @@ namespace SticKart.Game.Entities
         private float maximumHorizontalSpeed;
 
         /// <summary>
-        /// A value indicating whether the cart should be moving or not. 
+        /// A value indicating whether the cart is free of its anchor or not. 
         /// </summary>
         private bool moving;
+
+        /// <summary>
+        /// A value indicating whether the cart has reached the end of the level or not. 
+        /// </summary>
+        private bool reachedEnd;
 
         /// <summary>
         /// The acceleration rate, in physics units, of a mine cart.
@@ -184,7 +190,12 @@ namespace SticKart.Game.Entities
             this.stabilizerLeftOffset = new Vector2(-this.cartSprite.Width * 1.25f, -this.cartSprite.Height * 0.6f);
             this.stabilizerRightOffset = new Vector2(this.cartSprite.Width * 1.25f, -this.cartSprite.Height * 0.6f);
             this.SetUpPhysics(ref physicsWorld, position);
+            this.stabilizerBodyRight.OnCollision += this.CollisionHandlerStabilizer;
+            this.stabilizerBodyLeft.OnCollision += this.CollisionHandlerStabilizer;
+            this.wheelBodyLeft.OnCollision += this.CollisionHandlerWheel;
+            this.wheelBodyRight.OnCollision += this.CollisionHandlerWheel;
             this.moving = false;
+            this.reachedEnd = false;
         }
 
         /// <summary>
@@ -196,7 +207,7 @@ namespace SticKart.Game.Entities
         /// <param name="containsPlayer">A value indicating if whether the cart contains a player or not.</param>
         public void Update(GameTime gameTime, Vector2 playerPosition, float horizontalPlayerSpeed, bool containsPlayer)
         {
-            if (this.moving)
+            if (this.moving && !this.reachedEnd)
             {
                 Vector2 accelerationVector = this.CalculateDirectionOftravel();
                 if (containsPlayer)
@@ -368,25 +379,66 @@ namespace SticKart.Game.Entities
         private Vector2 CalculateDirectionOftravel()
         {
             Vector2 direction = Vector2.UnitX;
-            if (this.wheelBodyRight.ContactList != null && this.wheelBodyRight.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            if (this.wheelBodyRight.ContactList != null && this.wheelBodyRight.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory && this.wheelBodyRight.ContactList.Contact.FixtureA.UserData == null)
             {
                 direction = (this.wheelBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.wheelBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
             }
-            else if (this.wheelBodyLeft.ContactList != null && this.wheelBodyLeft.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            else if (this.wheelBodyLeft.ContactList != null && this.wheelBodyLeft.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory && this.wheelBodyLeft.ContactList.Contact.FixtureA.UserData == null)
             {
                 direction = (this.wheelBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.wheelBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
             }
-            else if (this.stabilizerBodyRight.ContactList != null && this.stabilizerBodyRight.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            else if (this.stabilizerBodyRight.ContactList != null && this.stabilizerBodyRight.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory && this.stabilizerBodyRight.ContactList.Contact.FixtureA.UserData == null)
             {
                 direction = (this.stabilizerBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.stabilizerBodyRight.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
             }
-            else if (this.stabilizerBodyLeft.ContactList != null && this.stabilizerBodyLeft.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory)
+            else if (this.stabilizerBodyLeft.ContactList != null && this.stabilizerBodyLeft.ContactList.Contact.FixtureA.CollisionCategories == EntityConstants.FloorCategory && this.stabilizerBodyLeft.ContactList.Contact.FixtureA.UserData == null)
             {
                 direction = (this.stabilizerBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex2 - (this.stabilizerBodyLeft.ContactList.Contact.FixtureA.Shape as EdgeShape).Vertex1;
             }
 
             direction.Normalize();
             return direction;
+        }
+
+        /// <summary>
+        /// Collision event handler for the stabilizer wheels.
+        /// </summary>
+        /// <param name="fixtureOne">The first colliding fixture.</param>
+        /// <param name="fixtureTwo">The second colliding fixture.</param>
+        /// <param name="contact">The contact object.</param>
+        /// <returns>Whether the collision was accepted or not.</returns>
+        private bool CollisionHandlerStabilizer(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        {
+            bool collided = true;
+            if (fixtureTwo.CollisionCategories == EntityConstants.FloorCategory && fixtureTwo.Body.UserData != null)
+            {
+                collided = false;
+            }
+
+            return collided;
+        }
+
+        /// <summary>
+        /// Collision event handler for the wheels.
+        /// </summary>
+        /// <param name="fixtureOne">The first colliding fixture.</param>
+        /// <param name="fixtureTwo">The second colliding fixture.</param>
+        /// <param name="contact">The contact object.</param>
+        /// <returns>Whether the collision was accepted or not.</returns>
+        private bool CollisionHandlerWheel(Fixture fixtureOne, Fixture fixtureTwo, Contact contact)
+        {
+            bool collided = true;
+            if (fixtureTwo.CollisionCategories == EntityConstants.FloorCategory && fixtureTwo.Body.UserData != null)
+            {
+                this.reachedEnd = false;
+                this.cartBody.LinearVelocity = Vector2.Zero;
+                this.wheelBodyLeft.LinearVelocity = Vector2.Zero;
+                this.wheelBodyRight.LinearVelocity = Vector2.Zero;
+                this.stabilizerBodyLeft.LinearVelocity = Vector2.Zero;
+                this.stabilizerBodyRight.LinearVelocity = Vector2.Zero;
+            }
+
+            return collided;
         }
     }
 }

@@ -211,7 +211,7 @@ namespace SticKart.Game.Entities
         #region collision_categories
 
         /// <summary>
-        /// The collision category of the stick man.
+        /// The collision category of the floor.
         /// </summary>
         public const Category FloorCategory = Category.Cat1;
 

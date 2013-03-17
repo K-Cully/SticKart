@@ -101,7 +101,10 @@ namespace SticKart.Game.Level
                 }
 
                 // Add a wall at the end of the level.
-                floorEdges.Add(BodyFactory.CreateEdge(physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(new Vector2(startPoint.X, -levelHeight))));
+                Body lastBody = BodyFactory.CreateEdge(physicsWorld, ConvertUnits.ToSimUnits(startPoint), ConvertUnits.ToSimUnits(new Vector2(startPoint.X, -levelHeight)));
+                lastBody.CollisionCategories = EntityConstants.FloorCategory;
+                lastBody.UserData = new object();
+                floorEdges.Add(lastBody);
             }
         }
 
