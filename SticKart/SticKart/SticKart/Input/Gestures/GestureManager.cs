@@ -93,7 +93,7 @@ namespace SticKart.Input.Gestures
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
             this.PlayerBodySize = 0.0f;
-            this.jumpThreshold = 0.175f;
+            this.jumpThreshold = 0.1f;
             this.standardSpineY = 0.0f;
             this.runTimeLimit = 1.5;
             this.lastLegLiftCounter = 0.0f;
@@ -205,6 +205,7 @@ namespace SticKart.Input.Gestures
         /// </summary>
         public void ResetGestures()
         {
+            this.detectedGestures.Clear();
             this.lastLegLiftCounter = 0.0f;
             this.acceptLeftLegLift = true;
             this.acceptRightLegLift = true;
@@ -220,10 +221,13 @@ namespace SticKart.Input.Gestures
         /// <param name="skeleton">The player's skeletal representation.</param>
         public void ResetPlayerSettings(Skeleton skeleton)
         {
-            this.skeletonJoints = skeleton.Joints;
-            this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y;
-            this.PlayerBodySize = this.CalculateBodySize();
-            this.SetGesturesToPlayer();
+            if (skeleton != null)
+            {
+                this.skeletonJoints = skeleton.Joints;
+                this.standardSpineY = this.skeletonJoints[JointType.Spine].Position.Y;
+                this.PlayerBodySize = this.CalculateBodySize();
+                this.SetGesturesToPlayer();
+            }
         }
 
         /// <summary>
@@ -231,8 +235,9 @@ namespace SticKart.Input.Gestures
         /// </summary>
         /// <param name="skeleton">The skeleton being tracked.</param>
         /// <param name="gameTime">The game time.</param>
+        /// <param name="lookForEditorPoses">A value indicating whether to check for editor poses or not.</param>
         /// <returns>A value indicating whether the player's body size has changed or not.</returns>
-        public bool Update(Skeleton skeleton, GameTime gameTime)
+        public bool Update(Skeleton skeleton, GameTime gameTime, bool lookForEditorPoses)
         {
             if (this.lastLegLiftCounter < this.runTimeLimit)
             {
@@ -240,7 +245,12 @@ namespace SticKart.Input.Gestures
             }
 
             this.skeletonJoints = skeleton.Joints;
-            this.CheckForPoses();
+
+            if (lookForEditorPoses)
+            {
+                this.CheckForPoses();
+            }
+
             foreach (GestureDetector gestureDetector in this.gestureDetectors)
             {
                 if (this.skeletonJoints[gestureDetector.JointToTrack].TrackingState != JointTrackingState.NotTracked)
@@ -326,7 +336,7 @@ namespace SticKart.Input.Gestures
                     if (this.lastLegLiftCounter < this.runTimeLimit)
                     {
                         float distance = MathHelper.Distance(this.skeletonJoints[JointType.Spine].Position.Y, this.standardSpineY);
-                        if (distance > this.jumpThreshold)
+                        if (distance > this.jumpThreshold && this.skeletonJoints[JointType.Spine].Position.Y > this.standardSpineY)
                         {
                             this.detectedGestures.Enqueue(GestureType.Jump);
                         }

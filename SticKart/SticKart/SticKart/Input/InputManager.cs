@@ -440,6 +440,7 @@ namespace SticKart.Input
             if (this.gestureManager != null)
             {
                 this.gestureManager.ResetGestures();
+                this.gestureManager.ResetPlayerSettings(this.GetClosestSkeleton());
             }
         }
 
@@ -652,11 +653,11 @@ namespace SticKart.Input
                         {
                             if (allowReset)
                             {
-                                this.kinectAngleSet = !this.gestureManager.Update(skeleton, gameTime);
+                                this.kinectAngleSet = !this.gestureManager.Update(skeleton, gameTime, !allowReset);
                             }
                             else
                             {
-                                this.gestureManager.Update(skeleton, gameTime);
+                                this.gestureManager.Update(skeleton, gameTime, !allowReset);
                             }
 
                             this.PlayerFloorPosition = Vector2.Zero;

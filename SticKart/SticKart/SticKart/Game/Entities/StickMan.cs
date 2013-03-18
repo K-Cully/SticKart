@@ -457,7 +457,7 @@ namespace SticKart.Game.Entities
                     if (this.state == PlayerState.running)
                     {
                         this.runningSprite.Update(gameTime);
-                        this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.2f ? 0.0f : 0.975f;
+                        this.idealHorizontalVelocity *= this.idealHorizontalVelocity < 0.15f ? 0.0f : 0.985f;
                         if (this.smallBody.LinearVelocity.X > this.idealHorizontalVelocity)
                         {
                             if (this.motorJoint.MotorSpeed > 0.0f)
