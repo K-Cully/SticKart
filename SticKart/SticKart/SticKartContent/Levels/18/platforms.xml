@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="SticKart.PlatformDescription[]">
+    <Item>
+      <Position>160 528</Position>
+      <Length>384</Length>
+    </Item>
+    <Item>
+      <Position>6904 672</Position>
+      <Length>256</Length>
+    </Item>
+    <Item>
+      <Position>1984 112</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2192 368</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2368 632</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2616 240</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2872 632</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2872 504</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>3376 632</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>3376 504</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>2872 368</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>3376 368</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>3952 240</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>3880 632</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>4256 632</Position>
+      <Length>256</Length>
+    </Item>
+    <Item>
+      <Position>4616 512</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>4648 96</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>4632 632</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>5120 512</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>5128 632</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>5624 512</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>5152 96</Position>
+      <Length>512</Length>
+    </Item>
+    <Item>
+      <Position>5528 96</Position>
+      <Length>256</Length>
+    </Item>
+    <Item>
+      <Position>6584 664</Position>
+      <Length>128</Length>
+    </Item>
+    <Item>
+      <Position>5024 232</Position>
+      <Length>512</Length>
+    </Item>
+  </Asset>
+</XnaContent>
