@@ -36,7 +36,7 @@ namespace SticKart.Game.Entities
             this.Type = setting.IsBonus ? InteractiveEntityType.Bonus : InteractiveEntityType.Obstacle;
             this.name = setting.Name;
             this.Value = setting.Value;
-            this.physicsBody.UserData = new InteractiveEntityUserData(this.Type, this.Value);
+            this.PhysicsBody.UserData = new InteractiveEntityUserData(this.Type, this.Value);
             this.InitializeAndLoad(spriteBatch, contentManager);
         }
 
@@ -76,8 +76,8 @@ namespace SticKart.Game.Entities
                 path = EntityConstants.SpritesFolderPath + EntityConstants.ObstacleFolderSubPath;
             }
 
-            this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + this.name);
-            this.sprite.InitializeAndLoad(spriteBatch, contentManager, path + this.name);
+            this.Sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + this.name);
+            this.Sprite.InitializeAndLoad(spriteBatch, contentManager, path + this.name);
         }
     }
 }

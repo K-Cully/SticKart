@@ -23,21 +23,6 @@ namespace SticKart.Game.Entities
     public abstract class InteractiveEntity
     {
         /// <summary>
-        /// The interactive entity's physics body.
-        /// </summary>
-        protected Body physicsBody;
-
-        /// <summary>
-        /// The sprite to render.
-        /// </summary>
-        protected Sprite sprite;
-
-        /// <summary>
-        /// The sound effect to play on the entity's destruction.
-        /// </summary>
-        protected SoundEffect sound;
-
-        /// <summary>
         /// A value indicating whether the entity is destroyed or not.
         /// </summary>
         private bool destroyed;
@@ -50,10 +35,25 @@ namespace SticKart.Game.Entities
         public InteractiveEntity(ref World physicsWorld, InteractiveEntityDescription description)
         {
             this.destroyed = false;
-            this.sound = null;
-            this.sprite = new Sprite();
+            this.Sound = null;
+            this.Sprite = new Sprite();
             this.SetUpPhysics(ref physicsWorld, description);
         }
+
+        /// <summary>
+        /// Gets or sets the interactive entity's physics body.
+        /// </summary>
+        protected Body PhysicsBody { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sprite to render.
+        /// </summary>
+        protected Sprite Sprite { get; set; }
+
+        /// <summary>
+        /// Gets or sets the sound effect to play on the entity's destruction.
+        /// </summary>
+        protected SoundEffect Sound { get; set; }
 
         /// <summary>
         /// Destroys the body associated with the interactive entity.
@@ -61,7 +61,7 @@ namespace SticKart.Game.Entities
         /// <param name="physicsWorld">The physics world containing the body.</param>
         public virtual void Dispose(ref World physicsWorld)
         {
-            physicsWorld.RemoveBody(this.physicsBody);
+            physicsWorld.RemoveBody(this.PhysicsBody);
         }
 
         /// <summary>
@@ -69,17 +69,17 @@ namespace SticKart.Game.Entities
         /// </summary>
         public virtual void Draw()
         {
-            if (this.physicsBody.UserData == null || ((InteractiveEntityUserData)this.physicsBody.UserData).IsActive != true)
+            if (this.PhysicsBody.UserData == null || ((InteractiveEntityUserData)this.PhysicsBody.UserData).IsActive != true)
             {
                 if (!this.destroyed)
                 {
                     this.destroyed = true;
-                    AudioManager.PlayEffect(this.sound);
+                    AudioManager.PlayEffect(this.Sound);
                 }
             }
             else
             {
-                Camera2D.Draw(this.sprite, ConvertUnits.ToDisplayUnits(this.physicsBody.Position), this.physicsBody.Rotation);
+                Camera2D.Draw(this.Sprite, ConvertUnits.ToDisplayUnits(this.PhysicsBody.Position), this.PhysicsBody.Rotation);
             }
         }
 
@@ -103,8 +103,8 @@ namespace SticKart.Game.Entities
         /// <param name="description">The description of the interactive entity.</param>
         protected virtual void SetUpPhysics(ref World physicsWorld, InteractiveEntityDescription description)
         {
-            this.physicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(description.Dimensions.X), ConvertUnits.ToSimUnits(description.Dimensions.Y), 3.0f, ConvertUnits.ToSimUnits(description.Position));
-            this.physicsBody.CollisionCategories = EntityConstants.InteractiveEntityCategory;
+            this.PhysicsBody = BodyFactory.CreateRectangle(physicsWorld, ConvertUnits.ToSimUnits(description.Dimensions.X), ConvertUnits.ToSimUnits(description.Dimensions.Y), 3.0f, ConvertUnits.ToSimUnits(description.Position));
+            this.PhysicsBody.CollisionCategories = EntityConstants.InteractiveEntityCategory;
         }
     }
 }

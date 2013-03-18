@@ -18,21 +18,6 @@ namespace SticKart.Input.Gestures
     public abstract class GestureDetector
     {        
         /// <summary>
-        /// The list of gesture entries to check for a gesture.
-        /// </summary>
-        protected List<GestureEntry> gestureEntries;
-
-        /// <summary>
-        /// The number of milliseconds delay between gestures.
-        /// </summary>
-        protected int millisecondsBetweenGestures;
-
-        /// <summary>
-        /// The maximum number of positions to track for this gesture detector.
-        /// </summary>
-        protected int maxRecordedPositions;
-
-        /// <summary>
         /// The last time a gesture was detected.
         /// </summary>
         private DateTime lastGestureDate = DateTime.UtcNow;
@@ -46,10 +31,10 @@ namespace SticKart.Input.Gestures
         public GestureDetector(JointType jointToTrack = JointType.HandRight, int maxRecordedPositions = 20, int millisecondsBetweenGestures = 0)
         {
             this.GestureDetected = GestureType.None;
-            this.gestureEntries = new List<GestureEntry>();
+            this.GestureEntries = new List<GestureEntry>();
             this.JointToTrack = jointToTrack;
-            this.maxRecordedPositions = maxRecordedPositions;
-            this.millisecondsBetweenGestures = millisecondsBetweenGestures;
+            this.MaxRecordedPositions = maxRecordedPositions;
+            this.MillisecondsBetweenGestures = millisecondsBetweenGestures;
         }
 
         /// <summary>
@@ -61,6 +46,21 @@ namespace SticKart.Input.Gestures
         /// Gets the the type of gesture detected. Will be none if no gesture has been detected.
         /// </summary>
         public GestureType GestureDetected { get; private set; }
+
+        /// <summary>
+        /// Gets or sets the list of gesture entries to check for a gesture.
+        /// </summary>
+        protected List<GestureEntry> GestureEntries { get; set; }
+
+        /// <summary>
+        /// Gets or sets the number of milliseconds delay between gestures.
+        /// </summary>
+        protected int MillisecondsBetweenGestures { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum number of positions to track for this gesture detector.
+        /// </summary>
+        protected int MaxRecordedPositions { get; set; }
         
         /// <summary>
         /// Adds the skeleton point to the positions being tracked by the gesture detector.
@@ -72,10 +72,10 @@ namespace SticKart.Input.Gestures
             if (this.GestureDetected == GestureType.None)
             {
                 GestureEntry newEntry = new GestureEntry(position.ToVector3(), DateTime.UtcNow);
-                this.gestureEntries.Add(newEntry);
-                if (this.gestureEntries.Count > this.maxRecordedPositions)
+                this.GestureEntries.Add(newEntry);
+                if (this.GestureEntries.Count > this.MaxRecordedPositions)
                 {
-                    this.gestureEntries.RemoveAt(0);
+                    this.GestureEntries.RemoveAt(0);
                 }
 
                 this.LookForGesture();
@@ -89,7 +89,7 @@ namespace SticKart.Input.Gestures
         public virtual void Reset()
         {
             this.GestureDetected = GestureType.None;
-            this.gestureEntries.Clear();
+            this.GestureEntries.Clear();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace SticKart.Input.Gestures
         protected virtual void GestureFound(GestureType gestureType)
         {
             // Check if the time is too close to the last recorded time.
-            if (DateTime.UtcNow.Subtract(this.lastGestureDate).TotalMilliseconds > this.millisecondsBetweenGestures)
+            if (DateTime.UtcNow.Subtract(this.lastGestureDate).TotalMilliseconds > this.MillisecondsBetweenGestures)
             {
                 this.GestureDetected = gestureType;
                 this.lastGestureDate = DateTime.UtcNow;

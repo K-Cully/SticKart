@@ -65,7 +65,7 @@ namespace SticKart.Game.Entities
                     break;
             }
 
-            this.physicsBody.UserData = new InteractiveEntityUserData(InteractiveEntityType.PowerUp, this.timeOfEffect, this.type);
+            this.PhysicsBody.UserData = new InteractiveEntityUserData(InteractiveEntityType.PowerUp, this.timeOfEffect, this.type);
             this.InitializeAndLoad(spriteBatch, contentManager);
         }
 
@@ -85,8 +85,8 @@ namespace SticKart.Game.Entities
         /// <param name="contentManager">The game's content manager.</param>
         protected override void InitializeAndLoad(SpriteBatch spriteBatch, ContentManager contentManager)
         {
-            this.sprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + this.name);
-            this.sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.PowerUpSound);
+            this.Sprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PowerUpFolderSubPath + this.name);
+            this.Sound = contentManager.Load<SoundEffect>(EntityConstants.SoundEffectsFolderPath + EntityConstants.PowerUpSound);
         }
     }
 }

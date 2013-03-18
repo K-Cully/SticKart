@@ -13,12 +13,7 @@ namespace SticKart.Menu
     /// The base class from which all selectable menu items derive.
     /// </summary>
     public abstract class MenuSelectableItem : MenuItem
-    {
-        /// <summary>
-        /// The selectable item's bounding box.
-        /// </summary>
-        protected Rectangle boundingBox;
-        
+    {        
         /// <summary>
         /// Initializes a new instance of the <see cref="MenuSelectableItem"/> class.
         /// </summary>
@@ -29,7 +24,7 @@ namespace SticKart.Menu
             : base(relativePosition)
         {
             this.Name = name;
-            this.boundingBox = new Rectangle((int)(relativePosition.X - (dimensions.X * 0.5f)), (int)(relativePosition.Y - (dimensions.Y * 0.5f)), (int)dimensions.X, (int)dimensions.Y);
+            this.BoundingBox = new Rectangle((int)(relativePosition.X - (dimensions.X * 0.5f)), (int)(relativePosition.Y - (dimensions.Y * 0.5f)), (int)dimensions.X, (int)dimensions.Y);
         }
 
         /// <summary>
@@ -49,6 +44,11 @@ namespace SticKart.Menu
         public virtual string Name { get; private set; }
 
         /// <summary>
+        /// Gets or sets the selectable item's bounding box.
+        /// </summary>
+        protected Rectangle BoundingBox { get; set; }
+
+        /// <summary>
         /// Checks if the click position passed in intersects the selectable menu item.
         /// </summary>
         /// <param name="clickPosition">The position of the click.</param>
@@ -56,7 +56,7 @@ namespace SticKart.Menu
         /// <returns>Whether a click occurred or not.</returns>
         public virtual bool CheckForClick(Vector2 clickPosition, Vector2 parentPosition)
         {
-            return this.boundingBox.Contains((int)(clickPosition.X - parentPosition.X), (int)(clickPosition.Y - parentPosition.Y));
+            return this.BoundingBox.Contains((int)(clickPosition.X - parentPosition.X), (int)(clickPosition.Y - parentPosition.Y));
         }
     }
 }
