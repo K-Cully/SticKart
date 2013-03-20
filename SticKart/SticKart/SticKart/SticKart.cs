@@ -205,7 +205,7 @@ namespace SticKart
         {
             if (this.notificationManager.NotificationsActive)
             {
-                this.inputManager.Update(gameTime, false);
+                this.inputManager.Update(gameTime, false, false);
                 bool close = this.inputManager.Commands.Contains(InputCommand.Select) || this.inputManager.Commands.Contains(InputCommand.SelectAt);
                 this.notificationManager.Update(gameTime, close);
             }
@@ -299,7 +299,7 @@ namespace SticKart
                     this.headsUpDisplay.HealthPercentage = this.levelManager.PlayerHealthPercentage;
                     this.headsUpDisplay.Score = this.levelManager.PlayerScore;
                     this.headsUpDisplay.ActivePowerUp = this.levelManager.PlayerPowerUp;
-                    if (this.inputManager.Update(gameTime, false))
+                    if (this.inputManager.Update(gameTime, false, false))
                     {
                         // Commands are available.
                         foreach (InputCommand command in this.inputManager.Commands)
@@ -348,7 +348,7 @@ namespace SticKart
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected void UpdateMenu(GameTime gameTime)
         {
-            if (this.inputManager.Update(gameTime, true))
+            if (this.inputManager.Update(gameTime, true, true))
             {
                 // Commands are available.
                 foreach (InputCommand command in this.inputManager.Commands)

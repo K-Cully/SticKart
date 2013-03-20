@@ -532,6 +532,12 @@ namespace SticKart.LevelEditor
         /// <param name="formatForContentManager">Whether to format the data for the content manager or the xml serializer.</param>
         public void SaveLevel(bool formatForContentManager)
         {
+            if (this.levelToEdit.LastFloorPoint == Vector2.Zero)
+            {
+                this.levelToEdit.AddFloorPoint(new Vector2(0.0f, this.screenDimensions.Y * 0.9f));
+                this.levelToEdit.AddFloorPoint(new Vector2(16.0f, this.screenDimensions.Y * 0.9f));
+            }
+
             this.levelToEdit.Save(this.currentLevelNumber, formatForContentManager);
             if (this.currentLevelNumber > this.LevelsCreated)
             {

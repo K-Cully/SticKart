@@ -405,14 +405,15 @@ namespace SticKart.Input
         /// <returns>Whether any new commands have been picked up or not.</returns>
         /// <param name="gameTime">The game time.</param>
         /// <param name="allowReset">A value indicating whether the input system may be reset or not.</param>
-        public bool Update(GameTime gameTime, bool allowReset)
+        /// <param name="allowEdit">A value indicating whether to accept edit commands.</param>
+        public bool Update(GameTime gameTime, bool allowReset, bool allowEdit)
         {
             this.selectionPosition = Vector2.Zero;
             this.commands.Clear();
             switch (this.controlDevice)
             {
                 case ControlDevice.Kinect:
-                    this.GetKinectInput(gameTime, allowReset);
+                    this.GetKinectInput(gameTime, allowReset, allowEdit);
                     break;
                 case ControlDevice.Keyboard:
                     this.GetKeyboardInput();
@@ -504,7 +505,8 @@ namespace SticKart.Input
         /// </summary>
         /// <param name="gameTime">The game time.</param>
         /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
-        private void GetKinectInput(GameTime gameTime, bool allowReset)
+        /// <param name="allowEdit">A value indicating whether to accept edit commands.</param>
+        private void GetKinectInput(GameTime gameTime, bool allowReset, bool allowEdit)
         {
             if (this.angleResetTimer < InputManager.AngleResetTime)
             {
@@ -524,7 +526,7 @@ namespace SticKart.Input
 
             if (this.ReadSkeletonFrame())
             {
-                this.ProcessSkeleton(gameTime, allowReset, this.GetClosestSkeleton());
+                this.ProcessSkeleton(gameTime, allowReset, allowEdit, this.GetClosestSkeleton());
             }         
         }
 
@@ -635,8 +637,9 @@ namespace SticKart.Input
         /// </summary>
         /// <param name="gameTime">The game time.</param>
         /// <param name="allowReset">A value indicating Whether the gesture system is allowed be reset or not.</param>
+        /// <param name="allowEdit">A value indicating whether to accept edit commands.</param>
         /// <param name="skeleton">The skeleton to process.</param>
-        private void ProcessSkeleton(GameTime gameTime, bool allowReset, Skeleton skeleton)
+        private void ProcessSkeleton(GameTime gameTime, bool allowReset, bool allowEdit, Skeleton skeleton)
         {
             if (skeleton != null)
             {
@@ -653,11 +656,11 @@ namespace SticKart.Input
                         {
                             if (allowReset)
                             {
-                                this.kinectAngleSet = !this.gestureManager.Update(skeleton, gameTime, !allowReset);
+                                this.kinectAngleSet = !this.gestureManager.Update(skeleton, gameTime, allowEdit);
                             }
                             else
                             {
-                                this.gestureManager.Update(skeleton, gameTime, !allowReset);
+                                this.gestureManager.Update(skeleton, gameTime, allowEdit);
                             }
 
                             this.PlayerFloorPosition = Vector2.Zero;
