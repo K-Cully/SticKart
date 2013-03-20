@@ -2,7 +2,8 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Ip] NCHAR(39) NOT NULL,
-    [Port] NCHAR(5) NOT NULL,
+    [ExternalPort] NCHAR(5) NOT NULL, 
+    [GamePort] NCHAR(5) NOT NULL,
     [State] NCHAR(1) NOT NULL, 
     [Player] INT NOT NULL, 
     [Session] INT NOT NULL, 

@@ -20,7 +20,8 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Ip" Type="nchar" Nullable="false" MaxLength="39" />
-          <Property Name="Port" Type="nchar" Nullable="false" MaxLength="4" />
+          <Property Name="ExternalPort" Type="nchar" Nullable="false" MaxLength="5" />
+          <Property Name="GamePort" Type="nchar" Nullable="false" MaxLength="5" />
           <Property Name="State" Type="nchar" Nullable="false" MaxLength="1" />
           <Property Name="Player" Type="int" Nullable="false" />
           <Property Name="Session" Type="int" Nullable="false" />
@@ -85,11 +86,12 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Ip" Nullable="false" MaxLength="39" FixedLength="true" Unicode="true" />
-          <Property Type="String" Name="Port" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
           <Property Type="String" Name="State" Nullable="false" MaxLength="1" FixedLength="true" Unicode="true" />
           <Property Type="Int32" Name="Player" Nullable="false" />
           <NavigationProperty Name="Statistic" Relationship="SticKartScores_0Model.FK_ActivePlayers_Statistics" FromRole="ActivePlayer" ToRole="Statistic" />
           <Property Type="Int32" Name="Session" Nullable="false" />
+          <Property Type="String" Name="ExternalPort" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
+          <Property Type="String" Name="GamePort" Nullable="false" MaxLength="5" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="Statistic">
           <Key>
@@ -134,10 +136,11 @@
           <EntitySetMapping Name="ActivePlayers">
             <EntityTypeMapping TypeName="SticKartScores_0Model.ActivePlayer">
               <MappingFragment StoreEntitySet="ActivePlayers">
+                <ScalarProperty Name="GamePort" ColumnName="GamePort" />
+                <ScalarProperty Name="ExternalPort" ColumnName="ExternalPort" />
                 <ScalarProperty Name="Session" ColumnName="Session" />
                 <ScalarProperty Name="Player" ColumnName="Player" />
                 <ScalarProperty Name="State" ColumnName="State" />
-                <ScalarProperty Name="Port" ColumnName="Port" />
                 <ScalarProperty Name="Ip" ColumnName="Ip" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -177,11 +180,11 @@
     <Diagrams>
       <Diagram Name="ScoresModel">
         <EntityTypeShape EntityType="SticKartScores_0Model.HighScore" Width="1.5" PointX="0.75" PointY="0.75" Height="1.7879850260416674" />
-        <EntityTypeShape EntityType="SticKartScores_0Model.ActivePlayer" Width="1.5" PointX="5.625" PointY="1" Height="2.1725878906249996" />
+        <EntityTypeShape EntityType="SticKartScores_0Model.ActivePlayer" Width="1.5" PointX="5.625" PointY="1" Height="2.5571907552083335" />
         <EntityTypeShape EntityType="SticKartScores_0Model.Statistic" Width="1.5" PointX="3.375" PointY="1" Height="2.3648893229166674" />
         <AssociationConnector Association="SticKartScores_0Model.FK_ActivePlayers_Statistics" >
-          <ConnectorPoint PointX="4.875" PointY="2.0862939453125" />
-          <ConnectorPoint PointX="5.625" PointY="2.0862939453125" />
+          <ConnectorPoint PointX="4.875" PointY="2.1824446614583337" />
+          <ConnectorPoint PointX="5.625" PointY="2.1824446614583337" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

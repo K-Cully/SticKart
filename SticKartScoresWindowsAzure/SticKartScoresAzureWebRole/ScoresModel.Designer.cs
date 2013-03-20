@@ -170,19 +170,21 @@ namespace SticKartScoresAzureWebRole
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="ip">Initial value of the Ip property.</param>
-        /// <param name="port">Initial value of the Port property.</param>
         /// <param name="state">Initial value of the State property.</param>
         /// <param name="player">Initial value of the Player property.</param>
         /// <param name="session">Initial value of the Session property.</param>
-        public static ActivePlayer CreateActivePlayer(global::System.Int32 id, global::System.String ip, global::System.String port, global::System.String state, global::System.Int32 player, global::System.Int32 session)
+        /// <param name="externalPort">Initial value of the ExternalPort property.</param>
+        /// <param name="gamePort">Initial value of the GamePort property.</param>
+        public static ActivePlayer CreateActivePlayer(global::System.Int32 id, global::System.String ip, global::System.String state, global::System.Int32 player, global::System.Int32 session, global::System.String externalPort, global::System.String gamePort)
         {
             ActivePlayer activePlayer = new ActivePlayer();
             activePlayer.Id = id;
             activePlayer.Ip = ip;
-            activePlayer.Port = port;
             activePlayer.State = state;
             activePlayer.Player = player;
             activePlayer.Session = session;
+            activePlayer.ExternalPort = externalPort;
+            activePlayer.GamePort = gamePort;
             return activePlayer;
         }
 
@@ -240,30 +242,6 @@ namespace SticKartScoresAzureWebRole
         private global::System.String _Ip;
         partial void OnIpChanging(global::System.String value);
         partial void OnIpChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Port
-        {
-            get
-            {
-                return _Port;
-            }
-            set
-            {
-                OnPortChanging(value);
-                ReportPropertyChanging("Port");
-                _Port = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Port");
-                OnPortChanged();
-            }
-        }
-        private global::System.String _Port;
-        partial void OnPortChanging(global::System.String value);
-        partial void OnPortChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -336,6 +314,54 @@ namespace SticKartScoresAzureWebRole
         private global::System.Int32 _Session;
         partial void OnSessionChanging(global::System.Int32 value);
         partial void OnSessionChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String ExternalPort
+        {
+            get
+            {
+                return _ExternalPort;
+            }
+            set
+            {
+                OnExternalPortChanging(value);
+                ReportPropertyChanging("ExternalPort");
+                _ExternalPort = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("ExternalPort");
+                OnExternalPortChanged();
+            }
+        }
+        private global::System.String _ExternalPort;
+        partial void OnExternalPortChanging(global::System.String value);
+        partial void OnExternalPortChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String GamePort
+        {
+            get
+            {
+                return _GamePort;
+            }
+            set
+            {
+                OnGamePortChanging(value);
+                ReportPropertyChanging("GamePort");
+                _GamePort = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("GamePort");
+                OnGamePortChanged();
+            }
+        }
+        private global::System.String _GamePort;
+        partial void OnGamePortChanging(global::System.String value);
+        partial void OnGamePortChanged();
 
         #endregion
 

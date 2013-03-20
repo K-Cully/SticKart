@@ -34,6 +34,7 @@ namespace SticKartScoresAzureWebRole
             config.DataServiceBehavior.MaxProtocolVersion = DataServiceProtocolVersion.V2;
             config.SetServiceOperationAccessRule("RegisterPlayer", ServiceOperationRights.All);
             config.SetServiceOperationAccessRule("AddActivePlayer", ServiceOperationRights.All);
+            config.SetServiceOperationAccessRule("AddActivePlayerWithIp", ServiceOperationRights.All);
             config.SetServiceOperationAccessRule("SetPlayerInGame", ServiceOperationRights.All);
             config.SetServiceOperationAccessRule("AreOpponentsAvailable", ServiceOperationRights.AllRead);
             config.SetServiceOperationAccessRule("GetNextOpponentAddress", ServiceOperationRights.AllRead);
@@ -81,17 +82,18 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Adds a player to the matchmaking table if they are registered with the service.
         /// </summary>
+        /// <param name="ip">The specific player ip.</param>
         /// <param name="gamePort">The port the player is waiting to play on.</param>
         /// <param name="name">The player's name.</param>
         /// <param name="password">The player's password.</param>
         /// <param name="isHost">A value indicating whether the player should be registered as a host or client.</param>
-        /// <returns>A value indicating whether the player was added to the matchmaking table or not.</returns>
+        /// <returns>The player's id.</returns>
         [WebGet]
-        public bool AddActivePlayer(string gamePort, string name, string password, bool isHost)
+        public int AddActivePlayerWithIp(string ip, string gamePort, string name, string password, bool isHost)
         {
-            if (string.IsNullOrEmpty(gamePort) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password) || gamePort.Length > 5)
+            if (string.IsNullOrEmpty(ip) || string.IsNullOrEmpty(gamePort) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password) || gamePort.Length > 5)
             {
-                return false;
+                return 0;
             }
 
             SticKartScores_0Entities context = this.CurrentDataSource;
@@ -100,7 +102,7 @@ namespace SticKartScoresAzureWebRole
                 var playersRegistered = from player in context.Statistics where player.Name == name && player.Password == password select player;
                 if (playersRegistered.Count() == 0)
                 {
-                    return false;
+                    return 0;
                 }
                 else
                 {
@@ -122,14 +124,105 @@ namespace SticKartScoresAzureWebRole
 
                     if (!connected)
                     {
-                        IQueryable<ActivePlayer> others = (from other in context.ActivePlayers where other.State == currentState orderby other.Session descending select other).Take(1);
-                        if (others.Count() > 0)
+                        IQueryable<ActivePlayer> othersOfSameType = (from otherSame in context.ActivePlayers where otherSame.State == currentState orderby otherSame.Session descending select otherSame).Take(1);
+                        if (othersOfSameType.Count() > 0)
                         {
-                            session = others.First().Session + 1;
+                            session = othersOfSameType.First().Session + 1;
                         }
                         else
                         {
-                            session = 1;
+                            IQueryable<ActivePlayer> othersOfOtherType = (from other in context.ActivePlayers where other.State == searchFor orderby other.Session ascending select other).Take(1);
+                            if (othersOfOtherType.Count() > 0)
+                            {
+                                session = othersOfOtherType.First().Session;
+                            }
+                            else
+                            {
+                                session = 1;
+                            }
+                        }
+                    }
+
+                    MessageProperties messageProperties = OperationContext.Current.IncomingMessageProperties;
+                    RemoteEndpointMessageProperty endpoint = messageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
+                    ActivePlayer matchmakingEntry = new ActivePlayer();
+                    matchmakingEntry.Ip = ip;
+                    matchmakingEntry.GamePort = gamePort;
+                    matchmakingEntry.ExternalPort = endpoint.Port.ToString();
+                    matchmakingEntry.Player = playersRegistered.First().Id;
+                    matchmakingEntry.State = currentState;
+                    matchmakingEntry.Session = session;
+                    context.ActivePlayers.AddObject(matchmakingEntry);
+                    context.SaveChanges();
+                    return (from playerId in context.ActivePlayers where playerId.Ip == ip && playerId.ExternalPort == matchmakingEntry.ExternalPort select playerId).First().Id;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new ApplicationException(string.Format("An error occurred: {0}", exception.Message));
+            }
+        }
+
+        /// <summary>
+        /// Adds a player to the matchmaking table if they are registered with the service.
+        /// </summary>
+        /// <param name="gamePort">The port the player is waiting to play on.</param>
+        /// <param name="name">The player's name.</param>
+        /// <param name="password">The player's password.</param>
+        /// <param name="isHost">A value indicating whether the player should be registered as a host or client.</param>
+        /// <returns>The player's id.</returns>
+        [WebGet]
+        public int AddActivePlayer(string gamePort, string name, string password, bool isHost)
+        {
+            if (string.IsNullOrEmpty(gamePort) || string.IsNullOrEmpty(name) || string.IsNullOrEmpty(password) || gamePort.Length > 5)
+            {
+                return 0;
+            }
+
+            SticKartScores_0Entities context = this.CurrentDataSource;
+            try
+            {
+                var playersRegistered = from player in context.Statistics where player.Name == name && player.Password == password select player;
+                if (playersRegistered.Count() == 0)
+                {
+                    return 0;
+                }
+                else
+                {
+                    int session = 0;
+                    bool connected = false;
+                    string currentState = isHost ? "H" : "C";
+                    string searchFor = isHost ? "C" : "H";
+                    List<ActivePlayer> waitingOpponents = (from opponent in context.ActivePlayers where opponent.State == "searchFor" select opponent).ToList<ActivePlayer>();
+                    for (int count = 0; count < waitingOpponents.Count; count++)
+                    {
+                        IQueryable<ActivePlayer> matches = (from match in context.ActivePlayers where match.State == currentState && match.Session == waitingOpponents[count].Session select match).Take(1);
+                        if (0 == matches.Count())
+                        {
+                            session = waitingOpponents[count].Session;
+                            connected = true;
+                            break;
+                        }
+                    }
+
+                    if (!connected)
+                    {
+                        IQueryable<ActivePlayer> othersOfSameType = (from otherSame in context.ActivePlayers where otherSame.State == currentState orderby otherSame.Session descending select otherSame).Take(1);
+                        if (othersOfSameType.Count() > 0)
+                        {
+                            session = othersOfSameType.First().Session + 1;
+                        }
+                        else
+                        {
+                            IQueryable<ActivePlayer> othersOfOtherType = (from other in context.ActivePlayers where other.State == searchFor orderby other.Session ascending select other).Take(1);
+                            if (othersOfOtherType.Count() > 0)
+                            {
+                                session = othersOfOtherType.First().Session;
+                            }
+                            else
+                            {
+                                session = 1;
+                            }
                         }
                     }
 
@@ -137,13 +230,14 @@ namespace SticKartScoresAzureWebRole
                     RemoteEndpointMessageProperty endpoint = messageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
                     ActivePlayer matchmakingEntry = new ActivePlayer();
                     matchmakingEntry.Ip = endpoint.Address;
-                    matchmakingEntry.Port = gamePort;
+                    matchmakingEntry.GamePort = gamePort;
+                    matchmakingEntry.ExternalPort = endpoint.Port.ToString();
                     matchmakingEntry.Player = playersRegistered.First().Id;
                     matchmakingEntry.State = currentState;
                     matchmakingEntry.Session = session;
                     context.ActivePlayers.AddObject(matchmakingEntry);
                     context.SaveChanges();
-                    return true;
+                    return (from playerId in context.ActivePlayers where playerId.Ip == endpoint.Address && playerId.ExternalPort == matchmakingEntry.ExternalPort select playerId).First().Id;
                 }
             }
             catch (Exception exception)
@@ -155,12 +249,12 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Sets the player's state to in game in the matchmaking lobby.
         /// </summary>
-        /// <param name="gamePort">The port which the player is playing on.</param>
+        /// <param name="id">The player's id.</param>
         /// <returns>A value indicating whether the update was successful or not.</returns>
         [WebGet]
-        public bool SetPlayerInGame(string gamePort)
+        public bool SetPlayerInGame(int id)
         {
-            if (string.IsNullOrEmpty(gamePort) || gamePort.Length > 5)
+            if (id == 0)
             {
                 return false;
             }
@@ -170,7 +264,7 @@ namespace SticKartScoresAzureWebRole
             SticKartScores_0Entities context = this.CurrentDataSource;
             try
             {
-                var playersRegistered = (from player in context.ActivePlayers where player.Ip == endpoint.Address && player.Port == gamePort select player).Take(1);
+                var playersRegistered = (from player in context.ActivePlayers where player.Id == id && player.State != "G" select player).Take(1);
                 if (playersRegistered.Count() == 0)
                 {
                     return false;
@@ -213,17 +307,22 @@ namespace SticKartScoresAzureWebRole
         /// Retrieves the next available opponent's address and port to play on.
         /// </summary>
         /// <param name="lookingForHosts">A value indicating whether to search for hosts or clients.</param>
-        /// <param name="gamePort">The player's game port.</param>
+        /// <param name="id">The player's id.</param>
         /// <returns>The next available opponent's address and game port.</returns>
         [WebGet]
-        public string GetNextOpponentAddress(bool lookingForHosts, string gamePort)
+        public string GetNextOpponentAddress(bool lookingForHosts, int id)
         {
+            if (id == 0)
+            {
+                return string.Empty;
+            }
+
             MessageProperties messageProperties = OperationContext.Current.IncomingMessageProperties;
             RemoteEndpointMessageProperty endpoint = messageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
             SticKartScores_0Entities context = this.CurrentDataSource;
             try
             {
-                var currentPlayers = ((from selectPlayer in context.ActivePlayers where selectPlayer.Ip == endpoint.Address && selectPlayer.Port == gamePort select selectPlayer).Take(1));
+                var currentPlayers = ((from selectPlayer in context.ActivePlayers where selectPlayer.Id == id select selectPlayer).Take(1));
                 if (currentPlayers.Count() > 0)
                 {
                     ActivePlayer currentPlayer = currentPlayers.Single();
@@ -231,7 +330,7 @@ namespace SticKartScoresAzureWebRole
                     var players = (from player in context.ActivePlayers where player.Id != currentPlayer.Id && player.Session == currentPlayer.Session && player.State == opponentState select player).Take(1);
                     if (players.Count() > 0)
                     {
-                        return players.Single().Ip + ":" + players.Single().Port;
+                        return players.Single().Ip + ":" + players.Single().ExternalPort + "#" + players.Single().GamePort;
                     }
                     else
                     {
@@ -252,14 +351,14 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Removes a player from the matchmaking table and updates their statistics.
         /// </summary>
-        /// <param name="gamePort">The port the player was playing on.</param>
+        /// <param name="id">The player's id.</param>
         /// <param name="gameComplete">A value indicating whether the game finished correctly or not.</param>
         /// <param name="gameWon">A value indicating whether the player won or not.</param>
         /// <returns>A value indicating whether the player was removed successfully or not.</returns>
         [WebGet]
-        public bool RemoveFromActivePlayers(string gamePort, bool gameComplete, bool gameWon)
+        public bool RemoveFromActivePlayers(int id, bool gameComplete, bool gameWon)
         {
-            if (string.IsNullOrEmpty(gamePort))
+            if (id == 0)
             {
                 return false;
             }
@@ -269,7 +368,7 @@ namespace SticKartScoresAzureWebRole
             SticKartScores_0Entities databaseContext = this.CurrentDataSource;
             try
             {
-                var players = (from player in databaseContext.ActivePlayers where player.Ip == endpoint.Address && player.Port == gamePort select player).Take(1);
+                var players = (from player in databaseContext.ActivePlayers where player.Id == id select player).Take(1);
                 if (players.Count() > 0)
                 {
                     players.First().StatisticReference.Value.GamesPlayed = players.First().StatisticReference.Value.GamesPlayed + 1;
