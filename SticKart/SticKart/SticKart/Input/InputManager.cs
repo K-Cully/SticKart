@@ -31,7 +31,7 @@ namespace SticKart.Input
         /// <summary>
         /// Speech utterance confidence threshold, below which speech is treated as if it hadn't been heard.
         /// </summary> 
-        private const double SpeechConfidenceThreshold = 0.3;
+        private const double SpeechConfidenceThreshold = 0.6;
 
         /// <summary>
         /// The delay to apply between key presses.

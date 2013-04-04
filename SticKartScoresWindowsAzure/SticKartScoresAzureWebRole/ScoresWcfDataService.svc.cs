@@ -38,7 +38,38 @@ namespace SticKartScoresAzureWebRole
             config.SetServiceOperationAccessRule("SetPlayerInGame", ServiceOperationRights.All);
             config.SetServiceOperationAccessRule("AreOpponentsAvailable", ServiceOperationRights.AllRead);
             config.SetServiceOperationAccessRule("GetNextOpponentAddress", ServiceOperationRights.AllRead);
+            config.SetServiceOperationAccessRule("GetWinRatio", ServiceOperationRights.AllRead);
             config.SetServiceOperationAccessRule("RemoveFromActivePlayers", ServiceOperationRights.All);            
+        }
+
+        /// <summary>
+        /// Retrieves the player's win to loss ratio.
+        /// </summary>
+        /// <param name="id">The player id.</param>
+        /// <returns>The player's win to loss ratio.</returns>
+        [WebGet]
+        public string GetWinRatio(int id)
+        {
+            SticKartScores_0Entities context = this.CurrentDataSource;
+            try
+            {
+                var playerWithId = from player in context.ActivePlayers where player.Id == id select player;
+                if (playerWithId.Count() > 0)
+                {
+                    Statistic playerStatistics = playerWithId.Single().StatisticReference.Value;
+                    int won = playerStatistics.GamesWon;
+                    int lost = playerStatistics.GamesPlayed - playerStatistics.GamesWon;
+                    return won.ToString() + ":" + lost.ToString();
+                }
+                else
+                {
+                    return string.Empty;
+                }
+            }
+            catch (Exception exception)
+            {
+                throw new ApplicationException(string.Format("An error occurred: {0}", exception.Message));
+            }
         }
 
         /// <summary>
