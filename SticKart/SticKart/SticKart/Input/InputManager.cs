@@ -368,6 +368,24 @@ namespace SticKart.Input
         }
 
         /// <summary>
+        /// Gets a value indicating whether the player is using their right hand or not.
+        /// </summary>
+        public bool IsActiveHandRight
+        {
+            get
+            {
+                if (this.kinectSensor == null || this.controlDevice != ControlDevice.Kinect)
+                {
+                    return true;
+                }
+                else
+                {
+                    return this.gestureManager.IsActiveHandRight;
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets the position of the player on a plane horizontal to the Kinect sensor.
         /// </summary>
         public Vector2 PlayerFloorPosition { get; private set; }

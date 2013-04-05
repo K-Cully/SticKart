@@ -533,6 +533,7 @@ namespace SticKart
         protected override void Draw(GameTime gameTime)
         {
             this.spriteBatch.Begin();
+            SpriteEffects handEffect = this.inputManager.IsActiveHandRight ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
             switch (this.gameState)
             {
                 case GameState.InMenu:
@@ -545,11 +546,11 @@ namespace SticKart
                     this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {
-                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f);
+                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f, Color.White, 1.0f, handEffect, 1.0f);
                     }
                     else
                     {
-                        Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f);
+                        Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, Color.White, 1.0f, handEffect, 1.0f);
                     }
 
                     break;
@@ -564,17 +565,17 @@ namespace SticKart
                     this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {
-                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f);
+                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f, Color.White, 1.0f, handEffect, 1.0f);
                     }
                     else
                     {
                         if (this.levelEditor.CurrentPositionValid)
                         {
-                            Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, new Color(0.5f, 1.0f, 0.5f, 0.2f));
+                            Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, new Color(0.5f, 1.0f, 0.5f, 0.2f), 1.0f, handEffect, 1.0f);
                         }
                         else
                         {
-                            Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, new Color(1.0f, 0.5f, 0.5f, 0.2f));
+                            Sprite.Draw(this.handSprite, this.inputManager.HandPosition, 0.0f, new Color(1.0f, 0.5f, 0.5f, 0.2f), 1.0f, handEffect, 1.0f);
                         }
                     }
 

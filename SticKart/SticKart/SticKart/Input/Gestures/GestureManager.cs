@@ -142,6 +142,17 @@ namespace SticKart.Input.Gestures
         public float PlayerBodySize { get; private set; }
         
         /// <summary>
+        /// Gets a value indicating whether the player is using their right hand or not.
+        /// </summary>
+        public bool IsActiveHandRight
+        {
+            get
+            {
+                return this.activeHand == JointType.HandRight;
+            }
+        }
+
+        /// <summary>
         /// Gets position of the active hand.
         /// </summary>
         public SkeletonPoint HandPosition
