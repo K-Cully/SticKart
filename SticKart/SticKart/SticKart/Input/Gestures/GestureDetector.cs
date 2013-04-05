@@ -38,9 +38,9 @@ namespace SticKart.Input.Gestures
         }
 
         /// <summary>
-        /// Gets the type of joint which the gesture detector is tracking.
+        /// Gets or sets the type of joint which the gesture detector is tracking.
         /// </summary>
-        public JointType JointToTrack { get; private set; }
+        public JointType JointToTrack { get; set; }
 
         /// <summary>
         /// Gets the the type of gesture detected. Will be none if no gesture has been detected.

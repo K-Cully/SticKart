@@ -24,6 +24,11 @@ namespace SticKart.Input.Gestures
         private const float BodySizeThreshold = 0.15f;
 
         /// <summary>
+        /// The time the inactive hand must be ahead of the active hand for to trigger an active hand switch.
+        /// </summary>
+        private const float HandSwitchDelay = 1.0f;
+
+        /// <summary>
         /// Stores the gesture detectors in use.
         /// </summary>
         private Collection<GestureDetector> gestureDetectors;
@@ -49,6 +54,11 @@ namespace SticKart.Input.Gestures
         /// The shoulder connected to the primary hand.
         /// </summary>
         private JointType activeShoulder;
+
+        /// <summary>
+        /// A timer to trigger an active hand switch.
+        /// </summary>
+        private float handSwitchTimer;
 
         #endregion
 
@@ -92,6 +102,7 @@ namespace SticKart.Input.Gestures
         /// <param name="primaryHand">The hand to primarily track.</param>
         public GestureManager(JointType primaryHand = JointType.HandRight)
         {
+            this.handSwitchTimer = 0.0f;
             this.PlayerBodySize = 0.0f;
             this.jumpThreshold = 0.1f;
             this.standardSpineY = 0.0f;
@@ -245,6 +256,7 @@ namespace SticKart.Input.Gestures
             }
 
             this.skeletonJoints = skeleton.Joints;
+            this.UpdateHandTracking(gameTime);
 
             if (lookForEditorPoses)
             {
@@ -372,6 +384,45 @@ namespace SticKart.Input.Gestures
                 else
                 {
                     this.acceptRightLegLift = true;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the hand tracking system and checks if the active hand should be swapped.
+        /// </summary>
+        /// <param name="gameTime">The game time.</param>
+        private void UpdateHandTracking(GameTime gameTime)
+        {
+            JointType inactiveHand = this.activeHand == JointType.HandLeft ? JointType.HandRight : JointType.HandLeft;
+            if (this.skeletonJoints[this.activeHand].Position.Z > this.skeletonJoints[inactiveHand].Position.Z)
+            {
+                this.handSwitchTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                if (this.handSwitchTimer >= GestureManager.HandSwitchDelay)
+                {
+                    this.SwapActiveHand();
+                    this.handSwitchTimer = 0.0f;
+                }
+            }
+            else
+            {
+                this.handSwitchTimer = 0.0f;
+            }
+        }
+
+        /// <summary>
+        /// Swaps which hand is being actively tracked and resets the hand based gesture detectors.
+        /// </summary>
+        private void SwapActiveHand()
+        {
+            this.activeHand = this.activeHand == JointType.HandLeft ? JointType.HandRight : JointType.HandLeft;
+            this.activeShoulder = this.activeHand == JointType.HandLeft ? JointType.ShoulderLeft : JointType.ShoulderRight;
+            for (int count = 0; count < this.gestureDetectors.Count; count++)
+            {
+                if (this.gestureDetectors[count].JointToTrack == JointType.HandLeft || this.gestureDetectors[count].JointToTrack == JointType.HandRight)
+                {
+                    this.gestureDetectors[count].JointToTrack = this.activeHand;
+                    this.gestureDetectors[count].Reset();
                 }
             }
         }
