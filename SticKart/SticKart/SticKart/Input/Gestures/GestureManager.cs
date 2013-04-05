@@ -26,7 +26,7 @@ namespace SticKart.Input.Gestures
         /// <summary>
         /// The time the inactive hand must be ahead of the active hand for to trigger an active hand switch.
         /// </summary>
-        private const float HandSwitchDelay = 1.0f;
+        private const float HandSwitchDelay = 2.0f;
 
         /// <summary>
         /// Stores the gesture detectors in use.
@@ -267,10 +267,10 @@ namespace SticKart.Input.Gestures
             }
 
             this.skeletonJoints = skeleton.Joints;
-            this.UpdateHandTracking(gameTime);
 
             if (lookForEditorPoses)
             {
+                this.UpdateHandTracking(gameTime);
                 this.CheckForPoses();
             }
 
