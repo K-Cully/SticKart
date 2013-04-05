@@ -26,7 +26,7 @@ namespace SticKart.Input.Gestures
         /// <summary>
         /// The time the inactive hand must be ahead of the active hand for to trigger an active hand switch.
         /// </summary>
-        private const float HandSwitchDelay = 2.0f;
+        private const float HandSwitchDelay = 0.6f;
 
         /// <summary>
         /// Stores the gesture detectors in use.
@@ -406,7 +406,15 @@ namespace SticKart.Input.Gestures
         private void UpdateHandTracking(GameTime gameTime)
         {
             JointType inactiveHand = this.activeHand == JointType.HandLeft ? JointType.HandRight : JointType.HandLeft;
-            if (this.skeletonJoints[this.activeHand].Position.Z > this.skeletonJoints[inactiveHand].Position.Z)
+            Vector3 activeHandPosition = Tools.ToVector3(this.skeletonJoints[this.activeHand].Position);
+            Vector3 inactiveHandPosition = Tools.ToVector3(this.skeletonJoints[inactiveHand].Position);
+            Vector3 hipPosition = Tools.ToVector3(this.skeletonJoints[JointType.HipCenter].Position);
+            if (activeHandPosition.Y < hipPosition.Y && inactiveHandPosition.Y > hipPosition.Y && activeHandPosition.Z > inactiveHandPosition.Z)
+            {
+                this.SwapActiveHand();
+                this.handSwitchTimer = 0.0f;
+            }
+            else if (activeHandPosition.Z > inactiveHandPosition.Z)
             {
                 this.handSwitchTimer += (float)gameTime.ElapsedGameTime.TotalSeconds;
                 if (this.handSwitchTimer >= GestureManager.HandSwitchDelay)
