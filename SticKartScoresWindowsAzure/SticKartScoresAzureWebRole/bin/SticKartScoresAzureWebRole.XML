@@ -82,9 +82,25 @@
             <param name="gameWon">A value indicating whether the player won or not.</param>
             <returns>A value indicating whether the player was removed successfully or not.</returns>
         </member>
+        <member name="T:SticKartScoresAzureWebRole.AzureLocalStorageTraceListener">
+            <summary>
+            A trace listener for logging errors.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.AzureLocalStorageTraceListener.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:SticKartScoresAzureWebRole.AzureLocalStorageTraceListener"/> class.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.AzureLocalStorageTraceListener.GetLogDirectory">
+            <summary>
+            Retrieves the trace log directory.
+            </summary>
+            <returns>The trace log directory</returns>
+        </member>
         <member name="T:SticKartScoresAzureWebRole.SticKartScores_0Entities">
             <summary>
-            No Metadata Documentation available.
+            A class representation of the SticKartScores_0Entities database context.
             </summary>
         </member>
         <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.#ctor">
@@ -100,6 +116,21 @@
         <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.#ctor(System.Data.EntityClient.EntityConnection)">
             <summary>
             Initialize a new SticKartScores_0Entities object.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.SticKartScores_0Entities._HighScores">
+            <summary>
+            The high score table.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.SticKartScores_0Entities._ActivePlayers">
+            <summary>
+            The active players table.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.SticKartScores_0Entities._Statistics">
+            <summary>
+            The statistics table.
             </summary>
         </member>
         <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.AddToHighScores(SticKartScoresAzureWebRole.HighScore)">
@@ -119,22 +150,22 @@
         </member>
         <member name="P:SticKartScoresAzureWebRole.SticKartScores_0Entities.HighScores">
             <summary>
-            No Metadata Documentation available.
+            Gets the elements stored in the high score table.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.SticKartScores_0Entities.ActivePlayers">
             <summary>
-            No Metadata Documentation available.
+            Gets the elements stored in the active players table.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.SticKartScores_0Entities.Statistics">
             <summary>
-            No Metadata Documentation available.
+            Gets the elements stored in the statistics table.
             </summary>
         </member>
         <member name="T:SticKartScoresAzureWebRole.ActivePlayer">
             <summary>
-            No Metadata Documentation available.
+            Holds details of an active player table entry.
             </summary>
         </member>
         <member name="M:SticKartScoresAzureWebRole.ActivePlayer.CreateActivePlayer(System.Int32,System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
@@ -149,54 +180,89 @@
             <param name="externalPort">Initial value of the ExternalPort property.</param>
             <param name="gamePort">Initial value of the GamePort property.</param>
         </member>
+        <member name="F:SticKartScoresAzureWebRole.ActivePlayer._Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.ActivePlayer._Ip">
+            <summary>
+            The ip address.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.ActivePlayer._State">
+            <summary>
+            The state.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.ActivePlayer._Player">
+            <summary>
+            The player number.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.ActivePlayer._Session">
+            <summary>
+            The session number.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.ActivePlayer._ExternalPort">
+            <summary>
+            The external port.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.ActivePlayer._GamePort">
+            <summary>
+            The game port.
+            </summary>
+        </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Id">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the id.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Ip">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the ip address.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.State">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the state.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Player">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the player number.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Session">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the session number.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.ExternalPort">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the external port.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.GamePort">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the game port.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Statistic">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets an active player entry's statistic reference value.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.ActivePlayer.StatisticReference">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets an active player entry's statistic reference.
             </summary>
         </member>
         <member name="T:SticKartScoresAzureWebRole.HighScore">
             <summary>
-            No Metadata Documentation available.
+            A high score table entry.
             </summary>
         </member>
         <member name="M:SticKartScoresAzureWebRole.HighScore.CreateHighScore(System.Int32,System.Int32,System.String,System.Int32)">
@@ -208,29 +274,49 @@
             <param name="name">Initial value of the Name property.</param>
             <param name="score">Initial value of the Score property.</param>
         </member>
+        <member name="F:SticKartScoresAzureWebRole.HighScore._Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.HighScore._Level">
+            <summary>
+            The level number.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.HighScore._Name">
+            <summary>
+            The name.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.HighScore._Score">
+            <summary>
+            The score.
+            </summary>
+        </member>
         <member name="P:SticKartScoresAzureWebRole.HighScore.Id">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the id.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.HighScore.Level">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the level number.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.HighScore.Name">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the name.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.HighScore.Score">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the score.
             </summary>
         </member>
         <member name="T:SticKartScoresAzureWebRole.Statistic">
             <summary>
-            No Metadata Documentation available.
+            A statistic table entry.
             </summary>
         </member>
         <member name="M:SticKartScoresAzureWebRole.Statistic.CreateStatistic(System.Int32,System.String,System.String,System.Int32,System.Int32,System.Int32)">
@@ -244,40 +330,81 @@
             <param name="gamesWon">Initial value of the GamesWon property.</param>
             <param name="gamesLost">Initial value of the GamesLost property.</param>
         </member>
+        <member name="F:SticKartScoresAzureWebRole.Statistic._Id">
+            <summary>
+            The id.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.Statistic._Name">
+            <summary>
+            The name.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.Statistic._Password">
+            <summary>
+            The password.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.Statistic._GamesPlayed">
+            <summary>
+            The number of games played.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.Statistic._GamesWon">
+            <summary>
+            The number of games won.
+            </summary>
+        </member>
+        <member name="F:SticKartScoresAzureWebRole.Statistic._GamesLost">
+            <summary>
+            The number of games lost.
+            </summary>
+        </member>
         <member name="P:SticKartScoresAzureWebRole.Statistic.Id">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the id.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.Statistic.Name">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the name.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.Statistic.Password">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the password.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.Statistic.GamesPlayed">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the number of games played.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.Statistic.GamesWon">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the number of games won.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.Statistic.GamesLost">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the number of games lost.
             </summary>
         </member>
         <member name="P:SticKartScoresAzureWebRole.Statistic.ActivePlayers">
             <summary>
-            No Metadata Documentation available.
+            Gets or sets the active players table which references the statistic.
             </summary>
+        </member>
+        <member name="T:SticKartScoresAzureWebRole.WebRole">
+            <summary>
+            Controls the creation and managment of a role instance.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.WebRole.OnStart">
+            <summary>
+            Called by Windows Azure to initialize the role instance.
+            </summary>
+            <returns>A value indicating whether the role was successfully started or not.</returns>
         </member>
     </members>
 </doc>

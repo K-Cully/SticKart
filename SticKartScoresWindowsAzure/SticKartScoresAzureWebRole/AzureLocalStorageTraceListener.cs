@@ -8,13 +8,23 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace SticKartScoresAzureWebRole
 {
+    /// <summary>
+    /// A trace listener for logging errors.
+    /// </summary>
     public class AzureLocalStorageTraceListener : XmlWriterTraceListener
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AzureLocalStorageTraceListener"/> class.
+        /// </summary>
         public AzureLocalStorageTraceListener()
             : base(Path.Combine(AzureLocalStorageTraceListener.GetLogDirectory().Path, "SticKartScoresAzureWebRole.svclog"))
         {
         }
 
+        /// <summary>
+        /// Retrieves the trace log directory.
+        /// </summary>
+        /// <returns>The trace log directory</returns>
         public static DirectoryConfiguration GetLogDirectory()
         {
             DirectoryConfiguration directory = new DirectoryConfiguration();

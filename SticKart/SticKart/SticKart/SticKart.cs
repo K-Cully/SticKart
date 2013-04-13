@@ -21,7 +21,7 @@ namespace SticKart
     using Microsoft.Xna.Framework.Graphics;
     
     /// <summary>
-    /// This is the main type for your game
+    /// Controls the flow of control and updating of the game.
     /// </summary>
     public class SticKart : Microsoft.Xna.Framework.Game
     {

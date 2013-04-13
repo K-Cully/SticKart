@@ -9,8 +9,15 @@ using Microsoft.WindowsAzure.ServiceRuntime;
 
 namespace SticKartScoresAzureWebRole
 {
+    /// <summary>
+    /// Controls the creation and managment of a role instance.
+    /// </summary>
     public class WebRole : RoleEntryPoint
     {
+        /// <summary>
+        /// Called by Windows Azure to initialize the role instance.
+        /// </summary>
+        /// <returns>A value indicating whether the role was successfully started or not.</returns>
         public override bool OnStart()
         {
             // To enable the AzureLocalStorageTraceListner, uncomment relevent section in the web.config  

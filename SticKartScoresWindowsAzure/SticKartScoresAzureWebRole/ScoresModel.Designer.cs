@@ -28,7 +28,7 @@ namespace SticKartScoresAzureWebRole
     #region Contexts
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// A class representation of the SticKartScores_0Entities database context.
     /// </summary>
     public partial class SticKartScores_0Entities : ObjectContext
     {
@@ -65,14 +65,17 @@ namespace SticKartScoresAzureWebRole
     
         #region Partial Methods
     
+        /// <summary>
+        /// Runs on the creation of the context.
+        /// </summary>
         partial void OnContextCreated();
     
         #endregion
     
         #region ObjectSet Properties
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Gets the elements stored in the high score table.
         /// </summary>
         public ObjectSet<HighScore> HighScores
         {
@@ -85,10 +88,14 @@ namespace SticKartScoresAzureWebRole
                 return _HighScores;
             }
         }
-        private ObjectSet<HighScore> _HighScores;
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The high score table.
+        /// </summary>
+        private ObjectSet<HighScore> _HighScores;
+
+        /// <summary>
+        /// Gets the elements stored in the active players table.
         /// </summary>
         public ObjectSet<ActivePlayer> ActivePlayers
         {
@@ -101,10 +108,14 @@ namespace SticKartScoresAzureWebRole
                 return _ActivePlayers;
             }
         }
-        private ObjectSet<ActivePlayer> _ActivePlayers;
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The active players table.
+        /// </summary>
+        private ObjectSet<ActivePlayer> _ActivePlayers;
+
+        /// <summary>
+        /// Gets the elements stored in the statistics table.
         /// </summary>
         public ObjectSet<Statistic> Statistics
         {
@@ -117,6 +128,10 @@ namespace SticKartScoresAzureWebRole
                 return _Statistics;
             }
         }
+
+        /// <summary>
+        /// The statistics table.
+        /// </summary>
         private ObjectSet<Statistic> _Statistics;
 
         #endregion
@@ -154,9 +169,9 @@ namespace SticKartScoresAzureWebRole
     #endregion
 
     #region Entities
-    
+
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Holds details of an active player table entry.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="SticKartScores_0Model", Name="ActivePlayer")]
     [Serializable()]
@@ -191,9 +206,9 @@ namespace SticKartScoresAzureWebRole
         #endregion
 
         #region Primitive Properties
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Gets or sets the id.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
@@ -215,12 +230,25 @@ namespace SticKartScoresAzureWebRole
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The id.
+        /// </summary>
+        private global::System.Int32 _Id;
+
+        /// <summary>
+        /// Runs when the id value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIdChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the id value is changed.
+        /// </summary>
+        partial void OnIdChanged();
+
+        /// <summary>
+        /// Gets or sets the ip address.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -239,12 +267,25 @@ namespace SticKartScoresAzureWebRole
                 OnIpChanged();
             }
         }
-        private global::System.String _Ip;
-        partial void OnIpChanging(global::System.String value);
-        partial void OnIpChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The ip address.
+        /// </summary>
+        private global::System.String _Ip;
+
+        /// <summary>
+        /// Runs when the ip value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIpChanging(global::System.String value);
+
+        /// <summary>
+        /// Runs when the ip value is changed.
+        /// </summary>
+        partial void OnIpChanged();
+
+        /// <summary>
+        /// Gets or sets the state.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -263,12 +304,25 @@ namespace SticKartScoresAzureWebRole
                 OnStateChanged();
             }
         }
-        private global::System.String _State;
-        partial void OnStateChanging(global::System.String value);
-        partial void OnStateChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The state.
+        /// </summary>
+        private global::System.String _State;
+
+        /// <summary>
+        /// Runs when the state value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnStateChanging(global::System.String value);
+
+        /// <summary>
+        /// Runs when the state value is changed.
+        /// </summary>
+        partial void OnStateChanged();
+
+        /// <summary>
+        /// Gets or sets the player number.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -287,12 +341,25 @@ namespace SticKartScoresAzureWebRole
                 OnPlayerChanged();
             }
         }
-        private global::System.Int32 _Player;
-        partial void OnPlayerChanging(global::System.Int32 value);
-        partial void OnPlayerChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The player number.
+        /// </summary>
+        private global::System.Int32 _Player;
+
+        /// <summary>
+        /// Runs when the player value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnPlayerChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the player value is changed.
+        /// </summary>
+        partial void OnPlayerChanged();
+
+        /// <summary>
+        /// Gets or sets the session number.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -311,12 +378,25 @@ namespace SticKartScoresAzureWebRole
                 OnSessionChanged();
             }
         }
-        private global::System.Int32 _Session;
-        partial void OnSessionChanging(global::System.Int32 value);
-        partial void OnSessionChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The session number.
+        /// </summary>
+        private global::System.Int32 _Session;
+
+        /// <summary>
+        /// Runs when the session value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnSessionChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the session value is changed.
+        /// </summary>
+        partial void OnSessionChanged();
+
+        /// <summary>
+        /// Gets or sets the external port.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -335,12 +415,25 @@ namespace SticKartScoresAzureWebRole
                 OnExternalPortChanged();
             }
         }
-        private global::System.String _ExternalPort;
-        partial void OnExternalPortChanging(global::System.String value);
-        partial void OnExternalPortChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The external port.
+        /// </summary>
+        private global::System.String _ExternalPort;
+
+        /// <summary>
+        /// Runs when the external port value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnExternalPortChanging(global::System.String value);
+
+        /// <summary>
+        /// Runs when the external port value is changed.
+        /// </summary>
+        partial void OnExternalPortChanged();
+
+        /// <summary>
+        /// Gets or sets the game port.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -359,8 +452,21 @@ namespace SticKartScoresAzureWebRole
                 OnGamePortChanged();
             }
         }
+
+        /// <summary>
+        /// The game port.
+        /// </summary>
         private global::System.String _GamePort;
+
+        /// <summary>
+        /// Runs when the external game value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
         partial void OnGamePortChanging(global::System.String value);
+
+        /// <summary>
+        /// Runs when the game port value is changed.
+        /// </summary>
         partial void OnGamePortChanged();
 
         #endregion
@@ -369,7 +475,7 @@ namespace SticKartScoresAzureWebRole
         #region Navigation Properties
     
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Gets or sets an active player entry's statistic reference value.
         /// </summary>
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
@@ -386,8 +492,9 @@ namespace SticKartScoresAzureWebRole
                 ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Statistic>("SticKartScores_0Model.FK_ActivePlayers_Statistics", "Statistic").Value = value;
             }
         }
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Gets or sets an active player entry's statistic reference.
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
@@ -411,7 +518,7 @@ namespace SticKartScoresAzureWebRole
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// A high score table entry.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="SticKartScores_0Model", Name="HighScore")]
     [Serializable()]
@@ -440,9 +547,9 @@ namespace SticKartScoresAzureWebRole
         #endregion
 
         #region Primitive Properties
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Gets or sets the id.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
@@ -464,12 +571,25 @@ namespace SticKartScoresAzureWebRole
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The id.
+        /// </summary>
+        private global::System.Int32 _Id;
+
+        /// <summary>
+        /// Runs when the id value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIdChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the id value is changed.
+        /// </summary>
+        partial void OnIdChanged();
+
+        /// <summary>
+        /// Gets or sets the level number.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -488,12 +608,25 @@ namespace SticKartScoresAzureWebRole
                 OnLevelChanged();
             }
         }
-        private global::System.Int32 _Level;
-        partial void OnLevelChanging(global::System.Int32 value);
-        partial void OnLevelChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The level number.
+        /// </summary>
+        private global::System.Int32 _Level;
+
+        /// <summary>
+        /// Runs when the level value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnLevelChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the level value is changed.
+        /// </summary>
+        partial void OnLevelChanged();
+
+        /// <summary>
+        /// Gets or sets the name.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -512,12 +645,25 @@ namespace SticKartScoresAzureWebRole
                 OnNameChanged();
             }
         }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The name.
+        /// </summary>
+        private global::System.String _Name;
+
+        /// <summary>
+        /// Runs when the name value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnNameChanging(global::System.String value);
+
+        /// <summary>
+        /// Runs when the name value is changed.
+        /// </summary>
+        partial void OnNameChanged();
+
+        /// <summary>
+        /// Gets or sets the score.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -536,8 +682,21 @@ namespace SticKartScoresAzureWebRole
                 OnScoreChanged();
             }
         }
+
+        /// <summary>
+        /// The score.
+        /// </summary>
         private global::System.Int32 _Score;
+
+        /// <summary>
+        /// Runs when the score value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
         partial void OnScoreChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the score value is changed.
+        /// </summary>
         partial void OnScoreChanged();
 
         #endregion
@@ -546,7 +705,7 @@ namespace SticKartScoresAzureWebRole
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// A statistic table entry.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="SticKartScores_0Model", Name="Statistic")]
     [Serializable()]
@@ -579,9 +738,9 @@ namespace SticKartScoresAzureWebRole
         #endregion
 
         #region Primitive Properties
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Gets or sets the id.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
@@ -603,12 +762,25 @@ namespace SticKartScoresAzureWebRole
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The id.
+        /// </summary>
+        private global::System.Int32 _Id;
+
+        /// <summary>
+        /// Runs when the id value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIdChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the id value is changed.
+        /// </summary>
+        partial void OnIdChanged();
+
+        /// <summary>
+        /// Gets or sets the name.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -627,12 +799,25 @@ namespace SticKartScoresAzureWebRole
                 OnNameChanged();
             }
         }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The name.
+        /// </summary>
+        private global::System.String _Name;
+
+        /// <summary>
+        /// Runs when the name value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnNameChanging(global::System.String value);
+
+        /// <summary>
+        /// Runs when the name value is changed.
+        /// </summary>
+        partial void OnNameChanged();
+
+        /// <summary>
+        /// Gets or sets the password.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -651,12 +836,25 @@ namespace SticKartScoresAzureWebRole
                 OnPasswordChanged();
             }
         }
-        private global::System.String _Password;
-        partial void OnPasswordChanging(global::System.String value);
-        partial void OnPasswordChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The password.
+        /// </summary>
+        private global::System.String _Password;
+
+        /// <summary>
+        /// Runs when the password value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnPasswordChanging(global::System.String value);
+
+        /// <summary>
+        /// Runs when the password value is changed.
+        /// </summary>
+        partial void OnPasswordChanged();
+
+        /// <summary>
+        /// Gets or sets the number of games played.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -675,12 +873,25 @@ namespace SticKartScoresAzureWebRole
                 OnGamesPlayedChanged();
             }
         }
-        private global::System.Int32 _GamesPlayed;
-        partial void OnGamesPlayedChanging(global::System.Int32 value);
-        partial void OnGamesPlayedChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The number of games played.
+        /// </summary>
+        private global::System.Int32 _GamesPlayed;
+
+        /// <summary>
+        /// Runs when the games played value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnGamesPlayedChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the games played value is changed.
+        /// </summary>
+        partial void OnGamesPlayedChanged();
+
+        /// <summary>
+        /// Gets or sets the number of games won.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -699,12 +910,25 @@ namespace SticKartScoresAzureWebRole
                 OnGamesWonChanged();
             }
         }
-        private global::System.Int32 _GamesWon;
-        partial void OnGamesWonChanging(global::System.Int32 value);
-        partial void OnGamesWonChanged();
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// The number of games won.
+        /// </summary>
+        private global::System.Int32 _GamesWon;
+
+        /// <summary>
+        /// Runs when the games won value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnGamesWonChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the games won value is changed.
+        /// </summary>
+        partial void OnGamesWonChanged();
+
+        /// <summary>
+        /// Gets or sets the number of games lost.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
@@ -723,17 +947,30 @@ namespace SticKartScoresAzureWebRole
                 OnGamesLostChanged();
             }
         }
+
+        /// <summary>
+        /// The number of games lost.
+        /// </summary>
         private global::System.Int32 _GamesLost;
+
+        /// <summary>
+        /// Runs when the games lost value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
         partial void OnGamesLostChanging(global::System.Int32 value);
+
+        /// <summary>
+        /// Runs when the games lost value is changed.
+        /// </summary>
         partial void OnGamesLostChanged();
 
         #endregion
 
     
         #region Navigation Properties
-    
+
         /// <summary>
-        /// No Metadata Documentation available.
+        /// Gets or sets the active players table which references the statistic.
         /// </summary>
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]

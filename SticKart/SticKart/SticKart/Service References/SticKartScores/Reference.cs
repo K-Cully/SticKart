@@ -14,7 +14,7 @@ namespace SticKart.SticKartScores
 {
     
     /// <summary>
-    /// There are no comments for SticKartScores_0Entities in the schema.
+    /// The database structure and interface mapped to a class.
     /// </summary>
     public partial class SticKartScores_0Entities : global::System.Data.Services.Client.DataServiceContext
     {
@@ -29,7 +29,12 @@ namespace SticKart.SticKartScores
             this.ResolveType = new global::System.Func<string, global::System.Type>(this.ResolveTypeFromName);
             this.OnContextCreated();
         }
+
+        /// <summary>
+        /// Runs on the creation of the context.
+        /// </summary>
         partial void OnContextCreated();
+
         /// <summary>
         /// Since the namespace configured for this service reference
         /// in Visual Studio is different from the one indicated in the
@@ -44,6 +49,7 @@ namespace SticKart.SticKartScores
             }
             return null;
         }
+
         /// <summary>
         /// Since the namespace configured for this service reference
         /// in Visual Studio is different from the one indicated in the
@@ -58,8 +64,9 @@ namespace SticKart.SticKartScores
             }
             return null;
         }
+
         /// <summary>
-        /// There are no comments for HighScores in the schema.
+        /// Gets the elements stored in the high score table.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public global::System.Data.Services.Client.DataServiceQuery<HighScore> HighScores
@@ -73,10 +80,15 @@ namespace SticKart.SticKartScores
                 return this._HighScores;
             }
         }
+
+        /// <summary>
+        /// The high score table.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<HighScore> _HighScores;
+
         /// <summary>
-        /// There are no comments for ActivePlayers in the schema.
+        /// Gets the elements stored in the active players table.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public global::System.Data.Services.Client.DataServiceQuery<ActivePlayer> ActivePlayers
@@ -90,10 +102,15 @@ namespace SticKart.SticKartScores
                 return this._ActivePlayers;
             }
         }
+
+        /// <summary>
+        /// The active players table.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<ActivePlayer> _ActivePlayers;
+
         /// <summary>
-        /// There are no comments for Statistics in the schema.
+        /// Gets the elements stored in the statistics table.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public global::System.Data.Services.Client.DataServiceQuery<Statistic> Statistics
@@ -107,26 +124,33 @@ namespace SticKart.SticKartScores
                 return this._Statistics;
             }
         }
+
+        /// <summary>
+        /// The statistics table.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceQuery<Statistic> _Statistics;
+
         /// <summary>
-        /// There are no comments for HighScores in the schema.
+        /// Deprecated Method for adding a new object to the HighScores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToHighScores(HighScore highScore)
         {
             base.AddObject("HighScores", highScore);
         }
+
         /// <summary>
-        /// There are no comments for ActivePlayers in the schema.
+        /// Deprecated Method for adding a new object to the ActivePlayers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToActivePlayers(ActivePlayer activePlayer)
         {
             base.AddObject("ActivePlayers", activePlayer);
         }
+
         /// <summary>
-        /// There are no comments for Statistics in the schema.
+        /// Deprecated Method for adding a new object to the Statistics EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToStatistics(Statistic statistic)
@@ -134,8 +158,9 @@ namespace SticKart.SticKartScores
             base.AddObject("Statistics", statistic);
         }
     }
+
     /// <summary>
-    /// There are no comments for SticKartScores_0Model.HighScore in the schema.
+    /// A high score table entry.
     /// </summary>
     /// <KeyProperties>
     /// Id
@@ -161,8 +186,9 @@ namespace SticKart.SticKartScores
             highScore.Score = score;
             return highScore;
         }
+
         /// <summary>
-        /// There are no comments for Property Id in the schema.
+        /// Gets or sets the id.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int Id
@@ -179,12 +205,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Id");
             }
         }
+
+        /// <summary>
+        /// The id.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _Id;
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
+
         /// <summary>
-        /// There are no comments for Property Level in the schema.
+        /// Runs when the id value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIdChanging(int value);
+
+        /// <summary>
+        /// Runs when the id value is changed.
+        /// </summary>
+        partial void OnIdChanged();
+
+        /// <summary>
+        /// Gets or sets the level number.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int Level
@@ -201,12 +241,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Level");
             }
         }
+
+        /// <summary>
+        /// The level number.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _Level;
-        partial void OnLevelChanging(int value);
-        partial void OnLevelChanged();
+
         /// <summary>
-        /// There are no comments for Property Name in the schema.
+        /// Runs when the level value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnLevelChanging(int value);
+
+        /// <summary>
+        /// Runs when the level value is changed.
+        /// </summary>
+        partial void OnLevelChanged();
+
+        /// <summary>
+        /// Gets or sets the name.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string Name
@@ -223,12 +277,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Name");
             }
         }
+
+        /// <summary>
+        /// The name.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private string _Name;
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
+
         /// <summary>
-        /// There are no comments for Property Score in the schema.
+        /// Runs when the name value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnNameChanging(string value);
+
+        /// <summary>
+        /// Runs when the name value is changed.
+        /// </summary>
+        partial void OnNameChanged();
+
+        /// <summary>
+        /// Gets or sets the score.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int Score
@@ -245,12 +313,34 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Score");
             }
         }
+
+        /// <summary>
+        /// The score.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _Score;
+
+        /// <summary>
+        /// Runs when the score value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
         partial void OnScoreChanging(int value);
+
+        /// <summary>
+        /// Runs when the score value is changed.
+        /// </summary>
         partial void OnScoreChanged();
+
+        /// <summary>
+        /// Event handler for a property change event.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Runs when a property is changed.
+        /// </summary>
+        /// <param name="property">The property.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected virtual void OnPropertyChanged(string property)
         {
@@ -260,8 +350,9 @@ namespace SticKart.SticKartScores
             }
         }
     }
+
     /// <summary>
-    /// There are no comments for SticKartScores_0Model.ActivePlayer in the schema.
+    /// Holds details of an active player table entry.
     /// </summary>
     /// <KeyProperties>
     /// Id
@@ -291,8 +382,9 @@ namespace SticKart.SticKartScores
             activePlayer.Session = session;
             return activePlayer;
         }
+
         /// <summary>
-        /// There are no comments for Property Id in the schema.
+        /// Gets or sets the id.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int Id
@@ -309,12 +401,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Id");
             }
         }
+
+        /// <summary>
+        /// The id.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _Id;
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
+
         /// <summary>
-        /// There are no comments for Property Ip in the schema.
+        /// Runs when the id value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIdChanging(int value);
+
+        /// <summary>
+        /// Runs when the id value is changed.
+        /// </summary>
+        partial void OnIdChanged();
+
+        /// <summary>
+        /// Gets or sets the ip address.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string Ip
@@ -331,12 +437,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Ip");
             }
         }
+
+        /// <summary>
+        /// The ip address.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private string _Ip;
-        partial void OnIpChanging(string value);
-        partial void OnIpChanged();
+
         /// <summary>
-        /// There are no comments for Property Port in the schema.
+        /// Runs when the ip value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIpChanging(string value);
+
+        /// <summary>
+        /// Runs when the ip value is changed.
+        /// </summary>
+        partial void OnIpChanged();
+
+        /// <summary>
+        /// Gets or sets the port number.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string Port
@@ -353,12 +473,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Port");
             }
         }
+
+        /// <summary>
+        /// The port number.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private string _Port;
-        partial void OnPortChanging(string value);
-        partial void OnPortChanged();
+
         /// <summary>
-        /// There are no comments for Property State in the schema.
+        /// Runs when the port value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnPortChanging(string value);
+
+        /// <summary>
+        /// Runs when the port value is changed.
+        /// </summary>
+        partial void OnPortChanged();
+
+        /// <summary>
+        /// Gets or sets the state.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string State
@@ -375,12 +509,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("State");
             }
         }
+
+        /// <summary>
+        /// The state.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private string _State;
-        partial void OnStateChanging(string value);
-        partial void OnStateChanged();
+
         /// <summary>
-        /// There are no comments for Property Player in the schema.
+        /// Runs when the state value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnStateChanging(string value);
+
+        /// <summary>
+        /// Runs when the state value is changed.
+        /// </summary>
+        partial void OnStateChanged();
+
+        /// <summary>
+        /// Gets or sets the player number.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int Player
@@ -397,12 +545,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Player");
             }
         }
+
+        /// <summary>
+        /// The player number.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _Player;
-        partial void OnPlayerChanging(int value);
-        partial void OnPlayerChanged();
+
         /// <summary>
-        /// There are no comments for Property Session in the schema.
+        /// Runs when the player value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnPlayerChanging(int value);
+
+        /// <summary>
+        /// Runs when the player value is changed.
+        /// </summary>
+        partial void OnPlayerChanged();
+
+        /// <summary>
+        /// Gets or sets the session number.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int Session
@@ -419,12 +581,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Session");
             }
         }
+
+        /// <summary>
+        /// The session number.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _Session;
-        partial void OnSessionChanging(int value);
-        partial void OnSessionChanged();
+
         /// <summary>
-        /// There are no comments for Statistic in the schema.
+        /// Runs when the session value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnSessionChanging(int value);
+
+        /// <summary>
+        /// Runs when the session value is changed.
+        /// </summary>
+        partial void OnSessionChanged();
+
+        /// <summary>
+        /// Gets or sets the linked statistic id number.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public Statistic Statistic
@@ -439,10 +615,23 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Statistic");
             }
         }
+
+        /// <summary>
+        /// The linked statistic.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private Statistic _Statistic;
+        
+        /// <summary>
+        /// The property changed event handler.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+        
+        /// <summary>
+        /// Runs when any property is changed.
+        /// </summary>
+        /// <param name="property">The property.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected virtual void OnPropertyChanged(string property)
         {
@@ -452,8 +641,9 @@ namespace SticKart.SticKartScores
             }
         }
     }
+
     /// <summary>
-    /// There are no comments for SticKartScores_0Model.Statistic in the schema.
+    /// Holds details of a statistic table entry.
     /// </summary>
     /// <KeyProperties>
     /// Id
@@ -483,8 +673,9 @@ namespace SticKart.SticKartScores
             statistic.GamesLost = gamesLost;
             return statistic;
         }
+
         /// <summary>
-        /// There are no comments for Property Id in the schema.
+        /// Gets or sets the id.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int Id
@@ -501,12 +692,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Id");
             }
         }
+
+        /// <summary>
+        /// The id.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _Id;
-        partial void OnIdChanging(int value);
-        partial void OnIdChanged();
+
         /// <summary>
-        /// There are no comments for Property Name in the schema.
+        /// Runs when the id value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnIdChanging(int value);
+
+        /// <summary>
+        /// Runs when the id value is changed.
+        /// </summary>
+        partial void OnIdChanged();
+
+        /// <summary>
+        /// Gets or sets the name.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string Name
@@ -523,12 +728,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Name");
             }
         }
+
+        /// <summary>
+        /// The name.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private string _Name;
-        partial void OnNameChanging(string value);
-        partial void OnNameChanged();
+
         /// <summary>
-        /// There are no comments for Property Password in the schema.
+        /// Runs when the name value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnNameChanging(string value);
+
+        /// <summary>
+        /// Runs when the name value is changed.
+        /// </summary>
+        partial void OnNameChanged();
+
+        /// <summary>
+        /// Gets or sets the password.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public string Password
@@ -545,12 +764,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("Password");
             }
         }
+
+        /// <summary>
+        /// The password.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private string _Password;
-        partial void OnPasswordChanging(string value);
-        partial void OnPasswordChanged();
+
         /// <summary>
-        /// There are no comments for Property GamesPlayed in the schema.
+        /// Runs when the password value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnPasswordChanging(string value);
+
+        /// <summary>
+        /// Runs when the password value is changed.
+        /// </summary>
+        partial void OnPasswordChanged();
+
+        /// <summary>
+        /// Gets or sets the number of games played.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int GamesPlayed
@@ -567,12 +800,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("GamesPlayed");
             }
         }
+
+        /// <summary>
+        /// The number of games played.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _GamesPlayed;
-        partial void OnGamesPlayedChanging(int value);
-        partial void OnGamesPlayedChanged();
+
         /// <summary>
-        /// There are no comments for Property GamesWon in the schema.
+        /// Runs when the games played value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnGamesPlayedChanging(int value);
+
+        /// <summary>
+        /// Runs when the games played value is changed.
+        /// </summary>
+        partial void OnGamesPlayedChanged();
+
+        /// <summary>
+        /// Gets or sets the number of games won.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int GamesWon
@@ -589,12 +836,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("GamesWon");
             }
         }
+
+        /// <summary>
+        /// The number of games won.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _GamesWon;
-        partial void OnGamesWonChanging(int value);
-        partial void OnGamesWonChanged();
+
         /// <summary>
-        /// There are no comments for Property GamesLost in the schema.
+        /// Runs when the games won value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnGamesWonChanging(int value);
+
+        /// <summary>
+        /// Runs when the games won value is changed.
+        /// </summary>
+        partial void OnGamesWonChanged();
+
+        /// <summary>
+        /// Gets or sets the number of games lost.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public int GamesLost
@@ -611,12 +872,26 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("GamesLost");
             }
         }
+
+        /// <summary>
+        /// The number of games lost.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private int _GamesLost;
-        partial void OnGamesLostChanging(int value);
-        partial void OnGamesLostChanged();
+
         /// <summary>
-        /// There are no comments for ActivePlayers in the schema.
+        /// Runs when the games lost value is changing.
+        /// </summary>
+        /// <param name="value">The new value.</param>
+        partial void OnGamesLostChanging(int value);
+
+        /// <summary>
+        /// Runs when the games lost value is changed.
+        /// </summary>
+        partial void OnGamesLostChanged();
+
+        /// <summary>
+        /// Gets or sets the active players table which references the statistic.
         /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public global::System.Data.Services.Client.DataServiceCollection<ActivePlayer> ActivePlayers
@@ -631,10 +906,23 @@ namespace SticKart.SticKartScores
                 this.OnPropertyChanged("ActivePlayers");
             }
         }
+
+        /// <summary>
+        /// The active players table which references the statistic.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         private global::System.Data.Services.Client.DataServiceCollection<ActivePlayer> _ActivePlayers = new global::System.Data.Services.Client.DataServiceCollection<ActivePlayer>(null, System.Data.Services.Client.TrackingMode.None);
+        
+        /// <summary>
+        /// An event handler for a property changed event.
+        /// </summary>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public event global::System.ComponentModel.PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// Runs when a property is changed.
+        /// </summary>
+        /// <param name="property">The property.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected virtual void OnPropertyChanged(string property)
         {

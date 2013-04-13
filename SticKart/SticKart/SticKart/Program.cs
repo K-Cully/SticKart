@@ -5,6 +5,9 @@ using System;
 namespace SticKart
 {
 #if WINDOWS || XBOX
+    /// <summary>
+    /// Acts as an entry point for the application and creates the game.
+    /// </summary>
     static class Program
     {
         /// <summary>
