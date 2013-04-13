@@ -1,0 +1,283 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SticKartScoresAzureWebRole</name>
+    </assembly>
+    <members>
+        <member name="T:SticKartScoresAzureWebRole.ScoresWcfDataService">
+            <summary>
+            Defines the high score and matchmaking data service.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.InitializeService(System.Data.Services.DataServiceConfiguration)">
+            <summary>
+            Initializes the service and sets access rules.
+            </summary>
+            <param name="config">The data service configuration.</param>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.GetWinRatio(System.Int32)">
+            <summary>
+            Retrieves the player's win to loss ratio.
+            </summary>
+            <param name="id">The player id.</param>
+            <returns>The player's win to loss ratio.</returns>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.RegisterPlayer(System.String,System.String)">
+            <summary>
+            Registers a player with the matchmaking service.
+            </summary>
+            <param name="name">The player's name.</param>
+            <param name="password">The player's password.</param>
+            <returns>A value indicating whether the player was added or not.</returns>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.AddActivePlayerWithIp(System.String,System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Adds a player to the matchmaking table if they are registered with the service.
+            </summary>
+            <param name="ip">The specific player ip.</param>
+            <param name="gamePort">The port the player is waiting to play on.</param>
+            <param name="name">The player's name.</param>
+            <param name="password">The player's password.</param>
+            <param name="isHost">A value indicating whether the player should be registered as a host or client.</param>
+            <returns>The player's id.</returns>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.AddActivePlayer(System.String,System.String,System.String,System.Boolean)">
+            <summary>
+            Adds a player to the matchmaking table if they are registered with the service.
+            </summary>
+            <param name="gamePort">The port the player is waiting to play on.</param>
+            <param name="name">The player's name.</param>
+            <param name="password">The player's password.</param>
+            <param name="isHost">A value indicating whether the player should be registered as a host or client.</param>
+            <returns>The player's id.</returns>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.SetPlayerInGame(System.Int32)">
+            <summary>
+            Sets the player's state to in game in the matchmaking lobby.
+            </summary>
+            <param name="id">The player's id.</param>
+            <returns>A value indicating whether the update was successful or not.</returns>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.AreOpponentsAvailable(System.Boolean)">
+            <summary>
+            Checks whether there are any opponents available or not.
+            </summary>
+            <param name="lookingForHosts">A value indicating whether to look for hosts or clients.</param>
+            <returns>A value indicating whether any opponents are available or not.</returns>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.GetNextOpponentAddress(System.Boolean,System.Int32)">
+            <summary>
+            Retrieves the next available opponent's address and port to play on.
+            </summary>
+            <param name="lookingForHosts">A value indicating whether to search for hosts or clients.</param>
+            <param name="id">The player's id.</param>
+            <returns>The next available opponent's address and game port.</returns>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ScoresWcfDataService.RemoveFromActivePlayers(System.Int32,System.Boolean,System.Boolean)">
+            <summary>
+            Removes a player from the matchmaking table and updates their statistics.
+            </summary>
+            <param name="id">The player's id.</param>
+            <param name="gameComplete">A value indicating whether the game finished correctly or not.</param>
+            <param name="gameWon">A value indicating whether the player won or not.</param>
+            <returns>A value indicating whether the player was removed successfully or not.</returns>
+        </member>
+        <member name="T:SticKartScoresAzureWebRole.SticKartScores_0Entities">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.#ctor">
+            <summary>
+            Initializes a new SticKartScores_0Entities object using the connection string found in the 'SticKartScores_0Entities' section of the application configuration file.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.#ctor(System.String)">
+            <summary>
+            Initialize a new SticKartScores_0Entities object.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.#ctor(System.Data.EntityClient.EntityConnection)">
+            <summary>
+            Initialize a new SticKartScores_0Entities object.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.AddToHighScores(SticKartScoresAzureWebRole.HighScore)">
+            <summary>
+            Deprecated Method for adding a new object to the HighScores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.AddToActivePlayers(SticKartScoresAzureWebRole.ActivePlayer)">
+            <summary>
+            Deprecated Method for adding a new object to the ActivePlayers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.AddToStatistics(SticKartScoresAzureWebRole.Statistic)">
+            <summary>
+            Deprecated Method for adding a new object to the Statistics EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.SticKartScores_0Entities.HighScores">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.SticKartScores_0Entities.ActivePlayers">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.SticKartScores_0Entities.Statistics">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:SticKartScoresAzureWebRole.ActivePlayer">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.ActivePlayer.CreateActivePlayer(System.Int32,System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
+            <summary>
+            Create a new ActivePlayer object.
+            </summary>
+            <param name="id">Initial value of the Id property.</param>
+            <param name="ip">Initial value of the Ip property.</param>
+            <param name="state">Initial value of the State property.</param>
+            <param name="player">Initial value of the Player property.</param>
+            <param name="session">Initial value of the Session property.</param>
+            <param name="externalPort">Initial value of the ExternalPort property.</param>
+            <param name="gamePort">Initial value of the GamePort property.</param>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Id">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Ip">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.State">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Player">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Session">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.ExternalPort">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.GamePort">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.Statistic">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.ActivePlayer.StatisticReference">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:SticKartScoresAzureWebRole.HighScore">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.HighScore.CreateHighScore(System.Int32,System.Int32,System.String,System.Int32)">
+            <summary>
+            Create a new HighScore object.
+            </summary>
+            <param name="id">Initial value of the Id property.</param>
+            <param name="level">Initial value of the Level property.</param>
+            <param name="name">Initial value of the Name property.</param>
+            <param name="score">Initial value of the Score property.</param>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.HighScore.Id">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.HighScore.Level">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.HighScore.Name">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.HighScore.Score">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="T:SticKartScoresAzureWebRole.Statistic">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="M:SticKartScoresAzureWebRole.Statistic.CreateStatistic(System.Int32,System.String,System.String,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Create a new Statistic object.
+            </summary>
+            <param name="id">Initial value of the Id property.</param>
+            <param name="name">Initial value of the Name property.</param>
+            <param name="password">Initial value of the Password property.</param>
+            <param name="gamesPlayed">Initial value of the GamesPlayed property.</param>
+            <param name="gamesWon">Initial value of the GamesWon property.</param>
+            <param name="gamesLost">Initial value of the GamesLost property.</param>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.Statistic.Id">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.Statistic.Name">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.Statistic.Password">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.Statistic.GamesPlayed">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.Statistic.GamesWon">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.Statistic.GamesLost">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+        <member name="P:SticKartScoresAzureWebRole.Statistic.ActivePlayers">
+            <summary>
+            No Metadata Documentation available.
+            </summary>
+        </member>
+    </members>
+</doc>
