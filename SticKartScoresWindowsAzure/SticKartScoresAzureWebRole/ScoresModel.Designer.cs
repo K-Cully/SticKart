@@ -46,6 +46,7 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Initialize a new SticKartScores_0Entities object.
         /// </summary>
+        /// <param name="connectionString">The connection string.</param>
         public SticKartScores_0Entities(string connectionString) : base(connectionString, "SticKartScores_0Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
@@ -55,6 +56,7 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Initialize a new SticKartScores_0Entities object.
         /// </summary>
+        /// <param name="connection">A System.Data.EntityClient.EntityConnection that contains references to the model and to the data source connection</param>
         public SticKartScores_0Entities(EntityConnection connection) : base(connection, "SticKartScores_0Entities")
         {
             this.ContextOptions.LazyLoadingEnabled = true;
@@ -141,6 +143,7 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Deprecated Method for adding a new object to the HighScores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
+        /// <param name="highScore">The high score entity to add.</param>
         public void AddToHighScores(HighScore highScore)
         {
             base.AddObject("HighScores", highScore);
@@ -149,6 +152,7 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Deprecated Method for adding a new object to the ActivePlayers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
+        /// <param name="activePlayer">The active player entity to add.</param>
         public void AddToActivePlayers(ActivePlayer activePlayer)
         {
             base.AddObject("ActivePlayers", activePlayer);
@@ -157,6 +161,7 @@ namespace SticKartScoresAzureWebRole
         /// <summary>
         /// Deprecated Method for adding a new object to the Statistics EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
+        /// <param name="statistic">The statistic entity to add.</param>
         public void AddToStatistics(Statistic statistic)
         {
             base.AddObject("Statistics", statistic);
@@ -190,6 +195,7 @@ namespace SticKartScoresAzureWebRole
         /// <param name="session">Initial value of the Session property.</param>
         /// <param name="externalPort">Initial value of the ExternalPort property.</param>
         /// <param name="gamePort">Initial value of the GamePort property.</param>
+        /// <returns>The active player created.</returns>
         public static ActivePlayer CreateActivePlayer(global::System.Int32 id, global::System.String ip, global::System.String state, global::System.Int32 player, global::System.Int32 session, global::System.String externalPort, global::System.String gamePort)
         {
             ActivePlayer activePlayer = new ActivePlayer();
@@ -534,6 +540,7 @@ namespace SticKartScoresAzureWebRole
         /// <param name="level">Initial value of the Level property.</param>
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="score">Initial value of the Score property.</param>
+        /// <returns>The high score created.</returns>
         public static HighScore CreateHighScore(global::System.Int32 id, global::System.Int32 level, global::System.String name, global::System.Int32 score)
         {
             HighScore highScore = new HighScore();
@@ -723,6 +730,7 @@ namespace SticKartScoresAzureWebRole
         /// <param name="gamesPlayed">Initial value of the GamesPlayed property.</param>
         /// <param name="gamesWon">Initial value of the GamesWon property.</param>
         /// <param name="gamesLost">Initial value of the GamesLost property.</param>
+        /// <returns>The statistic created.</returns>
         public static Statistic CreateStatistic(global::System.Int32 id, global::System.String name, global::System.String password, global::System.Int32 gamesPlayed, global::System.Int32 gamesWon, global::System.Int32 gamesLost)
         {
             Statistic statistic = new Statistic();

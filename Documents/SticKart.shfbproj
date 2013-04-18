@@ -20,27 +20,26 @@
     <HtmlHelpName>Code Documentation</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="..\SticKart\SticKart\SticKart\SticKart.csproj" platform="x86" />
-      <DocumentationSource sourceFile="..\SticKart\SticKart_CustomContent\SticKart_CustomContent.csproj" platform="x86" />
-      <DocumentationSource sourceFile="..\SticKartScoresWindowsAzure\SticKartScoresAzure.sln" />
-    </DocumentationSources>
+      <DocumentationSource sourceFile="..\SticKart\SticKart.sln" platform="x86" />
+<DocumentationSource sourceFile="..\SticKartScoresWindowsAzure\SticKartScoresAzure.sln" /></DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="FarseerPhysics.SamplesFramework" isDocumented="True">External helper containing samples and tools for use with the Farseer framework.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Kinect.Toolbox" isDocumented="True">External helper containing tools and utilities to aid with Kinect development.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart" isDocumented="True">Contains all elements of the game SticKart.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Audio" isDocumented="True">Contains components used to manage audio output.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Display" isDocumented="True">Contains components used to render items to the screen.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Display.Notification" isDocumented="True">Contains components used to create and manage the notification system.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Game" isDocumented="True">Contains components used to create, load, save and update the game world.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Game.AzureServices" isDocumented="True">Contains components for interfacing with online features.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Game.Entities" isDocumented="True">Contains components used to create, update and load in-game entities.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Game.Level" isDocumented="True">Contains components used to create, manage and load levels.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Input" isDocumented="True">Contains components for interfacing with the player.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Input.Gestures" isDocumented="True">Contains components for detecting player gestures and poses.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.LevelEditor" isDocumented="True">Contains components for editing, saving and loading levels.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.Menu" isDocumented="True">Contains components used to create, manage and update the menu system.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKart.SticKartScores" isDocumented="True">Contains components used to manage high score tables.</NamespaceSummaryItem>
-<NamespaceSummaryItem name="SticKartScoresAzureWebRole" isDocumented="True">Contains all components used by the score service to provide online high scores to the game SticKart.</NamespaceSummaryItem></NamespaceSummaries>
+      <NamespaceSummaryItem name="Kinect.Toolbox" isDocumented="True">External helper containing tools and utilities to aid with Kinect development.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart" isDocumented="True">Contains all elements of the game SticKart.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Audio" isDocumented="True">Contains components used to manage audio output.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Display" isDocumented="True">Contains components used to render items to the screen.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Display.Notification" isDocumented="True">Contains components used to create and manage the notification system.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Game" isDocumented="True">Contains components used to create, load, save and update the game world.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Game.AzureServices" isDocumented="True">Contains components for interfacing with online features.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Game.Entities" isDocumented="True">Contains components used to create, update and load in-game entities.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Game.Level" isDocumented="True">Contains components used to create, manage and load levels.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Input" isDocumented="True">Contains components for interfacing with the player.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Input.Gestures" isDocumented="True">Contains components for detecting player gestures and poses.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.LevelEditor" isDocumented="True">Contains components for editing, saving and loading levels.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.Menu" isDocumented="True">Contains components used to create, manage and update the menu system.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKart.SticKartScores" isDocumented="True">Contains components used to manage high score tables.</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="SticKartScoresAzureWebRole" isDocumented="True">Contains all components used by the score service to provide online high scores to the game SticKart.</NamespaceSummaryItem>
+    </NamespaceSummaries>
     <VisibleItems>Attributes, ExplicitInterfaceImplementations, InheritedMembers, InheritedFrameworkMembers, Internals, Privates, Protected, SealedProtected, PrivateFields, InheritedFrameworkPrivateMembers, InheritedFrameworkInternalMembers</VisibleItems>
     <SyntaxFilters>CSharp</SyntaxFilters>
     <SdkLinkTarget>Blank</SdkLinkTarget>
@@ -54,6 +53,13 @@
     <HtmlSdkLinkType>Msdn</HtmlSdkLinkType>
     <IncludeFavorites>False</IncludeFavorites>
     <BinaryTOC>True</BinaryTOC>
+    <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
+    <HelpFileFormat>HtmlHelp1</HelpFileFormat>
+    <IndentHtml>False</IndentHtml>
+    <KeepLogFile>True</KeepLogFile>
+    <DisableCodeBlockComponent>False</DisableCodeBlockComponent>
+    <CppCommentsFixup>False</CppCommentsFixup>
+    <CleanIntermediates>True</CleanIntermediates>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in
        order for Visual Studio to perform the build.  The others are optional

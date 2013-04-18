@@ -45,7 +45,7 @@ namespace SticKart.Game.Level
         public string Name { get; set; }
 
         /// <summary>
-        /// Retrieves the <see cref="IComparer"/> instance for an ascending sort.
+        /// Retrieves the IComparer instance for an ascending sort.
         /// </summary>
         /// <returns>The ascending comparer.</returns>
         public static IComparer<ScoreNamePair> SortScoreAscending()
@@ -54,7 +54,7 @@ namespace SticKart.Game.Level
         }
 
         /// <summary>
-        /// Retrieves the <see cref="IComparer"/> instance for a descending sort.
+        /// Retrieves the IComparer instance for a descending sort.
         /// </summary>
         /// <returns>The descending comparer.</returns>
         public static IComparer<ScoreNamePair> SortScoreDescending()

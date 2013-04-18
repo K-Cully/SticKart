@@ -27,7 +27,7 @@ namespace Kinect.Toolbox
         /// <summary>
         /// Converts a skeleton point to a 3D vector.
         /// </summary>
-        /// <param name="joints">The skeleton point.</param>
+        /// <param name="vector">The skeleton point.</param>
         /// <returns>The skeleton point as a 3D vector.</returns>
         public static Vector3 ToVector3(this SkeletonPoint vector)
         {
@@ -37,7 +37,7 @@ namespace Kinect.Toolbox
         /// <summary>
         /// Converts a skeleton point to a 2D vector.
         /// </summary>
-        /// <param name="joints">The skeleton point.</param>
+        /// <param name="vector">The skeleton point.</param>
         /// <returns>The skeleton point as a 2D vector.</returns>
         public static Vector2 ToVector2(this SkeletonPoint vector)
         {

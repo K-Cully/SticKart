@@ -30,7 +30,7 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from simulation units to display units.
+        /// Converts from simulation units to display units.
         /// </summary>
         /// <param name="simUnits">The value in simulation units.</param>
         /// <returns>The value in display units.</returns>
@@ -40,7 +40,7 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from simulation units to display units.
+        /// Converts from simulation units to display units.
         /// </summary>
         /// <param name="simUnits">The value in simulation units.</param>
         /// <returns>The value in display units.</returns>
@@ -50,7 +50,7 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from simulation units to display units.
+        /// Converts from simulation units to display units.
         /// </summary>
         /// <param name="simUnits">The value in simulation units.</param>
         /// <returns>The value in display units.</returns>
@@ -60,17 +60,17 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from simulation units to display units.
+        /// Converts from simulation units to display units.
         /// </summary>
         /// <param name="simUnits">The value in simulation units.</param>
-        /// <returns>The value in display units.</returns>
+        /// <param name="displayUnits">Storage space for the value in display units.</param>
         public static void ToDisplayUnits(ref Vector2 simUnits, out Vector2 displayUnits)
         {
             Vector2.Multiply(ref simUnits, _displayUnitsToSimUnitsRatio, out displayUnits);
         }
 
         /// <summary>
-        /// Converts a from simulation units to display units.
+        /// Converts from simulation units to display units.
         /// </summary>
         /// <param name="simUnits">The value in simulation units.</param>
         /// <returns>The value in display units.</returns>
@@ -80,20 +80,22 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from simulation units to display units.
+        /// Converts from simulation units to display units.
         /// </summary>
-        /// <param name="simUnits">The value in simulation units.</param>
-        /// <returns>The value in display units.</returns>
+        /// <param name="x">The x value in simulation units.</param>
+        /// <param name="y">The y value in simulation units.</param>
+        /// <returns>The vactor value in display units.</returns>
         public static Vector2 ToDisplayUnits(float x, float y)
         {
             return new Vector2(x, y) * _displayUnitsToSimUnitsRatio;
         }
 
         /// <summary>
-        /// Converts a from simulation units to display units.
+        /// Converts from simulation units to display units.
         /// </summary>
-        /// <param name="simUnits">The value in simulation units.</param>
-        /// <returns>The value in display units.</returns>
+        /// <param name="x">The x value in simulation units.</param>
+        /// <param name="y">The y value in simulation units.</param>
+        /// <param name="displayUnits">The vector to store the dispaly units in.</param>
         public static void ToDisplayUnits(float x, float y, out Vector2 displayUnits)
         {
             displayUnits = Vector2.Zero;
@@ -102,9 +104,9 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
+        /// <param name="displayUnits">The value in display units.</param>
         /// <returns>The value in simulation units.</returns>
         public static float ToSimUnits(float displayUnits)
         {
@@ -112,9 +114,9 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
+        /// <param name="displayUnits">The value in display units.</param>
         /// <returns>The value in simulation units.</returns>
         public static float ToSimUnits(double displayUnits)
         {
@@ -122,9 +124,9 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
+        /// <param name="displayUnits">The value in display units.</param>
         /// <returns>The value in simulation units.</returns>
         public static float ToSimUnits(int displayUnits)
         {
@@ -132,9 +134,9 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
+        /// <param name="displayUnits">The value in display units.</param>
         /// <returns>The value in simulation units.</returns>
         public static Vector2 ToSimUnits(Vector2 displayUnits)
         {
@@ -142,9 +144,9 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
+        /// <param name="displayUnits">The value in display units.</param>
         /// <returns>The value in simulation units.</returns>
         public static Vector3 ToSimUnits(Vector3 displayUnits)
         {
@@ -152,29 +154,31 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
-        /// <returns>The value in simulation units.</returns>
+        /// <param name="displayUnits">The value in display units.</param>
+        /// <param name="simUnits">Storage space for the value in simulation units.</param>
         public static void ToSimUnits(ref Vector2 displayUnits, out Vector2 simUnits)
         {
             Vector2.Multiply(ref displayUnits, _simUnitsToDisplayUnitsRatio, out simUnits);
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
-        /// <returns>The value in simulation units.</returns>
+        /// <param name="x">The x value in display units.</param>
+        /// <param name="y">The y value in display units.</param>
+        /// <returns>The value in simulation units as a vector.</returns>
         public static Vector2 ToSimUnits(float x, float y)
         {
             return new Vector2(x, y) * _simUnitsToDisplayUnitsRatio;
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
+        /// <param name="x">The x value in display units.</param>
+        /// <param name="y">The y value in display units.</param>
         /// <returns>The value in simulation units.</returns>
         public static Vector2 ToSimUnits(double x, double y)
         {
@@ -182,10 +186,11 @@ namespace FarseerPhysics.SamplesFramework
         }
 
         /// <summary>
-        /// Converts a from display units to simulation units.
+        /// Converts from display units to simulation units.
         /// </summary>
-        /// <param name="simUnits">The value in display units.</param>
-        /// <returns>The value in simulation units.</returns>
+        /// <param name="x">The x value in display units.</param>
+        /// <param name="y">The y value in display units.</param>
+        /// <param name="simUnits">Storage space for the value in simulation units.</param>
         public static void ToSimUnits(float x, float y, out Vector2 simUnits)
         {
             simUnits = Vector2.Zero;

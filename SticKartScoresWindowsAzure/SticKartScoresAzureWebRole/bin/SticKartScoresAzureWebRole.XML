@@ -112,11 +112,13 @@
             <summary>
             Initialize a new SticKartScores_0Entities object.
             </summary>
+            <param name="connectionString">The connection string.</param>
         </member>
         <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.#ctor(System.Data.EntityClient.EntityConnection)">
             <summary>
             Initialize a new SticKartScores_0Entities object.
             </summary>
+            <param name="connection">A System.Data.EntityClient.EntityConnection that contains references to the model and to the data source connection</param>
         </member>
         <member name="F:SticKartScoresAzureWebRole.SticKartScores_0Entities._HighScores">
             <summary>
@@ -137,16 +139,19 @@
             <summary>
             Deprecated Method for adding a new object to the HighScores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
             </summary>
+            <param name="highScore">The high score entity to add.</param>
         </member>
         <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.AddToActivePlayers(SticKartScoresAzureWebRole.ActivePlayer)">
             <summary>
             Deprecated Method for adding a new object to the ActivePlayers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
             </summary>
+            <param name="activePlayer">The active player entity to add.</param>
         </member>
         <member name="M:SticKartScoresAzureWebRole.SticKartScores_0Entities.AddToStatistics(SticKartScoresAzureWebRole.Statistic)">
             <summary>
             Deprecated Method for adding a new object to the Statistics EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
             </summary>
+            <param name="statistic">The statistic entity to add.</param>
         </member>
         <member name="P:SticKartScoresAzureWebRole.SticKartScores_0Entities.HighScores">
             <summary>
@@ -179,6 +184,7 @@
             <param name="session">Initial value of the Session property.</param>
             <param name="externalPort">Initial value of the ExternalPort property.</param>
             <param name="gamePort">Initial value of the GamePort property.</param>
+            <returns>The active player created.</returns>
         </member>
         <member name="F:SticKartScoresAzureWebRole.ActivePlayer._Id">
             <summary>
@@ -273,6 +279,7 @@
             <param name="level">Initial value of the Level property.</param>
             <param name="name">Initial value of the Name property.</param>
             <param name="score">Initial value of the Score property.</param>
+            <returns>The high score created.</returns>
         </member>
         <member name="F:SticKartScoresAzureWebRole.HighScore._Id">
             <summary>
@@ -329,6 +336,7 @@
             <param name="gamesPlayed">Initial value of the GamesPlayed property.</param>
             <param name="gamesWon">Initial value of the GamesWon property.</param>
             <param name="gamesLost">Initial value of the GamesLost property.</param>
+            <returns>The statistic created.</returns>
         </member>
         <member name="F:SticKartScoresAzureWebRole.Statistic._Id">
             <summary>

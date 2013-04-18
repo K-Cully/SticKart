@@ -21,6 +21,7 @@ namespace SticKart.SticKartScores
         /// <summary>
         /// Initialize a new SticKartScores_0Entities object.
         /// </summary>
+        /// <param name="serviceRoot">The root uri of the service.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public SticKartScores_0Entities(global::System.Uri serviceRoot) : 
                 base(serviceRoot)
@@ -40,6 +41,8 @@ namespace SticKart.SticKartScores
         /// in Visual Studio is different from the one indicated in the
         /// server schema, use type-mappers to map between the two.
         /// </summary>
+        /// <param name="typeName">The name of the type to add.</param>
+        /// <returns>The object type.</returns>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected global::System.Type ResolveTypeFromName(string typeName)
         {
@@ -55,6 +58,8 @@ namespace SticKart.SticKartScores
         /// in Visual Studio is different from the one indicated in the
         /// server schema, use type-mappers to map between the two.
         /// </summary>
+        /// <param name="clientType">The object type.</param>
+        /// <returns>The entity model type name.</returns>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         protected string ResolveNameFromType(global::System.Type clientType)
         {
@@ -134,6 +139,7 @@ namespace SticKart.SticKartScores
         /// <summary>
         /// Deprecated Method for adding a new object to the HighScores EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
+        /// <param name="highScore">The high score to add.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToHighScores(HighScore highScore)
         {
@@ -143,6 +149,7 @@ namespace SticKart.SticKartScores
         /// <summary>
         /// Deprecated Method for adding a new object to the ActivePlayers EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
+        /// <param name="activePlayer">The active player to add.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToActivePlayers(ActivePlayer activePlayer)
         {
@@ -152,6 +159,7 @@ namespace SticKart.SticKartScores
         /// <summary>
         /// Deprecated Method for adding a new object to the Statistics EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
+        /// <param name="statistic">The statistic to add.</param>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public void AddToStatistics(Statistic statistic)
         {
@@ -176,6 +184,7 @@ namespace SticKart.SticKartScores
         /// <param name="level">Initial value of Level.</param>
         /// <param name="name">Initial value of Name.</param>
         /// <param name="score">Initial value of Score.</param>
+        /// <returns>The high score created.</returns>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public static HighScore CreateHighScore(int ID, int level, string name, int score)
         {
@@ -370,6 +379,7 @@ namespace SticKart.SticKartScores
         /// <param name="state">Initial value of State.</param>
         /// <param name="player">Initial value of Player.</param>
         /// <param name="session">Initial value of Session.</param>
+        /// <returns>The active player created.</returns>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public static ActivePlayer CreateActivePlayer(int ID, string ip, string port, string state, int player, int session)
         {
@@ -661,6 +671,7 @@ namespace SticKart.SticKartScores
         /// <param name="gamesPlayed">Initial value of GamesPlayed.</param>
         /// <param name="gamesWon">Initial value of GamesWon.</param>
         /// <param name="gamesLost">Initial value of GamesLost.</param>
+        /// <returns>The statistic created.</returns>
         [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Services.Design", "1.0.0")]
         public static Statistic CreateStatistic(int ID, string name, string password, int gamesPlayed, int gamesWon, int gamesLost)
         {
