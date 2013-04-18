@@ -546,7 +546,7 @@ namespace SticKart
                     this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {
-                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f, Color.White, 1.0f, handEffect, 1.0f);
+                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedPosition, 0.0f, Color.White, 1.0f, handEffect, 1.0f);
                     }
                     else
                     {
@@ -565,7 +565,7 @@ namespace SticKart
                     this.menuManager.Draw();
                     if (this.inputManager.HandPosition == Vector2.Zero)
                     {
-                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedDrawingPosition, 0.0f, Color.White, 1.0f, handEffect, 1.0f);
+                        Sprite.Draw(this.handSprite, this.menuManager.HighlightedPosition, 0.0f, Color.White, 1.0f, handEffect, 1.0f);
                     }
                     else
                     {

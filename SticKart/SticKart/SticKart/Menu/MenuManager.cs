@@ -116,27 +116,9 @@ namespace SticKart.Menu
         public MenuType ActiveMenu { get; set; }
 
         /// <summary>
-        /// Gets the position of the currently highlighted menu item.
+        /// Gets the screen position of the currently highlighted menu item.
         /// </summary>
         public Vector2 HighlightedPosition
-        {
-            get
-            {
-                if (this.menus[this.ActiveMenu] != null)
-                {
-                    return this.menus[this.ActiveMenu].HighlightedItemPosition;
-                }
-                else
-                {
-                    return Vector2.Zero;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets the drawing position of the currently highlighted menu item.
-        /// </summary>
-        public Vector2 HighlightedDrawingPosition
         {
             get
             {

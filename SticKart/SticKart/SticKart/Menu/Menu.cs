@@ -279,7 +279,6 @@ namespace SticKart.Menu
             }
             else
             {
-                selectionPosition += this.Offset;
                 int selectableCount = 1;
                 string itemFound = null;
                 foreach (MenuItem menuItem in this.menuItems)
