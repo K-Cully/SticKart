@@ -55,6 +55,11 @@ namespace SticKart.LevelEditor
         #endregion
 
         #region sprites
+        
+        /// <summary>
+        /// A sprite to let the user know when the placement command is active.
+        /// </summary>
+        private Sprite placementFeedbackSprite;
 
         /// <summary>
         /// A switch sprite.
@@ -184,6 +189,11 @@ namespace SticKart.LevelEditor
         /// The current level number.
         /// </summary>
         private int currentLevelNumber;
+
+        /// <summary>
+        /// A value indicating whether to draw the object placement feedback sprite or not.
+        /// </summary>
+        private bool placeCommandActive;
         
         #endregion
 
@@ -219,10 +229,12 @@ namespace SticKart.LevelEditor
             this.diamondSprite = new Sprite();
             this.rubySprite = new Sprite();
             this.switchSprite = new Sprite();
+            this.placementFeedbackSprite = new Sprite();
             this.cartSprite = new Sprite();
             this.platformWidth = Editor.SmallPlatformLength;
             this.timeSinceLastPlace = Editor.TimeBetweenPlacments;
             this.CurrentPositionValid = true;
+            this.placeCommandActive = false;
         }
 
         #endregion
@@ -281,6 +293,7 @@ namespace SticKart.LevelEditor
             this.levelToEdit.LoadContent(spriteBatch, contentManager);
             this.cartSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.CartFull);
             this.switchSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.SwitchStatic);
+            this.placementFeedbackSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.PlacementFeedback);
             this.platformSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Platform);
             this.platformWidth = this.platformSprite.Width;
             this.edgeSprite.InitializeAndLoad(spriteBatch, contentManager, EntityConstants.SpritesFolderPath + EntityConstants.Floor);
@@ -647,6 +660,11 @@ namespace SticKart.LevelEditor
                 default:
                     break;
             }
+
+            if (this.placeCommandActive)
+            {
+                Camera2D.Draw(this.placementFeedbackSprite, this.cursorPosition, 0.0f);
+            }
         }
 
         /// <summary>
@@ -714,11 +732,13 @@ namespace SticKart.LevelEditor
         {
             if (this.timeSinceLastPlace >= Editor.TimeBetweenPlacments)
             {
+                this.placeCommandActive = false;
                 foreach (InputCommand command in commands)
                 {
                     switch (command)
                     {
                         case InputCommand.Place:
+                            this.placeCommandActive = true;
                             if (this.CurrentPositionValid)
                             {
                                 this.AddSelectedElement();

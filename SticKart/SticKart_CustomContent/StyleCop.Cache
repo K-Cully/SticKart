@@ -174,9 +174,6 @@
   <project key="-1787368593">
     <configuration>DEBUG;TRACE;WINDOWS</configuration>
   </project>
-  <project key="893521570">
-    <configuration>TRACE;WINDOWS</configuration>
-  </project>
   <sourcecode name="InteractiveEntityDescription.cs" parser="StyleCop.CSharp.CsParser">
     <timestamps>
       <styleCop>2013/01/11 11:37:58.000</styleCop>
@@ -292,4 +289,7 @@
     </timestamps>
     <violations />
   </sourcecode>
+  <project key="893521570">
+    <configuration>TRACE;WINDOWS</configuration>
+  </project>
 </stylecopresultscache>

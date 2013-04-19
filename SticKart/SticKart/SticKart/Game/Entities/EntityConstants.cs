@@ -172,6 +172,11 @@ namespace SticKart.Game.Entities
         public const string SwitchStatic = "switchOld";
 
         /// <summary>
+        /// The name of the placement feedback asset.
+        /// </summary>
+        public const string PlacementFeedback = "HandSurround";
+
+        /// <summary>
         /// The name of the cart body asset.
         /// </summary>
         public const string CartBody = "cart";
