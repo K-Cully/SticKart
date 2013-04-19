@@ -21,7 +21,8 @@
     <Language>en-US</Language>
     <DocumentationSources>
       <DocumentationSource sourceFile="..\SticKart\SticKart.sln" platform="x86" />
-<DocumentationSource sourceFile="..\SticKartScoresWindowsAzure\SticKartScoresAzure.sln" /></DocumentationSources>
+      <DocumentationSource sourceFile="..\SticKartScoresWindowsAzure\SticKartScoresAzure.sln" />
+    </DocumentationSources>
     <NamespaceSummaries>
       <NamespaceSummaryItem name="FarseerPhysics.SamplesFramework" isDocumented="True">External helper containing samples and tools for use with the Farseer framework.</NamespaceSummaryItem>
       <NamespaceSummaryItem name="Kinect.Toolbox" isDocumented="True">External helper containing tools and utilities to aid with Kinect development.</NamespaceSummaryItem>
@@ -80,6 +81,14 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|Win32' ">
   </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553">
+      <Name>Microsoft.Xna.Framework</Name>
+      <AssemblyName>Microsoft.Xna.Framework.dll</AssemblyName>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
   <!-- Import the SHFB build targets -->
   <Import Project="$(SHFBROOT)\SandcastleHelpFileBuilder.targets" />
 </Project>
