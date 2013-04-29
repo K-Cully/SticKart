@@ -142,7 +142,7 @@ namespace SticKart
             this.menuManager.OnEditorTypeSelected += this.EditorChangeType;
             this.menuManager.OnResumeGameDetected += this.UnpauseGame;
             this.handSprite = new Sprite();
-            this.graphics.IsFullScreen = false; // TODO: set to true for release 
+            this.graphics.IsFullScreen = true; // TODO: set to true for release 
         }
 
         /// <summary>
@@ -460,6 +460,7 @@ namespace SticKart
         /// <param name="value">The value passed from the sender.</param>
         protected void EditLevel(int value)
         {
+            Camera2D.Reset();
             if (value == 0)
             {
                 this.menuManager.ActiveMenu = MenuType.EditorOverlayMain;
