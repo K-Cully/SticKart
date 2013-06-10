@@ -1,7 +1,0 @@
-﻿CREATE TABLE [dbo].[HighScores]
-(
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
-	[Level] INT NOT NULL,
-	[Name] CHAR(10) NOT NULL ,
-	[Score] INT NOT NULL DEFAULT 0
-)
