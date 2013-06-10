@@ -2,14 +2,19 @@
 
 SticKart is a 2D side-scrolling platformer which I created as my major final year college project.
 It utilizes the Kinect sensor for input and the target platform is Windows 7.
-The objective of the game is to run, jump and crouch your way to the top of the high score tables.
-All player actions control the actions of the stick man and the cart can be used to give your legs a rest or to avoid obstacles on the platforms.
+All player actions control the actions of a stick man running through a mine. 
+The player must run jump and crouch their way across platforms and past obstacles. 
+They can also travel in a mine cart to give their legs a rest.
+The objective of the game is to set the high score on each level and the player can create their own levels once the game is complete.
+
+A video of the game features can be viewed by clicking the image below:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=5-o6HtFZbb4
 " target="_blank"><img src="http://img.youtube.com/vi/5-o6HtFZbb4/0.jpg" 
 alt="SticKart Game Video" width="240" height="180" border="10" /></a>
 
 The main features of the game are:
+
 1. Motion control using a gesture managment system which automatically recalibrates to suit each individual player's body dimensions.
 2. A bespoke player tracking system which filters the active player from the recognised skeletons.
 3. Voice control.
@@ -19,6 +24,7 @@ The main features of the game are:
 7. Local and online leaderboards (Online leaderboards are no longer active as my Azure subscription ran out).
 
 The project is built using the following technologies:
+
 1. XNA
 2. Farseer Physics
 3. Kinect for Windows SDK v1.6
@@ -26,7 +32,8 @@ The project is built using the following technologies:
 5. Windows Communication Foundation
 6. Windows Azure
 7. IIS
-8. SQL
+8. SQL 
+
 
 I have not copied any of the web service components to this repository (just in case you were looking for them).
  
