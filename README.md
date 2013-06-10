@@ -35,6 +35,7 @@ The project is built using the following technologies:
 8. SQL 
 
 Notes:
+
 1. The installer can be found in the Installer directory.
 2. Information on how I implemented some of the system can be found in the Documents\Journal.docx file.
 3. The installer will install the EN-US, EN-UK and EN-IE kinect language packs but if you install any other EN-?? language pack the one appropriate to your system's region will be chosen automatically.
