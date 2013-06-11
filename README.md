@@ -41,7 +41,7 @@ The project is built using the following technologies:
 
 Notes:
 
-1. Information on how I implemented some of the system can be found in the Documents\Journal.docx file.
+1. Information on how I implemented some of the system can be found in the Documents\Journal.docx file or can alternatively be found <a href="http://www.keithcully.com/files/Journal.docx">here</a>.
 2. The installer will install the EN-US, EN-UK and EN-IE kinect language packs but if you install any other EN-?? language pack the one appropriate to your system's region will be chosen automatically.
 3. I have not copied any of the web service components to this repository (just in case you were looking for them).
 5. The game has not been tested on a machine without a graphics card so I don't know how it will perform on such.
