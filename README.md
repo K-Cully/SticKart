@@ -7,15 +7,16 @@ The player must run jump and crouch their way across platforms and past obstacle
 They can also travel in a mine cart to give their legs a rest.
 The objective of the game is to set the high score on each level and the player can create their own levels once the game is complete.
 
+Installer download:
+<a href="http://www.keithcully.com/files/SticKart.zip">Download</a>
+
 A video of the game features can be viewed by clicking the image below:
 
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=5-o6HtFZbb4
 " target="_blank"><img src="http://img.youtube.com/vi/5-o6HtFZbb4/0.jpg" 
 alt="SticKart Game Video" width="240" height="180" border="10" /></a>
 
-Installer download:
-
-<a href="http://www.keithcully.com/files/SticKart.zip">Right click and select save as.</a>
+===
 
 The main features of the game are:
 
